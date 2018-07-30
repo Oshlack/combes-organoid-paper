@@ -6,3 +6,6 @@ if (requireNamespace("workflowr", quietly = TRUE)) {
 } else {
   message("workflowr package not installed, please run devtools::install_github('jdblischak/workflowr') to use the workflowr functions")
 }
+#### -- Packrat Autoloader (version 0.4.9-3) -- ####
+source("packrat/init.R")
+#### -- End Packrat Autoloader -- ####

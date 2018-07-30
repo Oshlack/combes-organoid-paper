@@ -1,20 +1,21 @@
 name: "Combes Organoid Paper Analysis"
-output_dir: "../docs"
+output_dir: "../public"
 navbar:
-  title: "Combes Organoid Paper Analysis"
-  left:
-    - text: "Home"
-      href: index.html
-    - text: "About"
-      href: about.html
-    - text: "License"
-      href: license.html
-  right:
-    - icon: fa-github
-      href: https://github.com/jdblischak/workflowr
+    title: "Combes Organoid Paper Analysis"
+    left:
+        - text: "Home"
+          href: index.html
+        - text: "About"
+          href: about.html
+        - text: "License"
+          href: license.html
+    right:
+        - icon: fa-github
+          href: https://github.com/jdblischak/workflowr
 output:
-  workflowr::wflow_html:
-    toc: true
-    toc_float: true
-    theme: cosmo
-    highlight: textmate
+    workflowr::wflow_html:
+        toc: true
+        toc_float: true
+        theme: cosmo
+        highlight: textmate
+
