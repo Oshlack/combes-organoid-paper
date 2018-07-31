@@ -1,6 +1,5 @@
 ---
 title: "Organoid Batch 1 Quality Control"
-date: "`r Sys.Date()`"
 output: workflowr::wflow_html
 ---
 
