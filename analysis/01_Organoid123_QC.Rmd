@@ -226,8 +226,8 @@ Filtering
 colData(sce)$Filtered <- FALSE
 ```
 
-To begin with we have `r ncol(sce)` cells across with `r nrow(sce)` features
-from the ENSEMBL annotation.
+To begin with we have `r ncol(sce)` cells with `r nrow(sce)` features from the 
+ENSEMBL annotation.
 
 Cells
 -----
@@ -452,7 +452,7 @@ dups <- which(duplicated(rowData(sce)$feature_symbol))
 
 There are `r length(dups)` gene(s) with duplicate HGNC symbol names. For these
 genes we will use an alternative symbol name. Once we have done this we can
-rename the features using feature symbol inseated of ENSEMBL IDs which will make
+rename the features using feature symbols instead of ENSEMBL IDs which will make
 interpreting results easier.
 
 ```{r rename-features}
