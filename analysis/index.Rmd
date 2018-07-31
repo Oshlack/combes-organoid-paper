@@ -7,3 +7,6 @@ output:
 ---
 
 Welcome to my research website.
+
+* Quality control
+  * [Organoid Batch 1](01_Organoid123_QC.html)
