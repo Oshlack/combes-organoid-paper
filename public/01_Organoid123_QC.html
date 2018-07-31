@@ -325,8 +325,7 @@ div.section {
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </details>
 </li>
 <li>
@@ -345,7 +344,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/bb63ce238cb5e1b29aa7d090b55e9d24c84b9fc4" target="_blank">bb63ce2</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/74d5c23962d854d8be3fd78799e8e15824d843f7" target="_blank">74d5c23</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -357,6 +356,13 @@ Ignored files:
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
     Ignored:    public/figure/
+
+Untracked files:
+    Untracked:  01_Organoid123_QC.Rmd/
+
+Unstaged changes:
+    Modified:   analysis/01_Organoid123_QC.Rmd
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -385,6 +391,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//4536ef665ceb0e6f48bd38173dfb2e27a7a41ceb/public/01_Organoid123_QC.html" target="_blank">4536ef6</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+<td style="text-align:left;">
+Build site.
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -570,6 +593,7 @@ Add organoids batch 1 QC
  date     2018-07-31                  
 
  package              * version   date      
+ AnnotationDbi          1.42.1    2018-07-30
  assertthat             0.2.0     2017-04-11
  backports              1.1.2     2017-12-13
  base                 * 3.5.0     2018-06-18
@@ -579,7 +603,11 @@ Add organoids batch 1 QC
  Biobase              * 2.40.0    2018-07-30
  BiocGenerics         * 0.26.0    2018-07-30
  BiocParallel         * 1.14.2    2018-07-08
+ biomaRt                2.36.1    2018-07-30
+ bit                    1.1-14    2018-05-29
+ bit64                  0.9-7     2017-05-08
  bitops                 1.0-6     2013-08-17
+ blob                   1.1.1     2018-03-25
  broom                  0.5.0     2018-07-17
  cellranger             1.1.0     2016-07-27
  cli                    1.0.0     2017-11-05
@@ -588,15 +616,21 @@ Add organoids batch 1 QC
  compiler               3.5.0     2018-06-18
  cowplot              * 0.9.3     2018-07-15
  crayon                 1.3.4     2017-09-16
+ curl                   3.2       2018-03-28
  data.table             1.11.4    2018-05-27
  datasets             * 3.5.0     2018-06-18
+ DBI                    1.0.0     2018-05-02
  DelayedArray         * 0.6.2     2018-07-23
  DelayedMatrixStats     1.2.0     2018-07-30
  devtools               1.13.6    2018-06-27
  digest                 0.6.15    2018-01-28
  dplyr                * 0.7.6     2018-06-29
+ DropletUtils           1.0.2     2018-07-30
+ DT                     0.4       2018-01-30
+ dynamicTreeCut         1.63-1    2016-03-11
  edgeR                  3.22.3    2018-06-21
  evaluate               0.10.1    2017-06-24
+ FNN                    1.1       2013-07-31
  forcats              * 0.3.0     2018-02-19
  GenomeInfoDb         * 1.16.0    2018-07-30
  GenomeInfoDbData       1.1.0     2018-07-30
@@ -614,8 +648,10 @@ Add organoids batch 1 QC
  here                 * 0.1       2017-05-28
  hms                    0.4.2     2018-03-10
  htmltools              0.3.6     2017-04-28
+ htmlwidgets            1.2       2018-04-19
  httpuv                 1.4.5     2018-07-19
  httr                   1.3.1     2017-08-20
+ igraph                 1.2.2     2018-07-27
  IRanges              * 2.14.10   2018-07-30
  jsonlite               1.5       2017-06-01
  knitr                  1.20      2018-02-20
@@ -627,10 +663,11 @@ Add organoids batch 1 QC
  locfit                 1.5-9.1   2013-04-20
  lubridate              1.7.4     2018-04-11
  magrittr               1.5       2014-11-22
- Matrix                 1.2-14    2018-04-09
+ Matrix               * 1.2-14    2018-04-09
  matrixStats          * 0.54.0    2018-07-23
  memoise                1.1.0     2017-04-21
  methods              * 3.5.0     2018-06-18
+ mgcv                   1.8-24    2018-06-18
  mime                   0.5       2016-07-07
  modelr                 0.1.2     2018-05-11
  munsell                0.5.0     2018-06-12
@@ -639,6 +676,8 @@ Add organoids batch 1 QC
  pillar                 1.3.0     2018-07-14
  pkgconfig              2.0.1     2017-03-21
  plyr                   1.8.4     2016-06-08
+ prettyunits            1.0.2     2015-07-13
+ progress               1.2.0     2018-06-14
  promises               1.0.1     2018-04-13
  purrr                * 0.2.5     2018-05-29
  R.methodsS3            1.7.1     2016-02-16
@@ -656,14 +695,18 @@ Add organoids batch 1 QC
  rlang                  0.2.1     2018-05-30
  rmarkdown              1.10.2    2018-07-30
  rprojroot              1.3-2     2018-01-03
+ RSQLite                2.1.1     2018-05-06
  rstudioapi             0.7       2017-09-07
+ Rtsne                  0.13      2017-04-14
  rvest                  0.3.2     2016-06-17
  S4Vectors            * 0.18.3    2018-07-30
  scales                 0.5.0     2017-08-24
  scater               * 1.8.2     2018-07-27
+ scran                  1.8.2     2018-07-30
  shiny                  1.1.0     2018-05-17
  shinydashboard         0.7.0     2018-03-21
  SingleCellExperiment * 1.2.0     2018-07-30
+ statmod                1.4.30    2017-06-18
  stats                * 3.5.0     2018-06-18
  stats4               * 3.5.0     2018-06-18
  stringi                1.2.4     2018-07-20
@@ -682,12 +725,14 @@ Add organoids batch 1 QC
  whisker                0.3-2     2013-04-28
  withr                  2.1.2     2018-03-15
  workflowr              1.1.1     2018-07-06
+ XML                    3.98-1.12 2018-07-15
  xml2                   1.2.0     2018-01-24
  xtable                 1.8-2     2016-02-05
  XVector                0.20.0    2018-07-30
  yaml                   2.2.0     2018-07-25
  zlibbioc               1.26.0    2018-07-30
  source                            
+ Bioconductor                      
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
  local                             
@@ -697,7 +742,11 @@ Add organoids batch 1 QC
  Bioconductor                      
  Bioconductor                      
  Bioconductor                      
+ Bioconductor                      
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
  cran (@1.0-6)                     
+ CRAN (R 3.5.0)                    
  cran (@0.5.0)                     
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
@@ -706,8 +755,10 @@ Add organoids batch 1 QC
  local                             
  cran (@0.9.3)                     
  CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
  cran (@1.11.4)                    
  local                             
+ CRAN (R 3.5.0)                    
  Bioconductor                      
  Bioconductor                      
  CRAN (R 3.5.0)                    
@@ -715,6 +766,10 @@ Add organoids batch 1 QC
  cran (@0.7.6)                     
  Bioconductor                      
  CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ Bioconductor                      
+ CRAN (R 3.5.0)                    
+ cran (@1.1)                       
  CRAN (R 3.5.0)                    
  Bioconductor                      
  Bioconductor                      
@@ -732,8 +787,10 @@ Add organoids batch 1 QC
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
+ cran (@1.2)                       
  cran (@1.4.5)                     
  CRAN (R 3.5.0)                    
+ cran (@1.2.2)                     
  Bioconductor                      
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
@@ -751,12 +808,15 @@ Add organoids batch 1 QC
  local                             
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
  cran (@0.5.0)                     
  CRAN (R 3.5.0)                    
  local                             
  cran (@1.3.0)                     
  cran (@2.0.1)                     
  cran (@1.8.4)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
  cran (@1.0.1)                     
  cran (@0.2.5)                     
  CRAN (R 3.5.0)                    
@@ -776,12 +836,16 @@ Add organoids batch 1 QC
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
+ cran (@0.13)                      
+ CRAN (R 3.5.0)                    
  Bioconductor                      
  cran (@0.5.0)                     
+ Bioconductor                      
  Bioconductor                      
  cran (@1.1.0)                     
  CRAN (R 3.5.0)                    
  Bioconductor                      
+ CRAN (R 3.5.0)                    
  local                             
  local                             
  cran (@1.2.4)                     
@@ -797,6 +861,7 @@ Add organoids batch 1 QC
  CRAN (R 3.5.0)                    
  cran (@0.5.1)                     
  cran (@0.3.0)                     
+ CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
