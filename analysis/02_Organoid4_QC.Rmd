@@ -1,0 +1,518 @@
+---
+title: "Organoid 4 Quality Control"
+output: workflowr::wflow_html
+---
+
+```{r knitr, include = FALSE}
+DOCNAME = "02_Organoid4_QC"
+knitr::opts_chunk$set(autodep        = TRUE,
+                      cache          = TRUE,
+                      cache.path     = paste0("cache/", DOCNAME, "/"),
+                      cache.comments = TRUE,
+                      echo           = FALSE,
+                      error          = FALSE,
+                      fig.align      = "center",
+                      fig.width      = 10,
+                      fig.height     = 8,
+                      message        = FALSE,
+                      warning        = FALSE)
+```
+
+```{r libaries, cache = FALSE}
+# scRNA-seq
+library("scater")
+
+# Matrices
+library("Matrix")
+
+# Plotting
+library("cowplot")
+
+# Parallel
+library("BiocParallel")
+
+# Paths
+library("here")
+
+# Tidyverse
+library("tidyverse")
+```
+
+```{r source, cache = FALSE}
+source(here("R/load.R"))
+```
+
+Introduction
+============
+
+In this document we are going to read in the first batch of our Organoid data,
+produce various quality control plots and remove any low-quality cells or
+uninformative genes.
+
+```{r load}
+sce <- load10xSCE(here("data/Organoid4"),
+                  dataset    = "Organoid4",
+                  org        = "human",
+                  add.anno   = TRUE,
+                  calc.qc    = TRUE,
+                  calc.cpm   = TRUE,
+                  pct.mt     = TRUE,
+                  pct.ribo   = TRUE,
+                  cell.cycle = TRUE,
+                  sparse     = TRUE,
+                  bpparam    = MulticoreParam(workers = 10),
+                  verbose    = TRUE)
+
+sce <- normalise(sce)
+sce <- runPCA(sce)
+sce <- runTSNE(sce)
+
+write_rds(sce, here("data/processed/Organoid4_SCE_complete.Rds"))
+```
+
+QC plots
+========
+
+By cell
+-------
+
+### Total counts
+
+Violin plots of the library size (total counts) for each of the samples.
+
+```{r total-counts}
+plotColData(sce, x = "Sample", y = "total_counts", colour_by = "Sample")
+```
+
+### Number of features by library size
+
+Relationship between the total counts for each cell and the number of expressed
+genes. We expect the number of genes to increase with the number of counts,
+hopefully reaching saturation.
+
+```{r count-features}
+plotColData(sce, x = "total_counts", y = "total_features", colour_by = "Sample")
+```
+
+### PCA
+
+PCA plots coloured by different variables.
+
+```{r pca}
+p1 <- plotPCA(sce, colour_by = "Sample", shape_by = "Sample") +
+    ggtitle("Sample")
+p2 <- plotPCA(sce, colour_by = "log10_total_counts", shape_by = "Sample") +
+    ggtitle("Total Counts")
+p3 <- plotPCA(sce, colour_by = "CellCycle", shape_by = "Sample") +
+    ggtitle("Cell Cycle")
+p4 <- plotPCA(sce, colour_by = "pct_dropout", shape_by = "Sample") +
+    ggtitle("Dropout")
+p5 <- plotPCA(sce, colour_by = "PctCountsMT", shape_by = "Sample") +
+    ggtitle("Mitochondrial Genes")
+p6 <- plotPCA(sce, colour_by = "PctCountsRibo", shape_by = "Sample") +
+    ggtitle("Ribosomal Genes")
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)
+```
+
+### t-SNE
+
+t-SNE plots coloured by different variables.
+
+```{r t-SNE}
+p1 <- plotTSNE(sce, colour_by = "Sample", shape_by = "Sample") +
+    ggtitle("Sample")
+p2 <- plotTSNE(sce, colour_by = "log10_total_counts", shape_by = "Sample") +
+    ggtitle("Total Counts")
+p3 <- plotTSNE(sce, colour_by = "CellCycle", shape_by = "Sample") +
+    ggtitle("Cell Cycle")
+p4 <- plotTSNE(sce, colour_by = "pct_dropout", shape_by = "Sample") +
+    ggtitle("Dropout")
+p5 <- plotTSNE(sce, colour_by = "PctCountsMT", shape_by = "Sample") +
+    ggtitle("Mitochondrial Genes")
+p6 <- plotTSNE(sce, colour_by = "PctCountsRibo", shape_by = "Sample") +
+    ggtitle("Ribosomal Genes")
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)
+```
+
+### Explantory variables
+
+Plots of the variance explained by various variables.
+
+```{r exp-vars}
+exp.vars <- c("Sample", "CellCycle", "log10_total_counts",
+              "log10_total_features", "pct_dropout",
+              "pct_counts_top_200_features", "PctCountsMT", "PctCountsRibo")
+all.zero <- rowSums(as.matrix(counts(sce))) == 0
+plotExplanatoryVariables(sce[!all.zero, ], variables = exp.vars)
+```
+
+Correlation between explanatory variables.
+
+```{r exp-vars-pairs}
+plotExplanatoryVariables(sce[!all.zero, ], variables = exp.vars,
+                         method = "pairs")
+```
+
+### RLE
+
+Relative Log Expression (RLE) plots. Ideally all boxes should be aligned and
+have the size size.
+
+```{r rle}
+plotRLE(sce[!all.zero], list(logcounts = "logcounts", counts = "counts"),
+        c(TRUE, FALSE), colour_by = "Sample")
+```
+
+### Mitochondrial genes
+
+Looking at the effect of mitchondrial genes. We define mitochondrial genes as
+genes on the MT chromosome or with "mitochondrial" in the description.
+
+```{r pct-mt}
+plotColData(sce, x = "Sample", y = "PctCountsMT", colour_by = "Sample")
+```
+
+### Ribosomal genes
+
+Looking at the effect of ribosomal genes. We define ribosomal genes as
+genes with "ribosom" in the description.
+
+```{r pct-ribo}
+plotColData(sce, x = "Sample", y = "PctCountsRibo", colour = "Sample")
+```
+
+### Housekeeping genes
+
+Plots of housekeeping genes. We may want to use these for filtering as a
+proxy for the health of the cell.
+
+```{r hk-exprs}
+actb.id <- filter(data.frame(rowData(sce)), feature_symbol == "ACTB")[1, 1]
+gapdh.id <- filter(data.frame(rowData(sce)), feature_symbol == "GAPDH")[1, 1]
+
+key <- c("ACTB", "GAPDH")
+names(key) <- c(actb.id, gapdh.id)
+plotExpression(sce, c(actb.id, gapdh.id), colour_by = "Sample") + 
+    scale_x_discrete(labels = key)
+```
+
+By gene
+-------
+
+### High expression
+
+```{r high-expression}
+plotHighestExprs(sce)
+```
+
+### Expression frequency by mean
+
+```{r mean-expression-freq}
+plotExprsFreqVsMean(sce)
+```
+
+### Total counts by num cells expressed
+
+```{r gene-expression}
+plotRowData(sce, x = "n_cells_counts", y = "log10_total_counts")
+```
+
+Filtering
+=========
+
+```{r add-filter}
+colData(sce)$Filtered <- FALSE
+```
+
+To begin with we have `r ncol(sce)` cells with `r nrow(sce)` features from the
+ENSEMBL annotation.
+
+Cells
+-----
+
+### Quantification
+
+Let's consider how many reads are assigned to features. We can plot the total 
+number of counts in each cell against the number of genes that are expressed.
+
+Cells that have been filtered are shown as triangles.
+
+```{r quantification}
+thresh.h <- 9000
+
+plotColData(sce, x = "total_counts", y = "total_features",
+            colour_by = "Sample", shape_by = "Filtered") +
+    geom_hline(yintercept = thresh.h, colour = "red", size = 1.5,
+               linetype = "dashed") +
+    xlab("Total counts") +
+    ylab("Total features") +
+    ggtitle("Quantification metrics")
+```
+
+Cells that express many genes are potential multiplets (multiple cells
+captured in a single droplet). We will remove
+`r sum(colData(sce)$total_features > thresh.h)` cells with more than
+`r thresh.h` genes expressed.
+
+```{r quantification-filter}
+colData(sce)$Filtered <- colData(sce)$Filtered |
+                         colData(sce)$total_features > thresh.h
+```
+
+We now have `r sum(!colData(sce)$Filtered)` cells.
+
+### Mitochondrial genes
+
+Over-expression of mitochondrial genes can be an indication that a cell is
+stressed or damaged in some way. Let's have a look at the percentage of counts
+that are assigned to mitchondrial genes.
+
+```{r mt}
+thresh.h <- 10
+
+plotColData(sce, x = "Sample", y = "PctCountsMT", colour_by = "Sample",
+            shape_by = "Filtered") +
+    geom_hline(yintercept = thresh.h, colour = "red", size = 1.5,
+               linetype = "dashed") +
+    xlab("Sample") +
+    ylab("% counts MT") +
+    ggtitle("Mitochondrial genes")
+```
+
+Some of the cells show high proportions of MT counts. We will remove
+`r sum(colData(sce)$PctCountsMT > thresh.h)` cells with greater than
+`r thresh.h`% MT counts.
+
+```{r mt-filter}
+colData(sce)$Filtered <- colData(sce)$Filtered |
+                         colData(sce)$PctCountsMT > thresh.h
+```
+
+That leaves `r sum(!colData(sce)$Filtered)` cells.
+
+### Ribsomal genes
+
+We can do a similar thing for ribosomal gene expression.
+
+```{r ribosomal}
+thresh.h <- 50
+
+plotColData(sce, x = "Sample", y = "PctCountsRibo", colour_by = "Sample",
+            shape_by = "Filtered") +
+    geom_hline(yintercept = thresh.h, colour = "red", size = 1.5,
+               linetype = "dashed") +
+    xlab("Sample") +
+    ylab("% counts ribosomal") +
+    ggtitle("Ribosomal genes")
+```
+
+Some of the cells show high proportions of ribosomal counts. We will remove
+`r sum(colData(sce)$PctCountsRibo > thresh.h)` cells with greater than
+`r thresh.h`% ribosomal counts.
+
+```{r ribosomal-filter}
+colData(sce)$Filtered <- colData(sce)$Filtered |
+                         colData(sce)$PctCountsRibo > thresh.h
+```
+
+That leaves `r sum(!colData(sce)$Filtered)` cells.
+
+### Housekeeping
+
+Similarly we can look at the expression of the "housekeeping" genes GAPDH and
+ACTB.
+
+```{r housekeeping}
+thresh.h <- 3.5
+thresh.v <- 2
+
+plotExpression(sce, gapdh.id, x = actb.id, colour_by = "Sample",
+               shape_by = "Filtered") +
+    geom_hline(yintercept = thresh.h, colour = "red", size = 1.5,
+               linetype = "dashed") +
+    geom_vline(xintercept = thresh.v, colour = "red", size = 1.5,
+               linetype = "dashed") +
+    xlab("ACTB") +
+    ylab("GAPDH") +
+    ggtitle("Housekeepking genes") +
+    theme(
+        strip.background = element_blank(),
+        strip.text.x = element_blank()
+    )
+```
+
+We will remove cells where ACTB is expressed below `r thresh.v` or GAPDH is 
+expressed below `r thresh.h`. This removes 
+`r sum(exprs(sce)[actb.id, ] < thresh.v | exprs(sce)[gapdh.id, ] < thresh.h)`
+cells.
+
+```{r housekeeping-filter}
+colData(sce)$Filtered <- colData(sce)$Filtered |
+                         exprs(sce)[actb.id, ] < thresh.v |
+                         exprs(sce)[gapdh.id, ] < thresh.h
+```
+
+```{r filter-cells}
+sce <- sce[, !colData(sce)$Filtered]
+```
+
+After filtering we are left with `r sum(!colData(sce)$Filtered)` cells.
+
+### Dimensionality reduction (filtered cells)
+
+Now that we are relatively confident we have a set of good quality cells, let's
+see what they look like in reduced dimensions.
+
+#### PCA
+
+```{r pca-filtered-cells}
+sce <- runPCA(sce)
+
+p1 <- plotPCA(sce, colour_by = "Sample", shape_by = "Sample") +
+    ggtitle("Sample")
+p2 <- plotPCA(sce, colour_by = "log10_total_counts", shape_by = "Sample") +
+    ggtitle("Total Counts")
+p3 <- plotPCA(sce, colour_by = "CellCycle", shape_by = "Sample") +
+    ggtitle("Cell Cycle")
+p4 <- plotPCA(sce, colour_by = "pct_dropout", shape_by = "Sample") +
+    ggtitle("Dropout")
+p5 <- plotPCA(sce, colour_by = "PctCountsMT", shape_by = "Sample") +
+    ggtitle("Mitochondrial Genes")
+p6 <- plotPCA(sce, colour_by = "PctCountsRibo", shape_by = "Sample") +
+    ggtitle("Ribosomal Genes")
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)
+```
+
+#### t-SNE
+
+```{r tSNE-filtered-cells}
+sce <- runTSNE(sce)
+
+p1 <- plotTSNE(sce, colour_by = "Sample", shape_by = "Sample") +
+    ggtitle("Sample")
+p2 <- plotTSNE(sce, colour_by = "log10_total_counts", shape_by = "Sample") +
+    ggtitle("Total Counts")
+p3 <- plotTSNE(sce, colour_by = "CellCycle", shape_by = "Sample") +
+    ggtitle("Cell Cycle")
+p4 <- plotTSNE(sce, colour_by = "pct_dropout", shape_by = "Sample") +
+    ggtitle("Dropout")
+p5 <- plotTSNE(sce, colour_by = "PctCountsMT", shape_by = "Sample") +
+    ggtitle("Mitochondrial Genes")
+p6 <- plotTSNE(sce, colour_by = "PctCountsRibo", shape_by = "Sample") +
+    ggtitle("Ribosomal Genes")
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)
+```
+
+Genes
+-----
+
+### Expression
+
+Some of the features we would never expect to see expressed in an RNA-seq
+experiment. Before doing anything else I am going to remove the features
+that have less than two counts across all cells.
+
+```{r expression}
+keep <- rowSums(counts(sce)) > 1
+sce <- sce[keep]
+```
+
+This removes `r sum(!keep)` genes and leaves us with `r nrow(sce)`.
+
+We will also going remove genes that are expressed in less than two individual
+cells.
+
+```{r two-cells}
+keep <- rowSums(counts(sce) != 0) > 1
+sce <- sce[keep, ]
+```
+
+This removes `r sum(!keep)` genes and leaves us with `r nrow(sce)`.
+
+### HGNC genes
+
+We are also going to filter out any genes that don't have HGNC symbols. These
+are mostly pseudogenes and are unlikely to be informative.
+
+```{r hgnc-genes}
+keep <- !(rowData(sce)$hgnc_symbol == "") &
+        !(is.na(rowData(sce)$hgnc_symbol))
+sce <- sce[keep, ]
+```
+
+This removes `r sum(!keep)` genes and leaves us with `r nrow(sce)`.
+
+```{r dedup-hgnc}
+dups <- which(duplicated(rowData(sce)$feature_symbol))
+```
+
+There are `r length(dups)` gene(s) with duplicate HGNC symbol names. For these
+genes we will use an alternative symbol name. Once we have done this we can
+rename the features using feature symbols instead of ENSEMBL IDs which will make
+interpreting results easier.
+
+```{r rename-features}
+rowData(sce)[dups, "feature_symbol"] <- rowData(sce)[dups, "symbol"]
+rownames(sce) <- rowData(sce)$feature_symbol
+```
+
+### Dimensionality reduction (filtered genes)
+
+Let's see what our final dataset looks like in reduced dimensions.
+
+#### PCA
+
+```{r pca-filtered-genes}
+sce <- runPCA(sce)
+
+p1 <- plotPCA(sce, colour_by = "Sample", shape_by = "Sample") +
+    ggtitle("Sample")
+p2 <- plotPCA(sce, colour_by = "log10_total_counts", shape_by = "Sample") +
+    ggtitle("Total Counts")
+p3 <- plotPCA(sce, colour_by = "CellCycle", shape_by = "Sample") +
+    ggtitle("Cell Cycle")
+p4 <- plotPCA(sce, colour_by = "pct_dropout", shape_by = "Sample") +
+    ggtitle("Dropout")
+p5 <- plotPCA(sce, colour_by = "PctCountsMT", shape_by = "Sample") +
+    ggtitle("Mitochondrial Genes")
+p6 <- plotPCA(sce, colour_by = "PctCountsRibo", shape_by = "Sample") +
+    ggtitle("Ribosomal Genes")
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)
+```
+
+#### t-SNE
+
+```{r tSNE-filtered-genes}
+sce <- runTSNE(sce)
+
+p1 <- plotTSNE(sce, colour_by = "Sample", shape_by = "Sample") +
+    ggtitle("Sample")
+p2 <- plotTSNE(sce, colour_by = "log10_total_counts", shape_by = "Sample") +
+    ggtitle("Total Counts")
+p3 <- plotTSNE(sce, colour_by = "CellCycle", shape_by = "Sample") +
+    ggtitle("Cell Cycle")
+p4 <- plotTSNE(sce, colour_by = "pct_dropout", shape_by = "Sample") +
+    ggtitle("Dropout")
+p5 <- plotTSNE(sce, colour_by = "PctCountsMT", shape_by = "Sample") +
+    ggtitle("Mitochondrial Genes")
+p6 <- plotTSNE(sce, colour_by = "PctCountsRibo", shape_by = "Sample") +
+    ggtitle("Ribosomal Genes")
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)
+```
+
+We now have a high-quality dataset for our analysis with `r nrow(sce)` genes
+and `r ncol(sce)` cells. A median of `r median(colSums(counts(sce) != 0))` genes
+are expressed in each cell.
+
+```{r save}
+write_rds(sce, here("data/processed/Organoid4_SCE_filtered.Rds"))
+```
+
+Metadata
+========

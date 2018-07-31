@@ -6,7 +6,6 @@ output:
     toc: false
 ---
 
-Welcome to my research website.
-
 * Quality control
     * [Organoid Batch 1](01_Organoid123_QC.html)
+    * [Organoid 4](02_Organoid4_QC.html)
