@@ -23,6 +23,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
@@ -168,6 +169,14 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 
 
@@ -312,6 +321,14 @@ div.section {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Organoid 4 Quality Control</h1>
@@ -319,7 +336,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-07-31</p>
+<p><strong>Last updated:</strong> 2018-08-01</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -343,7 +360,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/db268a598c0a6d1cc2f2931a1808fcfb8fd0acb6" target="_blank">db268a5</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/e59065836b44506af9ebe74947b02027cf99bc19" target="_blank">e590658</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -354,10 +371,6 @@ Ignored files:
     Ignored:    packrat/lib-ext/
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
-
-Untracked files:
-    Untracked:  01_Organoid123_QC.Rmd/
-    Untracked:  public/figure/02_Organoid4_QC.Rmd/
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -391,6 +404,40 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
+<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/e59065836b44506af9ebe74947b02027cf99bc19/analysis/02_Organoid4_QC.Rmd" target="_blank">e590658</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+<td style="text-align:left;">
+Add hidden code
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//a1d89bdf1ad90652296f9929555ff3ebe3b85d4c/public/02_Organoid4_QC.html" target="_blank">a1d89bd</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+<td style="text-align:left;">
+Build site
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
 <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/db268a598c0a6d1cc2f2931a1808fcfb8fd0acb6/analysis/02_Organoid4_QC.Rmd" target="_blank">db268a5</a>
 </td>
 <td style="text-align:left;">
@@ -408,9 +455,45 @@ Add Organoid 4 QC
 </ul>
 <p></details></p>
 <hr />
+<pre class="r"><code># scRNA-seq
+library(&quot;scater&quot;)
+
+# Matrices
+library(&quot;Matrix&quot;)
+
+# Plotting
+library(&quot;cowplot&quot;)
+
+# Parallel
+library(&quot;BiocParallel&quot;)
+
+# Paths
+library(&quot;here&quot;)
+
+# Tidyverse
+library(&quot;tidyverse&quot;)</code></pre>
+<pre class="r"><code>source(here(&quot;R/load.R&quot;))</code></pre>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <p>In this document we are going to read in the first batch of our Organoid data, produce various quality control plots and remove any low-quality cells or uninformative genes.</p>
+<pre class="r"><code>sce &lt;- load10xSCE(here(&quot;data/Organoid4&quot;),
+                  dataset    = &quot;Organoid4&quot;,
+                  org        = &quot;human&quot;,
+                  add.anno   = TRUE,
+                  calc.qc    = TRUE,
+                  calc.cpm   = TRUE,
+                  pct.mt     = TRUE,
+                  pct.ribo   = TRUE,
+                  cell.cycle = TRUE,
+                  sparse     = TRUE,
+                  bpparam    = MulticoreParam(workers = 10),
+                  verbose    = TRUE)
+
+sce &lt;- normalise(sce)
+sce &lt;- runPCA(sce)
+sce &lt;- runTSNE(sce)
+
+write_rds(sce, here(&quot;data/processed/Organoid4_SCE_complete.Rds&quot;))</code></pre>
 </div>
 <div id="qc-plots" class="section level1">
 <h1>QC plots</h1>
@@ -419,69 +502,511 @@ Add Organoid 4 QC
 <div id="total-counts" class="section level3">
 <h3>Total counts</h3>
 <p>Violin plots of the library size (total counts) for each of the samples.</p>
+<pre class="r"><code>plotColData(sce, x = &quot;Sample&quot;, y = &quot;total_counts&quot;, colour_by = &quot;Sample&quot;)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/total-counts-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of total-counts-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="number-of-features-by-library-size" class="section level3">
 <h3>Number of features by library size</h3>
 <p>Relationship between the total counts for each cell and the number of expressed genes. We expect the number of genes to increase with the number of counts, hopefully reaching saturation.</p>
+<pre class="r"><code>plotColData(sce, x = &quot;total_counts&quot;, y = &quot;total_features&quot;, colour_by = &quot;Sample&quot;)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/count-features-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of count-features-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="pca" class="section level3">
 <h3>PCA</h3>
 <p>PCA plots coloured by different variables.</p>
+<pre class="r"><code>p1 &lt;- plotPCA(sce, colour_by = &quot;Sample&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Sample&quot;)
+p2 &lt;- plotPCA(sce, colour_by = &quot;log10_total_counts&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Total Counts&quot;)
+p3 &lt;- plotPCA(sce, colour_by = &quot;CellCycle&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Cell Cycle&quot;)
+p4 &lt;- plotPCA(sce, colour_by = &quot;pct_dropout&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Dropout&quot;)
+p5 &lt;- plotPCA(sce, colour_by = &quot;PctCountsMT&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Mitochondrial Genes&quot;)
+p6 &lt;- plotPCA(sce, colour_by = &quot;PctCountsRibo&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Ribosomal Genes&quot;)
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/pca-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of pca-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="t-sne" class="section level3">
 <h3>t-SNE</h3>
 <p>t-SNE plots coloured by different variables.</p>
+<pre class="r"><code>p1 &lt;- plotTSNE(sce, colour_by = &quot;Sample&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Sample&quot;)
+p2 &lt;- plotTSNE(sce, colour_by = &quot;log10_total_counts&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Total Counts&quot;)
+p3 &lt;- plotTSNE(sce, colour_by = &quot;CellCycle&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Cell Cycle&quot;)
+p4 &lt;- plotTSNE(sce, colour_by = &quot;pct_dropout&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Dropout&quot;)
+p5 &lt;- plotTSNE(sce, colour_by = &quot;PctCountsMT&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Mitochondrial Genes&quot;)
+p6 &lt;- plotTSNE(sce, colour_by = &quot;PctCountsRibo&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Ribosomal Genes&quot;)
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/t-SNE-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of t-SNE-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="explantory-variables" class="section level3">
 <h3>Explantory variables</h3>
 <p>Plots of the variance explained by various variables.</p>
+<pre class="r"><code>exp.vars &lt;- c(&quot;Sample&quot;, &quot;CellCycle&quot;, &quot;log10_total_counts&quot;,
+              &quot;log10_total_features&quot;, &quot;pct_dropout&quot;,
+              &quot;pct_counts_top_200_features&quot;, &quot;PctCountsMT&quot;, &quot;PctCountsRibo&quot;)
+all.zero &lt;- rowSums(as.matrix(counts(sce))) == 0
+plotExplanatoryVariables(sce[!all.zero, ], variables = exp.vars)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/exp-vars-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of exp-vars-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>Correlation between explanatory variables.</p>
+<pre class="r"><code>plotExplanatoryVariables(sce[!all.zero, ], variables = exp.vars,
+                         method = &quot;pairs&quot;)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/exp-vars-pairs-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of exp-vars-pairs-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="rle" class="section level3">
 <h3>RLE</h3>
 <p>Relative Log Expression (RLE) plots. Ideally all boxes should be aligned and have the size size.</p>
+<pre class="r"><code>plotRLE(sce[!all.zero], list(logcounts = &quot;logcounts&quot;, counts = &quot;counts&quot;),
+        c(TRUE, FALSE), colour_by = &quot;Sample&quot;)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/rle-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of rle-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="mitochondrial-genes" class="section level3">
 <h3>Mitochondrial genes</h3>
 <p>Looking at the effect of mitchondrial genes. We define mitochondrial genes as genes on the MT chromosome or with “mitochondrial” in the description.</p>
+<pre class="r"><code>plotColData(sce, x = &quot;Sample&quot;, y = &quot;PctCountsMT&quot;, colour_by = &quot;Sample&quot;)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/pct-mt-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of pct-mt-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="ribosomal-genes" class="section level3">
 <h3>Ribosomal genes</h3>
 <p>Looking at the effect of ribosomal genes. We define ribosomal genes as genes with “ribosom” in the description.</p>
+<pre class="r"><code>plotColData(sce, x = &quot;Sample&quot;, y = &quot;PctCountsRibo&quot;, colour = &quot;Sample&quot;)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/pct-ribo-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of pct-ribo-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="housekeeping-genes" class="section level3">
 <h3>Housekeeping genes</h3>
 <p>Plots of housekeeping genes. We may want to use these for filtering as a proxy for the health of the cell.</p>
+<pre class="r"><code>actb.id &lt;- filter(data.frame(rowData(sce)), feature_symbol == &quot;ACTB&quot;)[1, 1]
+gapdh.id &lt;- filter(data.frame(rowData(sce)), feature_symbol == &quot;GAPDH&quot;)[1, 1]
+
+key &lt;- c(&quot;ACTB&quot;, &quot;GAPDH&quot;)
+names(key) &lt;- c(actb.id, gapdh.id)
+plotExpression(sce, c(actb.id, gapdh.id), colour_by = &quot;Sample&quot;) + 
+    scale_x_discrete(labels = key)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/hk-exprs-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of hk-exprs-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 </div>
 <div id="by-gene" class="section level2">
 <h2>By gene</h2>
 <div id="high-expression" class="section level3">
 <h3>High expression</h3>
+<pre class="r"><code>plotHighestExprs(sce)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/high-expression-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of high-expression-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="expression-frequency-by-mean" class="section level3">
 <h3>Expression frequency by mean</h3>
+<pre class="r"><code>plotExprsFreqVsMean(sce)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/mean-expression-freq-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of mean-expression-freq-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="total-counts-by-num-cells-expressed" class="section level3">
 <h3>Total counts by num cells expressed</h3>
+<pre class="r"><code>plotRowData(sce, x = &quot;n_cells_counts&quot;, y = &quot;log10_total_counts&quot;)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/gene-expression-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of gene-expression-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 </div>
 </div>
 <div id="filtering" class="section level1">
 <h1>Filtering</h1>
+<pre class="r"><code>colData(sce)$Filtered &lt;- FALSE</code></pre>
 <p>To begin with we have 1421 cells with 33694 features from the ENSEMBL annotation.</p>
 <div id="cells" class="section level2">
 <h2>Cells</h2>
@@ -489,29 +1014,202 @@ Add Organoid 4 QC
 <h3>Quantification</h3>
 <p>Let’s consider how many reads are assigned to features. We can plot the total number of counts in each cell against the number of genes that are expressed.</p>
 <p>Cells that have been filtered are shown as triangles.</p>
+<pre class="r"><code>thresh.h &lt;- 9000
+
+plotColData(sce, x = &quot;total_counts&quot;, y = &quot;total_features&quot;,
+            colour_by = &quot;Sample&quot;, shape_by = &quot;Filtered&quot;) +
+    geom_hline(yintercept = thresh.h, colour = &quot;red&quot;, size = 1.5,
+               linetype = &quot;dashed&quot;) +
+    xlab(&quot;Total counts&quot;) +
+    ylab(&quot;Total features&quot;) +
+    ggtitle(&quot;Quantification metrics&quot;)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/quantification-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of quantification-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>Cells that express many genes are potential multiplets (multiple cells captured in a single droplet). We will remove 33 cells with more than 9000 genes expressed.</p>
+<pre class="r"><code>colData(sce)$Filtered &lt;- colData(sce)$Filtered |
+                         colData(sce)$total_features &gt; thresh.h</code></pre>
 <p>We now have 1388 cells.</p>
 </div>
 <div id="mitochondrial-genes-1" class="section level3">
 <h3>Mitochondrial genes</h3>
 <p>Over-expression of mitochondrial genes can be an indication that a cell is stressed or damaged in some way. Let’s have a look at the percentage of counts that are assigned to mitchondrial genes.</p>
+<pre class="r"><code>thresh.h &lt;- 10
+
+plotColData(sce, x = &quot;Sample&quot;, y = &quot;PctCountsMT&quot;, colour_by = &quot;Sample&quot;,
+            shape_by = &quot;Filtered&quot;) +
+    geom_hline(yintercept = thresh.h, colour = &quot;red&quot;, size = 1.5,
+               linetype = &quot;dashed&quot;) +
+    xlab(&quot;Sample&quot;) +
+    ylab(&quot;% counts MT&quot;) +
+    ggtitle(&quot;Mitochondrial genes&quot;)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/mt-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of mt-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>Some of the cells show high proportions of MT counts. We will remove 39 cells with greater than 10% MT counts.</p>
+<pre class="r"><code>colData(sce)$Filtered &lt;- colData(sce)$Filtered |
+                         colData(sce)$PctCountsMT &gt; thresh.h</code></pre>
 <p>That leaves 1354 cells.</p>
 </div>
 <div id="ribsomal-genes" class="section level3">
 <h3>Ribsomal genes</h3>
 <p>We can do a similar thing for ribosomal gene expression.</p>
+<pre class="r"><code>thresh.h &lt;- 50
+
+plotColData(sce, x = &quot;Sample&quot;, y = &quot;PctCountsRibo&quot;, colour_by = &quot;Sample&quot;,
+            shape_by = &quot;Filtered&quot;) +
+    geom_hline(yintercept = thresh.h, colour = &quot;red&quot;, size = 1.5,
+               linetype = &quot;dashed&quot;) +
+    xlab(&quot;Sample&quot;) +
+    ylab(&quot;% counts ribosomal&quot;) +
+    ggtitle(&quot;Ribosomal genes&quot;)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/ribosomal-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of ribosomal-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>Some of the cells show high proportions of ribosomal counts. We will remove 62 cells with greater than 50% ribosomal counts.</p>
+<pre class="r"><code>colData(sce)$Filtered &lt;- colData(sce)$Filtered |
+                         colData(sce)$PctCountsRibo &gt; thresh.h</code></pre>
 <p>That leaves 1293 cells.</p>
 </div>
 <div id="housekeeping" class="section level3">
 <h3>Housekeeping</h3>
 <p>Similarly we can look at the expression of the “housekeeping” genes GAPDH and ACTB.</p>
+<pre class="r"><code>thresh.h &lt;- 3.5
+thresh.v &lt;- 2
+
+plotExpression(sce, gapdh.id, x = actb.id, colour_by = &quot;Sample&quot;,
+               shape_by = &quot;Filtered&quot;) +
+    geom_hline(yintercept = thresh.h, colour = &quot;red&quot;, size = 1.5,
+               linetype = &quot;dashed&quot;) +
+    geom_vline(xintercept = thresh.v, colour = &quot;red&quot;, size = 1.5,
+               linetype = &quot;dashed&quot;) +
+    xlab(&quot;ACTB&quot;) +
+    ylab(&quot;GAPDH&quot;) +
+    ggtitle(&quot;Housekeepking genes&quot;) +
+    theme(
+        strip.background = element_blank(),
+        strip.text.x = element_blank()
+    )</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/housekeeping-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of housekeeping-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>We will remove cells where ACTB is expressed below 2 or GAPDH is expressed below 3.5. This removes 5 cells.</p>
+<pre class="r"><code>colData(sce)$Filtered &lt;- colData(sce)$Filtered |
+                         exprs(sce)[actb.id, ] &lt; thresh.v |
+                         exprs(sce)[gapdh.id, ] &lt; thresh.h</code></pre>
+<pre class="r"><code>sce &lt;- sce[, !colData(sce)$Filtered]</code></pre>
 <p>After filtering we are left with 1288 cells.</p>
 </div>
 <div id="dimensionality-reduction-filtered-cells" class="section level3">
@@ -519,11 +1217,103 @@ Add Organoid 4 QC
 <p>Now that we are relatively confident we have a set of good quality cells, let’s see what they look like in reduced dimensions.</p>
 <div id="pca-1" class="section level4">
 <h4>PCA</h4>
+<pre class="r"><code>sce &lt;- runPCA(sce)
+
+p1 &lt;- plotPCA(sce, colour_by = &quot;Sample&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Sample&quot;)
+p2 &lt;- plotPCA(sce, colour_by = &quot;log10_total_counts&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Total Counts&quot;)
+p3 &lt;- plotPCA(sce, colour_by = &quot;CellCycle&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Cell Cycle&quot;)
+p4 &lt;- plotPCA(sce, colour_by = &quot;pct_dropout&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Dropout&quot;)
+p5 &lt;- plotPCA(sce, colour_by = &quot;PctCountsMT&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Mitochondrial Genes&quot;)
+p6 &lt;- plotPCA(sce, colour_by = &quot;PctCountsRibo&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Ribosomal Genes&quot;)
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/pca-filtered-cells-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of pca-filtered-cells-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="t-sne-1" class="section level4">
 <h4>t-SNE</h4>
+<pre class="r"><code>sce &lt;- runTSNE(sce)
+
+p1 &lt;- plotTSNE(sce, colour_by = &quot;Sample&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Sample&quot;)
+p2 &lt;- plotTSNE(sce, colour_by = &quot;log10_total_counts&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Total Counts&quot;)
+p3 &lt;- plotTSNE(sce, colour_by = &quot;CellCycle&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Cell Cycle&quot;)
+p4 &lt;- plotTSNE(sce, colour_by = &quot;pct_dropout&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Dropout&quot;)
+p5 &lt;- plotTSNE(sce, colour_by = &quot;PctCountsMT&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Mitochondrial Genes&quot;)
+p6 &lt;- plotTSNE(sce, colour_by = &quot;PctCountsRibo&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Ribosomal Genes&quot;)
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/tSNE-filtered-cells-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of tSNE-filtered-cells-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 </div>
 </div>
@@ -532,27 +1322,130 @@ Add Organoid 4 QC
 <div id="expression" class="section level3">
 <h3>Expression</h3>
 <p>Some of the features we would never expect to see expressed in an RNA-seq experiment. Before doing anything else I am going to remove the features that have less than two counts across all cells.</p>
+<pre class="r"><code>keep &lt;- rowSums(counts(sce)) &gt; 1
+sce &lt;- sce[keep]</code></pre>
 <p>This removes 13665 genes and leaves us with 20029.</p>
 <p>We will also going remove genes that are expressed in less than two individual cells.</p>
+<pre class="r"><code>keep &lt;- rowSums(counts(sce) != 0) &gt; 1
+sce &lt;- sce[keep, ]</code></pre>
 <p>This removes 44 genes and leaves us with 19985.</p>
 </div>
 <div id="hgnc-genes" class="section level3">
 <h3>HGNC genes</h3>
 <p>We are also going to filter out any genes that don’t have HGNC symbols. These are mostly pseudogenes and are unlikely to be informative.</p>
+<pre class="r"><code>keep &lt;- !(rowData(sce)$hgnc_symbol == &quot;&quot;) &amp;
+        !(is.na(rowData(sce)$hgnc_symbol))
+sce &lt;- sce[keep, ]</code></pre>
 <p>This removes 3100 genes and leaves us with 16885.</p>
+<pre class="r"><code>dups &lt;- which(duplicated(rowData(sce)$feature_symbol))</code></pre>
 <p>There are 1 gene(s) with duplicate HGNC symbol names. For these genes we will use an alternative symbol name. Once we have done this we can rename the features using feature symbols instead of ENSEMBL IDs which will make interpreting results easier.</p>
+<pre class="r"><code>rowData(sce)[dups, &quot;feature_symbol&quot;] &lt;- rowData(sce)[dups, &quot;symbol&quot;]
+rownames(sce) &lt;- rowData(sce)$feature_symbol</code></pre>
 </div>
 <div id="dimensionality-reduction-filtered-genes" class="section level3">
 <h3>Dimensionality reduction (filtered genes)</h3>
 <p>Let’s see what our final dataset looks like in reduced dimensions.</p>
 <div id="pca-2" class="section level4">
 <h4>PCA</h4>
+<pre class="r"><code>sce &lt;- runPCA(sce)
+
+p1 &lt;- plotPCA(sce, colour_by = &quot;Sample&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Sample&quot;)
+p2 &lt;- plotPCA(sce, colour_by = &quot;log10_total_counts&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Total Counts&quot;)
+p3 &lt;- plotPCA(sce, colour_by = &quot;CellCycle&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Cell Cycle&quot;)
+p4 &lt;- plotPCA(sce, colour_by = &quot;pct_dropout&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Dropout&quot;)
+p5 &lt;- plotPCA(sce, colour_by = &quot;PctCountsMT&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Mitochondrial Genes&quot;)
+p6 &lt;- plotPCA(sce, colour_by = &quot;PctCountsRibo&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Ribosomal Genes&quot;)
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/pca-filtered-genes-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of pca-filtered-genes-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="t-sne-2" class="section level4">
 <h4>t-SNE</h4>
+<pre class="r"><code>sce &lt;- runTSNE(sce)
+
+p1 &lt;- plotTSNE(sce, colour_by = &quot;Sample&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Sample&quot;)
+p2 &lt;- plotTSNE(sce, colour_by = &quot;log10_total_counts&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Total Counts&quot;)
+p3 &lt;- plotTSNE(sce, colour_by = &quot;CellCycle&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Cell Cycle&quot;)
+p4 &lt;- plotTSNE(sce, colour_by = &quot;pct_dropout&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Dropout&quot;)
+p5 &lt;- plotTSNE(sce, colour_by = &quot;PctCountsMT&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Mitochondrial Genes&quot;)
+p6 &lt;- plotTSNE(sce, colour_by = &quot;PctCountsRibo&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Ribosomal Genes&quot;)
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)</code></pre>
 <p><img src="figure/02_Organoid4_QC.Rmd/tSNE-filtered-genes-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of tSNE-filtered-genes-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+a1d89bd
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-07-31
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>We now have a high-quality dataset for our analysis with 16885 genes and 1288 cells. A median of 3248 genes are expressed in each cell.</p>
+<pre class="r"><code>write_rds(sce, here(&quot;data/processed/Organoid4_SCE_filtered.Rds&quot;))</code></pre>
 </div>
 </div>
 </div>
@@ -561,6 +1454,7 @@ Add Organoid 4 QC
 <h1>Metadata</h1>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
+<pre class="r"><code>devtools::session_info()</code></pre>
 <pre><code> setting  value                       
  version  R version 3.5.0 (2018-04-23)
  system   x86_64, linux-gnu           
@@ -568,7 +1462,7 @@ Add Organoid 4 QC
  language (EN)                        
  collate  en_US.UTF-8                 
  tz       Australia/Melbourne         
- date     2018-07-31                  
+ date     2018-08-01                  
 
  package              * version   date      
  AnnotationDbi          1.42.1    2018-07-30
