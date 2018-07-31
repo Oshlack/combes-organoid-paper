@@ -1,6 +1,8 @@
 ---
 title: "Organoid 4 Quality Control"
-output: workflowr::wflow_html
+output:
+    workflowr::wflow_html:
+        code_folding: hide
 ---
 
 ```{r knitr, include = FALSE}
@@ -8,8 +10,8 @@ DOCNAME = "02_Organoid4_QC"
 knitr::opts_chunk$set(autodep        = TRUE,
                       cache          = TRUE,
                       cache.path     = paste0("cache/", DOCNAME, "/"),
-                      cache.comments = TRUE,
-                      echo           = FALSE,
+                      cache.comments = FALSE,
+                      echo           = TRUE,
                       error          = FALSE,
                       fig.align      = "center",
                       fig.width      = 10,
