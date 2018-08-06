@@ -75,9 +75,6 @@ loadTSVSCE <- function(path, genes, dataset, add.anno = FALSE, calc.qc = FALSE,
 #' @param pct.mt Whether to calculate percent mitochondrial?
 #' @param pct.ribo Whether to calculate percent ribosomal?
 #' @param cell.cycle Whether to assign cell cycle?
-#' @param kid.genes Whether to add kidney marker genes?
-#' @param kid.path Path to kidney marker gene TSV file
-#' @param kid.col Column containing ENSEMBL ids
 #' @param cr.clusts Whether to add Cell Ranger clusters?
 #' @param cr.tsne Whether to add Cell Ranger tSNE projection?
 #' @param cr.genes Whether to add Cell Ranger DE results?
