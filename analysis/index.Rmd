@@ -11,3 +11,5 @@ output:
     * [Organoid 4](02_Organoid4_QC.html)
 * Integration
     * [Organoids](03_Organoids_Integration.html)
+* Clustering
+    * [Organoids](04_Organoids_Integration.html)
