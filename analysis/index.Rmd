@@ -12,4 +12,4 @@ output:
 * Integration
     * [Organoids](03_Organoids_Integration.html)
 * Clustering
-    * [Organoids](04_Organoids_Integration.html)
+    * [Organoids](04_Organoids_Clustering.html)
