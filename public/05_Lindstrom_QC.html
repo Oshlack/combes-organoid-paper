@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Lindstrom Quality Control</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Combes Organoid Paper Analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jdblischak/workflowr">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Lindstrom Quality Control</h1>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-08-08</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20180730)</code> </summary></p>
+<p>The command <code>set.seed(20180730)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/48829370f1fb00bf3c6233830645d8001e12fb1c" target="_blank">4882937</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/cache/
+    Ignored:    data/Lindstrom/
+    Ignored:    packrat/lib-R/
+    Ignored:    packrat/lib-ext/
+    Ignored:    packrat/lib/
+    Ignored:    packrat/src/
+
+Untracked files:
+    Untracked:  analysis/99_Methods.Rmd
+    Untracked:  analysis/methods.docx
+    Untracked:  public/figure/05_Lindstrom_QC.Rmd/
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/48829370f1fb00bf3c6233830645d8001e12fb1c/analysis/05_Lindstrom_QC.Rmd" target="_blank">4882937</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-08-08
+</td>
+<td style="text-align:left;">
+Add Lindstrom QC
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
+<hr />
+<pre class="r"><code># scRNA-seq
+library(&quot;scater&quot;)
+
+# Matrices
+library(&quot;Matrix&quot;)
+
+# Plotting
+library(&quot;cowplot&quot;)
+
+# Parallel
+library(&quot;BiocParallel&quot;)
+
+# Paths
+library(&quot;here&quot;)
+
+# Tidyverse
+library(&quot;tidyverse&quot;)</code></pre>
+<pre class="r"><code>source(here(&quot;R/load.R&quot;))</code></pre>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>In this document we are going to read in the Lindstrom human fetal kidney data, produce various quality control plots and remove any low-quality cells or uninformative genes.</p>
+<pre class="r"><code>genes.map &lt;- read_tsv(here(&quot;data/genes.tsv&quot;),
+                      col_types = cols(
+                          gene_id = col_character(),
+                          gene_name = col_character()
+                      )) %&gt;%
+    as.data.frame()
+
+sce &lt;- loadTSVSCE(here(&quot;data/Lindstrom/GSM2741551_count-table-human16w.tsv&quot;),
+                  genes.map,
+                  dataset    = &quot;Lindstrom&quot;,
+                  org        = &quot;human&quot;,
+                  add.anno   = TRUE,
+                  calc.qc    = TRUE,
+                  calc.cpm   = TRUE,
+                  pct.mt     = TRUE,
+                  pct.ribo   = TRUE,
+                  cell.cycle = TRUE,
+                  sparse     = TRUE,
+                  bpparam    = MulticoreParam(workers = 10),
+                  verbose    = TRUE)
+
+colData(sce)$Sample &lt;- &quot;1&quot;
+
+sce &lt;- normalise(sce)
+sce &lt;- runPCA(sce)
+sce &lt;- runTSNE(sce)
+
+write_rds(sce, here(&quot;data/processed/Lindstrom_SCE_complete.Rds&quot;))</code></pre>
+</div>
+<div id="qc-plots" class="section level1">
+<h1>QC plots</h1>
+<div id="by-cell" class="section level2">
+<h2>By cell</h2>
+<div id="total-counts" class="section level3">
+<h3>Total counts</h3>
+<p>Violin plots of the library size (total counts) for each of the samples.</p>
+<pre class="r"><code>plotColData(sce, x = &quot;Sample&quot;, y = &quot;total_counts&quot;, colour_by = &quot;Sample&quot;)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/total-counts-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="number-of-features-by-library-size" class="section level3">
+<h3>Number of features by library size</h3>
+<p>Relationship between the total counts for each cell and the number of expressed genes. We expect the number of genes to increase with the number of counts, hopefully reaching saturation.</p>
+<pre class="r"><code>plotColData(sce, x = &quot;total_counts&quot;, y = &quot;total_features&quot;, colour_by = &quot;Sample&quot;)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/count-features-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="pca" class="section level3">
+<h3>PCA</h3>
+<p>PCA plots coloured by different variables.</p>
+<pre class="r"><code>p1 &lt;- plotPCA(sce, colour_by = &quot;Sample&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Sample&quot;)
+p2 &lt;- plotPCA(sce, colour_by = &quot;log10_total_counts&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Total Counts&quot;)
+p3 &lt;- plotPCA(sce, colour_by = &quot;CellCycle&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Cell Cycle&quot;)
+p4 &lt;- plotPCA(sce, colour_by = &quot;pct_dropout&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Dropout&quot;)
+p5 &lt;- plotPCA(sce, colour_by = &quot;PctCountsMT&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Mitochondrial Genes&quot;)
+p6 &lt;- plotPCA(sce, colour_by = &quot;PctCountsRibo&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Ribosomal Genes&quot;)
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/pca-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="t-sne" class="section level3">
+<h3>t-SNE</h3>
+<p>t-SNE plots coloured by different variables.</p>
+<pre class="r"><code>p1 &lt;- plotTSNE(sce, colour_by = &quot;Sample&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Sample&quot;)
+p2 &lt;- plotTSNE(sce, colour_by = &quot;log10_total_counts&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Total Counts&quot;)
+p3 &lt;- plotTSNE(sce, colour_by = &quot;CellCycle&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Cell Cycle&quot;)
+p4 &lt;- plotTSNE(sce, colour_by = &quot;pct_dropout&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Dropout&quot;)
+p5 &lt;- plotTSNE(sce, colour_by = &quot;PctCountsMT&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Mitochondrial Genes&quot;)
+p6 &lt;- plotTSNE(sce, colour_by = &quot;PctCountsRibo&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Ribosomal Genes&quot;)
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/t-SNE-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="explantory-variables" class="section level3">
+<h3>Explantory variables</h3>
+<p>Plots of the variance explained by various variables.</p>
+<pre class="r"><code>exp.vars &lt;- c(&quot;Sample&quot;, &quot;CellCycle&quot;, &quot;log10_total_counts&quot;,
+              &quot;log10_total_features&quot;, &quot;pct_dropout&quot;,
+              &quot;pct_counts_top_200_features&quot;, &quot;PctCountsMT&quot;, &quot;PctCountsRibo&quot;)
+all.zero &lt;- rowSums(as.matrix(counts(sce))) == 0
+plotExplanatoryVariables(sce[!all.zero, ], variables = exp.vars)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/exp-vars-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Correlation between explanatory variables.</p>
+<pre class="r"><code>plotExplanatoryVariables(sce[!all.zero, ], variables = exp.vars,
+                         method = &quot;pairs&quot;)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/exp-vars-pairs-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="rle" class="section level3">
+<h3>RLE</h3>
+<p>Relative Log Expression (RLE) plots. Ideally all boxes should be aligned and have the size size.</p>
+<pre class="r"><code>plotRLE(sce[!all.zero], list(logcounts = &quot;logcounts&quot;, counts = &quot;counts&quot;),
+        c(TRUE, FALSE), colour_by = &quot;Sample&quot;)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/rle-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="mitochondrial-genes" class="section level3">
+<h3>Mitochondrial genes</h3>
+<p>Looking at the effect of mitchondrial genes. We define mitochondrial genes as genes on the MT chromosome or with “mitochondrial” in the description.</p>
+<pre class="r"><code>plotColData(sce, x = &quot;Sample&quot;, y = &quot;PctCountsMT&quot;, colour_by = &quot;Sample&quot;)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/pct-mt-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="ribosomal-genes" class="section level3">
+<h3>Ribosomal genes</h3>
+<p>Looking at the effect of ribosomal genes. We define ribosomal genes as genes with “ribosom” in the description.</p>
+<pre class="r"><code>plotColData(sce, x = &quot;Sample&quot;, y = &quot;PctCountsRibo&quot;, colour = &quot;Sample&quot;)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/pct-ribo-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="housekeeping-genes" class="section level3">
+<h3>Housekeeping genes</h3>
+<p>Plots of housekeeping genes. We may want to use these for filtering as a proxy for the health of the cell.</p>
+<pre class="r"><code>actb.id &lt;- filter(data.frame(rowData(sce)), feature_symbol == &quot;ACTB&quot;)[1, 1]
+gapdh.id &lt;- filter(data.frame(rowData(sce)), feature_symbol == &quot;GAPDH&quot;)[1, 1]
+
+key &lt;- c(&quot;ACTB&quot;, &quot;GAPDH&quot;)
+names(key) &lt;- c(actb.id, gapdh.id)
+plotExpression(sce, c(actb.id, gapdh.id), colour_by = &quot;Sample&quot;) + 
+    scale_x_discrete(labels = key)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/hk-exprs-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="by-gene" class="section level2">
+<h2>By gene</h2>
+<div id="high-expression" class="section level3">
+<h3>High expression</h3>
+<pre class="r"><code>plotHighestExprs(sce)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/high-expression-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="expression-frequency-by-mean" class="section level3">
+<h3>Expression frequency by mean</h3>
+<pre class="r"><code>plotExprsFreqVsMean(sce)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/mean-expression-freq-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="total-counts-by-num-cells-expressed" class="section level3">
+<h3>Total counts by num cells expressed</h3>
+<pre class="r"><code>plotRowData(sce, x = &quot;n_cells_counts&quot;, y = &quot;log10_total_counts&quot;)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/gene-expression-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+<div id="filtering" class="section level1">
+<h1>Filtering</h1>
+<pre class="r"><code>colData(sce)$Filtered &lt;- FALSE</code></pre>
+<p>To begin with we have 3745 cells with 32738 features from the ENSEMBL annotation.</p>
+<div id="cells" class="section level2">
+<h2>Cells</h2>
+<div id="quantification" class="section level3">
+<h3>Quantification</h3>
+<p>Let’s consider how many reads are assigned to features. We can plot the total number of counts in each cell against the number of genes that are expressed.</p>
+<p>Cells that have been filtered are shown as triangles.</p>
+<pre class="r"><code>thresh.h &lt;- 3500
+
+plotColData(sce, x = &quot;total_counts&quot;, y = &quot;total_features&quot;,
+            colour_by = &quot;Sample&quot;, shape_by = &quot;Filtered&quot;) +
+    geom_hline(yintercept = thresh.h, colour = &quot;red&quot;, size = 1.5,
+               linetype = &quot;dashed&quot;) +
+    xlab(&quot;Total counts&quot;) +
+    ylab(&quot;Total features&quot;) +
+    ggtitle(&quot;Quantification metrics&quot;)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/quantification-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Cells that express many genes are potential multiplets (multiple cells captured in a single droplet). We will remove 34 cells with more than 3500 genes expressed.</p>
+<pre class="r"><code>colData(sce)$Filtered &lt;- colData(sce)$Filtered |
+                         colData(sce)$total_features &gt; thresh.h</code></pre>
+<p>We now have 3711 cells.</p>
+</div>
+<div id="mitochondrial-genes-1" class="section level3">
+<h3>Mitochondrial genes</h3>
+<p>Over-expression of mitochondrial genes can be an indication that a cell is stressed or damaged in some way. Let’s have a look at the percentage of counts that are assigned to mitchondrial genes.</p>
+<pre class="r"><code>thresh.h &lt;- 8
+
+plotColData(sce, x = &quot;Sample&quot;, y = &quot;PctCountsMT&quot;, colour_by = &quot;Sample&quot;,
+            shape_by = &quot;Filtered&quot;) +
+    geom_hline(yintercept = thresh.h, colour = &quot;red&quot;, size = 1.5,
+               linetype = &quot;dashed&quot;) +
+    xlab(&quot;Sample&quot;) +
+    ylab(&quot;% counts MT&quot;) +
+    ggtitle(&quot;Mitochondrial genes&quot;)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/mt-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Some of the cells show high proportions of MT counts. We will remove 212 cells with greater than 8% MT counts.</p>
+<pre class="r"><code>colData(sce)$Filtered &lt;- colData(sce)$Filtered |
+                         colData(sce)$PctCountsMT &gt; thresh.h</code></pre>
+<p>That leaves 3504 cells.</p>
+</div>
+<div id="ribsomal-genes" class="section level3">
+<h3>Ribsomal genes</h3>
+<p>We can do a similar thing for ribosomal gene expression.</p>
+<pre class="r"><code>thresh.h &lt;- 35
+
+plotColData(sce, x = &quot;Sample&quot;, y = &quot;PctCountsRibo&quot;, colour_by = &quot;Sample&quot;,
+            shape_by = &quot;Filtered&quot;) +
+    geom_hline(yintercept = thresh.h, colour = &quot;red&quot;, size = 1.5,
+               linetype = &quot;dashed&quot;) +
+    xlab(&quot;Sample&quot;) +
+    ylab(&quot;% counts ribosomal&quot;) +
+    ggtitle(&quot;Ribosomal genes&quot;)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/ribosomal-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Some of the cells show high proportions of ribosomal counts. We will remove 61 cells with greater than 35% ribosomal counts.</p>
+<pre class="r"><code>colData(sce)$Filtered &lt;- colData(sce)$Filtered |
+                         colData(sce)$PctCountsRibo &gt; thresh.h</code></pre>
+<p>That leaves 3444 cells.</p>
+</div>
+<div id="housekeeping" class="section level3">
+<h3>Housekeeping</h3>
+<p>Similarly we can look at the expression of the “housekeeping” genes GAPDH and ACTB.</p>
+<pre class="r"><code>thresh.h &lt;- 1
+thresh.v &lt;- 1.5
+
+plotExpression(sce, gapdh.id, x = actb.id, colour_by = &quot;Sample&quot;,
+               shape_by = &quot;Filtered&quot;) +
+    geom_hline(yintercept = thresh.h, colour = &quot;red&quot;, size = 1.5,
+               linetype = &quot;dashed&quot;) +
+    geom_vline(xintercept = thresh.v, colour = &quot;red&quot;, size = 1.5,
+               linetype = &quot;dashed&quot;) +
+    xlab(&quot;ACTB&quot;) +
+    ylab(&quot;GAPDH&quot;) +
+    ggtitle(&quot;Housekeepking genes&quot;) +
+    theme(
+        strip.background = element_blank(),
+        strip.text.x = element_blank()
+    )</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/housekeeping-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>We will remove cells where ACTB is expressed below 1.5 or GAPDH is expressed below 1. This removes 322 cells.</p>
+<pre class="r"><code>colData(sce)$Filtered &lt;- colData(sce)$Filtered |
+                         exprs(sce)[actb.id, ] &lt; thresh.v |
+                         exprs(sce)[gapdh.id, ] &lt; thresh.h</code></pre>
+<pre class="r"><code>sce &lt;- sce[, !colData(sce)$Filtered]</code></pre>
+<p>After filtering we are left with 3178 cells.</p>
+</div>
+<div id="dimensionality-reduction-filtered-cells" class="section level3">
+<h3>Dimensionality reduction (filtered cells)</h3>
+<p>Now that we are relatively confident we have a set of good quality cells, let’s see what they look like in reduced dimensions.</p>
+<div id="pca-1" class="section level4">
+<h4>PCA</h4>
+<pre class="r"><code>sce &lt;- runPCA(sce)
+
+p1 &lt;- plotPCA(sce, colour_by = &quot;Sample&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Sample&quot;)
+p2 &lt;- plotPCA(sce, colour_by = &quot;log10_total_counts&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Total Counts&quot;)
+p3 &lt;- plotPCA(sce, colour_by = &quot;CellCycle&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Cell Cycle&quot;)
+p4 &lt;- plotPCA(sce, colour_by = &quot;pct_dropout&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Dropout&quot;)
+p5 &lt;- plotPCA(sce, colour_by = &quot;PctCountsMT&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Mitochondrial Genes&quot;)
+p6 &lt;- plotPCA(sce, colour_by = &quot;PctCountsRibo&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Ribosomal Genes&quot;)
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/pca-filtered-cells-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="t-sne-1" class="section level4">
+<h4>t-SNE</h4>
+<pre class="r"><code>sce &lt;- runTSNE(sce)
+
+p1 &lt;- plotTSNE(sce, colour_by = &quot;Sample&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Sample&quot;)
+p2 &lt;- plotTSNE(sce, colour_by = &quot;log10_total_counts&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Total Counts&quot;)
+p3 &lt;- plotTSNE(sce, colour_by = &quot;CellCycle&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Cell Cycle&quot;)
+p4 &lt;- plotTSNE(sce, colour_by = &quot;pct_dropout&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Dropout&quot;)
+p5 &lt;- plotTSNE(sce, colour_by = &quot;PctCountsMT&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Mitochondrial Genes&quot;)
+p6 &lt;- plotTSNE(sce, colour_by = &quot;PctCountsRibo&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Ribosomal Genes&quot;)
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/tSNE-filtered-cells-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+<div id="genes" class="section level2">
+<h2>Genes</h2>
+<div id="expression" class="section level3">
+<h3>Expression</h3>
+<p>Some of the features we would never expect to see expressed in an RNA-seq experiment. Before doing anything else we will remove the features that have less than two counts across all cells.</p>
+<pre class="r"><code>keep &lt;- rowSums(counts(sce)) &gt; 1
+sce &lt;- sce[keep]</code></pre>
+<p>This removes 14227 genes and leaves us with 18511.</p>
+<p>We will also going remove genes that are expressed in less than two individual cells.</p>
+<pre class="r"><code>keep &lt;- rowSums(counts(sce) != 0) &gt; 1
+sce &lt;- sce[keep, ]</code></pre>
+<p>This removes 30 genes and leaves us with 18481.</p>
+</div>
+<div id="hgnc-genes" class="section level3">
+<h3>HGNC genes</h3>
+<p>We are also going to filter out any genes that don’t have HGNC symbols. These are mostly pseudogenes and are unlikely to be informative.</p>
+<pre class="r"><code>keep &lt;- !(rowData(sce)$hgnc_symbol == &quot;&quot;) &amp;
+        !(is.na(rowData(sce)$hgnc_symbol))
+sce &lt;- sce[keep, ]</code></pre>
+<p>This removes 2315 genes and leaves us with 16166.</p>
+<pre class="r"><code>dups &lt;- which(duplicated(rowData(sce)$feature_symbol))</code></pre>
+<p>There are 0 gene(s) with duplicate HGNC symbol names. For these genes we will use an alternative symbol name. Once we have done this we can rename the features using feature symbols instead of ENSEMBL IDs which will make interpreting results easier.</p>
+<pre class="r"><code>rowData(sce)[dups, &quot;feature_symbol&quot;] &lt;- rowData(sce)[dups, &quot;symbol&quot;]
+rownames(sce) &lt;- rowData(sce)$feature_symbol</code></pre>
+</div>
+<div id="dimensionality-reduction-filtered-genes" class="section level3">
+<h3>Dimensionality reduction (filtered genes)</h3>
+<p>Let’s see what our final dataset looks like in reduced dimensions.</p>
+<div id="pca-2" class="section level4">
+<h4>PCA</h4>
+<pre class="r"><code>sce &lt;- runPCA(sce)
+
+p1 &lt;- plotPCA(sce, colour_by = &quot;Sample&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Sample&quot;)
+p2 &lt;- plotPCA(sce, colour_by = &quot;log10_total_counts&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Total Counts&quot;)
+p3 &lt;- plotPCA(sce, colour_by = &quot;CellCycle&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Cell Cycle&quot;)
+p4 &lt;- plotPCA(sce, colour_by = &quot;pct_dropout&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Dropout&quot;)
+p5 &lt;- plotPCA(sce, colour_by = &quot;PctCountsMT&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Mitochondrial Genes&quot;)
+p6 &lt;- plotPCA(sce, colour_by = &quot;PctCountsRibo&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Ribosomal Genes&quot;)
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/pca-filtered-genes-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="t-sne-2" class="section level4">
+<h4>t-SNE</h4>
+<pre class="r"><code>sce &lt;- runTSNE(sce)
+
+p1 &lt;- plotTSNE(sce, colour_by = &quot;Sample&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Sample&quot;)
+p2 &lt;- plotTSNE(sce, colour_by = &quot;log10_total_counts&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Total Counts&quot;)
+p3 &lt;- plotTSNE(sce, colour_by = &quot;CellCycle&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Cell Cycle&quot;)
+p4 &lt;- plotTSNE(sce, colour_by = &quot;pct_dropout&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Dropout&quot;)
+p5 &lt;- plotTSNE(sce, colour_by = &quot;PctCountsMT&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Mitochondrial Genes&quot;)
+p6 &lt;- plotTSNE(sce, colour_by = &quot;PctCountsRibo&quot;, shape_by = &quot;Sample&quot;) +
+    ggtitle(&quot;Ribosomal Genes&quot;)
+
+plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2)</code></pre>
+<p><img src="figure/05_Lindstrom_QC.Rmd/tSNE-filtered-genes-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>We now have a high-quality dataset for our analysis with 16166 genes and 3178 cells. A median of 1509.5 genes are expressed in each cell.</p>
+<pre class="r"><code>write_rds(sce, here(&quot;data/processed/Lindstrom_SCE_filtered.Rds&quot;))</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="metadata" class="section level1">
+<h1>Metadata</h1>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>devtools::session_info()</code></pre>
+<pre><code> setting  value                       
+ version  R version 3.5.0 (2018-04-23)
+ system   x86_64, linux-gnu           
+ ui       X11                         
+ language (EN)                        
+ collate  en_US.UTF-8                 
+ tz       Australia/Melbourne         
+ date     2018-08-08                  
+
+ package              * version   date      
+ AnnotationDbi          1.42.1    2018-07-30
+ assertthat             0.2.0     2017-04-11
+ backports              1.1.2     2017-12-13
+ base                 * 3.5.0     2018-06-18
+ beeswarm               0.2.3     2016-04-25
+ bindr                  0.1.1     2018-03-13
+ bindrcpp             * 0.2.2     2018-03-29
+ Biobase              * 2.40.0    2018-07-30
+ BiocGenerics         * 0.26.0    2018-07-30
+ BiocParallel         * 1.14.2    2018-07-08
+ biomaRt                2.36.1    2018-07-30
+ bit                    1.1-14    2018-05-29
+ bit64                  0.9-7     2017-05-08
+ bitops                 1.0-6     2013-08-17
+ blob                   1.1.1     2018-03-25
+ broom                  0.5.0     2018-07-17
+ cellranger             1.1.0     2016-07-27
+ cli                    1.0.0     2017-11-05
+ codetools              0.2-15    2016-10-05
+ colorspace             1.3-2     2016-12-14
+ compiler               3.5.0     2018-06-18
+ cowplot              * 0.9.3     2018-07-15
+ crayon                 1.3.4     2017-09-16
+ curl                   3.2       2018-03-28
+ data.table             1.11.4    2018-05-27
+ datasets             * 3.5.0     2018-06-18
+ DBI                    1.0.0     2018-05-02
+ DelayedArray         * 0.6.2     2018-07-23
+ DelayedMatrixStats     1.2.0     2018-07-30
+ devtools               1.13.6    2018-06-27
+ digest                 0.6.15    2018-01-28
+ dplyr                * 0.7.6     2018-06-29
+ DT                     0.4       2018-01-30
+ dynamicTreeCut         1.63-1    2016-03-11
+ edgeR                  3.22.3    2018-06-21
+ evaluate               0.10.1    2017-06-24
+ FNN                    1.1       2013-07-31
+ forcats              * 0.3.0     2018-02-19
+ GenomeInfoDb         * 1.16.0    2018-07-30
+ GenomeInfoDbData       1.1.0     2018-07-30
+ GenomicRanges        * 1.32.6    2018-07-20
+ ggbeeswarm             0.6.0     2017-08-07
+ ggplot2              * 3.0.0     2018-07-03
+ git2r                  0.21.0    2018-01-04
+ glue                   1.3.0     2018-07-17
+ graphics             * 3.5.0     2018-06-18
+ grDevices            * 3.5.0     2018-06-18
+ grid                   3.5.0     2018-06-18
+ gridExtra              2.3       2017-09-09
+ gtable                 0.2.0     2016-02-26
+ haven                  1.1.2     2018-06-27
+ here                 * 0.1       2017-05-28
+ hms                    0.4.2     2018-03-10
+ htmltools              0.3.6     2017-04-28
+ htmlwidgets            1.2       2018-04-19
+ httpuv                 1.4.5     2018-07-19
+ httr                   1.3.1     2017-08-20
+ igraph                 1.2.2     2018-07-27
+ IRanges              * 2.14.10   2018-07-30
+ jsonlite               1.5       2017-06-01
+ knitr                  1.20      2018-02-20
+ labeling               0.3       2014-08-23
+ later                  0.7.3     2018-06-08
+ lattice                0.20-35   2017-03-25
+ lazyeval               0.2.1     2017-10-29
+ limma                  3.36.2    2018-06-21
+ locfit                 1.5-9.1   2013-04-20
+ lubridate              1.7.4     2018-04-11
+ magrittr               1.5       2014-11-22
+ Matrix               * 1.2-14    2018-04-09
+ matrixStats          * 0.54.0    2018-07-23
+ memoise                1.1.0     2017-04-21
+ methods              * 3.5.0     2018-06-18
+ mgcv                   1.8-24    2018-06-18
+ mime                   0.5       2016-07-07
+ modelr                 0.1.2     2018-05-11
+ munsell                0.5.0     2018-06-12
+ nlme                   3.1-137   2018-04-07
+ parallel             * 3.5.0     2018-06-18
+ pillar                 1.3.0     2018-07-14
+ pkgconfig              2.0.1     2017-03-21
+ plyr                   1.8.4     2016-06-08
+ prettyunits            1.0.2     2015-07-13
+ progress               1.2.0     2018-06-14
+ promises               1.0.1     2018-04-13
+ purrr                * 0.2.5     2018-05-29
+ R.methodsS3            1.7.1     2016-02-16
+ R.oo                   1.22.0    2018-04-22
+ R.utils                2.6.0     2017-11-05
+ R6                     2.2.2     2017-06-17
+ Rcpp                   0.12.18   2018-07-23
+ RCurl                  1.95-4.11 2018-07-15
+ readr                * 1.1.1     2017-05-16
+ readxl                 1.1.0     2018-04-20
+ reshape2               1.4.3     2017-12-11
+ rhdf5                  2.24.0    2018-07-30
+ Rhdf5lib               1.2.1     2018-07-30
+ rjson                  0.2.20    2018-06-08
+ rlang                  0.2.1     2018-05-30
+ rmarkdown              1.10.2    2018-07-30
+ rprojroot              1.3-2     2018-01-03
+ RSQLite                2.1.1     2018-05-06
+ rstudioapi             0.7       2017-09-07
+ Rtsne                  0.13      2017-04-14
+ rvest                  0.3.2     2016-06-17
+ S4Vectors            * 0.18.3    2018-07-30
+ scales                 0.5.0     2017-08-24
+ scater               * 1.8.2     2018-07-27
+ scran                  1.8.2     2018-07-30
+ shiny                  1.1.0     2018-05-17
+ shinydashboard         0.7.0     2018-03-21
+ SingleCellExperiment * 1.2.0     2018-07-30
+ statmod                1.4.30    2017-06-18
+ stats                * 3.5.0     2018-06-18
+ stats4               * 3.5.0     2018-06-18
+ stringi                1.2.4     2018-07-20
+ stringr              * 1.3.1     2018-05-10
+ SummarizedExperiment * 1.10.1    2018-07-30
+ tibble               * 1.4.2     2018-01-22
+ tidyr                * 0.8.1     2018-05-18
+ tidyselect             0.2.4     2018-02-26
+ tidyverse            * 1.2.1     2017-11-14
+ tools                  3.5.0     2018-06-18
+ tximport               1.8.0     2018-07-30
+ utils                * 3.5.0     2018-06-18
+ vipor                  0.4.5     2017-03-22
+ viridis                0.5.1     2018-03-29
+ viridisLite            0.3.0     2018-02-01
+ whisker                0.3-2     2013-04-28
+ withr                  2.1.2     2018-03-15
+ workflowr              1.1.1     2018-07-06
+ XML                    3.98-1.12 2018-07-15
+ xml2                   1.2.0     2018-01-24
+ xtable                 1.8-2     2016-02-05
+ XVector                0.20.0    2018-07-30
+ yaml                   2.2.0     2018-07-25
+ zlibbioc               1.26.0    2018-07-30
+ source                            
+ Bioconductor                      
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ local                             
+ CRAN (R 3.5.0)                    
+ cran (@0.1.1)                     
+ cran (@0.2.2)                     
+ Bioconductor                      
+ Bioconductor                      
+ Bioconductor                      
+ Bioconductor                      
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@1.0-6)                     
+ CRAN (R 3.5.0)                    
+ cran (@0.5.0)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@1.3-2)                     
+ local                             
+ cran (@0.9.3)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@1.11.4)                    
+ local                             
+ CRAN (R 3.5.0)                    
+ Bioconductor                      
+ Bioconductor                      
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@0.7.6)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ Bioconductor                      
+ CRAN (R 3.5.0)                    
+ cran (@1.1)                       
+ CRAN (R 3.5.0)                    
+ Bioconductor                      
+ Bioconductor                      
+ Bioconductor                      
+ CRAN (R 3.5.0)                    
+ cran (@3.0.0)                     
+ CRAN (R 3.5.0)                    
+ cran (@1.3.0)                     
+ local                             
+ local                             
+ local                             
+ cran (@2.3)                       
+ cran (@0.2.0)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@1.2)                       
+ cran (@1.4.5)                     
+ CRAN (R 3.5.0)                    
+ cran (@1.2.2)                     
+ Bioconductor                      
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@0.3)                       
+ cran (@0.7.3)                     
+ CRAN (R 3.5.0)                    
+ cran (@0.2.1)                     
+ Bioconductor                      
+ CRAN (R 3.5.0)                    
+ cran (@1.7.4)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ local                             
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@0.5.0)                     
+ CRAN (R 3.5.0)                    
+ local                             
+ cran (@1.3.0)                     
+ cran (@2.0.1)                     
+ cran (@1.8.4)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@1.0.1)                     
+ cran (@0.2.5)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@0.12.18)                   
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@1.4.3)                     
+ Bioconductor                      
+ Bioconductor                      
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ Github (rstudio/rmarkdown@18207b9)
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@0.13)                      
+ CRAN (R 3.5.0)                    
+ Bioconductor                      
+ cran (@0.5.0)                     
+ Bioconductor                      
+ Bioconductor                      
+ cran (@1.1.0)                     
+ CRAN (R 3.5.0)                    
+ Bioconductor                      
+ CRAN (R 3.5.0)                    
+ local                             
+ local                             
+ cran (@1.2.4)                     
+ CRAN (R 3.5.0)                    
+ Bioconductor                      
+ cran (@1.4.2)                     
+ cran (@0.8.1)                     
+ cran (@0.2.4)                     
+ CRAN (R 3.5.0)                    
+ local                             
+ Bioconductor                      
+ local                             
+ CRAN (R 3.5.0)                    
+ cran (@0.5.1)                     
+ cran (@0.3.0)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@1.8-2)                     
+ Bioconductor                      
+ cran (@2.2.0)                     
+ Bioconductor                      </code></pre>
+</div>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
