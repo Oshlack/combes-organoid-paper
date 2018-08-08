@@ -3,10 +3,11 @@
 #' Loads 10x scRNA-seq data available as a TSV into a SingleCellExperiment
 #' object
 #'
-#' @param dir Directory containing Cell Ranger counts matrix
+#' @param path Path to a TSV file containing counts matrix
 #' @param genes data.frame where first column is gene ids and second column is
 #'        gene symbols
 #' @param dataset Name of the dataset
+#' @param org Whether it is human or mouse data
 #' @param add.anno Whether to add feature annotation?
 #' @param calc.qc Whether to calculate scater QC metrics?
 #' @param calc.cpm Whether to calculate Counts Per Million?
@@ -18,7 +19,8 @@
 #' @param verbose Whether to print progress messages?
 #'
 #' @return SingleCellExperiment object containing 10x data
-loadTSVSCE <- function(path, genes, dataset, add.anno = FALSE, calc.qc = FALSE,
+loadTSVSCE <- function(path, genes, org = c("human", "mouse"),
+                       dataset, add.anno = FALSE, calc.qc = FALSE,
                        calc.cpm = FALSE, pct.mt = FALSE, pct.ribo = FALSE,
                        cell.cycle = FALSE, sparse = TRUE,
                        bpparam = BiocParallel::SerialParam(),
