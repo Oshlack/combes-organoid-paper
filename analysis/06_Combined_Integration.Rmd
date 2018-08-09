@@ -1,0 +1,228 @@
+---
+title: "Combined Integration"
+output:
+    workflowr::wflow_html:
+        code_folding: hide
+---
+
+```{r knitr, include = FALSE}
+DOCNAME = "06_Combined_Integration"
+knitr::opts_chunk$set(autodep        = TRUE,
+                      cache          = TRUE,
+                      cache.path     = paste0("cache/", DOCNAME, "/"),
+                      cache.comments = FALSE,
+                      echo           = TRUE,
+                      error          = FALSE,
+                      fig.align      = "center",
+                      fig.width      = 10,
+                      fig.height     = 8,
+                      message        = FALSE,
+                      warning        = FALSE)
+```
+
+```{r libaries, cache = FALSE}
+# scRNA-seq
+library("SingleCellExperiment")
+library("Seurat")
+
+# Paths
+library("here")
+
+# Tidyverse
+library("tidyverse")
+```
+
+```{r source, cache = FALSE}
+source(here("R/seurat_helpers.R"))
+```
+
+```{r paths}
+org123_path <- here("data/processed/Organoid123_SCE_filtered.Rds")
+org4_path <- here("data/processed/Organoid4_SCE_filtered.Rds")
+lind_path <- here("data/processed/Lindstrom_SCE_filtered.Rds")
+```
+
+Introduction
+============
+
+Here we will combine the two batches of organoid samples with the Lindstrom
+data using Seurat's integration method.
+
+```{r load-org123, cache.extra = tools::md5sum(org123_path)}
+if (file.exists(org123_path)) {
+    org123_sce <- read_rds(org123_path)
+} else {
+    stop("Organoid123 dataset is missing. ",
+         "Please run '01_Organoid123_QC.Rmd' first.",
+         call. = FALSE)
+}
+```
+
+```{r load-org4, cache.extra = tools::md5sum(org4_path)}
+if (file.exists(org4_path)) {
+    org4_sce <- read_rds(org4_path)
+} else {
+    stop("Organoid4 dataset is missing. ",
+         "Please run '02_Organoid4_QC.Rmd' first.",
+         call. = FALSE)
+}
+```
+
+```{r load-lind, cache.extra = tools::md5sum(lind_path)}
+if (file.exists(lind_path)) {
+    lind_sce <- read_rds(lind_path)
+} else {
+    stop("Lindstrom dataset is missing. ",
+         "Please run '05_Lindstrom_QC.Rmd' first.",
+         call. = FALSE)
+}
+```
+
+The datasets are currently in `SingleCellExperiment` format but to use Seurat we
+need to convert them to `Seurat` format.
+
+```{r convert}
+org123 <- as.seurat(org123_sce)
+org4 <- as.seurat(org4_sce)
+lind <- as.seurat(lind_sce)
+```
+
+Variable genes
+==============
+
+Before we can align the datasets we need to select a set of genes to use. We
+do this by looking for highly variable genes.
+
+```{r var-genes}
+org123 <- NormalizeData(org123, display.progress = FALSE)
+org4 <- NormalizeData(org4, display.progress = FALSE)
+lind <- NormalizeData(lind, display.progress = FALSE)
+
+org123 <- ScaleData(org123, display.progress = FALSE)
+org4 <- ScaleData(org4, display.progress = FALSE)
+lind <- ScaleData(lind, display.progress = FALSE)
+
+org123 <- FindVariableGenes(org123, do.plot = FALSE)
+org4 <- FindVariableGenes(org4, do.plot = FALSE)
+lind <- FindVariableGenes(lind, do.plot = FALSE)
+
+genes.use <- unique(c(org123@var.genes, org4@var.genes, lind@var.genes))
+genes.use <- intersect(genes.use, rownames(org123@scale.data))
+genes.use <- intersect(genes.use, rownames(org4@scale.data))
+genes.use <- intersect(genes.use, rownames(lind@scale.data))
+```
+
+Seurat finds `r length(org123@var.genes)` highly variable genes for the first
+organoid dataset and `r length(org4@var.genes)` highly variable genes for
+the second organoid dataset. There are `r length(lind@var.genes)` highly
+variable genes for the Lindstrom dataset. We take these genes and use those that
+are present in both datasets. This leaves us with `r length(genes.use)` selected 
+genes.
+
+Merging
+=======
+
+Before we try to properly align the datasets let's see what happens if we just 
+naively merge them together. If this works we might not need to do anything
+more sophisticated.
+
+```{r merge, cache.lazy = FALSE}
+merged <- MergeSeurat(org123, org4, 
+                      add.cell.id1 = "Org123", add.cell.id2 = "Org4")
+merged <- MergeSeurat(merged, lind, add.cell.id2 = "Lind")
+merged <- ScaleData(merged, display.progress = FALSE)
+merged <- RunPCA(merged, pc.genes = genes.use, pcs.compute = 20,
+                 do.print = FALSE)
+merged <- ProjectPCA(merged, do.print = FALSE)
+merged <- RunTSNE(merged, dims.use = 1:20, do.fast = TRUE)
+merged@meta.data$DatasetSample <- paste(merged@meta.data$Dataset,
+                                        merged@meta.data$Sample, sep = "_")
+TSNEPlot(merged, group.by = "DatasetSample")
+```
+
+Ideally we would see an even mix of the two datasets here but there is some
+pretty clear separation. Let's move on to the alignment process.
+
+Perform CCA
+===========
+
+The first step of Seurat's alignment is to perfrom Canoical Correlation Analysis
+(CCA). This combines the datasets in the same multi-dimensional space.
+
+```{r cca, results = "hide", cache.lazy = FALSE}
+combined <- RunMultiCCA(list(prefixCellNames(org123, "Org123"),
+                             prefixCellNames(org4, "Org4"),
+                             prefixCellNames(lind, "Lind")),
+                        genes.use = genes.use, num.cc = 50)
+
+p1 <- DimPlot(combined, reduction.use = "cca", group.by = "Dataset", 
+              pt.size = 0.5, do.return = TRUE)
+p2 <- VlnPlot(combined, features.plot = "CC1", group.by = "Dataset", 
+              do.return = TRUE)
+plot_grid(p1, p2)
+```
+
+Choose CCs
+==========
+
+Now we need to choose the dimensions to use for aligning the datasets. This is
+similar to choosing principal components for clustering a single dataset. Here
+for look for a drop off in correlation strength for each CC.
+
+```{r plot-CCs, cache.lazy = FALSE}
+plot <- MetageneBicorPlot(combined, grouping.var = "Dataset", dims.eval = 1:50, 
+                          display.progress = FALSE)
+```
+
+We can also look at the genes associated with each of the first nine CCs.
+
+```{r CC-heatmaps, fig.height = 10}
+DimHeatmap(object = combined, reduction.type = "cca", cells.use = 500, 
+           dim.use = 1:9, do.balanced = TRUE)
+```
+
+```{r n-dims}
+n.dims <- 20
+```
+
+Based on these plots we will to use the first `r n.dims` CCs.
+
+Align CCA subspaces
+===================
+
+Now we can align the CCA subspaces for the two datasets. This makes the
+dimensions more comparable in a way we can use for clustering.
+
+```{r align, cache.lazy = FALSE}
+combined <- AlignSubspace(combined, reduction.type = "cca",
+                          grouping.var = "Dataset", dims.align = 1:n.dims,
+                          verbose = FALSE)
+
+p1 <- VlnPlot(object = combined, features.plot = "ACC1", group.by = "Dataset", 
+              do.return = TRUE)
+p2 <- VlnPlot(object = combined, features.plot = "ACC2", group.by = "Dataset", 
+              do.return = TRUE)
+plot_grid(p1, p2)
+```
+
+```{r align-tSNE, cache.lazy = FALSE}
+combined <- RunTSNE(combined, reduction.use = "cca.aligned", dims.use = 1:20)
+combined@meta.data$DatasetSample<- paste(combined@meta.data$Dataset,
+                                         combined@meta.data$Sample,
+                                         sep = "_")
+TSNEPlot(combined, pt.size = 0.5, group.by = "DatasetSample")
+```
+
+This looks to have worked well, there is no obvious separation between the two
+datasets.
+
+This combined dataset of `r nrow(combined@scale.data)` genes and
+`r ncol(combined@scale.data)` cells is the starting point for our clustering
+analysis.
+
+```{r write-combined}
+write_rds(combined, here("data/processed/Combined_Seurat.Rds"))
+```
+
+Metadata
+========

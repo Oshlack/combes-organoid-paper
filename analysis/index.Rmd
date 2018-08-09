@@ -12,5 +12,6 @@ output:
     * [Lindstrom](05_Lindstrom_QC.html)
 * Integration
     * [Organoids](03_Organoids_Integration.html)
+    * [Combined](06_Combined_Integration.html)
 * Clustering
     * [Organoids](04_Organoids_Clustering.html)
