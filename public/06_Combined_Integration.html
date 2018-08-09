@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Combined Integration</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Combes Organoid Paper Analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jdblischak/workflowr">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Combined Integration</h1>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-08-09</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20180730)</code> </summary></p>
+<p>The command <code>set.seed(20180730)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/99eb526234409699e9c0c97e2e1616030eb0bb6a" target="_blank">99eb526</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/cache/
+    Ignored:    data/Lindstrom/
+    Ignored:    packrat/lib-R/
+    Ignored:    packrat/lib-ext/
+    Ignored:    packrat/lib/
+    Ignored:    packrat/src/
+
+Untracked files:
+    Untracked:  R/seurat_helpers.R
+    Untracked:  analysis/99_Methods.Rmd
+    Untracked:  analysis/methods.docx
+    Untracked:  public/figure/06_Combined_Integration.Rmd/
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/99eb526234409699e9c0c97e2e1616030eb0bb6a/analysis/06_Combined_Integration.Rmd" target="_blank">99eb526</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-08-09
+</td>
+<td style="text-align:left;">
+Add combined integration
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
+<hr />
+<pre class="r"><code># scRNA-seq
+library(&quot;SingleCellExperiment&quot;)
+library(&quot;Seurat&quot;)
+
+# Paths
+library(&quot;here&quot;)
+
+# Tidyverse
+library(&quot;tidyverse&quot;)</code></pre>
+<pre class="r"><code>source(here(&quot;R/seurat_helpers.R&quot;))</code></pre>
+<pre class="r"><code>org123_path &lt;- here(&quot;data/processed/Organoid123_SCE_filtered.Rds&quot;)
+org4_path &lt;- here(&quot;data/processed/Organoid4_SCE_filtered.Rds&quot;)
+lind_path &lt;- here(&quot;data/processed/Lindstrom_SCE_filtered.Rds&quot;)</code></pre>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Here we will combine the two batches of organoid samples with the Lindstrom data using Seurat’s integration method.</p>
+<pre class="r"><code>if (file.exists(org123_path)) {
+    org123_sce &lt;- read_rds(org123_path)
+} else {
+    stop(&quot;Organoid123 dataset is missing. &quot;,
+         &quot;Please run &#39;01_Organoid123_QC.Rmd&#39; first.&quot;,
+         call. = FALSE)
+}</code></pre>
+<pre class="r"><code>if (file.exists(org4_path)) {
+    org4_sce &lt;- read_rds(org4_path)
+} else {
+    stop(&quot;Organoid4 dataset is missing. &quot;,
+         &quot;Please run &#39;02_Organoid4_QC.Rmd&#39; first.&quot;,
+         call. = FALSE)
+}</code></pre>
+<pre class="r"><code>if (file.exists(lind_path)) {
+    lind_sce &lt;- read_rds(lind_path)
+} else {
+    stop(&quot;Lindstrom dataset is missing. &quot;,
+         &quot;Please run &#39;05_Lindstrom_QC.Rmd&#39; first.&quot;,
+         call. = FALSE)
+}</code></pre>
+<p>The datasets are currently in <code>SingleCellExperiment</code> format but to use Seurat we need to convert them to <code>Seurat</code> format.</p>
+<pre class="r"><code>org123 &lt;- as.seurat(org123_sce)
+org4 &lt;- as.seurat(org4_sce)
+lind &lt;- as.seurat(lind_sce)</code></pre>
+</div>
+<div id="variable-genes" class="section level1">
+<h1>Variable genes</h1>
+<p>Before we can align the datasets we need to select a set of genes to use. We do this by looking for highly variable genes.</p>
+<pre class="r"><code>org123 &lt;- NormalizeData(org123, display.progress = FALSE)
+org4 &lt;- NormalizeData(org4, display.progress = FALSE)
+lind &lt;- NormalizeData(lind, display.progress = FALSE)
+
+org123 &lt;- ScaleData(org123, display.progress = FALSE)
+org4 &lt;- ScaleData(org4, display.progress = FALSE)
+lind &lt;- ScaleData(lind, display.progress = FALSE)
+
+org123 &lt;- FindVariableGenes(org123, do.plot = FALSE)
+org4 &lt;- FindVariableGenes(org4, do.plot = FALSE)
+lind &lt;- FindVariableGenes(lind, do.plot = FALSE)
+
+genes.use &lt;- unique(c(org123@var.genes, org4@var.genes, lind@var.genes))
+genes.use &lt;- intersect(genes.use, rownames(org123@scale.data))
+genes.use &lt;- intersect(genes.use, rownames(org4@scale.data))
+genes.use &lt;- intersect(genes.use, rownames(lind@scale.data))</code></pre>
+<p>Seurat finds 827 highly variable genes for the first organoid dataset and 840 highly variable genes for the second organoid dataset. There are 578 highly variable genes for the Lindstrom dataset. We take these genes and use those that are present in both datasets. This leaves us with 1368 selected genes.</p>
+</div>
+<div id="merging" class="section level1">
+<h1>Merging</h1>
+<p>Before we try to properly align the datasets let’s see what happens if we just naively merge them together. If this works we might not need to do anything more sophisticated.</p>
+<pre class="r"><code>merged &lt;- MergeSeurat(org123, org4, 
+                      add.cell.id1 = &quot;Org123&quot;, add.cell.id2 = &quot;Org4&quot;)
+merged &lt;- MergeSeurat(merged, lind, add.cell.id2 = &quot;Lind&quot;)
+merged &lt;- ScaleData(merged, display.progress = FALSE)
+merged &lt;- RunPCA(merged, pc.genes = genes.use, pcs.compute = 20,
+                 do.print = FALSE)
+merged &lt;- ProjectPCA(merged, do.print = FALSE)
+merged &lt;- RunTSNE(merged, dims.use = 1:20, do.fast = TRUE)
+merged@meta.data$DatasetSample &lt;- paste(merged@meta.data$Dataset,
+                                        merged@meta.data$Sample, sep = &quot;_&quot;)
+TSNEPlot(merged, group.by = &quot;DatasetSample&quot;)</code></pre>
+<p><img src="figure/06_Combined_Integration.Rmd/merge-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Ideally we would see an even mix of the two datasets here but there is some pretty clear separation. Let’s move on to the alignment process.</p>
+</div>
+<div id="perform-cca" class="section level1">
+<h1>Perform CCA</h1>
+<p>The first step of Seurat’s alignment is to perfrom Canoical Correlation Analysis (CCA). This combines the datasets in the same multi-dimensional space.</p>
+<pre class="r"><code>combined &lt;- RunMultiCCA(list(prefixCellNames(org123, &quot;Org123&quot;),
+                             prefixCellNames(org4, &quot;Org4&quot;),
+                             prefixCellNames(lind, &quot;Lind&quot;)),
+                        genes.use = genes.use, num.cc = 50)
+
+p1 &lt;- DimPlot(combined, reduction.use = &quot;cca&quot;, group.by = &quot;Dataset&quot;, 
+              pt.size = 0.5, do.return = TRUE)
+p2 &lt;- VlnPlot(combined, features.plot = &quot;CC1&quot;, group.by = &quot;Dataset&quot;, 
+              do.return = TRUE)
+plot_grid(p1, p2)</code></pre>
+<p><img src="figure/06_Combined_Integration.Rmd/cca-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="choose-ccs" class="section level1">
+<h1>Choose CCs</h1>
+<p>Now we need to choose the dimensions to use for aligning the datasets. This is similar to choosing principal components for clustering a single dataset. Here for look for a drop off in correlation strength for each CC.</p>
+<pre class="r"><code>plot &lt;- MetageneBicorPlot(combined, grouping.var = &quot;Dataset&quot;, dims.eval = 1:50, 
+                          display.progress = FALSE)</code></pre>
+<p><img src="figure/06_Combined_Integration.Rmd/plot-CCs-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>We can also look at the genes associated with each of the first nine CCs.</p>
+<pre class="r"><code>DimHeatmap(object = combined, reduction.type = &quot;cca&quot;, cells.use = 500, 
+           dim.use = 1:9, do.balanced = TRUE)</code></pre>
+<p><img src="figure/06_Combined_Integration.Rmd/CC-heatmaps-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>n.dims &lt;- 20</code></pre>
+<p>Based on these plots we will to use the first 20 CCs.</p>
+</div>
+<div id="align-cca-subspaces" class="section level1">
+<h1>Align CCA subspaces</h1>
+<p>Now we can align the CCA subspaces for the two datasets. This makes the dimensions more comparable in a way we can use for clustering.</p>
+<pre class="r"><code>combined &lt;- AlignSubspace(combined, reduction.type = &quot;cca&quot;,
+                          grouping.var = &quot;Dataset&quot;, dims.align = 1:n.dims,
+                          verbose = FALSE)
+
+p1 &lt;- VlnPlot(object = combined, features.plot = &quot;ACC1&quot;, group.by = &quot;Dataset&quot;, 
+              do.return = TRUE)
+p2 &lt;- VlnPlot(object = combined, features.plot = &quot;ACC2&quot;, group.by = &quot;Dataset&quot;, 
+              do.return = TRUE)
+plot_grid(p1, p2)</code></pre>
+<p><img src="figure/06_Combined_Integration.Rmd/align-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>combined &lt;- RunTSNE(combined, reduction.use = &quot;cca.aligned&quot;, dims.use = 1:20)
+combined@meta.data$DatasetSample&lt;- paste(combined@meta.data$Dataset,
+                                         combined@meta.data$Sample,
+                                         sep = &quot;_&quot;)
+TSNEPlot(combined, pt.size = 0.5, group.by = &quot;DatasetSample&quot;)</code></pre>
+<p><img src="figure/06_Combined_Integration.Rmd/align-tSNE-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>This looks to have worked well, there is no obvious separation between the two datasets.</p>
+<p>This combined dataset of 18812 genes and 11115 cells is the starting point for our clustering analysis.</p>
+<pre class="r"><code>write_rds(combined, here(&quot;data/processed/Combined_Seurat.Rds&quot;))</code></pre>
+</div>
+<div id="metadata" class="section level1">
+<h1>Metadata</h1>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>devtools::session_info()</code></pre>
+<pre><code> setting  value                       
+ version  R version 3.5.0 (2018-04-23)
+ system   x86_64, linux-gnu           
+ ui       X11                         
+ language (EN)                        
+ collate  en_US.UTF-8                 
+ tz       Australia/Melbourne         
+ date     2018-08-08                  
+
+ package              * version    date      
+ abind                  1.4-5      2016-07-21
+ acepack                1.4.1      2016-10-29
+ ape                    5.1        2018-04-04
+ assertthat             0.2.0      2017-04-11
+ backports              1.1.2      2017-12-13
+ base                 * 3.5.0      2018-06-18
+ base64enc              0.1-3      2015-07-28
+ bibtex                 0.4.2      2017-06-30
+ bindr                  0.1.1      2018-03-13
+ bindrcpp             * 0.2.2      2018-03-29
+ Biobase              * 2.40.0     2018-07-30
+ BiocGenerics         * 0.26.0     2018-07-30
+ BiocParallel         * 1.14.2     2018-07-08
+ bitops                 1.0-6      2013-08-17
+ broom                  0.5.0      2018-07-17
+ caret                  6.0-80     2018-05-26
+ caTools                1.17.1.1   2018-07-20
+ cellranger             1.1.0      2016-07-27
+ checkmate              1.8.5      2017-10-24
+ class                  7.3-14     2015-08-30
+ cli                    1.0.0      2017-11-05
+ cluster                2.0.7-1    2018-04-13
+ codetools              0.2-15     2016-10-05
+ colorspace             1.3-2      2016-12-14
+ compiler               3.5.0      2018-06-18
+ cowplot              * 0.9.3      2018-07-15
+ crayon                 1.3.4      2017-09-16
+ CVST                   0.2-2      2018-05-26
+ data.table             1.11.4     2018-05-27
+ datasets             * 3.5.0      2018-06-18
+ ddalpha                1.3.4      2018-06-23
+ DelayedArray         * 0.6.2      2018-07-23
+ DEoptimR               1.0-8      2016-11-19
+ devtools               1.13.6     2018-06-27
+ diffusionMap           1.1-0.1    2018-07-21
+ digest                 0.6.15     2018-01-28
+ dimRed                 0.1.0      2017-05-04
+ diptest                0.75-7     2016-12-05
+ doSNOW                 1.0.16     2017-12-13
+ dplyr                * 0.7.6      2018-06-29
+ DRR                    0.0.3      2018-01-06
+ dtw                    1.20-1     2018-05-18
+ evaluate               0.10.1     2017-06-24
+ fitdistrplus           1.0-9      2017-03-24
+ flexmix                2.3-14     2017-04-28
+ FNN                    1.1        2013-07-31
+ forcats              * 0.3.0      2018-02-19
+ foreach                1.4.4      2017-12-12
+ foreign                0.8-70     2017-11-28
+ Formula                1.2-3      2018-05-03
+ fpc                    2.1-11.1   2018-07-20
+ gbRd                   0.4-11     2012-10-01
+ gdata                  2.18.0     2017-06-06
+ GenomeInfoDb         * 1.16.0     2018-07-30
+ GenomeInfoDbData       1.1.0      2018-07-30
+ GenomicRanges        * 1.32.6     2018-07-20
+ geometry               0.3-6      2015-09-09
+ ggplot2              * 3.0.0      2018-07-03
+ ggridges               0.5.0      2018-04-05
+ git2r                  0.21.0     2018-01-04
+ glue                   1.3.0      2018-07-17
+ gower                  0.1.2      2017-02-23
+ gplots                 3.0.1      2016-03-30
+ graphics             * 3.5.0      2018-06-18
+ grDevices            * 3.5.0      2018-06-18
+ grid                   3.5.0      2018-06-18
+ gridExtra              2.3        2017-09-09
+ gtable                 0.2.0      2016-02-26
+ gtools                 3.8.1      2018-06-26
+ haven                  1.1.2      2018-06-27
+ here                 * 0.1        2017-05-28
+ Hmisc                  4.1-1      2018-01-03
+ hms                    0.4.2      2018-03-10
+ htmlTable              1.12       2018-05-26
+ htmltools              0.3.6      2017-04-28
+ htmlwidgets            1.2        2018-04-19
+ httr                   1.3.1      2017-08-20
+ ica                    1.0-2      2018-05-24
+ igraph                 1.2.2      2018-07-27
+ ipred                  0.9-6      2017-03-01
+ IRanges              * 2.14.10    2018-07-30
+ irlba                  2.3.2      2018-01-11
+ iterators              1.0.10     2018-07-13
+ jsonlite               1.5        2017-06-01
+ kernlab                0.9-26     2018-04-30
+ KernSmooth             2.23-15    2015-06-29
+ knitr                  1.20       2018-02-20
+ labeling               0.3        2014-08-23
+ lars                   1.2        2013-04-24
+ lattice                0.20-35    2017-03-25
+ latticeExtra           0.6-28     2016-02-09
+ lava                   1.6.2      2018-07-02
+ lazyeval               0.2.1      2017-10-29
+ lmtest                 0.9-36     2018-04-04
+ lubridate              1.7.4      2018-04-11
+ magic                  1.5-8      2018-01-26
+ magrittr               1.5        2014-11-22
+ MASS                   7.3-50     2018-04-30
+ Matrix               * 1.2-14     2018-04-09
+ matrixStats          * 0.54.0     2018-07-23
+ mclust                 5.4.1      2018-06-27
+ memoise                1.1.0      2017-04-21
+ metap                  1.0        2018-07-25
+ methods              * 3.5.0      2018-06-18
+ mixtools               1.1.0      2017-03-10
+ ModelMetrics           1.1.0      2016-08-26
+ modelr                 0.1.2      2018-05-11
+ modeltools             0.2-22     2018-07-16
+ munsell                0.5.0      2018-06-12
+ mvtnorm                1.0-8      2018-05-31
+ nlme                   3.1-137    2018-04-07
+ nnet                   7.3-12     2016-02-02
+ parallel             * 3.5.0      2018-06-18
+ pbapply                1.3-4      2018-01-10
+ pillar                 1.3.0      2018-07-14
+ pkgconfig              2.0.1      2017-03-21
+ pls                    2.6-0      2016-12-18
+ plyr                   1.8.4      2016-06-08
+ png                    0.1-7      2013-12-03
+ prabclus               2.2-6      2015-01-14
+ prodlim                2018.04.18 2018-04-18
+ proxy                  0.4-22     2018-04-08
+ purrr                * 0.2.5      2018-05-29
+ R.methodsS3            1.7.1      2016-02-16
+ R.oo                   1.22.0     2018-04-22
+ R.utils                2.6.0      2017-11-05
+ R6                     2.2.2      2017-06-17
+ ranger                 0.10.1     2018-06-04
+ RANN                   2.6        2018-07-16
+ RColorBrewer           1.1-2      2014-12-07
+ Rcpp                   0.12.18    2018-07-23
+ RcppRoll               0.3.0      2018-06-05
+ RCurl                  1.95-4.11  2018-07-15
+ Rdpack                 0.8-0      2018-05-24
+ readr                * 1.1.1      2017-05-16
+ readxl                 1.1.0      2018-04-20
+ recipes                0.1.3      2018-06-16
+ reshape2               1.4.3      2017-12-11
+ reticulate             1.9        2018-07-06
+ rlang                  0.2.1      2018-05-30
+ rmarkdown              1.10.2     2018-07-30
+ robustbase             0.93-2     2018-07-27
+ ROCR                   1.0-7      2015-03-26
+ rpart                  4.1-13     2018-02-23
+ rprojroot              1.3-2      2018-01-03
+ rstudioapi             0.7        2017-09-07
+ Rtsne                  0.13       2017-04-14
+ rvest                  0.3.2      2016-06-17
+ S4Vectors            * 0.18.3     2018-07-30
+ scales                 0.5.0      2017-08-24
+ scatterplot3d          0.3-41     2018-03-14
+ SDMTools               1.1-221    2014-08-05
+ segmented              0.5-3.0    2017-11-30
+ Seurat               * 2.3.1      2018-05-05
+ sfsmisc                1.1-2      2018-03-05
+ SingleCellExperiment * 1.2.0      2018-07-30
+ snow                   0.4-2      2016-10-14
+ splines                3.5.0      2018-06-18
+ stats                * 3.5.0      2018-06-18
+ stats4               * 3.5.0      2018-06-18
+ stringi                1.2.4      2018-07-20
+ stringr              * 1.3.1      2018-05-10
+ SummarizedExperiment * 1.10.1     2018-07-30
+ survival               2.42-3     2018-04-16
+ tclust                 1.4-1      2018-05-24
+ tibble               * 1.4.2      2018-01-22
+ tidyr                * 0.8.1      2018-05-18
+ tidyselect             0.2.4      2018-02-26
+ tidyverse            * 1.2.1      2017-11-14
+ timeDate               3043.102   2018-02-21
+ tools                  3.5.0      2018-06-18
+ trimcluster            0.1-2.1    2018-07-20
+ tsne                   0.1-3      2016-07-15
+ utils                * 3.5.0      2018-06-18
+ VGAM                   1.0-5      2018-02-07
+ whisker                0.3-2      2013-04-28
+ withr                  2.1.2      2018-03-15
+ workflowr              1.1.1      2018-07-06
+ xml2                   1.2.0      2018-01-24
+ XVector                0.20.0     2018-07-30
+ yaml                   2.2.0      2018-07-25
+ zlibbioc               1.26.0     2018-07-30
+ zoo                    1.8-3      2018-07-16
+ source                            
+ cran (@1.4-5)                     
+ cran (@1.4.1)                     
+ cran (@5.1)                       
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ local                             
+ CRAN (R 3.5.0)                    
+ cran (@0.4.2)                     
+ cran (@0.1.1)                     
+ cran (@0.2.2)                     
+ Bioconductor                      
+ Bioconductor                      
+ Bioconductor                      
+ cran (@1.0-6)                     
+ cran (@0.5.0)                     
+ cran (@6.0-80)                    
+ cran (@1.17.1.)                   
+ CRAN (R 3.5.0)                    
+ cran (@1.8.5)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@1.3-2)                     
+ local                             
+ cran (@0.9.3)                     
+ CRAN (R 3.5.0)                    
+ cran (@0.2-2)                     
+ cran (@1.11.4)                    
+ local                             
+ cran (@1.3.4)                     
+ Bioconductor                      
+ cran (@1.0-8)                     
+ CRAN (R 3.5.0)                    
+ cran (@1.1-0.1)                   
+ CRAN (R 3.5.0)                    
+ cran (@0.1.0)                     
+ cran (@0.75-7)                    
+ cran (@1.0.16)                    
+ cran (@0.7.6)                     
+ cran (@0.0.3)                     
+ cran (@1.20-1)                    
+ CRAN (R 3.5.0)                    
+ cran (@1.0-9)                     
+ cran (@2.3-14)                    
+ cran (@1.1)                       
+ CRAN (R 3.5.0)                    
+ cran (@1.4.4)                     
+ CRAN (R 3.5.0)                    
+ cran (@1.2-3)                     
+ cran (@2.1-11.)                   
+ cran (@0.4-11)                    
+ cran (@2.18.0)                    
+ Bioconductor                      
+ Bioconductor                      
+ Bioconductor                      
+ cran (@0.3-6)                     
+ cran (@3.0.0)                     
+ cran (@0.5.0)                     
+ CRAN (R 3.5.0)                    
+ cran (@1.3.0)                     
+ cran (@0.1.2)                     
+ cran (@3.0.1)                     
+ local                             
+ local                             
+ local                             
+ cran (@2.3)                       
+ cran (@0.2.0)                     
+ cran (@3.8.1)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@4.1-1)                     
+ CRAN (R 3.5.0)                    
+ cran (@1.12)                      
+ CRAN (R 3.5.0)                    
+ cran (@1.2)                       
+ CRAN (R 3.5.0)                    
+ cran (@1.0-2)                     
+ cran (@1.2.2)                     
+ cran (@0.9-6)                     
+ Bioconductor                      
+ cran (@2.3.2)                     
+ cran (@1.0.10)                    
+ CRAN (R 3.5.0)                    
+ cran (@0.9-26)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@0.3)                       
+ cran (@1.2)                       
+ CRAN (R 3.5.0)                    
+ cran (@0.6-28)                    
+ cran (@1.6.2)                     
+ cran (@0.2.1)                     
+ cran (@0.9-36)                    
+ cran (@1.7.4)                     
+ cran (@1.5-8)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@5.4.1)                     
+ CRAN (R 3.5.0)                    
+ cran (@1.0)                       
+ local                             
+ cran (@1.1.0)                     
+ cran (@1.1.0)                     
+ CRAN (R 3.5.0)                    
+ cran (@0.2-22)                    
+ cran (@0.5.0)                     
+ cran (@1.0-8)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ local                             
+ cran (@1.3-4)                     
+ cran (@1.3.0)                     
+ cran (@2.0.1)                     
+ cran (@2.6-0)                     
+ cran (@1.8.4)                     
+ cran (@0.1-7)                     
+ cran (@2.2-6)                     
+ cran (@2018.04)                   
+ cran (@0.4-22)                    
+ cran (@0.2.5)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@0.10.1)                    
+ cran (@2.6)                       
+ cran (@1.1-2)                     
+ cran (@0.12.18)                   
+ cran (@0.3.0)                     
+ CRAN (R 3.5.0)                    
+ cran (@0.8-0)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@0.1.3)                     
+ cran (@1.4.3)                     
+ cran (@1.9)                       
+ CRAN (R 3.5.0)                    
+ Github (rstudio/rmarkdown@18207b9)
+ cran (@0.93-2)                    
+ cran (@1.0-7)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ cran (@0.13)                      
+ CRAN (R 3.5.0)                    
+ Bioconductor                      
+ cran (@0.5.0)                     
+ cran (@0.3-41)                    
+ cran (@1.1-221)                   
+ cran (@0.5-3.0)                   
+ url                               
+ cran (@1.1-2)                     
+ Bioconductor                      
+ cran (@0.4-2)                     
+ local                             
+ local                             
+ local                             
+ cran (@1.2.4)                     
+ CRAN (R 3.5.0)                    
+ Bioconductor                      
+ CRAN (R 3.5.0)                    
+ cran (@1.4-1)                     
+ cran (@1.4.2)                     
+ cran (@0.8.1)                     
+ cran (@0.2.4)                     
+ CRAN (R 3.5.0)                    
+ cran (@3043.10)                   
+ local                             
+ cran (@0.1-2.1)                   
+ cran (@0.1-3)                     
+ local                             
+ cran (@1.0-5)                     
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ CRAN (R 3.5.0)                    
+ Bioconductor                      
+ cran (@2.2.0)                     
+ Bioconductor                      
+ cran (@1.8-3)                     </code></pre>
+</div>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
