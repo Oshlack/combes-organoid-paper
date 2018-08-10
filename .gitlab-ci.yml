@@ -7,6 +7,7 @@ pages:
         -   convert $fname -strip -resize 1200x1200 -density 72x72 -units pixelsperinch $fname;
         - done
         - echo 'Done!'
+        - rm -rf public/figure
     artifacts:
         paths:
             - public
