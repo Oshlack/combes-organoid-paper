@@ -15,3 +15,4 @@ output:
     * [Combined](06_Combined_Integration.html)
 * Clustering
     * [Organoids](04_Organoids_Clustering.html)
+    * [Combined](07_Combined_Clustering.html)
