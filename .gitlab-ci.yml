@@ -2,9 +2,9 @@ pages:
     stage: deploy
     script:
         - echo 'Converting image files...'
-        - find public/figure/ "*.png" | while read fname; do
-        -   echo '$fname';
-        -   convert $fname -strip -resize 1200x1200 -density 72x72 -units pixelsperinch $fname;
+        - find ./public/figure/ "*.png" | while read fname; do
+        -   echo "$fname";
+        -   echo "convert $fname -strip -resize 1200x1200 -density 72x72 -units pixelsperinch $fname;"
         - done
         - echo 'Done!'
     artifacts:
