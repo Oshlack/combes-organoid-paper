@@ -1,0 +1,207 @@
+PKLR	Pyruvate kinase PKLR
+BAG4	BAG family molecular chaperone regulator 4
+TRPV2	Transient receptor potential cation channel subfamily V member 2
+MTOR	Serine/threonine-protein kinase mTOR
+SIRT1	NAD-dependent protein deacetylase sirtuin-1
+IGFBP7	Insulin-like growth factor-binding protein 7
+MAPKAPK2	MAP kinase-activated protein kinase 2
+BAG2	BAG family molecular chaperone regulator 2
+PDCD6	Programmed cell death protein 6
+PIRT	Phosphoinositide-interacting protein
+TPR	Nucleoprotein TPR
+TPR	Nucleoprotein TPR
+HSPA1A	Heat shock 70 kDa protein 1A
+HSPA1A	Heat shock 70 kDa protein 1A
+HSPA1A	Heat shock 70 kDa protein 1A
+HSPA1A	Heat shock 70 kDa protein 1A
+HSPA1A	Heat shock 70 kDa protein 1A
+CPB2	Carboxypeptidase B2
+HSFX4	Heat shock transcription factor, X-linked member 4
+HSFX4	Heat shock transcription factor, X-linked member 4
+NOS1	Nitric oxide synthase, brain
+SCARA5	Scavenger receptor class A member 5
+HSFX3	Heat shock transcription factor, X-linked member 3
+HSFX3	Heat shock transcription factor, X-linked member 3
+EIF2B3	Translation initiation factor eIF-2B subunit gamma
+EIF2B3	Translation initiation factor eIF-2B subunit gamma
+HSFY1	Heat shock transcription factor, Y-linked
+HSFY1	Heat shock transcription factor, Y-linked
+TCIM	Transcriptional and immune response regulator
+GSK3B	Glycogen synthase kinase-3 beta
+CRYAB	Alpha-crystallin B chain
+SOD1	Superoxide dismutase [Cu-Zn]
+EIF2B4	Translation initiation factor eIF-2B subunit delta
+EIF2B4	Translation initiation factor eIF-2B subunit delta
+PSIP1	PC4 and SFRS1-interacting protein
+DNAJA3	DnaJ homolog subfamily A member 3, mitochondrial
+MAPT	Microtubule-associated protein tau
+MAPT	Microtubule-associated protein tau
+CHORDC1	Cysteine and histidine-rich domain-containing protein 1
+ASIC3	Acid-sensing ion channel 3
+HSPB8	Heat shock protein beta-8
+RBBP7	Histone-binding protein RBBP7
+TP53INP1	Tumor protein p53-inducible nuclear protein 1
+MAPK3	Mitogen-activated protein kinase 3
+MT-CYB	Cytochrome b
+RPA2	Replication protein A 32 kDa subunit
+DAXX	Death domain-associated protein 6
+DNAJB6	DnaJ homolog subfamily B member 6
+HSPA6	Heat shock 70 kDa protein 6
+HSPA6	Heat shock 70 kDa protein 6
+HSPA6	Heat shock 70 kDa protein 6
+HSPA6	Heat shock 70 kDa protein 6
+TRPV3	Transient receptor potential cation channel subfamily V member 3
+TGFB1I1	Transforming growth factor beta-1-induced transcript 1 protein
+AKT1S1	Proline-rich AKT1 substrate 1
+BAG3	BAG family molecular chaperone regulator 3
+BAG3	BAG family molecular chaperone regulator 3
+LRP11	Low-density lipoprotein receptor-related protein 11
+SUMO1	Small ubiquitin-related modifier 1
+CETN1	Centrin-1
+ABCC2	Canalicular multispecific organic anion transporter 1
+HSPH1	Heat shock protein 105 kDa
+ST8SIA1	Alpha-N-acetylneuraminide alpha-2,8-sialyltransferase
+DNAJA4	DnaJ homolog subfamily A member 4
+HSPA5	Endoplasmic reticulum chaperone BiP
+HIKESHI	Protein Hikeshi
+HIKESHI	Protein Hikeshi
+CASQ1	Calsequestrin-1
+HSPA1L	Heat shock 70 kDa protein 1-like
+HSPA1L	Heat shock 70 kDa protein 1-like
+SST	Somatostatin
+ATM	Serine-protein kinase ATM
+EIF2B5	Translation initiation factor eIF-2B subunit epsilon
+EIF2B5	Translation initiation factor eIF-2B subunit epsilon
+EIF2B5	Translation initiation factor eIF-2B subunit epsilon
+CXCL10	C-X-C motif chemokine 10
+HSBP1L1	Heat shock factor-binding protein 1-like protein 1
+CD34	Hematopoietic progenitor cell antigen CD34
+TRPV4	Transient receptor potential cation channel subfamily V member 4
+THBS1	Thrombospondin-1
+LYN	Tyrosine-protein kinase Lyn
+HSP90AA1	Heat shock protein HSP 90-alpha
+HSP90AA1	Heat shock protein HSP 90-alpha
+TFEC	Transcription factor EC
+HMOX1	Heme oxygenase 1
+MLST8	Target of rapamycin complex subunit LST8
+IER5	Immediate early response gene 5 protein
+IER5	Immediate early response gene 5 protein
+ATXN3	Ataxin-3
+HTRA2	Serine protease HTRA2, mitochondrial
+PRKACA	cAMP-dependent protein kinase catalytic subunit alpha
+STUB1	E3 ubiquitin-protein ligase CHIP
+EIF2B2	Translation initiation factor eIF-2B subunit beta
+EIF2B2	Translation initiation factor eIF-2B subunit beta
+DNAJC7	DnaJ homolog subfamily C member 7
+AKT1	RAC-alpha serine/threonine-protein kinase
+CDKN1A	Cyclin-dependent kinase inhibitor 1
+IRAK1	Interleukin-1 receptor-associated kinase 1
+PTGES3	Prostaglandin E synthase 3
+ANO1	Anoctamin-1
+DNAJA1	DnaJ homolog subfamily A member 1
+BAG1	BAG family molecular chaperone regulator 1
+HSPA8	Heat shock cognate 71 kDa protein
+HSPA8	Heat shock cognate 71 kDa protein
+HSPA8	Heat shock cognate 71 kDa protein
+HSPA1B	Heat shock 70 kDa protein 1B
+HSPA1B	Heat shock 70 kDa protein 1B
+HSPA1B	Heat shock 70 kDa protein 1B
+HSPA1B	Heat shock 70 kDa protein 1B
+HSPA1B	Heat shock 70 kDa protein 1B
+HSPA14	Heat shock 70 kDa protein 14
+FGF1	Fibroblast growth factor 1
+NOS3	Nitric oxide synthase, endothelial
+HSF4	Heat shock factor protein 4
+HSF4	Heat shock factor protein 4
+HSPA2	Heat shock-related 70 kDa protein 2
+HSPA2	Heat shock-related 70 kDa protein 2
+HSPA2	Heat shock-related 70 kDa protein 2
+HSPA2	Heat shock-related 70 kDa protein 2
+HSPA2	Heat shock-related 70 kDa protein 2
+YWHAE	14-3-3 protein epsilon
+YWHAE	14-3-3 protein epsilon
+DNAJB1	DnaJ homolog subfamily B member 1
+DNAJB1	DnaJ homolog subfamily B member 1
+RPA3	Replication protein A 14 kDa subunit
+HSBP1	Heat shock factor-binding protein 1
+HSBP1	Heat shock factor-binding protein 1
+P2RX3	P2X purinoceptor 3
+CLPB	Caseinolytic peptidase B protein homolog
+RPA1	Replication protein A 70 kDa DNA-binding subunit
+PEBP1	Phosphatidylethanolamine-binding protein 1
+HSF2	Heat shock factor protein 2
+HSF2	Heat shock factor protein 2
+CXCL12	Stromal cell-derived factor 1
+POLR2D	DNA-directed RNA polymerase II subunit RPB4
+HSPA9	Stress-70 protein, mitochondrial
+CREBBP	CREB-binding protein
+TRPV1	Transient receptor potential cation channel subfamily V member 1
+DNAJB4	DnaJ homolog subfamily B member 4
+SLU7	Pre-mRNA-splicing factor SLU7
+CRNN	Cornulin
+HSFX1	Heat shock transcription factor, X-linked
+HSFX1	Heat shock transcription factor, X-linked
+BAG5	BAG family molecular chaperone regulator 5
+EIF2S1	Eukaryotic translation initiation factor 2 subunit 1
+EIF2B1	Translation initiation factor eIF-2B subunit alpha
+EIF2B1	Translation initiation factor eIF-2B subunit alpha
+IGF1	Insulin-like growth factor I
+RPS6KB1	Ribosomal protein S6 kinase beta-1
+ATR	Serine/threonine-protein kinase ATR
+ARPP21	cAMP-regulated phosphoprotein 21
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+HSF1	Heat shock factor protein 1
+DNAJC2	DnaJ homolog subfamily C member 2
+NF1	Neurofibromin
+GCLC	Glutamate--cysteine ligase catalytic subunit
+HSPA7	Putative heat shock 70 kDa protein 7
+HSPA13	Heat shock 70 kDa protein 13
+MAPK1	Mitogen-activated protein kinase 1
+CALCA	Calcitonin
+CCAR2	Cell cycle and apoptosis regulator protein 2
+RPTOR	Regulatory-associated protein of mTOR
+HDAC2	Histone deacetylase 2
+STAC	SH3 and cysteine-rich domain-containing protein
+IL1B	Interleukin-1 beta
+IL1A	Interleukin-1 alpha
+HSP90AB1	Heat shock protein HSP 90-beta
+FKBP4	Peptidyl-prolyl cis-trans isomerase FKBP4
+MICA	MHC class I polypeptide-related sequence A
+MICB	MHC class I polypeptide-related sequence B
+DNAJA2	DnaJ homolog subfamily A member 2
+EP300	Histone acetyltransferase p300
+TACR1	Substance-P receptor
+MSTN	Growth/differentiation factor 8
+PTGS2	Prostaglandin G/H synthase 2
+MAP2K7	Dual specificity mitogen-activated protein kinase kinase 7
+HSF5	Heat shock factor protein 5
+HSF5	Heat shock factor protein 5
+CD14	Monocyte differentiation antigen CD14
+MYOF	Myoferlin
