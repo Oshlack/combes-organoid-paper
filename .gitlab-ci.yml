@@ -10,7 +10,6 @@ pages:
         #- rm -rf public/figure
         - mv public pub
         - mkdir public
-        - cp pub/index.html public/index.html
     artifacts:
         paths:
             - public
