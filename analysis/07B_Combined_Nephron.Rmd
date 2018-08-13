@@ -1,0 +1,704 @@
+---
+title: "Combined Nephron"
+output:
+    workflowr::wflow_html:
+        code_folding: hide
+        df_print: paged
+---
+
+```{r knitr, include = FALSE}
+DOCNAME = "07B_Combined_Nephron"
+knitr::opts_chunk$set(autodep        = TRUE,
+                      cache          = TRUE,
+                      cache.path     = paste0("cache/", DOCNAME, "/"),
+                      cache.comments = FALSE,
+                      echo           = TRUE,
+                      error          = FALSE,
+                      fig.align      = "center",
+                      fig.width      = 10,
+                      fig.height     = 8,
+                      message        = FALSE,
+                      warning        = FALSE)
+```
+
+```{r libaries, cache = FALSE}
+# scRNA-seq
+library("Seurat")
+
+# Plotting
+library("clustree")
+library("viridis")
+
+# Presentation
+library("glue")
+library("knitr")
+
+# Parallel
+library("BiocParallel")
+
+# Paths
+library("here")
+
+# Output
+library("writexl")
+library("jsonlite")
+
+# Tidyverse
+library("tidyverse")
+```
+
+```{r source, cache = FALSE}
+source(here("R/output.R"))
+```
+
+```{r paths}
+combined.path <- here("data/processed/Combined_clustered.Rds")
+```
+
+```{r bpparam, cache = FALSE}
+bpparam <- MulticoreParam(workers = 10)
+```
+
+Introduction
+============
+
+In this document we are going to recluster the nephron clusters identified in
+the combined analysis.
+
+```{r load, cache.extra = tools::md5sum(combined.path), cache.lazy = FALSE}
+if (file.exists(combined.path)) {
+    combined <- read_rds(combined.path)
+} else {
+    stop("Clustered Combined dataset is missing. ",
+         "Please run '07_Combined_Clustering.Rmd' first.",
+         call. = FALSE)
+}
+```
+
+Subsetting
+==========
+
+```{r subset}
+clusters <- c(6, 7, 10, 15)
+comb.neph <- SubsetData(combined, ident.use = clusters)
+comb.neph <- RunTSNE(comb.neph, reduction.use = "cca.aligned", dims.use = 1:20)
+```
+
+We are going to select only the cells in clusters
+`r glue_collapse(clusters, sep = ", ", last = " and ")`. This leaves us with
+`r length(comb.neph@cell.names)` cells.
+
+Clustering
+==========
+
+Selecting resolution
+--------------------
+
+```{r cluster}
+# Clear old clustering
+not.res <- !grepl("res\\.", colnames(comb.neph@meta.data))
+comb.neph@meta.data <- comb.neph@meta.data[, not.res]
+
+n.dims <- 20
+resolutions <- seq(0, 1, 0.1)
+comb.neph <- FindClusters(comb.neph, reduction.type = "cca.aligned",
+                          dims.use = 1:n.dims, resolution = resolutions,
+                          force.recalc = TRUE)
+```
+
+`Seurat` has a resolution parameter that indirectly controls the number of
+clusters it produces. We tried clustering at a range of resolutions from
+`r min(resolutions)` to `r max(resolutions)`.
+
+### t-SNE plots {.tabset}
+
+Here are t-SNE plots of the different clusterings.
+
+```{r cluster-tSNE, results = "hide"}
+src_list <- lapply(resolutions, function(res) {
+    src <- c("#### Res {{res}} {.unnumbered}",
+             "```{r cluster-tSNE-{{res}}}",
+             "TSNEPlot(comb.neph, group.by = 'res.{{res}}', do.return = TRUE)",  
+             "```",
+             "")
+    knit_expand(text = src)
+})
+
+out <- knit_child(text = unlist(src_list), options = list(cache = FALSE))
+```
+
+`r out`
+
+### Clustering tree
+
+#### Standard
+
+Coloured by clustering resolution.
+
+```{r clustree}
+clustree(comb.neph)
+```
+
+#### Stability
+
+Coloured by the SC3 stability metric.
+
+```{r clustree-stability}
+clustree(comb.neph, node_colour = "sc3_stability")
+```
+
+#### Gene expression {.tabset}
+
+Coloured by the expression of some well-known kidney marker genes.
+
+```{r select-clustree-genes}
+genes <- c("PECAM1", "CDH5", "MEIS1", "PDGFRA", "HMGB2", "CENPA", "SIX1",
+           "DAPL1", "NPHS1", "PODXL", "S100A8", "TYROBP", "MAL", "EMX2",
+           "LRP2", "GATA3", "SLC12A1", "SPINT2", "TUBB2B", "STMN2", "TTHY1",
+           "HBA1", "HBG1")
+
+is_present <- genes %in% rownames(comb.neph@data)
+```
+
+> The following genes aren't present in this dataset and will be skipped:
+> `r genes[!is_present]`
+
+```{r clustree-genes, results = "hide"}
+src_list <- lapply(genes[is_present], function(gene) {
+    src <- c("##### {{gene}} {.unnumbered}",
+             "```{r clustree-{{gene}}}",
+             "clustree(comb.neph, node_colour = '{{gene}}',",
+                      "node_colour_aggr = 'mean',",
+             "exprs = 'scale.data') +",
+             "scale_colour_viridis_c(option = 'plasma', begin = 0.3)",
+             "```",
+             "")
+    knit_expand(text = src)
+})
+
+out <- knit_child(text = unlist(src_list), options = list(cache = FALSE))
+```
+
+`r out`
+
+### Selected resolution
+
+```{r res}
+res <- 0.6
+comb.neph <- SetIdent(comb.neph,
+                      ident.use = comb.neph@meta.data[, paste0("res.", res)])
+n.clusts <- length(unique(comb.neph@ident))
+```
+
+Based on these plots we will use a resolution of `r res`.
+
+Clusters
+--------
+
+Let's have a look at the clusters on a t-SNE plot.
+
+```{r tSNE, fig.height = 6}
+p1 <- TSNEPlot(comb.neph, do.return = TRUE, pt.size = 0.5,
+               group.by = "DatasetSample")
+p2 <- TSNEPlot(comb.neph, do.label = TRUE, do.return = TRUE, pt.size = 0.5)
+plot_grid(p1, p2)
+```
+
+We can also look at the number of cells in each cluster.
+
+```{r cluster-sizes}
+plot.data <- comb.neph@meta.data %>%
+    select(Dataset, cluster = paste0("res.", res)) %>%
+    mutate(cluster = factor(as.numeric(cluster))) %>%
+    group_by(cluster, Dataset) %>%
+    summarise(count = n()) %>%
+    mutate(clust_total = sum(count)) %>%
+    mutate(clust_prop = count / clust_total) %>%
+    group_by(Dataset) %>%
+    mutate(dataset_total = sum(count)) %>%
+    ungroup() %>%
+    mutate(dataset_prop = count / dataset_total)
+
+ggplot(plot.data, aes(x = cluster, y = count, fill = Dataset)) +
+    geom_col()
+```
+
+We are also interested in what proportions of the cells in each cluster come
+from each datasets (i.e. are there dataset specific clusters?).
+
+```{r cluster-props}
+ggplot(plot.data, aes(x = cluster, y = clust_prop, fill = Dataset)) +
+    geom_col()
+```
+
+Alternatively we can look at what proportion of the cells in each **dataset**
+are in each cluster. If each dataset has the same distribution of cell types the
+heights of the bars should be the same.
+
+```{r dataset-props}
+ggplot(plot.data, aes(x = cluster, y = dataset_prop, fill = Dataset)) +
+    geom_col(position = position_dodge(0.9))
+```
+
+Marker genes
+============
+
+Clustering is not very useful if we don't know what cell types the clusters
+represent. One way to work that out is to look at marker genes, genes that are
+differentially expressed in one cluster compared to all other cells. Here we
+use the Wilcoxon rank sum test genes that are present in at least 10 percent
+of cells in at least one group (a cluster or all other cells).
+
+```{r markers}
+markers <- bplapply(seq_len(n.clusts) - 1, function(cl) {
+    cl.markers <- FindMarkers(comb.neph, cl, logfc.threshold = 0, min.pct = 0.1,
+                              print.bar = FALSE)
+    cl.markers$cluster <- cl
+    cl.markers$gene <- rownames(cl.markers)
+    return(cl.markers)
+}, BPPARAM = bpparam)
+
+markers <- bind_rows(markers) %>%
+    select(gene, cluster, everything())
+```
+
+Here we print out the top two markers for each cluster.
+
+```{r print-markers}
+markers %>% group_by(cluster) %>% top_n(2, abs(avg_logFC)) %>% data.frame
+```
+
+A heatmap can give us a better view. We show the top five positive marker genes
+for each cluster.
+
+```{r markers-heatmap, fig.height = 10}
+top <- markers %>% group_by(cluster) %>% top_n(5, avg_logFC)
+
+cols <- viridis(100)[c(1, 50, 100)]
+
+DoHeatmap(comb.neph, genes.use = top$gene, slim.col.label = TRUE,
+          remove.key = TRUE, col.low = cols[1], col.mid = cols[2],
+          col.high = cols[3])
+```
+
+By cluster {.tabset}
+----------
+
+```{r markers-cluster}
+markers.list <- lapply(0:(n.clusts - 1), function(x) {
+    markers %>%
+        filter(cluster == x, p_val < 0.05) %>%
+        dplyr::arrange(-avg_logFC) %>%
+        select(Gene = gene, LogFC = avg_logFC, pVal = p_val)
+})
+
+names(markers.list) <- paste("Cluster", 0:(n.clusts - 1))
+```
+
+```{r marker-cluster-counts}
+marker.summary <- markers.list %>%
+    map2_df(seq_along(markers.list), ~ mutate(.x, Cluster = .y)) %>%
+    mutate(IsUp = LogFC > 0) %>%
+    group_by(Cluster) %>%
+    summarise(Up = sum(IsUp), Down = sum(!IsUp)) %>%
+    mutate(Down = -Down) %>%
+    gather(key = "Direction", value = "Count", -Cluster)
+
+ggplot(marker.summary,
+       aes(x = fct_rev(factor(Cluster)), y = Count, fill = Direction)) +
+    geom_col() +
+    geom_text(aes(y = Count + sign(Count) * max(abs(Count)) * 0.07,
+                  label = abs(Count)),
+              size = 6, colour = "grey25") +
+    coord_flip() +
+    scale_fill_manual(values = c("#377eb8", "#e41a1c")) +
+    ggtitle("Number of identified genes") +
+    xlab("Cluster") +
+    theme(axis.title.x = element_blank(),
+          axis.line = element_blank(),
+          axis.ticks = element_blank(),
+          axis.text.x = element_blank(),
+          legend.position = "bottom")
+```
+
+We can also look at the full table of significant marker genes for each cluster.
+
+```{r marker-cluster-table, results = "hide"}
+src_list <- lapply(0:(n.clusts - 1), function(i) {
+    src <- c("### {{i}} {.unnumbered}",
+             "```{r marker-cluster-{{i}}}",
+             "markers.list[[{{i}} + 1]]",
+             "```",
+             "")
+    knit_expand(text = src)
+})
+
+out <- knit_child(text = unlist(src_list),
+                  options = list(echo = FALSE, cache = FALSE))
+```
+
+`r out`
+
+Conserved markers
+=================
+
+Here we are going to look for genes that are cluster markers in both the
+Organoid and Lindstrom datasets. Each dataset will be tested individually and the
+results combined to see if they are present in both datasets.
+
+```{r skip-clusters}
+skip <- comb.neph@meta.data %>%
+    count(Group, Cluster = !! rlang::sym(paste0("res.", res))) %>%
+    spread(Group, n) %>%
+    replace_na(list(Organoid = 0L, Lindstrom = 0L)) %>%
+    rowwise() %>%
+    mutate(Skip = min(Organoid, Lindstrom) < 3) %>%
+    arrange(as.numeric(Cluster)) %>%
+    pull(Skip)
+```
+
+> **Skipped clusters**
+>
+> Testing conserved markers isn't possible for clusters that only contain cells
+> from one dataset. In this case the following clusters are skipped:
+> r glue_collapse(seq(0, n.clusts - 1)[skip], sep = ", ", last = " and ")
+
+```{r con-markers-mc}
+con.markers <- bplapply(seq_len(n.clusts) - 1, function(cl) {
+
+    if (skip[cl + 1]) {
+        message("Skipping cluster ", cl)
+        cl.markers <- c()
+    } else {
+        cl.markers <- FindConservedMarkers(comb.neph, cl, grouping.var = "Group",
+                                           logfc.threshold = 0, min.pct = 0.1,
+                                           print.bar = FALSE)
+        cl.markers$cluster <- cl
+        cl.markers$gene <- rownames(cl.markers)
+    }
+
+    return(cl.markers)
+}, BPPARAM = bpparam)
+
+con.markers <- bind_rows(con.markers) %>%
+    mutate(mean_avg_logFC = rowMeans(select(., ends_with("avg_logFC")))) %>%
+    select(gene, cluster, mean_avg_logFC, max_pval, minimump_p_val,
+           everything())
+```
+
+Here we print out the top two conserved markers for each cluster.
+
+```{r print-con-markers}
+con.markers %>%
+    group_by(cluster) %>%
+    top_n(2, abs(mean_avg_logFC)) %>%
+    data.frame
+```
+
+Again a heatmap can give us a better view. We show the top five positive
+conserved marker genes for each cluster.
+
+```{r con-markers-heatmap, fig.height = 10}
+top <- con.markers %>% group_by(cluster) %>% top_n(5, mean_avg_logFC)
+
+cols <- viridis(100)[c(1, 50, 100)]
+
+DoHeatmap(comb.neph, genes.use = top$gene, slim.col.label = TRUE,
+          remove.key = TRUE, col.low = cols[1], col.mid = cols[2],
+          col.high = cols[3])
+```
+
+By cluster {.tabset}
+----------
+
+```{r con-markers-cluster}
+con.markers.list <- lapply(0:(n.clusts - 1), function(x) {
+    con.markers %>%
+        filter(cluster == x, max_pval < 0.05) %>%
+        dplyr::arrange(-mean_avg_logFC) %>%
+        select(Gene = gene,
+               MeanLogFC= mean_avg_logFC,
+               MaxPVal = max_pval,
+               MinPVal = minimump_p_val,
+               OrganoidLogFC = Organoid_avg_logFC,
+               OrganoidPVal = Organoid_p_val,
+               LindstromLogFC = Lindstrom_avg_logFC,
+               LindstromPVal = Lindstrom_p_val)
+})
+
+names(con.markers.list) <- paste("Cluster", 0:(n.clusts - 1))
+```
+
+```{r con-marker-cluster-counts}
+con.marker.summary <- con.markers.list %>%
+    map2_df(seq_along(con.markers.list), ~ mutate(.x, Cluster = .y)) %>%
+    mutate(IsUp = MeanLogFC > 0) %>%
+    group_by(Cluster) %>%
+    summarise(Up = sum(IsUp), Down = sum(!IsUp)) %>%
+    mutate(Down = -Down) %>%
+    gather(key = "Direction", value = "Count", -Cluster)
+
+ggplot(con.marker.summary,
+       aes(x = fct_rev(factor(Cluster)), y = Count, fill = Direction)) +
+    geom_col() +
+    geom_text(aes(y = Count + sign(Count) * max(abs(Count)) * 0.07,
+                  label = abs(Count)),
+              size = 6, colour = "grey25") +
+    coord_flip() +
+    scale_fill_manual(values = c("#377eb8", "#e41a1c")) +
+    ggtitle("Number of identified genes") +
+    xlab("Cluster") +
+    theme(axis.title.x = element_blank(),
+          axis.line = element_blank(),
+          axis.ticks = element_blank(),
+          axis.text.x = element_blank(),
+          legend.position = "bottom")
+```
+
+We can also look at the full table of significant conserved marker genes for
+each cluster.
+
+```{r con-marker-cluster-table, results = "hide"}
+src_list <- lapply(0:(length(con.markers.list)-1), function(i) {
+    src <- c("### {{i}} {.unnumbered}",
+             "```{r con-marker-cluster-{{i}}}",
+             "con.markers.list[[{{i}} + 1]]",
+             "```",
+             "")
+    knit_expand(text = src)
+})
+
+out <- knit_child(text = unlist(src_list),
+                 options = list(echo = FALSE, cache = FALSE))
+```
+
+`r out`
+
+Within cluster DE
+=================
+
+We can also look for genes that are differentially expressed between the two
+datasets in the same cluster. This might help to identify differences in the
+same cell type between the difference experiments.
+
+```{r set-ident}
+comb.neph@meta.data$GroupNephCluster <- paste(comb.neph@meta.data$Group,
+                                              comb.neph@ident, sep = "_")
+comb.neph <- StashIdent(comb.neph, save.name = "NephCluster")
+comb.neph <- SetAllIdent(comb.neph, id = "GroupNephCluster")
+```
+
+```{r de-plots, fig.height = 8}
+plot.data <- AverageExpression(comb.neph, show.progress = FALSE) %>%
+    rownames_to_column("Gene") %>%
+    gather(key = "GroupCluster", value = "AvgExp", -Gene) %>%
+    separate(GroupCluster, c("Group", "Cluster"), sep = "_") %>%
+    mutate(Cluster = factor(as.numeric(Cluster))) %>%
+    mutate(LogAvgExp = log1p(AvgExp)) %>%
+    select(-AvgExp) %>%
+    spread(Group, LogAvgExp) %>%
+    replace_na(list(Organoid = 0, Lindstrom = 0)) %>%
+    mutate(Avg = 0.5 * (Organoid + Lindstrom),
+           Diff = Organoid - Lindstrom)
+
+ggplot(plot.data, aes(x = Avg, y = Diff)) +
+    geom_hline(yintercept = 0, colour = "red") +
+    geom_point(size = 0.6, alpha = 0.2) +
+    xlab("0.5 * (Organoid + Lindstrom)") +
+    ylab("Organoid - Lindstrom") +
+    facet_wrap(~ Cluster)
+```
+
+```{r cluster-de-mc}
+cluster.de <- bplapply(seq_len(n.clusts) - 1, function(cl) {
+
+    if (skip[cl + 1]) {
+        message("Skipping cluster ", cl)
+        cl.de <- c()
+    } else {
+        cl.de <- FindMarkers(comb.neph, paste("Organoid", cl, sep = "_"),
+                             paste("Lindstrom", cl, sep = "_"),
+                             logfc.threshold = 0, min.pct = 0.1,
+                             print.bar = FALSE)
+        cl.de$cluster <- cl
+        cl.de$gene <- rownames(cl.de)
+    }
+
+    return(cl.de)
+}, BPPARAM = bpparam)
+
+cluster.de <- bind_rows(cluster.de) %>%
+    select(gene, cluster, everything())
+```
+
+Here we print out the top two DE genes for each cluster.
+
+```{r print-de}
+cluster.de %>% group_by(cluster) %>% top_n(2, abs(avg_logFC)) %>% data.frame
+```
+
+Again a heatmap can give us a better view. We show the top five positive DE
+genes for each cluster.
+
+```{r de-heatmap, fig.height = 10}
+top <- cluster.de %>% group_by(cluster) %>% top_n(5, avg_logFC)
+
+cols <- viridis(100)[c(1, 50, 100)]
+
+DoHeatmap(comb.neph, genes.use = top$gene, slim.col.label = TRUE,
+          remove.key = TRUE, col.low = cols[1], col.mid = cols[2],
+          col.high = cols[3])
+```
+
+By cluster {.tabset}
+----------
+
+```{r de-cluster}
+cluster.de.list <- lapply(0:(n.clusts - 1), function(x) {
+    cluster.de %>%
+        filter(cluster == x, p_val < 0.05) %>%
+        dplyr::arrange(p_val) %>%
+        select(Gene = gene, LogFC = avg_logFC, pVal = p_val)
+})
+
+names(cluster.de.list) <- paste("Cluster", 0:(n.clusts - 1))
+```
+
+```{r de-cluster-counts}
+cluster.de.summary <- cluster.de.list %>%
+    map2_df(seq_along(cluster.de.list), ~ mutate(.x, Cluster = .y)) %>%
+    mutate(IsUp = LogFC > 0) %>%
+    group_by(Cluster) %>%
+    summarise(Up = sum(IsUp), Down = sum(!IsUp)) %>%
+    mutate(Down = -Down) %>%
+    gather(key = "Direction", value = "Count", -Cluster)
+
+ggplot(cluster.de.summary,
+       aes(x = fct_rev(factor(Cluster)), y = Count, fill = Direction)) +
+    geom_col() +
+    geom_text(aes(y = Count + sign(Count) * max(abs(Count)) * 0.07,
+                  label = abs(Count)),
+              size = 6, colour = "grey25") +
+    coord_flip() +
+    scale_fill_manual(values = c("#377eb8", "#e41a1c")) +
+    ggtitle("Number of identified genes") +
+    xlab("Cluster") +
+    theme(axis.title.x = element_blank(),
+          axis.line = element_blank(),
+          axis.ticks = element_blank(),
+          axis.text.x = element_blank(),
+          legend.position = "bottom")
+```
+
+We can also look at the full table of significant DE genes for each cluster.
+
+```{r de-cluster-table, results = "hide"}
+src_list <- lapply(0:(length(cluster.de.list) - 1), function(i) {
+    src <- c("### {{i}} {.unnumbered}",
+             "```{r de-cluster-{{i}}}",
+             "cluster.de.list[[{{i}} + 1]]",
+             "```",
+             "")
+    knit_expand(text = src)
+})
+
+out <- knit_child(text = unlist(src_list),
+                  options = list(echo = FALSE, cache = FALSE))
+```
+
+`r out`
+
+```{r reset-ident}
+comb.neph <- SetAllIdent(comb.neph, id = "NephCluster")
+```
+
+Summary
+=======
+
+Parameters
+----------
+
+This table describes parameters used and set in this document.
+
+```{r parameters}
+params <- toJSON(list(
+    list(
+        Parameter = "clusters",
+        Value = clusters,
+        Description = "Selected nephron clusters"
+    ),
+    list(
+        Parameter = "resolutions",
+        Value = resolutions,
+        Description = "Range of possible clustering resolutions"
+    ),
+    list(
+        Parameter = "res",
+        Value = res,
+        Description = "Selected resolution parameter for clustering"
+    ),
+    list(
+        Parameter = "n.clusts",
+        Value = n.clusts,
+        Description = "Number of clusters produced by selected resolution"
+    ),
+    list(
+        Parameter = "skipped",
+        Value = paste(seq(0, n.clusts - 1))[skip],
+        Description = "Clusters skipped for conserved marker and DE testing"
+    )
+), pretty = TRUE)
+
+kable(fromJSON(params))
+```
+
+Output files
+------------
+
+This table describes the output files produced by this document. Right click
+and _Save Link As..._ to download the results.
+
+```{r write-combined-neph}
+write_rds(comb.neph, here("data/processed/Combined_nephron.Rds"))
+```
+
+```{r output}
+dir.create(here("output", DOCNAME), showWarnings = FALSE)
+
+write_lines(params, here("output", DOCNAME, "parameters.json"))
+write_csv(markers, here("output", DOCNAME, "markers.csv"))
+write_xlsx(markers.list, here("output", DOCNAME, "markers.xlsx"))
+write_csv(con.markers, here("output", DOCNAME, "conserved_markers.csv"))
+write_xlsx(con.markers.list, here("output", DOCNAME, "conserved_markers.xlsx"))
+write_csv(cluster.de, here("output", DOCNAME, "cluster_de.csv"))
+write_xlsx(cluster.de.list, here("output", DOCNAME, "cluster_de.xlsx"))
+
+kable(data.frame(
+    File = c(
+        glue("[parameters.json]({getDownloadURL('parameters.json', DOCNAME)})"),
+        glue("[markers.csv]({getDownloadURL('markers.csv', DOCNAME)})"),
+        glue("[markers.xlsx]({getDownloadURL('markers.xlsx', DOCNAME)})"),
+        glue("[conserved_markers.csv]({",
+             "getDownloadURL('conserved_markers.csv', DOCNAME)})"),
+        glue("[conserved_markers.xlsx]({",
+             "getDownloadURL('conserved_markers.xlsx', DOCNAME)})"),
+        glue("[cluster_de.csv]({",
+             "getDownloadURL('cluster_de.csv', DOCNAME)})"),
+        glue("[cluster_de.xlsx]({",
+             "getDownloadURL('cluster_de.xlsx', DOCNAME)})")
+    ),
+    Description = c(
+        "Parameters set and used in this analysis",
+        "Results of marker gene testing in CSV format",
+        paste("Results of marker gene testing in XLSX format with one tab",
+              "per cluster"),
+        "Results of conserved marker gene testing in CSV format",
+        paste("Results of conserved marker gene testing in XLSX format with",
+              "one tab per cluster"),
+        paste("Results of within cluster differential expression testing",
+             "in CSV format"),
+        paste("Results of within cluster differential expression testing",
+             "in XLSX format with one cluster per tab")
+    )
+))
+```
