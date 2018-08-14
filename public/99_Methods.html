@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Methods</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Combes Organoid Paper Analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jdblischak/workflowr">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Methods</h1>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-08-02</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:red;">✖</strong> <strong>R Markdown file:</strong> uncommitted changes </summary> The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20180730)</code> </summary></p>
+<p>The command <code>set.seed(20180730)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/0a4e2e04cf3dbc60235743ff0e4bbbbc5f6cb429" target="_blank">0a4e2e0</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/cache/
+    Ignored:    packrat/lib-R/
+    Ignored:    packrat/lib-ext/
+    Ignored:    packrat/lib/
+    Ignored:    packrat/src/
+
+Untracked files:
+    Untracked:  analysis/01_Organoid123_QC_cache/
+    Untracked:  analysis/02_Organoid4_QC_cache/
+    Untracked:  analysis/03_Organoids_Integration_cache/
+    Untracked:  analysis/04_Organoids_Clustering.Rmd
+    Untracked:  analysis/04_Organoids_Clustering_cache/
+    Untracked:  analysis/99_Methods.Rmd
+    Untracked:  public/figure/04_Organoids_Clustering.Rmd/
+
+Unstaged changes:
+    Modified:   R/load.R
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<hr />
+<div id="pre-processing" class="section level1">
+<h1>Pre-processing</h1>
+<p>The Cell Ranger pipeline (v1.3.1) was used to perform sample demultiplexing, barcode processing and single-cell gene counting [ref]. Briefly, samples were demultiplexed to produce a pair of FASTQ files for each sample. Reads containing sequence information were aligned to the GRCh38 reference genome. Cell barcodes were filtered to remove empty droplets and PCR duplicates were removed by selecting unique combinations of cell barcodes, unique molecular identifiers and gene ids with the final results being a gene expression matrix that was used for further analysis. The three samples in the first batch of organoids were aggregated using Cell Ranger with no normalisation and treated as a single dataset.</p>
+</div>
+<div id="quality-control" class="section level1">
+<h1>Quality control</h1>
+<p>The R statistical programming language (v) [ref] was used for further analysis. Count data for each experiment was read into R and used to construct a SingleCellExperiment object (v1.2.0) [ref]. Gene annotation information was added from BioMart [ref] using the biomaRt package (v2.36.1) [ref] and cells were assigned cell cycle scores using the cyclone [ref] function in the scran package (v1.8.2) [ref].</p>
+<p>The scater package (v1.8.2) [ref] was used to produce a series of diagnostic quality control plots. Cells with a high number of expressed genes (indicating potential doublets) were removed, as were cells with a high percentage of counts assigned to mitochondrial or ribosomal genes, or with low expression of the housekeeping genes GAPDH and ACTB.</p>
+<p>Genes that had less than two total counts across a dataset, or were expressed in less than two individual cells, were removed. We also removed genes without an annotated HGNC symbol.</p>
+<p>Following quality control the first organoid dataset consisted of XXX cells and XXX genes with a median of XXX genes expressed per a cell, the fourth organoid had XXX cells and XXX genes with and median of XXX genes expressed per cell and the Lindstrom dataset had XXX cells and XXX genes with a median of XXX genes expressed per cell.</p>
+</div>
+<div id="clustering-analysis" class="section level1">
+<h1>Clustering analysis</h1>
+<p>Datasets were integrated using the alignment method in the Seurat package (v2.3.1) [ref]. Briefly, highly variable genes were identified in each dataset and those that were present in the datasets were selected. Canonical correlation analysis [ref] was then performed using the selected genes and the dimensions that represent the majority of variation were selected. The final step used dynamic time warping [ref] to align the datasets in the selected subspace.</p>
+<p>To perform clustering Seurat constructs a shared nearest neighbour graph of cells in the aligned subspace and uses Louvain modularity optimisation to assign cells to clusters. We performed clustering over a range of resolutions that produced different numbers of clusters and used the clustree package (v0.2.2.9000) to produce clustering trees [ref] showing the expression of known marker genes to select the appropriate resolution for each analysis.</p>
+<p>Marker genes for each cluster were detected by testing for differential expression between cells in one cluster and all other cells using a Wilcoxon rank sum test [ref]. To reduce processing time only genes that were expressed in at least 10 percent of cells in one of these groups were tested. To identify conserved marker genes a similar process was performed on each dataset separately and the results combined using the maximum p-value method [ref]. We also tested for within cluster differential expression to identify differences between cells of the same type in different datasets.</p>
+<p>Figures shown here were produced using…</p>
+</div>
+<div id="availability" class="section level1">
+<h1>Availability</h1>
+<p>The datasets are available from GEO accession numbers XXX. A website showing reports produced during analysis including the exact software versions and parameters used can be accessed at XXX and the code is available at XXX.</p>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>devtools::session_info()</code></pre>
+<pre><code>Warning: Your system is mis-configured: &#39;/etc/localtime&#39; is not a symlink</code></pre>
+<pre><code>Warning: It is strongly recommended to set envionment variable TZ to
+&#39;Australia/Melbourne&#39; (or equivalent)</code></pre>
+<pre><code>Session info -------------------------------------------------------------</code></pre>
+<pre><code> setting  value                       
+ version  R version 3.5.0 (2018-04-23)
+ system   x86_64, linux-gnu           
+ ui       X11                         
+ language (EN)                        
+ collate  en_US.UTF-8                 
+ tz       Australia/Melbourne         
+ date     2018-08-02                  </code></pre>
+<pre><code>Packages -----------------------------------------------------------------</code></pre>
+<pre><code> package     * version date       source                            
+ backports     1.1.2   2017-12-13 CRAN (R 3.5.0)                    
+ base        * 3.5.0   2018-06-18 local                             
+ compiler      3.5.0   2018-06-18 local                             
+ datasets    * 3.5.0   2018-06-18 local                             
+ devtools      1.13.6  2018-06-27 CRAN (R 3.5.0)                    
+ digest        0.6.15  2018-01-28 CRAN (R 3.5.0)                    
+ evaluate      0.10.1  2017-06-24 CRAN (R 3.5.0)                    
+ git2r         0.21.0  2018-01-04 CRAN (R 3.5.0)                    
+ graphics    * 3.5.0   2018-06-18 local                             
+ grDevices   * 3.5.0   2018-06-18 local                             
+ htmltools     0.3.6   2017-04-28 CRAN (R 3.5.0)                    
+ knitr         1.20    2018-02-20 CRAN (R 3.5.0)                    
+ magrittr      1.5     2014-11-22 CRAN (R 3.5.0)                    
+ memoise       1.1.0   2017-04-21 CRAN (R 3.5.0)                    
+ methods     * 3.5.0   2018-06-18 local                             
+ R.methodsS3   1.7.1   2016-02-16 CRAN (R 3.5.0)                    
+ R.oo          1.22.0  2018-04-22 CRAN (R 3.5.0)                    
+ R.utils       2.6.0   2017-11-05 CRAN (R 3.5.0)                    
+ Rcpp          0.12.18 2018-07-23 cran (@0.12.18)                   
+ rmarkdown     1.10.2  2018-07-30 Github (rstudio/rmarkdown@18207b9)
+ rprojroot     1.3-2   2018-01-03 CRAN (R 3.5.0)                    
+ stats       * 3.5.0   2018-06-18 local                             
+ stringi       1.2.4   2018-07-20 cran (@1.2.4)                     
+ stringr       1.3.1   2018-05-10 CRAN (R 3.5.0)                    
+ tools         3.5.0   2018-06-18 local                             
+ utils       * 3.5.0   2018-06-18 local                             
+ whisker       0.3-2   2013-04-28 CRAN (R 3.5.0)                    
+ withr         2.1.2   2018-03-15 CRAN (R 3.5.0)                    
+ workflowr     1.1.1   2018-07-06 CRAN (R 3.5.0)                    
+ yaml          2.2.0   2018-07-25 cran (@2.2.0)                     </code></pre>
+</div>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Crossover</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Combes Organoid Paper Analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jdblischak/workflowr">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Crossover</h1>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-08-14</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20180730)</code> </summary></p>
+<p>The command <code>set.seed(20180730)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/bff4d5b6f5791a9f8bd28d3a7f5ab22f7df7b0d6" target="_blank">bff4d5b</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/cache/
+    Ignored:    packrat/lib-R/
+    Ignored:    packrat/lib-ext/
+    Ignored:    packrat/lib/
+    Ignored:    packrat/src/
+
+Untracked files:
+    Untracked:  analysis/99_Methods.Rmd
+    Untracked:  analysis/methods.docx
+    Untracked:  output/04B_Organoids_Nephron/cluster_assignments.csv
+    Untracked:  output/04B_Organoids_Nephron/cluster_expression.csv
+    Untracked:  output/04_Organoids_Clustering/cluster_assignments.csv
+    Untracked:  output/04_Organoids_Clustering/cluster_expression.csv
+    Untracked:  output/07B_Combined_Nephron/cluster_assignments.csv
+    Untracked:  output/07B_Combined_Nephron/cluster_expression.csv
+    Untracked:  output/07_Combined_Clustering/cluster_assignments.csv
+    Untracked:  output/07_Combined_Clustering/cluster_expression.csv
+    Untracked:  output/08_Crossover/
+    Untracked:  public/figure/08_Crossover.Rmd/
+
+Unstaged changes:
+    Modified:   output/04B_Organoids_Nephron/cluster_de.xlsx
+    Modified:   output/04B_Organoids_Nephron/conserved_markers.xlsx
+    Modified:   output/04B_Organoids_Nephron/markers.xlsx
+    Modified:   output/04_Organoids_Clustering/cluster_de.xlsx
+    Modified:   output/04_Organoids_Clustering/conserved_markers.xlsx
+    Modified:   output/04_Organoids_Clustering/markers.xlsx
+    Modified:   output/07B_Combined_Nephron/cluster_de.xlsx
+    Modified:   output/07B_Combined_Nephron/conserved_markers.xlsx
+    Modified:   output/07B_Combined_Nephron/markers.xlsx
+    Modified:   output/07_Combined_Clustering/cluster_de.xlsx
+    Modified:   output/07_Combined_Clustering/conserved_markers.xlsx
+    Modified:   output/07_Combined_Clustering/markers.xlsx
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/bff4d5b6f5791a9f8bd28d3a7f5ab22f7df7b0d6/analysis/08_Crossover.Rmd" target="_blank">bff4d5b</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-08-14
+</td>
+<td style="text-align:left;">
+Add crossover document
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
+<hr />
+<pre class="r"><code># Presentation
+library(&quot;knitr&quot;)
+library(&quot;glue&quot;)
+
+# Paths
+library(&quot;here&quot;)
+
+# Tidyverse
+library(&quot;tidyverse&quot;)</code></pre>
+<pre class="r"><code>source(here(&quot;R/output.R&quot;))</code></pre>
+<pre class="r"><code>orgs.path &lt;- here(&quot;output/04_Organoids_Clustering/cluster_assignments.csv&quot;)
+orgs.neph.path &lt;- here(&quot;output/04B_Organoids_Nephron/cluster_assignments.csv&quot;)
+comb.path &lt;- here(&quot;output/07_Combined_Clustering/cluster_assignments.csv&quot;)
+comb.neph.path &lt;- here(&quot;output/07B_Combined_Nephron/cluster_assignments.csv&quot;)</code></pre>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>In this document we are going to load the results of the various clustering analyses and compare them. The goal is to see if they are consistent by checking that clusters in different analyses that have been assigned the same cell types actually contain the same cells.</p>
+<pre class="r"><code>orgs.clusts &lt;- read_csv(orgs.path,
+                        col_types = cols(
+                            Cell = col_character(),
+                            Dataset = col_character(),
+                            Sample = col_integer(),
+                            Barcode = col_character(),
+                            Cluster = col_integer()
+                        )) %&gt;%
+    rename(Organoids = Cluster)
+
+orgs.neph.clusts &lt;- read_csv(orgs.neph.path,
+                             col_types = cols(
+                                 Cell = col_character(),
+                                 Dataset = col_character(),
+                                 Sample = col_integer(),
+                                 Barcode = col_character(),
+                                 Cluster = col_integer()
+                             )) %&gt;%
+    rename(OrgsNephron = Cluster)
+
+comb.clusts &lt;- read_csv(comb.path,
+                        col_types = cols(
+                            Cell = col_character(),
+                            Dataset = col_character(),
+                            Sample = col_integer(),
+                            Barcode = col_character(),
+                            Cluster = col_integer()
+                        )) %&gt;%
+    rename(Combined = Cluster)
+
+comb.neph.clusts &lt;- read_csv(comb.neph.path,
+                             col_types = cols(
+                                 Cell = col_character(),
+                                 Dataset = col_character(),
+                                 Sample = col_integer(),
+                                 Barcode = col_character(),
+                                 Cluster = col_integer()
+                             )) %&gt;%
+    rename(CombNephron = Cluster)
+
+clusts &lt;- comb.clusts %&gt;%
+    left_join(comb.neph.clusts,
+              by = c(&quot;Cell&quot;, &quot;Dataset&quot;, &quot;Sample&quot;, &quot;Barcode&quot;)) %&gt;%
+    left_join(orgs.clusts,
+              by = c(&quot;Cell&quot;, &quot;Dataset&quot;, &quot;Sample&quot;, &quot;Barcode&quot;)) %&gt;%
+    left_join(orgs.neph.clusts,
+              by = c(&quot;Cell&quot;, &quot;Dataset&quot;, &quot;Sample&quot;, &quot;Barcode&quot;))</code></pre>
+<p>We are going to do this using a kind of heatmap. Clustering results from two separate analyses will form the x and y axes and each cell will represent the overlap in samples between two clusters. We will colour the cells using the Jaccard index, a measure of similarity between to groups that is equal to the size of the intersect divided by the size of the union. This will highlight clusters that are particularly similar. We will also label cells with the proportion of samples in a cluster that are also in another, so that rows and columns will each sum to one (using a separate colour for each).</p>
+<pre class="r"><code>summariseClusts &lt;- function(clusts, clust1, clust2) {
+    clust1 &lt;- enquo(clust1)
+    clust2 &lt;- enquo(clust2)
+    
+    clusts %&gt;%
+        filter(!is.na(!!clust1) &amp; !is.na(!!clust2)) %&gt;%
+        group_by(!!clust1, !!clust2) %&gt;%
+        summarise(Count = n()) %&gt;%
+        ungroup() %&gt;%
+        complete(!!clust1, !!clust2) %&gt;%
+        mutate(!!quo_name(clust1) := factor(!!clust1),
+               !!quo_name(clust2) := factor(!!clust2)) %&gt;%
+        group_by(!!clust1) %&gt;%
+        mutate(!!paste0(quo_name(clust1), &quot;Total&quot;) := sum(Count, na.rm = TRUE),
+               !!paste0(quo_name(clust1), &quot;Pct&quot;) :=
+                   Count / sum(Count, na.rm = TRUE)) %&gt;%
+        group_by(!!clust2) %&gt;%
+        mutate(!!paste0(quo_name(clust2), &quot;Total&quot;) := sum(Count, na.rm = TRUE),
+               !!paste0(quo_name(clust2), &quot;Pct&quot;) :=
+                   Count / sum(Count, na.rm = TRUE)) %&gt;%
+        mutate(Jaccard = Count / 
+                   (!!rlang::sym(paste0(quo_name(clust1), &quot;Total&quot;)) +
+                        !!rlang::sym(paste0(quo_name(clust2), &quot;Total&quot;)) -
+                        Count))
+}</code></pre>
+</div>
+<div id="organoids" class="section level1">
+<h1>Organoids</h1>
+<div id="vs-organoids-nephron" class="section level2">
+<h2>vs Organoids Nephron</h2>
+<pre class="r"><code>summariseClusts(clusts, Organoids, OrgsNephron) %&gt;%
+    ggplot(aes(x = Organoids, y = OrgsNephron, fill = Jaccard)) +
+    geom_tile() +
+    geom_text(aes(label = round(OrganoidsPct, 2)), nudge_y = 0.2,
+              colour = &quot;#ff698f&quot;, size = 6) +
+    geom_text(aes(label = round(OrgsNephronPct, 2)), nudge_y = -0.2,
+              colour = &quot;#73b4ff&quot;, size = 6) +
+    geom_text(aes(label = glue(&quot;({OrganoidsTotal})&quot;)), y = -0.05,
+              size = 5, colour = &quot;#ff698f&quot;) +
+    geom_text(aes(label = glue(&quot;({OrgsNephronTotal})&quot;)), x = -0.05,
+              size = 5, colour = &quot;#73b4ff&quot;) +
+    scale_fill_viridis_c(begin = 0.02, end = 0.98, na.value = &quot;black&quot;,
+                         limits = c(0, 1)) +
+    coord_equal() +
+    expand_limits(x = -0.5, y = -0.5) +
+    labs(x = &quot;Organoids cluster&quot;,
+         y = &quot;Organoids nephron cluster&quot;,
+         caption = &quot;Numbers in brackets show cluster size&quot;) + 
+    theme_minimal() +
+    theme(axis.text = element_text(size = 20),
+          axis.text.x = element_text(colour = &quot;#ff698f&quot;),
+          axis.text.y = element_text(colour = &quot;#73b4ff&quot;),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 15),
+          axis.title.x = element_text(colour = &quot;#ff698f&quot;),
+          axis.title.y = element_text(colour = &quot;#73b4ff&quot;),
+          legend.key.height = unit(50, &quot;pt&quot;),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())</code></pre>
+<p><img src="figure/08_Crossover.Rmd/orgs-orgs-neph-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="vs-combined" class="section level2">
+<h2>vs Combined</h2>
+<pre class="r"><code>summariseClusts(clusts, Organoids, Combined) %&gt;%
+    ggplot(aes(x = Organoids, y = Combined, fill = Jaccard)) +
+    geom_tile() +
+    geom_text(aes(label = round(OrganoidsPct, 2)), nudge_y = 0.2,
+              colour = &quot;#ff698f&quot;, size = 4) +
+    geom_text(aes(label = round(CombinedPct, 2)), nudge_y = -0.2,
+              colour = &quot;#73b4ff&quot;, size = 4) +
+    geom_text(aes(label = glue(&quot;({OrganoidsTotal})&quot;)), y = -0.05,
+              size = 3.5, colour = &quot;#ff698f&quot;) +
+    geom_text(aes(label = glue(&quot;({CombinedTotal})&quot;)), x = -0.05,
+              size = 3.5, colour = &quot;#73b4ff&quot;) +
+    scale_fill_viridis_c(begin = 0.02, end = 0.98, na.value = &quot;black&quot;,
+                         limits = c(0, 1)) +
+    coord_equal() +
+    expand_limits(x = -0.5, y = -0.5) +
+    labs(x = &quot;Organoids cluster&quot;,
+         y = &quot;Combined cluster&quot;,
+         caption = &quot;Numbers in brackets show cluster size&quot;) + 
+    theme_minimal() +
+    theme(axis.text = element_text(size = 20),
+          axis.text.x = element_text(colour = &quot;#ff698f&quot;),
+          axis.text.y = element_text(colour = &quot;#73b4ff&quot;),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 15),
+          axis.title.x = element_text(colour = &quot;#ff698f&quot;),
+          axis.title.y = element_text(colour = &quot;#73b4ff&quot;),
+          legend.key.height = unit(50, &quot;pt&quot;),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())</code></pre>
+<p><img src="figure/08_Crossover.Rmd/orgs-combined-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="vs-combined-nephron" class="section level2">
+<h2>vs Combined Nephron</h2>
+<pre class="r"><code>summariseClusts(clusts, Organoids, CombNephron) %&gt;%
+    ggplot(aes(x = Organoids, y = CombNephron, fill = Jaccard)) +
+    geom_tile() +
+    geom_text(aes(label = round(OrganoidsPct, 2)), nudge_y = 0.2,
+              colour = &quot;#ff698f&quot;, size = 6) +
+    geom_text(aes(label = round(CombNephronPct, 2)), nudge_y = -0.2,
+              colour = &quot;#73b4ff&quot;, size = 6) +
+    geom_text(aes(label = glue(&quot;({OrganoidsTotal})&quot;)), y = -0.05,
+              size = 5, colour = &quot;#ff698f&quot;) +
+    geom_text(aes(label = glue(&quot;({CombNephronTotal})&quot;)), x = -0.05,
+              size = 5, colour = &quot;#73b4ff&quot;) +
+    scale_fill_viridis_c(begin = 0.02, end = 0.98, na.value = &quot;black&quot;,
+                         limits = c(0, 1)) +
+    coord_equal() +
+    expand_limits(x = -0.5, y = -0.5) +
+    labs(x = &quot;Organoids cluster&quot;,
+         y = &quot;Combined nephron cluster&quot;,
+         caption = &quot;Numbers in brackets show cluster size&quot;) + 
+    theme_minimal() +
+    theme(axis.text = element_text(size = 20),
+          axis.text.x = element_text(colour = &quot;#ff698f&quot;),
+          axis.text.y = element_text(colour = &quot;#73b4ff&quot;),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 15),
+          axis.title.x = element_text(colour = &quot;#ff698f&quot;),
+          axis.title.y = element_text(colour = &quot;#73b4ff&quot;),
+          legend.key.height = unit(50, &quot;pt&quot;),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())</code></pre>
+<p><img src="figure/08_Crossover.Rmd/orgs-comb-neph-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="combined" class="section level1">
+<h1>Combined</h1>
+<div id="vs-combined-nephron-1" class="section level2">
+<h2>vs Combined Nephron</h2>
+<pre class="r"><code>summariseClusts(clusts, Combined, CombNephron) %&gt;%
+    ggplot(aes(x = Combined, y = CombNephron, fill = Jaccard)) +
+    geom_tile() +
+    geom_text(aes(label = round(CombinedPct, 2)), nudge_y = 0.2,
+              colour = &quot;#ff698f&quot;, size = 6) +
+    geom_text(aes(label = round(CombNephronPct, 2)), nudge_y = -0.2,
+              colour = &quot;#73b4ff&quot;, size = 6) +
+    geom_text(aes(label = glue(&quot;({CombinedTotal})&quot;)), y = -0.05,
+              size = 5, colour = &quot;#ff698f&quot;) +
+    geom_text(aes(label = glue(&quot;({CombNephronTotal})&quot;)), x = -0.05,
+              size = 5, colour = &quot;#73b4ff&quot;) +
+    scale_fill_viridis_c(begin = 0.02, end = 0.98, na.value = &quot;black&quot;,
+                         limits = c(0, 1)) +
+    coord_equal() +
+    expand_limits(x = -0.5, y = -0.5) +
+    labs(x = &quot;Combined cluster&quot;,
+         y = &quot;Combined nephron cluster&quot;,
+         caption = &quot;Numbers in brackets show cluster size&quot;) + 
+    theme_minimal() +
+    theme(axis.text = element_text(size = 20),
+          axis.text.x = element_text(colour = &quot;#ff698f&quot;),
+          axis.text.y = element_text(colour = &quot;#73b4ff&quot;),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 15),
+          axis.title.x = element_text(colour = &quot;#ff698f&quot;),
+          axis.title.y = element_text(colour = &quot;#73b4ff&quot;),
+          legend.key.height = unit(50, &quot;pt&quot;),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())</code></pre>
+<p><img src="figure/08_Crossover.Rmd/combined-comb-neph-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="vs-organoids" class="section level2">
+<h2>vs Organoids</h2>
+<pre class="r"><code>summariseClusts(clusts, Combined, Organoids) %&gt;%
+    ggplot(aes(x = Combined, y = Organoids, fill = Jaccard)) +
+    geom_tile() +
+    geom_text(aes(label = round(CombinedPct, 2)), nudge_y = 0.2,
+              colour = &quot;#ff698f&quot;, size = 4) +
+    geom_text(aes(label = round(OrganoidsPct, 2)), nudge_y = -0.2,
+              colour = &quot;#73b4ff&quot;, size = 4) +
+    geom_text(aes(label = glue(&quot;({CombinedTotal})&quot;)), y = -0.05,
+              size = 4, colour = &quot;#ff698f&quot;) +
+    geom_text(aes(label = glue(&quot;({OrganoidsTotal})&quot;)), x = -0.05,
+              size = 4, colour = &quot;#73b4ff&quot;) +
+    scale_fill_viridis_c(begin = 0.02, end = 0.98, na.value = &quot;black&quot;,
+                         limits = c(0, 1)) +
+    coord_equal() +
+    expand_limits(x = -0.5, y = -0.5) +
+    labs(x = &quot;Combined cluster&quot;,
+         y = &quot;Organoids cluster&quot;,
+         caption = &quot;Numbers in brackets show cluster size&quot;) + 
+    theme_minimal() +
+    theme(axis.text = element_text(size = 20),
+          axis.text.x = element_text(colour = &quot;#ff698f&quot;),
+          axis.text.y = element_text(colour = &quot;#73b4ff&quot;),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 15),
+          axis.title.x = element_text(colour = &quot;#ff698f&quot;),
+          axis.title.y = element_text(colour = &quot;#73b4ff&quot;),
+          legend.key.height = unit(50, &quot;pt&quot;),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())</code></pre>
+<p><img src="figure/08_Crossover.Rmd/combined-orgs-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="vs-organoids-nephron-1" class="section level2">
+<h2>vs Organoids Nephron</h2>
+<pre class="r"><code>summariseClusts(clusts, Combined, OrgsNephron) %&gt;%
+    ggplot(aes(x = Combined, y = OrgsNephron, fill = Jaccard)) +
+    geom_tile() +
+    geom_text(aes(label = round(CombinedPct, 2)), nudge_y = 0.2,
+              colour = &quot;#ff698f&quot;, size = 6) +
+    geom_text(aes(label = round(OrgsNephronPct, 2)), nudge_y = -0.2,
+              colour = &quot;#73b4ff&quot;, size = 6) +
+    geom_text(aes(label = glue(&quot;({CombinedTotal})&quot;)), y = -0.05,
+              size = 5, colour = &quot;#ff698f&quot;) +
+    geom_text(aes(label = glue(&quot;({OrgsNephronTotal})&quot;)), x = -0.05,
+              size = 5, colour = &quot;#73b4ff&quot;) +
+    scale_fill_viridis_c(begin = 0.02, end = 0.98, na.value = &quot;black&quot;,
+                         limits = c(0, 1)) +
+    coord_equal() +
+    expand_limits(x = -0.5, y = -0.5) +
+    labs(x = &quot;Combined cluster&quot;,
+         y = &quot;Organoids nephron cluster&quot;,
+         caption = &quot;Numbers in brackets show cluster size&quot;) + 
+    theme_minimal() +
+    theme(axis.text = element_text(size = 20),
+          axis.text.x = element_text(colour = &quot;#ff698f&quot;),
+          axis.text.y = element_text(colour = &quot;#73b4ff&quot;),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 15),
+          axis.title.x = element_text(colour = &quot;#ff698f&quot;),
+          axis.title.y = element_text(colour = &quot;#73b4ff&quot;),
+          legend.key.height = unit(50, &quot;pt&quot;),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())</code></pre>
+<p><img src="figure/08_Crossover.Rmd/combined-orgs-neph-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="combined-nephron" class="section level1">
+<h1>Combined nephron</h1>
+<div id="vs-organoids-nephron-2" class="section level2">
+<h2>vs Organoids Nephron</h2>
+<pre class="r"><code>summariseClusts(clusts, CombNephron, OrgsNephron) %&gt;%
+    ggplot(aes(x = CombNephron, y = OrgsNephron, fill = Jaccard)) +
+    geom_tile() +
+    geom_text(aes(label = round(CombNephronPct, 2)), nudge_y = 0.2,
+              colour = &quot;#ff698f&quot;, size = 6) +
+    geom_text(aes(label = round(OrgsNephronPct, 2)), nudge_y = -0.2,
+              colour = &quot;#73b4ff&quot;, size = 6) +
+    geom_text(aes(label = glue(&quot;({CombNephronTotal})&quot;)), y = -0.05,
+              size = 5, colour = &quot;#ff698f&quot;) +
+    geom_text(aes(label = glue(&quot;({OrgsNephronTotal})&quot;)), x = -0.05,
+              size = 5, colour = &quot;#73b4ff&quot;) +
+    scale_fill_viridis_c(begin = 0.02, end = 0.98, na.value = &quot;black&quot;,
+                         limits = c(0, 1)) +
+    coord_equal() +
+    expand_limits(x = -0.5, y = -0.5) +
+    labs(x = &quot;Combined nephron cluster&quot;,
+         y = &quot;Organoids nephron cluster&quot;,
+         caption = &quot;Numbers in brackets show cluster size&quot;) + 
+    theme_minimal() +
+    theme(axis.text = element_text(size = 20),
+          axis.text.x = element_text(colour = &quot;#ff698f&quot;),
+          axis.text.y = element_text(colour = &quot;#73b4ff&quot;),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 15),
+          axis.title.x = element_text(colour = &quot;#ff698f&quot;),
+          axis.title.y = element_text(colour = &quot;#73b4ff&quot;),
+          legend.key.height = unit(50, &quot;pt&quot;),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())</code></pre>
+<p><img src="figure/08_Crossover.Rmd/comb-neph-orgs-neph-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<div id="output-files" class="section level2">
+<h2>Output files</h2>
+<p>This table describes the output files produced by this document. Right click and <em>Save Link As…</em> to download the results.</p>
+<pre class="r"><code>dir.create(here(&quot;output&quot;, DOCNAME), showWarnings = FALSE)
+
+write_csv(clusts, here(&quot;output&quot;, DOCNAME, &quot;cluster_assignments.csv&quot;))
+
+kable(data.frame(
+    File = c(
+        glue(&quot;[cluster_assignments.csv]&quot;,
+             &quot;({getDownloadURL(&#39;cluster_assignments.csv&#39;, DOCNAME)})&quot;)
+    ),
+    Description = c(
+        &quot;Cluster assignments for all clustering analyses&quot;
+    )
+))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">File</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/08_Crossover/cluster_assignments.csv">cluster_assignments.csv</a></td>
+<td align="left">Cluster assignments for all clustering analyses</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>devtools::session_info()</code></pre>
+<pre><code> setting  value                       
+ version  R version 3.5.0 (2018-04-23)
+ system   x86_64, linux-gnu           
+ ui       X11                         
+ language (EN)                        
+ collate  en_US.UTF-8                 
+ tz       Australia/Melbourne         
+ date     2018-08-14                  
+
+ package     * version date       source                            
+ assertthat    0.2.0   2017-04-11 CRAN (R 3.5.0)                    
+ backports     1.1.2   2017-12-13 CRAN (R 3.5.0)                    
+ base        * 3.5.0   2018-06-18 local                             
+ bindr         0.1.1   2018-03-13 cran (@0.1.1)                     
+ bindrcpp    * 0.2.2   2018-03-29 cran (@0.2.2)                     
+ broom         0.5.0   2018-07-17 cran (@0.5.0)                     
+ cellranger    1.1.0   2016-07-27 CRAN (R 3.5.0)                    
+ cli           1.0.0   2017-11-05 CRAN (R 3.5.0)                    
+ colorspace    1.3-2   2016-12-14 cran (@1.3-2)                     
+ compiler      3.5.0   2018-06-18 local                             
+ crayon        1.3.4   2017-09-16 CRAN (R 3.5.0)                    
+ datasets    * 3.5.0   2018-06-18 local                             
+ devtools      1.13.6  2018-06-27 CRAN (R 3.5.0)                    
+ digest        0.6.15  2018-01-28 CRAN (R 3.5.0)                    
+ dplyr       * 0.7.6   2018-06-29 cran (@0.7.6)                     
+ evaluate      0.10.1  2017-06-24 CRAN (R 3.5.0)                    
+ forcats     * 0.3.0   2018-02-19 CRAN (R 3.5.0)                    
+ ggplot2     * 3.0.0   2018-07-03 cran (@3.0.0)                     
+ git2r         0.21.0  2018-01-04 CRAN (R 3.5.0)                    
+ glue        * 1.3.0   2018-07-17 cran (@1.3.0)                     
+ graphics    * 3.5.0   2018-06-18 local                             
+ grDevices   * 3.5.0   2018-06-18 local                             
+ grid          3.5.0   2018-06-18 local                             
+ gtable        0.2.0   2016-02-26 cran (@0.2.0)                     
+ haven         1.1.2   2018-06-27 CRAN (R 3.5.0)                    
+ here        * 0.1     2017-05-28 CRAN (R 3.5.0)                    
+ highr         0.7     2018-06-09 CRAN (R 3.5.0)                    
+ hms           0.4.2   2018-03-10 CRAN (R 3.5.0)                    
+ htmltools     0.3.6   2017-04-28 CRAN (R 3.5.0)                    
+ httr          1.3.1   2017-08-20 CRAN (R 3.5.0)                    
+ jsonlite      1.5     2017-06-01 CRAN (R 3.5.0)                    
+ knitr       * 1.20    2018-02-20 CRAN (R 3.5.0)                    
+ labeling      0.3     2014-08-23 cran (@0.3)                       
+ lattice       0.20-35 2017-03-25 CRAN (R 3.5.0)                    
+ lazyeval      0.2.1   2017-10-29 cran (@0.2.1)                     
+ lubridate     1.7.4   2018-04-11 cran (@1.7.4)                     
+ magrittr      1.5     2014-11-22 CRAN (R 3.5.0)                    
+ memoise       1.1.0   2017-04-21 CRAN (R 3.5.0)                    
+ methods     * 3.5.0   2018-06-18 local                             
+ modelr        0.1.2   2018-05-11 CRAN (R 3.5.0)                    
+ munsell       0.5.0   2018-06-12 cran (@0.5.0)                     
+ nlme          3.1-137 2018-04-07 CRAN (R 3.5.0)                    
+ pillar        1.3.0   2018-07-14 cran (@1.3.0)                     
+ pkgconfig     2.0.1   2017-03-21 cran (@2.0.1)                     
+ plyr          1.8.4   2016-06-08 cran (@1.8.4)                     
+ purrr       * 0.2.5   2018-05-29 cran (@0.2.5)                     
+ R.methodsS3   1.7.1   2016-02-16 CRAN (R 3.5.0)                    
+ R.oo          1.22.0  2018-04-22 CRAN (R 3.5.0)                    
+ R.utils       2.6.0   2017-11-05 CRAN (R 3.5.0)                    
+ R6            2.2.2   2017-06-17 CRAN (R 3.5.0)                    
+ Rcpp          0.12.18 2018-07-23 cran (@0.12.18)                   
+ readr       * 1.1.1   2017-05-16 CRAN (R 3.5.0)                    
+ readxl        1.1.0   2018-04-20 CRAN (R 3.5.0)                    
+ rlang         0.2.1   2018-05-30 CRAN (R 3.5.0)                    
+ rmarkdown     1.10.2  2018-07-30 Github (rstudio/rmarkdown@18207b9)
+ rprojroot     1.3-2   2018-01-03 CRAN (R 3.5.0)                    
+ rstudioapi    0.7     2017-09-07 CRAN (R 3.5.0)                    
+ rvest         0.3.2   2016-06-17 CRAN (R 3.5.0)                    
+ scales        0.5.0   2017-08-24 cran (@0.5.0)                     
+ stats       * 3.5.0   2018-06-18 local                             
+ stringi       1.2.4   2018-07-20 cran (@1.2.4)                     
+ stringr     * 1.3.1   2018-05-10 CRAN (R 3.5.0)                    
+ tibble      * 1.4.2   2018-01-22 cran (@1.4.2)                     
+ tidyr       * 0.8.1   2018-05-18 cran (@0.8.1)                     
+ tidyselect    0.2.4   2018-02-26 cran (@0.2.4)                     
+ tidyverse   * 1.2.1   2017-11-14 CRAN (R 3.5.0)                    
+ tools         3.5.0   2018-06-18 local                             
+ utils       * 3.5.0   2018-06-18 local                             
+ viridisLite   0.3.0   2018-02-01 cran (@0.3.0)                     
+ whisker       0.3-2   2013-04-28 CRAN (R 3.5.0)                    
+ withr         2.1.2   2018-03-15 CRAN (R 3.5.0)                    
+ workflowr     1.1.1   2018-07-06 CRAN (R 3.5.0)                    
+ xml2          1.2.0   2018-01-24 CRAN (R 3.5.0)                    
+ yaml          2.2.0   2018-07-25 cran (@2.2.0)                     </code></pre>
+</div>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

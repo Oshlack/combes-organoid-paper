@@ -362,7 +362,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/30718d34f7b8cfdf4c027a95af2aa52a8be74e20" target="_blank">30718d3</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/bff4d5b6f5791a9f8bd28d3a7f5ab22f7df7b0d6" target="_blank">bff4d5b</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -377,10 +377,30 @@ Ignored files:
 Untracked files:
     Untracked:  analysis/99_Methods.Rmd
     Untracked:  analysis/methods.docx
-    Untracked:  output/04B_Organoids_Nephron/
-    Untracked:  output/07B_Combined_Nephron/
-    Untracked:  public/figure/04B_Organoids_Nephron.Rmd/
-    Untracked:  public/figure/07B_Combined_Nephron.Rmd/
+    Untracked:  output/04B_Organoids_Nephron/cluster_assignments.csv
+    Untracked:  output/04B_Organoids_Nephron/cluster_expression.csv
+    Untracked:  output/04_Organoids_Clustering/cluster_assignments.csv
+    Untracked:  output/04_Organoids_Clustering/cluster_expression.csv
+    Untracked:  output/07B_Combined_Nephron/cluster_assignments.csv
+    Untracked:  output/07B_Combined_Nephron/cluster_expression.csv
+    Untracked:  output/07_Combined_Clustering/cluster_assignments.csv
+    Untracked:  output/07_Combined_Clustering/cluster_expression.csv
+    Untracked:  output/08_Crossover/
+    Untracked:  public/figure/08_Crossover.Rmd/
+
+Unstaged changes:
+    Modified:   output/04B_Organoids_Nephron/cluster_de.xlsx
+    Modified:   output/04B_Organoids_Nephron/conserved_markers.xlsx
+    Modified:   output/04B_Organoids_Nephron/markers.xlsx
+    Modified:   output/04_Organoids_Clustering/cluster_de.xlsx
+    Modified:   output/04_Organoids_Clustering/conserved_markers.xlsx
+    Modified:   output/04_Organoids_Clustering/markers.xlsx
+    Modified:   output/07B_Combined_Nephron/cluster_de.xlsx
+    Modified:   output/07B_Combined_Nephron/conserved_markers.xlsx
+    Modified:   output/07B_Combined_Nephron/markers.xlsx
+    Modified:   output/07_Combined_Clustering/cluster_de.xlsx
+    Modified:   output/07_Combined_Clustering/conserved_markers.xlsx
+    Modified:   output/07_Combined_Clustering/markers.xlsx
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -409,6 +429,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/bff4d5b6f5791a9f8bd28d3a7f5ab22f7df7b0d6/analysis/04B_Organoids_Nephron.Rmd" target="_blank">bff4d5b</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-08-14
+</td>
+<td style="text-align:left;">
+Add crossover document
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//f31ab8a17c2e8f8809ba2c45093d7243a10c0b3b/public/04B_Organoids_Nephron.html" target="_blank">f31ab8a</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-08-14
+</td>
+<td style="text-align:left;">
+Build nephron reclustering
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -1316,9 +1370,27 @@ kable(fromJSON(params))</code></pre>
 <h2>Output files</h2>
 <p>This table describes the output files produced by this document. Right click and <em>Save Link As…</em> to download the results.</p>
 <pre class="r"><code>write_rds(orgs.neph, here(&quot;data/processed/Organoids_nephron.Rds&quot;))</code></pre>
+<pre class="r"><code>expr &lt;- AverageExpression(orgs.neph, show.progress = FALSE) %&gt;%
+    rename_all(function(x) {paste0(&quot;Mean&quot;, x)}) %&gt;%
+    rownames_to_column(&quot;Gene&quot;)
+
+prop &lt;- AverageDetectionRate(orgs.neph) %&gt;%
+    rename_all(function(x) {paste0(&quot;Prop&quot;, x)}) %&gt;%
+    rownames_to_column(&quot;Gene&quot;)
+
+alt.cols &lt;- c(rbind(colnames(prop), colnames(expr)))[-1]
+
+cluster.expr &lt;- expr %&gt;%
+    left_join(prop, by = &quot;Gene&quot;) %&gt;%
+    select(alt.cols)
+
+cluster.assign &lt;- orgs.neph@meta.data %&gt;%
+    select(Cell, Dataset, Sample, Barcode, Cluster = NephCluster)</code></pre>
 <pre class="r"><code>dir.create(here(&quot;output&quot;, DOCNAME), showWarnings = FALSE)
 
 write_lines(params, here(&quot;output&quot;, DOCNAME, &quot;parameters.json&quot;))
+write_csv(cluster.assign, here(&quot;output&quot;, DOCNAME, &quot;cluster_assignments.csv&quot;))
+write_csv(cluster.expr, here(&quot;output&quot;, DOCNAME, &quot;cluster_expression.csv&quot;))
 write_csv(markers, here(&quot;output&quot;, DOCNAME, &quot;markers.csv&quot;))
 write_xlsx(markers.list, here(&quot;output&quot;, DOCNAME, &quot;markers.xlsx&quot;))
 write_csv(con.markers, here(&quot;output&quot;, DOCNAME, &quot;conserved_markers.csv&quot;))
@@ -1329,19 +1401,25 @@ write_xlsx(cluster.de.list, here(&quot;output&quot;, DOCNAME, &quot;cluster_de.x
 kable(data.frame(
     File = c(
         glue(&quot;[parameters.json]({getDownloadURL(&#39;parameters.json&#39;, DOCNAME)})&quot;),
+        glue(&quot;[cluster_assignments.csv]&quot;,
+             &quot;({getDownloadURL(&#39;cluster_assignments.csv&#39;, DOCNAME)})&quot;),
+        glue(&quot;[cluster_expression.csv]&quot;,
+             &quot;({getDownloadURL(&#39;cluster_expression.csv&#39;, DOCNAME)})&quot;),
         glue(&quot;[markers.csv]({getDownloadURL(&#39;markers.csv&#39;, DOCNAME)})&quot;),
         glue(&quot;[markers.xlsx]({getDownloadURL(&#39;markers.xlsx&#39;, DOCNAME)})&quot;),
-        glue(&quot;[conserved_markers.csv]({&quot;,
-             &quot;getDownloadURL(&#39;conserved_markers.csv&#39;, DOCNAME)})&quot;),
-        glue(&quot;[conserved_markers.xlsx]({&quot;,
-             &quot;getDownloadURL(&#39;conserved_markers.xlsx&#39;, DOCNAME)})&quot;),
-        glue(&quot;[cluster_de.csv]({&quot;,
-             &quot;getDownloadURL(&#39;cluster_de.csv&#39;, DOCNAME)})&quot;),
-        glue(&quot;[cluster_de.xlsx]({&quot;,
-             &quot;getDownloadURL(&#39;cluster_de.xlsx&#39;, DOCNAME)})&quot;)
+        glue(&quot;[conserved_markers.csv]&quot;,
+             &quot;({getDownloadURL(&#39;conserved_markers.csv&#39;, DOCNAME)})&quot;),
+        glue(&quot;[conserved_markers.xlsx]&quot;,
+             &quot;({getDownloadURL(&#39;conserved_markers.xlsx&#39;, DOCNAME)})&quot;),
+        glue(&quot;[cluster_de.csv]&quot;,
+             &quot;({getDownloadURL(&#39;cluster_de.csv&#39;, DOCNAME)})&quot;),
+        glue(&quot;[cluster_de.xlsx]&quot;,
+             &quot;({getDownloadURL(&#39;cluster_de.xlsx&#39;, DOCNAME)})&quot;)
     ),
     Description = c(
         &quot;Parameters set and used in this analysis&quot;,
+        &quot;Cluster assignments for each cell&quot;,
+        &quot;Cluster expression for each gene&quot;,
         &quot;Results of marker gene testing in CSV format&quot;,
         paste(&quot;Results of marker gene testing in XLSX format with one tab&quot;,
               &quot;per cluster&quot;),
@@ -1365,6 +1443,14 @@ kable(data.frame(
 <tr class="odd">
 <td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/parameters.json">parameters.json</a></td>
 <td align="left">Parameters set and used in this analysis</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/cluster_assignments.csv">cluster_assignments.csv</a></td>
+<td align="left">Cluster assignments for each cell</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/cluster_expression.csv">cluster_expression.csv</a></td>
+<td align="left">Cluster expression for each gene</td>
 </tr>
 <tr class="even">
 <td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/markers.csv">markers.csv</a></td>
