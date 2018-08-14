@@ -669,10 +669,31 @@ and _Save Link As..._ to download the results.
 write_rds(orgs, here("data/processed/Organoids_clustered.Rds"))
 ```
 
+```{r cluster-details}
+expr <- AverageExpression(orgs, show.progress = FALSE) %>%
+    rename_all(function(x) {paste0("Mean", x)}) %>%
+    rownames_to_column("Gene")
+
+prop <- AverageDetectionRate(orgs) %>%
+    rename_all(function(x) {paste0("Prop", x)}) %>%
+    rownames_to_column("Gene")
+
+alt.cols <- c(rbind(colnames(prop), colnames(expr)))[-1]
+
+cluster.expr <- expr %>%
+    left_join(prop, by = "Gene") %>%
+    select(alt.cols)
+
+cluster.assign <- orgs@meta.data %>%
+    select(Cell, Dataset, Sample, Barcode, Cluster)
+```
+
 ```{r output}
 dir.create(here("output", DOCNAME), showWarnings = FALSE)
 
 write_lines(params, here("output", DOCNAME, "parameters.json"))
+write_csv(cluster.assign, here("output", DOCNAME, "cluster_assignments.csv"))
+write_csv(cluster.expr, here("output", DOCNAME, "cluster_expression.csv"))
 write_csv(markers, here("output", DOCNAME, "markers.csv"))
 write_xlsx(markers.list, here("output", DOCNAME, "markers.xlsx"))
 write_csv(con.markers, here("output", DOCNAME, "conserved_markers.csv"))
@@ -683,19 +704,25 @@ write_xlsx(cluster.de.list, here("output", DOCNAME, "cluster_de.xlsx"))
 kable(data.frame(
     File = c(
         glue("[parameters.json]({getDownloadURL('parameters.json', DOCNAME)})"),
+        glue("[cluster_assignments.csv]",
+             "({getDownloadURL('cluster_assignments.csv', DOCNAME)})"),
+        glue("[cluster_expression.csv]",
+             "({getDownloadURL('cluster_expression.csv', DOCNAME)})"),
         glue("[markers.csv]({getDownloadURL('markers.csv', DOCNAME)})"),
         glue("[markers.xlsx]({getDownloadURL('markers.xlsx', DOCNAME)})"),
-        glue("[conserved_markers.csv]({",
-             "getDownloadURL('conserved_markers.csv', DOCNAME)})"),
-        glue("[conserved_markers.xlsx]({",
-             "getDownloadURL('conserved_markers.xlsx', DOCNAME)})"),
-        glue("[cluster_de.csv]({",
-             "getDownloadURL('cluster_de.csv', DOCNAME)})"),
-        glue("[cluster_de.xlsx]({",
-             "getDownloadURL('cluster_de.xlsx', DOCNAME)})")
+        glue("[conserved_markers.csv]",
+             "({getDownloadURL('conserved_markers.csv', DOCNAME)})"),
+        glue("[conserved_markers.xlsx]",
+             "({getDownloadURL('conserved_markers.xlsx', DOCNAME)})"),
+        glue("[cluster_de.csv]",
+             "({getDownloadURL('cluster_de.csv', DOCNAME)})"),
+        glue("[cluster_de.xlsx]",
+             "({getDownloadURL('cluster_de.xlsx', DOCNAME)})")
     ),
     Description = c(
         "Parameters set and used in this analysis",
+        "Cluster assignments for each cell",
+        "Cluster expression for each gene",
         "Results of marker gene testing in CSV format",
         paste("Results of marker gene testing in XLSX format with one tab",
               "per cluster"),

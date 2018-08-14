@@ -1,0 +1,426 @@
+---
+title: "Crossover"
+output:
+    workflowr::wflow_html:
+        code_folding: hide
+        df_print: paged
+---
+
+```{r knitr, include = FALSE}
+DOCNAME = "08_Crossover"
+knitr::opts_chunk$set(autodep        = TRUE,
+                      cache          = FALSE,
+                      cache.path     = paste0("cache/", DOCNAME, "/"),
+                      cache.comments = FALSE,
+                      echo           = TRUE,
+                      error          = FALSE,
+                      fig.align      = "center",
+                      fig.width      = 10,
+                      fig.height     = 8,
+                      message        = FALSE,
+                      warning        = FALSE)
+```
+
+```{r libaries, cache = FALSE}
+# Presentation
+library("knitr")
+library("glue")
+
+# Paths
+library("here")
+
+# Tidyverse
+library("tidyverse")
+```
+
+```{r source, cache = FALSE}
+source(here("R/output.R"))
+```
+
+```{r paths}
+orgs.path <- here("output/04_Organoids_Clustering/cluster_assignments.csv")
+orgs.neph.path <- here("output/04B_Organoids_Nephron/cluster_assignments.csv")
+comb.path <- here("output/07_Combined_Clustering/cluster_assignments.csv")
+comb.neph.path <- here("output/07B_Combined_Nephron/cluster_assignments.csv")
+```
+
+Introduction
+============
+
+In this document we are going to load the results of the various clustering
+analyses and compare them. The goal is to see if they are consistent by checking
+that clusters in different analyses that have been assigned the same cell types
+actually contain the same cells.
+
+```{r load, cache.extra = c(tools::md5sum(orgs.path), tools::md5sum(orgs.neph.path), tools::md5sum(comb.path), tools::md5sum(comb.neph.path))}
+orgs.clusts <- read_csv(orgs.path,
+                        col_types = cols(
+                            Cell = col_character(),
+                            Dataset = col_character(),
+                            Sample = col_integer(),
+                            Barcode = col_character(),
+                            Cluster = col_integer()
+                        )) %>%
+    rename(Organoids = Cluster)
+
+orgs.neph.clusts <- read_csv(orgs.neph.path,
+                             col_types = cols(
+                                 Cell = col_character(),
+                                 Dataset = col_character(),
+                                 Sample = col_integer(),
+                                 Barcode = col_character(),
+                                 Cluster = col_integer()
+                             )) %>%
+    rename(OrgsNephron = Cluster)
+
+comb.clusts <- read_csv(comb.path,
+                        col_types = cols(
+                            Cell = col_character(),
+                            Dataset = col_character(),
+                            Sample = col_integer(),
+                            Barcode = col_character(),
+                            Cluster = col_integer()
+                        )) %>%
+    rename(Combined = Cluster)
+
+comb.neph.clusts <- read_csv(comb.neph.path,
+                             col_types = cols(
+                                 Cell = col_character(),
+                                 Dataset = col_character(),
+                                 Sample = col_integer(),
+                                 Barcode = col_character(),
+                                 Cluster = col_integer()
+                             )) %>%
+    rename(CombNephron = Cluster)
+
+clusts <- comb.clusts %>%
+    left_join(comb.neph.clusts,
+              by = c("Cell", "Dataset", "Sample", "Barcode")) %>%
+    left_join(orgs.clusts,
+              by = c("Cell", "Dataset", "Sample", "Barcode")) %>%
+    left_join(orgs.neph.clusts,
+              by = c("Cell", "Dataset", "Sample", "Barcode"))
+```
+
+We are going to do this using a kind of heatmap. Clustering results from two
+separate analyses will form the x and y axes and each cell will represent the
+overlap in samples between two clusters. We will colour the cells using the
+Jaccard index, a measure of similarity between to groups that is equal to the
+size of the intersect divided by the size of the union. This will highlight
+clusters that are particularly similar. We will also label cells with the
+proportion of samples in a cluster that are also in another, so that rows and
+columns will each sum to one (using a separate colour for each).
+
+```{r summ-clusts}
+summariseClusts <- function(clusts, clust1, clust2) {
+    clust1 <- enquo(clust1)
+    clust2 <- enquo(clust2)
+    
+    clusts %>%
+        filter(!is.na(!!clust1) & !is.na(!!clust2)) %>%
+        group_by(!!clust1, !!clust2) %>%
+        summarise(Count = n()) %>%
+        ungroup() %>%
+        complete(!!clust1, !!clust2) %>%
+        mutate(!!quo_name(clust1) := factor(!!clust1),
+               !!quo_name(clust2) := factor(!!clust2)) %>%
+        group_by(!!clust1) %>%
+        mutate(!!paste0(quo_name(clust1), "Total") := sum(Count, na.rm = TRUE),
+               !!paste0(quo_name(clust1), "Pct") :=
+                   Count / sum(Count, na.rm = TRUE)) %>%
+        group_by(!!clust2) %>%
+        mutate(!!paste0(quo_name(clust2), "Total") := sum(Count, na.rm = TRUE),
+               !!paste0(quo_name(clust2), "Pct") :=
+                   Count / sum(Count, na.rm = TRUE)) %>%
+        mutate(Jaccard = Count / 
+                   (!!rlang::sym(paste0(quo_name(clust1), "Total")) +
+                        !!rlang::sym(paste0(quo_name(clust2), "Total")) -
+                        Count))
+}
+```
+
+Organoids
+=========
+
+vs Organoids Nephron
+--------------------
+
+```{r orgs-orgs-neph}
+summariseClusts(clusts, Organoids, OrgsNephron) %>%
+    ggplot(aes(x = Organoids, y = OrgsNephron, fill = Jaccard)) +
+    geom_tile() +
+    geom_text(aes(label = round(OrganoidsPct, 2)), nudge_y = 0.2,
+              colour = "#ff698f", size = 6) +
+    geom_text(aes(label = round(OrgsNephronPct, 2)), nudge_y = -0.2,
+              colour = "#73b4ff", size = 6) +
+    geom_text(aes(label = glue("({OrganoidsTotal})")), y = -0.05,
+              size = 5, colour = "#ff698f") +
+    geom_text(aes(label = glue("({OrgsNephronTotal})")), x = -0.05,
+              size = 5, colour = "#73b4ff") +
+    scale_fill_viridis_c(begin = 0.02, end = 0.98, na.value = "black",
+                         limits = c(0, 1)) +
+    coord_equal() +
+    expand_limits(x = -0.5, y = -0.5) +
+    labs(x = "Organoids cluster",
+         y = "Organoids nephron cluster",
+         caption = "Numbers in brackets show cluster size") + 
+    theme_minimal() +
+    theme(axis.text = element_text(size = 20),
+          axis.text.x = element_text(colour = "#ff698f"),
+          axis.text.y = element_text(colour = "#73b4ff"),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 15),
+          axis.title.x = element_text(colour = "#ff698f"),
+          axis.title.y = element_text(colour = "#73b4ff"),
+          legend.key.height = unit(50, "pt"),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())
+```
+
+vs Combined
+-----------
+
+```{r orgs-combined}
+summariseClusts(clusts, Organoids, Combined) %>%
+    ggplot(aes(x = Organoids, y = Combined, fill = Jaccard)) +
+    geom_tile() +
+    geom_text(aes(label = round(OrganoidsPct, 2)), nudge_y = 0.2,
+              colour = "#ff698f", size = 4) +
+    geom_text(aes(label = round(CombinedPct, 2)), nudge_y = -0.2,
+              colour = "#73b4ff", size = 4) +
+    geom_text(aes(label = glue("({OrganoidsTotal})")), y = -0.05,
+              size = 3.5, colour = "#ff698f") +
+    geom_text(aes(label = glue("({CombinedTotal})")), x = -0.05,
+              size = 3.5, colour = "#73b4ff") +
+    scale_fill_viridis_c(begin = 0.02, end = 0.98, na.value = "black",
+                         limits = c(0, 1)) +
+    coord_equal() +
+    expand_limits(x = -0.5, y = -0.5) +
+    labs(x = "Organoids cluster",
+         y = "Combined cluster",
+         caption = "Numbers in brackets show cluster size") + 
+    theme_minimal() +
+    theme(axis.text = element_text(size = 20),
+          axis.text.x = element_text(colour = "#ff698f"),
+          axis.text.y = element_text(colour = "#73b4ff"),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 15),
+          axis.title.x = element_text(colour = "#ff698f"),
+          axis.title.y = element_text(colour = "#73b4ff"),
+          legend.key.height = unit(50, "pt"),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())
+```
+
+vs Combined Nephron
+-------------------
+
+```{r orgs-comb-neph}
+summariseClusts(clusts, Organoids, CombNephron) %>%
+    ggplot(aes(x = Organoids, y = CombNephron, fill = Jaccard)) +
+    geom_tile() +
+    geom_text(aes(label = round(OrganoidsPct, 2)), nudge_y = 0.2,
+              colour = "#ff698f", size = 6) +
+    geom_text(aes(label = round(CombNephronPct, 2)), nudge_y = -0.2,
+              colour = "#73b4ff", size = 6) +
+    geom_text(aes(label = glue("({OrganoidsTotal})")), y = -0.05,
+              size = 5, colour = "#ff698f") +
+    geom_text(aes(label = glue("({CombNephronTotal})")), x = -0.05,
+              size = 5, colour = "#73b4ff") +
+    scale_fill_viridis_c(begin = 0.02, end = 0.98, na.value = "black",
+                         limits = c(0, 1)) +
+    coord_equal() +
+    expand_limits(x = -0.5, y = -0.5) +
+    labs(x = "Organoids cluster",
+         y = "Combined nephron cluster",
+         caption = "Numbers in brackets show cluster size") + 
+    theme_minimal() +
+    theme(axis.text = element_text(size = 20),
+          axis.text.x = element_text(colour = "#ff698f"),
+          axis.text.y = element_text(colour = "#73b4ff"),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 15),
+          axis.title.x = element_text(colour = "#ff698f"),
+          axis.title.y = element_text(colour = "#73b4ff"),
+          legend.key.height = unit(50, "pt"),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())
+```
+
+Combined
+========
+
+vs Combined Nephron
+-------------------
+
+```{r combined-comb-neph}
+summariseClusts(clusts, Combined, CombNephron) %>%
+    ggplot(aes(x = Combined, y = CombNephron, fill = Jaccard)) +
+    geom_tile() +
+    geom_text(aes(label = round(CombinedPct, 2)), nudge_y = 0.2,
+              colour = "#ff698f", size = 6) +
+    geom_text(aes(label = round(CombNephronPct, 2)), nudge_y = -0.2,
+              colour = "#73b4ff", size = 6) +
+    geom_text(aes(label = glue("({CombinedTotal})")), y = -0.05,
+              size = 5, colour = "#ff698f") +
+    geom_text(aes(label = glue("({CombNephronTotal})")), x = -0.05,
+              size = 5, colour = "#73b4ff") +
+    scale_fill_viridis_c(begin = 0.02, end = 0.98, na.value = "black",
+                         limits = c(0, 1)) +
+    coord_equal() +
+    expand_limits(x = -0.5, y = -0.5) +
+    labs(x = "Combined cluster",
+         y = "Combined nephron cluster",
+         caption = "Numbers in brackets show cluster size") + 
+    theme_minimal() +
+    theme(axis.text = element_text(size = 20),
+          axis.text.x = element_text(colour = "#ff698f"),
+          axis.text.y = element_text(colour = "#73b4ff"),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 15),
+          axis.title.x = element_text(colour = "#ff698f"),
+          axis.title.y = element_text(colour = "#73b4ff"),
+          legend.key.height = unit(50, "pt"),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())
+```
+
+vs Organoids
+------------
+
+```{r combined-orgs}
+summariseClusts(clusts, Combined, Organoids) %>%
+    ggplot(aes(x = Combined, y = Organoids, fill = Jaccard)) +
+    geom_tile() +
+    geom_text(aes(label = round(CombinedPct, 2)), nudge_y = 0.2,
+              colour = "#ff698f", size = 4) +
+    geom_text(aes(label = round(OrganoidsPct, 2)), nudge_y = -0.2,
+              colour = "#73b4ff", size = 4) +
+    geom_text(aes(label = glue("({CombinedTotal})")), y = -0.05,
+              size = 4, colour = "#ff698f") +
+    geom_text(aes(label = glue("({OrganoidsTotal})")), x = -0.05,
+              size = 4, colour = "#73b4ff") +
+    scale_fill_viridis_c(begin = 0.02, end = 0.98, na.value = "black",
+                         limits = c(0, 1)) +
+    coord_equal() +
+    expand_limits(x = -0.5, y = -0.5) +
+    labs(x = "Combined cluster",
+         y = "Organoids cluster",
+         caption = "Numbers in brackets show cluster size") + 
+    theme_minimal() +
+    theme(axis.text = element_text(size = 20),
+          axis.text.x = element_text(colour = "#ff698f"),
+          axis.text.y = element_text(colour = "#73b4ff"),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 15),
+          axis.title.x = element_text(colour = "#ff698f"),
+          axis.title.y = element_text(colour = "#73b4ff"),
+          legend.key.height = unit(50, "pt"),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())
+```
+
+vs Organoids Nephron
+--------------------
+
+```{r combined-orgs-neph}
+summariseClusts(clusts, Combined, OrgsNephron) %>%
+    ggplot(aes(x = Combined, y = OrgsNephron, fill = Jaccard)) +
+    geom_tile() +
+    geom_text(aes(label = round(CombinedPct, 2)), nudge_y = 0.2,
+              colour = "#ff698f", size = 6) +
+    geom_text(aes(label = round(OrgsNephronPct, 2)), nudge_y = -0.2,
+              colour = "#73b4ff", size = 6) +
+    geom_text(aes(label = glue("({CombinedTotal})")), y = -0.05,
+              size = 5, colour = "#ff698f") +
+    geom_text(aes(label = glue("({OrgsNephronTotal})")), x = -0.05,
+              size = 5, colour = "#73b4ff") +
+    scale_fill_viridis_c(begin = 0.02, end = 0.98, na.value = "black",
+                         limits = c(0, 1)) +
+    coord_equal() +
+    expand_limits(x = -0.5, y = -0.5) +
+    labs(x = "Combined cluster",
+         y = "Organoids nephron cluster",
+         caption = "Numbers in brackets show cluster size") + 
+    theme_minimal() +
+    theme(axis.text = element_text(size = 20),
+          axis.text.x = element_text(colour = "#ff698f"),
+          axis.text.y = element_text(colour = "#73b4ff"),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 15),
+          axis.title.x = element_text(colour = "#ff698f"),
+          axis.title.y = element_text(colour = "#73b4ff"),
+          legend.key.height = unit(50, "pt"),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())
+```
+
+Combined nephron
+================
+
+vs Organoids Nephron
+--------------------
+
+```{r comb-neph-orgs-neph}
+summariseClusts(clusts, CombNephron, OrgsNephron) %>%
+    ggplot(aes(x = CombNephron, y = OrgsNephron, fill = Jaccard)) +
+    geom_tile() +
+    geom_text(aes(label = round(CombNephronPct, 2)), nudge_y = 0.2,
+              colour = "#ff698f", size = 6) +
+    geom_text(aes(label = round(OrgsNephronPct, 2)), nudge_y = -0.2,
+              colour = "#73b4ff", size = 6) +
+    geom_text(aes(label = glue("({CombNephronTotal})")), y = -0.05,
+              size = 5, colour = "#ff698f") +
+    geom_text(aes(label = glue("({OrgsNephronTotal})")), x = -0.05,
+              size = 5, colour = "#73b4ff") +
+    scale_fill_viridis_c(begin = 0.02, end = 0.98, na.value = "black",
+                         limits = c(0, 1)) +
+    coord_equal() +
+    expand_limits(x = -0.5, y = -0.5) +
+    labs(x = "Combined nephron cluster",
+         y = "Organoids nephron cluster",
+         caption = "Numbers in brackets show cluster size") + 
+    theme_minimal() +
+    theme(axis.text = element_text(size = 20),
+          axis.text.x = element_text(colour = "#ff698f"),
+          axis.text.y = element_text(colour = "#73b4ff"),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 15),
+          axis.title.x = element_text(colour = "#ff698f"),
+          axis.title.y = element_text(colour = "#73b4ff"),
+          legend.key.height = unit(50, "pt"),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())
+```
+
+Summary
+=======
+
+Output files
+------------
+
+This table describes the output files produced by this document. Right click
+and _Save Link As..._ to download the results.
+
+```{r output}
+dir.create(here("output", DOCNAME), showWarnings = FALSE)
+
+write_csv(clusts, here("output", DOCNAME, "cluster_assignments.csv"))
+
+kable(data.frame(
+    File = c(
+        glue("[cluster_assignments.csv]",
+             "({getDownloadURL('cluster_assignments.csv', DOCNAME)})")
+    ),
+    Description = c(
+        "Cluster assignments for all clustering analyses"
+    )
+))
+```
