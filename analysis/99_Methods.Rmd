@@ -1,0 +1,191 @@
+---
+title: "Methods"
+output:
+    workflowr::wflow_html:
+        code_folding: hide
+bibliography:
+    - "`r here::here('data/packages.bib')`"
+    - "`r here::here('data/references.bib')`"
+---
+
+```{r knitr, include = FALSE}
+DOCNAME = "99_Methods"
+knitr::opts_chunk$set(autodep        = TRUE,
+                      cache          = FALSE,
+                      cache.path     = paste0("cache/", DOCNAME, "/"),
+                      cache.comments = FALSE,
+                      echo           = TRUE,
+                      error          = FALSE,
+                      fig.align      = "center",
+                      fig.width      = 10,
+                      fig.height     = 8,
+                      message        = FALSE,
+                      warning        = FALSE)
+```
+
+```{r libaries, cache = FALSE}
+# Presentation
+library("glue")
+library("knitr")
+
+# Paths
+library("here")
+
+# Output
+library("jsonlite")
+
+# Tidyverse
+library("tidyverse")
+```
+
+```{r pkg-bib}
+write_bib(c("SingleCellExperiment"), file = here("data/packages.bib"))
+```
+
+```{r load}
+docs <- list.dirs(here("output"), full.names = FALSE)[-1]
+
+params <- map(docs, function(doc) {
+    out <- tryCatch(
+        {
+            table <- suppressWarnings(
+                read_json(here(glue("output/{doc}/parameters.json")),
+                               simplifyVector = TRUE)
+            )
+            p.list <- table$Value %>% setNames(table$Parameter)
+        },
+        error = function(e) {
+            message(glue("{doc} parameters file not found"))
+
+            return(list())
+        }
+    )    
+    
+    return(out)
+})
+
+names(params) <- str_remove(docs, "[0-9A-Z]+_")
+```
+
+Pre-processing
+==============
+
+The Cell Ranger pipeline (v1.3.1) was used to perform sample demultiplexing,
+barcode processing and single-cell gene counting [ref]. Briefly, samples were
+demultiplexed to produce a pair of FASTQ files for each sample. Reads containing
+sequence information were aligned to the GRCh38 reference genome provided with
+Cell Ranger (v1.2.0). Cell barcodes were filtered to remove empty droplets and
+PCR duplicates were removed by selecting unique combinations of cell barcodes, 
+unique molecular identifiers and gene ids with the final results being a gene 
+expression matrix that was used for further analysis. The three samples in the
+first batch of organoids were aggregated using Cell Ranger with no normalisation
+and treated as a single dataset.
+
+Quality control
+===============
+
+The R statistical programming language
+(v`r str_extract(R.version.string, "[0-9\\.]+")`) [ref] was used for further 
+analysis. Count data for each experiment was read into R and used to construct a 
+SingleCellExperiment object (v`r packageVersion("SingleCellExperiment")`)
+[@R-SingleCellExperiment].Gene annotation information was added from BioMart 
+[@Smedley2015-an] using the biomaRt  package (v`r packageVersion("biomaRt")`) 
+[@Durinck2005-zb] and cells were assigned cell cycle scores using the cyclone 
+[@Scialdone2015-rp] function in the scran package (v`r packageVersion("scran")`) 
+[@Lun2016-lp].
+
+The scater package (v`r packageVersion("scater")`) [@McCarthy2017-ql] was used
+to produce a series of diagnostic quality control plots. Cells with a high
+number of expressed genes (indicating potential doublets) were removed, as were 
+cells with a high percentage of counts assigned to mitochondrial or ribosomal
+genes, or with low expression of the housekeeping genes GAPDH and ACTB.
+
+Genes that had less than two total counts across a dataset, or were expressed in
+less than two individual cells, were removed. We also removed genes without an
+annotated HGNC symbol.
+
+Following quality control the first organoid dataset consisted of
+`r params$Organoid123_QC$n_cells` cells and `r params$Organoid123_QC$n_genes`
+genes with a median of `r params$Organoid123_QC$median_genes` genes expressed
+per a cell, the fourth organoid had `r params$Organoid4_QC$n_cells` cells and
+`r params$Organoid4_QC$n_genes` genes with a median of
+`r params$Organoid4_QC$median_genes` genes expressed per cell and the Lindstrom
+dataset had `r params$Lindstrom_QC$n_cells` cells and
+`r params$Lindstrom_QC$n_genes` genes with a median of
+`r params$Lindstrom_QC$median_genes` genes expressed per cell.
+
+Clustering analysis
+===================
+
+Organoids
+---------
+
+The two organoid datasets were integrated using the alignment method in the
+Seurat package (v`r packageVersion("Seurat")`) [@Satija2015-or; @Butler2018-js].
+Briefly, highly variable genes were identified in each dataset and those that
+were present in both datasets (`r params$Organoids_Integration$var_genes` genes)
+were selected. Canonical correlation analysis
+[@Hotelling1936-ni; @Hardoon2004-ev] was then performed using the
+selected genes and `r params$Organoids_Integration$n_CCs` dimensions that
+represent the  majority of variation were selected. The final step used dynamic
+time warping [@Berndt1994-lh] to align the datasets in the selected subspace.
+
+To perform clustering Seurat constructs a shared nearest neighbour graph of 
+cells in the aligned subspace and uses Louvain modularity optimisation 
+[@Blondel2008-ym] to assign cells to clusters. The number of clusters produced
+using this method is controlled by a resolution parameter with higher values
+giving more clusters. We performed clustering over a range of resolutions from
+`r min(params$Organoids_Clustering$resolutions)` to
+`r max(params$Organoids_Clustering$resolutions)` in steps of 0.1 and used the 
+clustree package (v`r packageVersion("clustree")`) to produce clustering trees
+[@Zappia2018-ph] showing the expression of known marker genes to select the 
+appropriate resolution to use. We chose to use a resolution of
+`r params$Organoids_Clustering$res` which produced
+`r params$Organoids_Clustering$n.clusts` clusters. 
+
+Marker genes for each cluster were detected by testing for differential
+expression between cells in one cluster and all other cells using a Wilcoxon
+rank sum test [@Bauer1972-yf]. To reduce processing time only genes that were 
+expressed in at least 10 percent of cells in one of these groups were tested. To 
+identify conserved marker genes a similar process was performed on each dataset
+separately and the results combined using the maximum p-value method. We also
+tested for within cluster differential expression to identify differences
+between cells of the same type in different datasets.
+
+Based on identified marker genes we determined clusters
+`r glue_collapse(params$Organoids_Nephron$clusters, last = " and ")` represented
+the nephron lineage. The `r params$Organoids_Nephron$n_cells` cells in these
+clusters were re-clustered at a resolution of
+`r params$Organoids_Nephron$res` resulting in
+`r params$Organoids_Nephron$n.clusts` clusters. 
+
+Combined
+--------
+
+The combined organoid and human foetal kidney analysis used the procedure
+described for the organoid only analysis but with slightly different parameters.
+We identified `r params$Combined_Integration$var_genes` variable genes present
+in all three datasets and selected the first
+`r params$Combined_Integration$n_CCs` canonical correlation dimensions. For
+clustering we chose a resolution of `r params$Combined_Clustering$res` which 
+produced `r params$Combined_Clustering$n.clusts` clusters. Clusters
+`r glue_collapse(params$Combined_Nephron$clusters, sep = ", ", last = " and ")`
+were determined to be the nephron lineage and these
+`r params$Combined_Nephron$n_cells` cells were re-clustered at a resolution of
+`r params$Combined_Nephron$res` producing `r params$Combined_Nephron$n.clusts`
+clusters.
+
+Visualisation
+=============
+
+Figures shown here were produced using...
+
+Availability
+============
+
+The datasets are available from GEO accession numbers XXX. A website showing
+reports produced during analysis including the exact software versions and
+parameters used can be accessed at XXX and the code is available at XXX.
+
+References
+==========

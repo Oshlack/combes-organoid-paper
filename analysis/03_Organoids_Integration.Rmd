@@ -25,21 +25,22 @@ knitr::opts_chunk$set(autodep        = TRUE,
 library("SingleCellExperiment")
 library("Seurat")
 
-# Matrices
-
-# Plotting
-
-# Parallel
+# Presentation
+library("glue")
+library("knitr")
 
 # Paths
 library("here")
+
+# Output
+library("jsonlite")
 
 # Tidyverse
 library("tidyverse")
 ```
 
 ```{r source, cache = FALSE}
-
+source(here("R/output.R"))
 ```
 
 ```{r paths}
@@ -205,9 +206,62 @@ This combined dataset of `r nrow(orgs@scale.data)` genes and
 `r ncol(orgs@scale.data)` cells is the starting point for our clustering
 analysis.
 
+Summary
+=======
+
+Parameters
+----------
+
+This table describes parameters used and set in this document.
+
+```{r parameters}
+params <- toJSON(list(
+    list(
+        Parameter = "var_genes",
+        Value = length(genes.use),
+        Description = "Number of selected highly variable genes"
+    ),
+    list(
+        Parameter = "n_CCs",
+        Value = n.dims,
+        Description = "Number of selected canonical correlation dimensions"
+    ),
+    list(
+        Parameter = "n_cells",
+        Value = ncol(orgs@scale.data),
+        Description = "Number of cells in the integrated dataset"
+    ),
+    list(
+        Parameter = "n_genes",
+        Value = nrow(orgs@scale.data),
+        Description = "Number of genes in the integrated dataset"
+    )
+), pretty = TRUE)
+
+kable(fromJSON(params))
+```
+
+Output files
+------------
+
+This table describes the output files produced by this document. Right click
+and _Save Link As..._ to download the results.
+
 ```{r write-combined}
 write_rds(orgs, here("data/processed/Organoids_Seurat.Rds"))
 ```
 
-Metadata
-========
+```{r output}
+dir.create(here("output", DOCNAME), showWarnings = FALSE)
+
+write_lines(params, here("output", DOCNAME, "parameters.json"))
+
+kable(data.frame(
+    File = c(
+        glue("[parameters.json]({getDownloadURL('parameters.json', DOCNAME)})")
+    ),
+    Description = c(
+        "Parameters set and used in this analysis"
+    )
+))
+```

@@ -30,11 +30,18 @@ library("Matrix")
 # Plotting
 library("cowplot")
 
+# Presentation
+library("glue")
+library("knitr")
+
 # Parallel
 library("BiocParallel")
 
 # Paths
 library("here")
+
+# Output
+library("jsonlite")
 
 # Tidyverse
 library("tidyverse")
@@ -42,6 +49,7 @@ library("tidyverse")
 
 ```{r source, cache = FALSE}
 source(here("R/load.R"))
+source(here("R/output.R"))
 ```
 
 Introduction
@@ -512,9 +520,83 @@ We now have a high-quality dataset for our analysis with `r nrow(sce)` genes
 and `r ncol(sce)` cells. A median of `r median(colSums(counts(sce) != 0))` genes
 are expressed in each cell.
 
+Summary
+=======
+
+Parameters
+----------
+
+This table describes parameters used and set in this document.
+
+```{r parameters}
+params <- toJSON(list(
+    list(
+        Parameter = "total_features",
+        Value = 9000,
+        Description = "Maximum threshold for total features expressed"
+    ),
+    list(
+        Parameter = "mt_counts",
+        Value = 10,
+        Description = "Maximum threshold for percentage counts mitochondrial"
+    ),
+    list(
+        Parameter = "ribo_counts",
+        Value = 50,
+        Description = "Maximum threshold for percentage counts ribosomal"
+    ),
+    list(
+        Parameter = "ACTB_expr",
+        Value = 2,
+        Description = "Minimum threshold for ACTB expression"
+    ),
+    list(
+        Parameter = "GAPDH_expr",
+        Value = 3.5,
+        Description = "Minimum threshold for GAPDH expression"
+    ),
+    list(
+        Parameter = "n_cells",
+        Value = ncol(sce),
+        Description = "Number of cells in the filtered dataset"
+    ),
+    list(
+        Parameter = "n_genes",
+        Value = nrow(sce),
+        Description = "Number of genes in the filtered dataset"
+    ),
+    list(
+        Parameter = "median_genes",
+        Value = median(colSums(counts(sce) != 0)),
+        Description = paste("Median number of expressed genes per cell in the",
+                            "filtered dataset")
+    )
+), pretty = TRUE)
+
+kable(fromJSON(params))
+```
+
+Output files
+------------
+
+This table describes the output files produced by this document. Right click
+and _Save Link As..._ to download the results.
+
 ```{r save}
 write_rds(sce, here("data/processed/Organoid4_SCE_filtered.Rds"))
 ```
 
-Metadata
-========
+```{r output}
+dir.create(here("output", DOCNAME), showWarnings = FALSE)
+
+write_lines(params, here("output", DOCNAME, "parameters.json"))
+
+kable(data.frame(
+    File = c(
+        glue("[parameters.json]({getDownloadURL('parameters.json', DOCNAME)})")
+    ),
+    Description = c(
+        "Parameters set and used in this analysis"
+    )
+))
+```

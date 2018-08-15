@@ -648,6 +648,16 @@ params <- toJSON(list(
         Description = "Selected nephron clusters"
     ),
     list(
+        Parameter = "n_cells",
+        Value = ncol(orgs.neph@scale.data),
+        Description = "Number of cells in the nephron dataset"
+    ),
+    list(
+        Parameter = "n_genes",
+        Value = nrow(orgs.neph@scale.data),
+        Description = "Number of genes in the nephron dataset"
+    ),
+    list(
         Parameter = "resolutions",
         Value = resolutions,
         Description = "Range of possible clustering resolutions"
