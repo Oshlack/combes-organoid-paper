@@ -1,0 +1,42 @@
+[
+  {
+    "Parameter": ["total_features"],
+    "Value": [8000],
+    "Description": ["Maximum threshold for total features expressed"]
+  },
+  {
+    "Parameter": ["mt_counts"],
+    "Value": [10],
+    "Description": ["Maximum threshold for percentage counts mitochondrial"]
+  },
+  {
+    "Parameter": ["ribo_counts"],
+    "Value": [45],
+    "Description": ["Maximum threshold for percentage counts ribosomal"]
+  },
+  {
+    "Parameter": ["ACTB_expr"],
+    "Value": [2],
+    "Description": ["Minimum threshold for ACTB expression"]
+  },
+  {
+    "Parameter": ["GAPDH_expr"],
+    "Value": [2],
+    "Description": ["Minimum threshold for GAPDH expression"]
+  },
+  {
+    "Parameter": ["n_cells"],
+    "Value": [6649],
+    "Description": ["Number of cells in the filtered dataset"]
+  },
+  {
+    "Parameter": ["n_genes"],
+    "Value": [18386],
+    "Description": ["Number of genes in the filtered dataset"]
+  },
+  {
+    "Parameter": ["median_genes"],
+    "Value": [2738],
+    "Description": ["Median number of expressed genes per cell in the filtered dataset"]
+  }
+]

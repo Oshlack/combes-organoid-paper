@@ -1,0 +1,22 @@
+[
+  {
+    "Parameter": ["var_genes"],
+    "Value": [1156],
+    "Description": ["Number of selected highly variable genes"]
+  },
+  {
+    "Parameter": ["n_CCs"],
+    "Value": [25],
+    "Description": ["Number of selected canonical correlation dimensions"]
+  },
+  {
+    "Parameter": ["n_cells"],
+    "Value": [7937],
+    "Description": ["Number of cells in the integrated dataset"]
+  },
+  {
+    "Parameter": ["n_genes"],
+    "Value": [18533],
+    "Description": ["Number of genes in the integrated dataset"]
+  }
+]

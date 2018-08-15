@@ -23,6 +23,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
@@ -168,6 +169,14 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 
 
@@ -312,6 +321,14 @@ div.section {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Methods</h1>
@@ -319,7 +336,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-08-02</p>
+<p><strong>Last updated:</strong> 2018-08-15</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -342,7 +359,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/0a4e2e04cf3dbc60235743ff0e4bbbbc5f6cb429" target="_blank">0a4e2e0</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/eff634dc716c004b015014a432f95a1823bcfedd" target="_blank">eff634d</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -355,38 +372,142 @@ Ignored files:
     Ignored:    packrat/src/
 
 Untracked files:
-    Untracked:  analysis/01_Organoid123_QC_cache/
-    Untracked:  analysis/02_Organoid4_QC_cache/
-    Untracked:  analysis/03_Organoids_Integration_cache/
-    Untracked:  analysis/04_Organoids_Clustering.Rmd
-    Untracked:  analysis/04_Organoids_Clustering_cache/
     Untracked:  analysis/99_Methods.Rmd
-    Untracked:  public/figure/04_Organoids_Clustering.Rmd/
+    Untracked:  analysis/methods.docx
+    Untracked:  output/01_Organoid123_QC/
+    Untracked:  output/02_Organoid4_QC/
+    Untracked:  output/03_Organoids_Integration/
+    Untracked:  output/05_Lindstrom_QC/
+    Untracked:  output/06_Combined_Integration/
 
 Unstaged changes:
-    Modified:   R/load.R
+    Modified:   analysis/01_Organoid123_QC.Rmd
+    Modified:   analysis/02_Organoid4_QC.Rmd
+    Modified:   analysis/03_Organoids_Integration.Rmd
+    Modified:   analysis/04B_Organoids_Nephron.Rmd
+    Modified:   analysis/05_Lindstrom_QC.Rmd
+    Modified:   analysis/06_Combined_Integration.Rmd
+    Modified:   analysis/07B_Combined_Nephron.Rmd
+    Modified:   output/04B_Organoids_Nephron/cluster_de.xlsx
+    Modified:   output/04B_Organoids_Nephron/conserved_markers.xlsx
+    Modified:   output/04B_Organoids_Nephron/markers.xlsx
+    Modified:   output/04B_Organoids_Nephron/parameters.json
+    Modified:   output/07B_Combined_Nephron/cluster_de.xlsx
+    Modified:   output/07B_Combined_Nephron/conserved_markers.xlsx
+    Modified:   output/07B_Combined_Nephron/markers.xlsx
+    Modified:   output/07B_Combined_Nephron/parameters.json
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
 </li>
 </ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//eff634dc716c004b015014a432f95a1823bcfedd/public/99_Methods.html" target="_blank">eff634d</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-08-14
+</td>
+<td style="text-align:left;">
+Build crossover
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
 <hr />
+<pre class="r"><code># Presentation
+library(&quot;glue&quot;)
+library(&quot;knitr&quot;)
+
+# Paths
+library(&quot;here&quot;)
+
+# Output
+library(&quot;jsonlite&quot;)
+
+# Tidyverse
+library(&quot;tidyverse&quot;)</code></pre>
+<pre class="r"><code>write_bib(c(&quot;SingleCellExperiment&quot;), file = here(&quot;data/packages.bib&quot;))</code></pre>
+<pre class="r"><code>docs &lt;- list.dirs(here(&quot;output&quot;), full.names = FALSE)[-1]
+
+params &lt;- map(docs, function(doc) {
+    out &lt;- tryCatch(
+        {
+            table &lt;- suppressWarnings(
+                read_json(here(glue(&quot;output/{doc}/parameters.json&quot;)),
+                               simplifyVector = TRUE)
+            )
+            p.list &lt;- table$Value %&gt;% setNames(table$Parameter)
+        },
+        error = function(e) {
+            message(glue(&quot;{doc} parameters file not found&quot;))
+
+            return(list())
+        }
+    )    
+    
+    return(out)
+})
+
+names(params) &lt;- str_remove(docs, &quot;[0-9A-Z]+_&quot;)</code></pre>
 <div id="pre-processing" class="section level1">
 <h1>Pre-processing</h1>
-<p>The Cell Ranger pipeline (v1.3.1) was used to perform sample demultiplexing, barcode processing and single-cell gene counting [ref]. Briefly, samples were demultiplexed to produce a pair of FASTQ files for each sample. Reads containing sequence information were aligned to the GRCh38 reference genome. Cell barcodes were filtered to remove empty droplets and PCR duplicates were removed by selecting unique combinations of cell barcodes, unique molecular identifiers and gene ids with the final results being a gene expression matrix that was used for further analysis. The three samples in the first batch of organoids were aggregated using Cell Ranger with no normalisation and treated as a single dataset.</p>
+<p>The Cell Ranger pipeline (v1.3.1) was used to perform sample demultiplexing, barcode processing and single-cell gene counting [ref]. Briefly, samples were demultiplexed to produce a pair of FASTQ files for each sample. Reads containing sequence information were aligned to the GRCh38 reference genome provided with Cell Ranger (v1.2.0). Cell barcodes were filtered to remove empty droplets and PCR duplicates were removed by selecting unique combinations of cell barcodes, unique molecular identifiers and gene ids with the final results being a gene expression matrix that was used for further analysis. The three samples in the first batch of organoids were aggregated using Cell Ranger with no normalisation and treated as a single dataset.</p>
 </div>
 <div id="quality-control" class="section level1">
 <h1>Quality control</h1>
-<p>The R statistical programming language (v) [ref] was used for further analysis. Count data for each experiment was read into R and used to construct a SingleCellExperiment object (v1.2.0) [ref]. Gene annotation information was added from BioMart [ref] using the biomaRt package (v2.36.1) [ref] and cells were assigned cell cycle scores using the cyclone [ref] function in the scran package (v1.8.2) [ref].</p>
-<p>The scater package (v1.8.2) [ref] was used to produce a series of diagnostic quality control plots. Cells with a high number of expressed genes (indicating potential doublets) were removed, as were cells with a high percentage of counts assigned to mitochondrial or ribosomal genes, or with low expression of the housekeeping genes GAPDH and ACTB.</p>
+<p>The R statistical programming language (v3.5.0) [ref] was used for further analysis. Count data for each experiment was read into R and used to construct a SingleCellExperiment object (v1.2.0) <span class="citation">(A. Lun and Risso 2017)</span>.Gene annotation information was added from BioMart <span class="citation">(Smedley et al. 2015)</span> using the biomaRt package (v2.36.1) <span class="citation">(Durinck et al. 2005)</span> and cells were assigned cell cycle scores using the cyclone <span class="citation">(Scialdone et al. 2015)</span> function in the scran package (v1.8.2) <span class="citation">(A. T. L. Lun, McCarthy, and Marioni 2016)</span>.</p>
+<p>The scater package (v1.8.2) <span class="citation">(McCarthy et al. 2017)</span> was used to produce a series of diagnostic quality control plots. Cells with a high number of expressed genes (indicating potential doublets) were removed, as were cells with a high percentage of counts assigned to mitochondrial or ribosomal genes, or with low expression of the housekeeping genes GAPDH and ACTB.</p>
 <p>Genes that had less than two total counts across a dataset, or were expressed in less than two individual cells, were removed. We also removed genes without an annotated HGNC symbol.</p>
-<p>Following quality control the first organoid dataset consisted of XXX cells and XXX genes with a median of XXX genes expressed per a cell, the fourth organoid had XXX cells and XXX genes with and median of XXX genes expressed per cell and the Lindstrom dataset had XXX cells and XXX genes with a median of XXX genes expressed per cell.</p>
+<p>Following quality control the first organoid dataset consisted of 6649 cells and 18386 genes with a median of 2738 genes expressed per a cell, the fourth organoid had 1288 cells and 16885 genes with a median of 3248 genes expressed per cell and the Lindstrom dataset had 3178 cells and 16166 genes with a median of 1509.5 genes expressed per cell.</p>
 </div>
 <div id="clustering-analysis" class="section level1">
 <h1>Clustering analysis</h1>
-<p>Datasets were integrated using the alignment method in the Seurat package (v2.3.1) [ref]. Briefly, highly variable genes were identified in each dataset and those that were present in the datasets were selected. Canonical correlation analysis [ref] was then performed using the selected genes and the dimensions that represent the majority of variation were selected. The final step used dynamic time warping [ref] to align the datasets in the selected subspace.</p>
-<p>To perform clustering Seurat constructs a shared nearest neighbour graph of cells in the aligned subspace and uses Louvain modularity optimisation to assign cells to clusters. We performed clustering over a range of resolutions that produced different numbers of clusters and used the clustree package (v0.2.2.9000) to produce clustering trees [ref] showing the expression of known marker genes to select the appropriate resolution for each analysis.</p>
-<p>Marker genes for each cluster were detected by testing for differential expression between cells in one cluster and all other cells using a Wilcoxon rank sum test [ref]. To reduce processing time only genes that were expressed in at least 10 percent of cells in one of these groups were tested. To identify conserved marker genes a similar process was performed on each dataset separately and the results combined using the maximum p-value method [ref]. We also tested for within cluster differential expression to identify differences between cells of the same type in different datasets.</p>
+<div id="organoids" class="section level2">
+<h2>Organoids</h2>
+<p>The two organoid datasets were integrated using the alignment method in the Seurat package (v2.3.1) <span class="citation">(Satija et al. 2015; Butler et al. 2018)</span>. Briefly, highly variable genes were identified in each dataset and those that were present in both datasets (1156 genes) were selected. Canonical correlation analysis <span class="citation">(Hotelling 1936; Hardoon, Szedmak, and Shawe-Taylor 2004)</span> was then performed using the selected genes and 25 dimensions that represent the majority of variation were selected. The final step used dynamic time warping <span class="citation">(Berndt and Clifford 1994)</span> to align the datasets in the selected subspace.</p>
+<p>To perform clustering Seurat constructs a shared nearest neighbour graph of cells in the aligned subspace and uses Louvain modularity optimisation <span class="citation">(Blondel et al. 2008)</span> to assign cells to clusters. The number of clusters produced using this method is controlled by a resolution parameter with higher values giving more clusters. We performed clustering over a range of resolutions from 0 to 1 in steps of 0.1 and used the clustree package (v0.2.2.9000) to produce clustering trees <span class="citation">(Zappia, Phipson, and Oshlack 2018)</span> showing the expression of known marker genes to select the appropriate resolution to use. We chose to use a resolution of 0.6 which produced 13 clusters.</p>
+<p>Marker genes for each cluster were detected by testing for differential expression between cells in one cluster and all other cells using a Wilcoxon rank sum test <span class="citation">(Bauer 1972)</span>. To reduce processing time only genes that were expressed in at least 10 percent of cells in one of these groups were tested. To identify conserved marker genes a similar process was performed on each dataset separately and the results combined using the maximum p-value method. We also tested for within cluster differential expression to identify differences between cells of the same type in different datasets.</p>
+<p>Based on identified marker genes we determined clusters 2 and 9 represented the nephron lineage. The 1125 cells in these clusters were re-clustered at a resolution of 0.5 resulting in 5 clusters.</p>
+</div>
+<div id="combined" class="section level2">
+<h2>Combined</h2>
+<p>The combined organoid and human foetal kidney analysis used the procedure described for the organoid only analysis but with slightly different parameters. We identified 1368 variable genes present in all three datasets and selected the first 20 canonical correlation dimensions. For clustering we chose a resolution of 0.5 which produced 16 clusters. Clusters 6, 7, 10 and 15 were determined to be the nephron lineage and these 1964 cells were re-clustered at a resolution of 0.6 producing 8 clusters.</p>
+</div>
+</div>
+<div id="visualisation" class="section level1">
+<h1>Visualisation</h1>
 <p>Figures shown here were produced using…</p>
 </div>
 <div id="availability" class="section level1">
@@ -395,13 +516,53 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
+<div id="refs">
+<div id="ref-Bauer1972-yf">
+<p>Bauer, David F. 1972. “Constructing Confidence Sets Using Rank Statistics.” <em>J. Am. Stat. Assoc.</em> 67 (339). Taylor &amp; Francis: 687–90. doi:<a href="https://doi.org/10.1080/01621459.1972.10481279">10.1080/01621459.1972.10481279</a>.</p>
+</div>
+<div id="ref-Berndt1994-lh">
+<p>Berndt, Donald J, and James Clifford. 1994. “Using Dynamic Time Warping to Find Patterns in Time Series.” In <em>Proceedings of the 3rd International Conference on Knowledge Discovery and Data Mining</em>, 359–70. AAAIWS’94. Seattle, WA: AAAI Press. <a href="http://dl.acm.org/citation.cfm?id=3000850.3000887" class="uri">http://dl.acm.org/citation.cfm?id=3000850.3000887</a>.</p>
+</div>
+<div id="ref-Blondel2008-ym">
+<p>Blondel, Vincent D, Jean-Loup Guillaume, Renaud Lambiotte, and Etienne Lefebvre. 2008. “Fast unfolding of communities in large networks.” <em>J. Stat. Mech.</em> 2008 (10). IOP Publishing: P10008. doi:<a href="https://doi.org/10.1088/1742-5468/2008/10/P10008">10.1088/1742-5468/2008/10/P10008</a>.</p>
+</div>
+<div id="ref-Butler2018-js">
+<p>Butler, Andrew, Paul Hoffman, Peter Smibert, Efthymia Papalexi, and Rahul Satija. 2018. “Integrating single-cell transcriptomic data across different conditions, technologies, and species.” <em>Nat. Biotechnol.</em>, April. doi:<a href="https://doi.org/10.1038/nbt.4096">10.1038/nbt.4096</a>.</p>
+</div>
+<div id="ref-Durinck2005-zb">
+<p>Durinck, Steffen, Yves Moreau, Arek Kasprzyk, Sean Davis, Bart De Moor, Alvis Brazma, and Wolfgang Huber. 2005. “BioMart and Bioconductor: a powerful link between biological databases and microarray data analysis.” <em>Bioinformatics</em> 21 (16): 3439–40. doi:<a href="https://doi.org/10.1093/bioinformatics/bti525">10.1093/bioinformatics/bti525</a>.</p>
+</div>
+<div id="ref-Hardoon2004-ev">
+<p>Hardoon, David R, Sandor Szedmak, and John Shawe-Taylor. 2004. “Canonical correlation analysis: an overview with application to learning methods.” <em>Neural Comput.</em> 16 (12): 2639–64. doi:<a href="https://doi.org/10.1162/0899766042321814">10.1162/0899766042321814</a>.</p>
+</div>
+<div id="ref-Hotelling1936-ni">
+<p>Hotelling, Harold. 1936. “RELATIONS BETWEEN TWO SETS OF VARIATES.” <em>Biometrika</em> 28 (3-4). Oxford University Press: 321–77. doi:<a href="https://doi.org/10.1093/biomet/28.3-4.321">10.1093/biomet/28.3-4.321</a>.</p>
+</div>
+<div id="ref-Lun2016-lp">
+<p>Lun, Aaron T L, Davis J McCarthy, and John C Marioni. 2016. “A step-by-step workflow for low-level analysis of single-cell RNA-seq data with Bioconductor.” <em>F1000Res.</em> 5 (August): 2122. doi:<a href="https://doi.org/10.12688/f1000research.9501.2">10.12688/f1000research.9501.2</a>.</p>
+</div>
+<div id="ref-R-SingleCellExperiment">
+<p>Lun, Aaron, and Davide Risso. 2017. <em>SingleCellExperiment: S4 Classes for Single Cell Data</em>.</p>
+</div>
+<div id="ref-McCarthy2017-ql">
+<p>McCarthy, Davis J, Kieran R Campbell, Aaron T L Lun, and Quin F Wills. 2017. “Scater: pre-processing, quality control, normalization and visualization of single-cell RNA-seq data in R.” <em>Bioinformatics</em> 33 (8): 1179–86. doi:<a href="https://doi.org/10.1093/bioinformatics/btw777">10.1093/bioinformatics/btw777</a>.</p>
+</div>
+<div id="ref-Satija2015-or">
+<p>Satija, Rahul, Jeffrey A Farrell, David Gennert, Alexander F Schier, and Aviv Regev. 2015. “Spatial reconstruction of single-cell gene expression data.” <em>Nat. Biotechnol.</em> 33 (5). Nature Publishing Group: 495–502. doi:<a href="https://doi.org/10.1038/nbt.3192">10.1038/nbt.3192</a>.</p>
+</div>
+<div id="ref-Scialdone2015-rp">
+<p>Scialdone, Antonio, Kedar N Natarajan, Luis R Saraiva, Valentina Proserpio, Sarah A Teichmann, Oliver Stegle, John C Marioni, and Florian Buettner. 2015. “Computational assignment of cell-cycle stage from single-cell transcriptome data.” <em>Methods</em> 85 (September): 54–61. doi:<a href="https://doi.org/10.1016/j.ymeth.2015.06.021">10.1016/j.ymeth.2015.06.021</a>.</p>
+</div>
+<div id="ref-Smedley2015-an">
+<p>Smedley, Damian, Syed Haider, Steffen Durinck, Luca Pandini, Paolo Provero, James Allen, Olivier Arnaiz, et al. 2015. “The BioMart community portal: an innovative alternative to large, centralized data repositories.” <em>Nucleic Acids Res.</em> 43 (W1): W589–98. doi:<a href="https://doi.org/10.1093/nar/gkv350">10.1093/nar/gkv350</a>.</p>
+</div>
+<div id="ref-Zappia2018-ph">
+<p>Zappia, Luke, Belinda Phipson, and Alicia Oshlack. 2018. “Exploring the single-cell RNA-seq analysis landscape with the scRNA-tools database.” <em>PLoS Comput. Biol.</em> 14 (6): e1006245. doi:<a href="https://doi.org/10.1371/journal.pcbi.1006245">10.1371/journal.pcbi.1006245</a>.</p>
+</div>
+</div>
 <div id="session-information" class="section level2">
 <h2>Session information</h2>
 <pre class="r"><code>devtools::session_info()</code></pre>
-<pre><code>Warning: Your system is mis-configured: &#39;/etc/localtime&#39; is not a symlink</code></pre>
-<pre><code>Warning: It is strongly recommended to set envionment variable TZ to
-&#39;Australia/Melbourne&#39; (or equivalent)</code></pre>
-<pre><code>Session info -------------------------------------------------------------</code></pre>
 <pre><code> setting  value                       
  version  R version 3.5.0 (2018-04-23)
  system   x86_64, linux-gnu           
@@ -409,38 +570,79 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
  language (EN)                        
  collate  en_US.UTF-8                 
  tz       Australia/Melbourne         
- date     2018-08-02                  </code></pre>
-<pre><code>Packages -----------------------------------------------------------------</code></pre>
-<pre><code> package     * version date       source                            
+ date     2018-08-15                  
+
+ package     * version date       source                            
+ assertthat    0.2.0   2017-04-11 CRAN (R 3.5.0)                    
  backports     1.1.2   2017-12-13 CRAN (R 3.5.0)                    
  base        * 3.5.0   2018-06-18 local                             
+ bindr         0.1.1   2018-03-13 cran (@0.1.1)                     
+ bindrcpp      0.2.2   2018-03-29 cran (@0.2.2)                     
+ broom         0.5.0   2018-07-17 cran (@0.5.0)                     
+ cellranger    1.1.0   2016-07-27 CRAN (R 3.5.0)                    
+ cli           1.0.0   2017-11-05 CRAN (R 3.5.0)                    
+ colorspace    1.3-2   2016-12-14 cran (@1.3-2)                     
  compiler      3.5.0   2018-06-18 local                             
+ crayon        1.3.4   2017-09-16 CRAN (R 3.5.0)                    
  datasets    * 3.5.0   2018-06-18 local                             
  devtools      1.13.6  2018-06-27 CRAN (R 3.5.0)                    
  digest        0.6.15  2018-01-28 CRAN (R 3.5.0)                    
+ dplyr       * 0.7.6   2018-06-29 cran (@0.7.6)                     
  evaluate      0.10.1  2017-06-24 CRAN (R 3.5.0)                    
+ forcats     * 0.3.0   2018-02-19 CRAN (R 3.5.0)                    
+ ggplot2     * 3.0.0   2018-07-03 cran (@3.0.0)                     
  git2r         0.21.0  2018-01-04 CRAN (R 3.5.0)                    
+ glue        * 1.3.0   2018-07-17 cran (@1.3.0)                     
  graphics    * 3.5.0   2018-06-18 local                             
  grDevices   * 3.5.0   2018-06-18 local                             
+ grid          3.5.0   2018-06-18 local                             
+ gtable        0.2.0   2016-02-26 cran (@0.2.0)                     
+ haven         1.1.2   2018-06-27 CRAN (R 3.5.0)                    
+ here        * 0.1     2017-05-28 CRAN (R 3.5.0)                    
+ hms           0.4.2   2018-03-10 CRAN (R 3.5.0)                    
  htmltools     0.3.6   2017-04-28 CRAN (R 3.5.0)                    
- knitr         1.20    2018-02-20 CRAN (R 3.5.0)                    
+ httr          1.3.1   2017-08-20 CRAN (R 3.5.0)                    
+ jsonlite    * 1.5     2017-06-01 CRAN (R 3.5.0)                    
+ knitr       * 1.20    2018-02-20 CRAN (R 3.5.0)                    
+ lattice       0.20-35 2017-03-25 CRAN (R 3.5.0)                    
+ lazyeval      0.2.1   2017-10-29 cran (@0.2.1)                     
+ lubridate     1.7.4   2018-04-11 cran (@1.7.4)                     
  magrittr      1.5     2014-11-22 CRAN (R 3.5.0)                    
  memoise       1.1.0   2017-04-21 CRAN (R 3.5.0)                    
  methods     * 3.5.0   2018-06-18 local                             
+ modelr        0.1.2   2018-05-11 CRAN (R 3.5.0)                    
+ munsell       0.5.0   2018-06-12 cran (@0.5.0)                     
+ nlme          3.1-137 2018-04-07 CRAN (R 3.5.0)                    
+ pillar        1.3.0   2018-07-14 cran (@1.3.0)                     
+ pkgconfig     2.0.1   2017-03-21 cran (@2.0.1)                     
+ plyr          1.8.4   2016-06-08 cran (@1.8.4)                     
+ purrr       * 0.2.5   2018-05-29 cran (@0.2.5)                     
  R.methodsS3   1.7.1   2016-02-16 CRAN (R 3.5.0)                    
  R.oo          1.22.0  2018-04-22 CRAN (R 3.5.0)                    
  R.utils       2.6.0   2017-11-05 CRAN (R 3.5.0)                    
+ R6            2.2.2   2017-06-17 CRAN (R 3.5.0)                    
  Rcpp          0.12.18 2018-07-23 cran (@0.12.18)                   
+ readr       * 1.1.1   2017-05-16 CRAN (R 3.5.0)                    
+ readxl        1.1.0   2018-04-20 CRAN (R 3.5.0)                    
+ rlang         0.2.1   2018-05-30 CRAN (R 3.5.0)                    
  rmarkdown     1.10.2  2018-07-30 Github (rstudio/rmarkdown@18207b9)
  rprojroot     1.3-2   2018-01-03 CRAN (R 3.5.0)                    
+ rstudioapi    0.7     2017-09-07 CRAN (R 3.5.0)                    
+ rvest         0.3.2   2016-06-17 CRAN (R 3.5.0)                    
+ scales        0.5.0   2017-08-24 cran (@0.5.0)                     
  stats       * 3.5.0   2018-06-18 local                             
  stringi       1.2.4   2018-07-20 cran (@1.2.4)                     
- stringr       1.3.1   2018-05-10 CRAN (R 3.5.0)                    
+ stringr     * 1.3.1   2018-05-10 CRAN (R 3.5.0)                    
+ tibble      * 1.4.2   2018-01-22 cran (@1.4.2)                     
+ tidyr       * 0.8.1   2018-05-18 cran (@0.8.1)                     
+ tidyselect    0.2.4   2018-02-26 cran (@0.2.4)                     
+ tidyverse   * 1.2.1   2017-11-14 CRAN (R 3.5.0)                    
  tools         3.5.0   2018-06-18 local                             
  utils       * 3.5.0   2018-06-18 local                             
  whisker       0.3-2   2013-04-28 CRAN (R 3.5.0)                    
  withr         2.1.2   2018-03-15 CRAN (R 3.5.0)                    
  workflowr     1.1.1   2018-07-06 CRAN (R 3.5.0)                    
+ xml2          1.2.0   2018-01-24 CRAN (R 3.5.0)                    
  yaml          2.2.0   2018-07-25 cran (@2.2.0)                     </code></pre>
 </div>
 </div>
