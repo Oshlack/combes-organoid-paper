@@ -1,5 +1,5 @@
 ---
-title: "Organoids Nephron Trajectory Analysis"
+title: "Combined Nephron Trajectory Analysis"
 output:
     workflowr::wflow_html:
         code_folding: hide
@@ -7,7 +7,7 @@ output:
 ---
 
 ```{r knitr, include = FALSE}
-DOCNAME = "04C_Organoids_Trajectory"
+DOCNAME = "07C_Combined_Trajectory"
 knitr::opts_chunk$set(autodep        = TRUE,
                       cache          = TRUE,
                       cache.path     = paste0("cache/", DOCNAME, "/"),
@@ -50,28 +50,28 @@ source(here("R/output.R"))
 ```
 
 ```{r paths}
-orgs.neph.path <- here("data/processed/Organoids_nephron.Rds")
+comb.neph.path <- here("data/processed/Combined_nephron.Rds")
 ```
 
 Introduction
 ============
 
 In this document we are going to take the results of reclustering the nephron
-lineage in the organoids datasets and perform pseudotime trajectory analysis
+lineage in the combined analysis and perform pseudotime trajectory analysis
 using Monocle. This should tell us more about how those clusters relate to each
 other and what is happening during the developmental process.
 
-```{r load, cache.extra = tools::md5sum(orgs.neph.path)}
-if (file.exists(orgs.neph.path)) {
-    orgs.neph <- read_rds(orgs.neph.path)
+```{r load, cache.extra = tools::md5sum(comb.neph.path)}
+if (file.exists(comb.neph.path)) {
+    comb.neph <- read_rds(comb.neph.path)
 } else {
-    stop("Clustered Organoids nephron dataset is missing. ",
-         "Please run '04B_Organoids_Nephron.Rmd' first.",
+    stop("Clustered Combined nephron dataset is missing. ",
+         "Please run '07C_Combined_Nephron.Rmd' first.",
          call. = FALSE)
 }
 
-orgs.neph.cds <- importCDS(orgs.neph)
-orgs.neph.cds <- estimateSizeFactors(orgs.neph.cds)
+comb.neph.cds <- importCDS(comb.neph)
+comb.neph.cds <- estimateSizeFactors(comb.neph.cds)
 ```
 
 Gene selection
@@ -83,7 +83,7 @@ We will use the top 100 conserved marker genes for each cluster with the
 greatest absolute foldchanges. 
 
 ```{r select-genes}
-con.markers <- read_csv(here("output/04B_Organoids_Nephron",
+con.markers <- read_csv(here("output/07B_Combined_Nephron",
                              "conserved_markers.csv"))
 
 ordering.genes <- con.markers %>%
@@ -93,8 +93,8 @@ ordering.genes <- con.markers %>%
     pull(gene) %>%
     unique()
 
-orgs.neph.cds <- setOrderingFilter(orgs.neph.cds, ordering.genes)
-fData(orgs.neph.cds)$ExprsCells <- rowSums(as.matrix(exprs(orgs.neph.cds)) > 0)
+comb.neph.cds <- setOrderingFilter(comb.neph.cds, ordering.genes)
+fData(comb.neph.cds)$ExprsCells <- rowSums(as.matrix(exprs(comb.neph.cds)) > 0)
 ```
 
 Taking the intersection of these sets gives us `r length(ordering.genes)`
@@ -107,17 +107,17 @@ Monocle then uses the selected genes to perform dimensionality reduction using
 the DDRTree algorithm and then orders the cells along a trajectory.
 
 ```{r order-cells}
-orgs.neph.cds <- reduceDimension(orgs.neph.cds, max_components = 2,
+comb.neph.cds <- reduceDimension(comb.neph.cds, max_components = 2,
                                  method = "DDRTree")
-orgs.neph.cds <- orderCells(orgs.neph.cds)
+comb.neph.cds <- orderCells(comb.neph.cds)
 
-root.state <- 1
+root.state <- 4
 n.branch <- length(
-    orgs.neph.cds@auxOrderingData[[orgs.neph.cds@dim_reduce_type]]$branch_points
+    comb.neph.cds@auxOrderingData[[comb.neph.cds@dim_reduce_type]]$branch_points
 )
-n.states <- length(unique(pData(orgs.neph.cds)$State))
+n.states <- length(unique(pData(comb.neph.cds)$State))
 
-orgs.neph.cds <- orderCells(orgs.neph.cds, root_state = root.state)
+comb.neph.cds <- orderCells(comb.neph.cds, root_state = root.state)
 ```
 
 Plot trajectory {.tabset}
@@ -129,7 +129,7 @@ color.bys <- c("State", "Pseudotime", "NephCluster", "Dataset")
 src_list <- lapply(color.bys, function(color.by) {
     src <- c("### {{color.by}} {.unnumbered}",
              "```{r plot-trajectory-{{color.by}}}",
-             "plot_cell_trajectory(orgs.neph.cds, color_by = '{{color.by}}')",  
+             "plot_cell_trajectory(comb.neph.cds, color_by = '{{color.by}}')",  
              "```",
              "")
     knit_expand(text = src)
@@ -149,7 +149,7 @@ states. We have chosen state `r root.state` to be the root state of our tree.
 Let's look at how those states relate to our nephron clusters.
 
 ```{r crossover}
-pData(orgs.neph.cds) %>%
+pData(comb.neph.cds) %>%
     count(State, NephCluster) %>%
     complete(State, NephCluster, fill = list(n = 0)) %>%
     group_by(State) %>%
@@ -179,8 +179,8 @@ plot.genes <- c("PECAM1", "CDH5", "MEIS1", "PDGFRA", "HMGB2", "CENPA", "SIX1",
                 "LRP2", "GATA3", "SLC12A1", "SPINT2", "TUBB2B", "STMN2",
                 "TTHY1", "HBA1", "HBG1")
 
-is_present <- plot.genes %in% rownames(orgs.neph.cds)
-is_exprs <- fData(orgs.neph.cds)[plot.genes[is_present], "ExprsCells"] > 10
+is_present <- plot.genes %in% rownames(comb.neph.cds)
+is_exprs <- fData(comb.neph.cds)[plot.genes[is_present], "ExprsCells"] > 10
 plot.genes.use <- plot.genes[is_present][is_exprs]
 ```
 
@@ -192,7 +192,7 @@ plot.genes.use <- plot.genes[is_present][is_exprs]
 > `r glue_collapse(plot.genes[!is_present][!is_exprs], sep = ", ", last = " and ")`
 
 ```{r time-genes-heatmap}
-plot_pseudotime_heatmap(orgs.neph.cds[plot.genes.use, ],
+plot_pseudotime_heatmap(comb.neph.cds[plot.genes.use, ],
                         num_clusters = 3,
                         cores = 1,
                         show_rownames = TRUE,
@@ -209,7 +209,7 @@ src_list <- lapply(color.bys, function(color.by) {
     src <- c("### {{color.by}} {.unnumbered}",
              "```{r time-genes-exprs-{{color.by}}}",
              "plot_genes_in_pseudotime(",
-                 "orgs.neph.cds[plot.genes.use, ],",
+                 "comb.neph.cds[plot.genes.use, ],",
                  "ncol = 2, color_by = '{{color.by}}')",  
              "```",
              "")
@@ -236,8 +236,19 @@ left and the other towards the right.
 ### Branch point 1 {.unnumbered}
 
 ```{r branch-genes-heatmap-1, results = "hide"}
-plot_genes_branched_heatmap(orgs.neph.cds[plot.genes.use, ],
+plot_genes_branched_heatmap(comb.neph.cds[plot.genes.use, ],
                             branch_point = 1,
+                            trend_formula = '~ sm.ns(Pseudotime, df = 4) * Branch',
+                            num_clusters = 3,
+                            show_rownames = TRUE,
+                            hmcols = viridis(100))
+```
+
+### Branch point 2 {.unnumbered}
+
+```{r branch-genes-heatmap-2, results = "hide"}
+plot_genes_branched_heatmap(comb.neph.cds[plot.genes.use, ],
+                            branch_point = 2,
                             num_clusters = 3,
                             show_rownames = TRUE,
                             hmcols = viridis(100))
@@ -256,8 +267,28 @@ along a branch is shown by the two different lines.
 src_list <- lapply(color.bys, function(color.by) {
     src <- c("#### {{color.by}} {.unnumbered}",
              "```{r branch-genes-exprs-1-{{color.by}}}",
-             "plot_genes_branched_pseudotime(orgs.neph.cds[plot.genes.use, ],",
+             "plot_genes_branched_pseudotime(comb.neph.cds[plot.genes.use, ],",
                  "branch_point = 1,",
+                 "trend_formula = '~ sm.ns(Pseudotime, df = 4) * Branch',",
+                 "ncol = 2, color_by = '{{color.by}}')",  
+             "```",
+             "")
+    knit_expand(text = src)
+})
+
+out <- knit_child(text = unlist(src_list), options = list(cache = FALSE))
+```
+
+`r out`
+
+### Branch point 2 {.unnumbered .tabset}
+
+```{r branch-genes-exprs-2, results = "hide"}
+src_list <- lapply(color.bys, function(color.by) {
+    src <- c("#### {{color.by}} {.unnumbered}",
+             "```{r branch-genes-exprs-2-{{color.by}}}",
+             "plot_genes_branched_pseudotime(comb.neph.cds[plot.genes.use, ],",
+                 "branch_point = 2,",
                  "ncol = 2, color_by = '{{color.by}}')",  
              "```",
              "")
@@ -311,7 +342,7 @@ This table describes the output files produced by this document. Right click
 and _Save Link As..._ to download the results.
 
 ```{r write-data}
-write_rds(orgs.neph.cds, here("data/processed/Organoids_trajectory.Rds"))
+write_rds(comb.neph.cds, here("data/processed/Combined_trajectory.Rds"))
 ```
 
 ```{r output}
