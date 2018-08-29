@@ -11,4 +11,4 @@ knit_root_dir: "."
 sessioninfo: "devtools::session_info()"
 
 # Set link URL
-github: http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper/
+github: "http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper/"

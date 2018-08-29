@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Organoids Nephron Trajectory Analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Combes Organoid Paper Analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jdblischak/workflowr">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Organoids Nephron Trajectory Analysis</h1>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-08-29</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20180730)</code> </summary></p>
+<p>The command <code>set.seed(20180730)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/5f93b6d78f4178517aad841c309c9cc084735e70" target="_blank">5f93b6d</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/cache/
+    Ignored:    packrat/lib-R/
+    Ignored:    packrat/lib-ext/
+    Ignored:    packrat/lib/
+    Ignored:    packrat/src/
+
+Untracked files:
+    Untracked:  output/04C_Organoids_Trajectory/
+    Untracked:  output/07C_Combined_Trajectory/
+    Untracked:  public/figure/04C_Organoids_Trajectory.Rmd/
+    Untracked:  public/figure/06C_Combined_Trajectory.Rmd/
+    Untracked:  public/figure/07C_Combined_Trajectory.Rmd/
+
+Unstaged changes:
+    Modified:   _workflowr.yml
+    Modified:   output/07B_Combined_Nephron/cluster_de.xlsx
+    Modified:   output/07B_Combined_Nephron/conserved_markers.xlsx
+    Modified:   output/07B_Combined_Nephron/markers.xlsx
+    Modified:   output/07_Combined_Clustering/cluster_de.xlsx
+    Modified:   output/07_Combined_Clustering/conserved_markers.xlsx
+    Modified:   output/07_Combined_Clustering/markers.xlsx
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<details> <summary> <small><strong>Expand here to see past versions:</strong></small> </summary>
+<ul>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+File
+</th>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:left;">
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/5f93b6d78f4178517aad841c309c9cc084735e70/analysis/04C_Organoids_Trajectory.Rmd" target="_blank">5f93b6d</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-08-29
+</td>
+<td style="text-align:left;">
+Add combined nephron trajectory analysis
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/8a82ab09088f7270ed7757f15c4ecbfe772e6249/analysis/04C_Organoids_Trajectory.Rmd" target="_blank">8a82ab0</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-08-29
+</td>
+<td style="text-align:left;">
+Add organoids nephron trajectory analysis
+</td>
+</tr>
+</tbody>
+</table>
+</ul>
+<p></details></p>
+<hr />
+<pre class="r"><code># scRNA-seq
+library(&quot;Seurat&quot;)
+library(&quot;monocle&quot;)
+
+# Plotting
+library(&quot;viridis&quot;)
+
+# Presentation
+library(&quot;glue&quot;)
+library(&quot;knitr&quot;)
+
+# Parallel
+
+# Paths
+library(&quot;here&quot;)
+
+# Output
+library(&quot;jsonlite&quot;)
+
+# Tidyverse
+library(&quot;tidyverse&quot;)</code></pre>
+<pre class="r"><code>source(here(&quot;R/output.R&quot;))</code></pre>
+<pre class="r"><code>orgs.neph.path &lt;- here(&quot;data/processed/Organoids_nephron.Rds&quot;)</code></pre>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>In this document we are going to take the results of reclustering the nephron lineage in the organoids datasets and perform pseudotime trajectory analysis using Monocle. This should tell us more about how those clusters relate to each other and what is happening during the developmental process.</p>
+<pre class="r"><code>if (file.exists(orgs.neph.path)) {
+    orgs.neph &lt;- read_rds(orgs.neph.path)
+} else {
+    stop(&quot;Clustered Organoids nephron dataset is missing. &quot;,
+         &quot;Please run &#39;04B_Organoids_Nephron.Rmd&#39; first.&quot;,
+         call. = FALSE)
+}
+
+orgs.neph.cds &lt;- importCDS(orgs.neph)
+orgs.neph.cds &lt;- estimateSizeFactors(orgs.neph.cds)</code></pre>
+</div>
+<div id="gene-selection" class="section level1">
+<h1>Gene selection</h1>
+<p>We first need to select a set of genes to use for this analyis. As we have already identified marker genes for each cluster it makes sense to use those. We will use the top 100 conserved marker genes for each cluster with the greatest absolute foldchanges.</p>
+<pre class="r"><code>con.markers &lt;- read_csv(here(&quot;output/04B_Organoids_Nephron&quot;,
+                             &quot;conserved_markers.csv&quot;))
+
+ordering.genes &lt;- con.markers %&gt;%
+    group_by(cluster) %&gt;%
+    arrange(-abs(mean_avg_logFC)) %&gt;%
+    top_n(100, mean_avg_logFC) %&gt;%
+    pull(gene) %&gt;%
+    unique()
+
+orgs.neph.cds &lt;- setOrderingFilter(orgs.neph.cds, ordering.genes)
+fData(orgs.neph.cds)$ExprsCells &lt;- rowSums(as.matrix(exprs(orgs.neph.cds)) &gt; 0)</code></pre>
+<p>Taking the intersection of these sets gives us 455 selected genes.</p>
+</div>
+<div id="order-cells" class="section level1">
+<h1>Order cells</h1>
+<p>Monocle then uses the selected genes to perform dimensionality reduction using the DDRTree algorithm and then orders the cells along a trajectory.</p>
+<pre class="r"><code>orgs.neph.cds &lt;- reduceDimension(orgs.neph.cds, max_components = 2,
+                                 method = &quot;DDRTree&quot;)
+orgs.neph.cds &lt;- orderCells(orgs.neph.cds)
+
+root.state &lt;- 1
+n.branch &lt;- length(
+    orgs.neph.cds@auxOrderingData[[orgs.neph.cds@dim_reduce_type]]$branch_points
+)
+n.states &lt;- length(unique(pData(orgs.neph.cds)$State))
+
+orgs.neph.cds &lt;- orderCells(orgs.neph.cds, root_state = root.state)</code></pre>
+<div id="plot-trajectory" class="section level2 tabset">
+<h2>Plot trajectory</h2>
+<pre class="r"><code>color.bys &lt;- c(&quot;State&quot;, &quot;Pseudotime&quot;, &quot;NephCluster&quot;, &quot;Dataset&quot;)
+
+src_list &lt;- lapply(color.bys, function(color.by) {
+    src &lt;- c(&quot;### {{color.by}} {.unnumbered}&quot;,
+             &quot;```{r plot-trajectory-{{color.by}}}&quot;,
+             &quot;plot_cell_trajectory(orgs.neph.cds, color_by = &#39;{{color.by}}&#39;)&quot;,  
+             &quot;```&quot;,
+             &quot;&quot;)
+    knit_expand(text = src)
+})
+
+out &lt;- knit_child(text = unlist(src_list), options = list(cache = FALSE))</code></pre>
+<div id="state" class="section level3 unnumbered">
+<h3>State</h3>
+<pre class="r"><code>plot_cell_trajectory(orgs.neph.cds, color_by = &#39;State&#39;)</code></pre>
+<p><img src="figure/04C_Organoids_Trajectory.Rmd/plot-trajectory-State-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="pseudotime" class="section level3 unnumbered">
+<h3>Pseudotime</h3>
+<pre class="r"><code>plot_cell_trajectory(orgs.neph.cds, color_by = &#39;Pseudotime&#39;)</code></pre>
+<p><img src="figure/04C_Organoids_Trajectory.Rmd/plot-trajectory-Pseudotime-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="nephcluster" class="section level3 unnumbered">
+<h3>NephCluster</h3>
+<pre class="r"><code>plot_cell_trajectory(orgs.neph.cds, color_by = &#39;NephCluster&#39;)</code></pre>
+<p><img src="figure/04C_Organoids_Trajectory.Rmd/plot-trajectory-NephCluster-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="dataset" class="section level3 unnumbered">
+<h3>Dataset</h3>
+<pre class="r"><code>plot_cell_trajectory(orgs.neph.cds, color_by = &#39;Dataset&#39;)</code></pre>
+<p><img src="figure/04C_Organoids_Trajectory.Rmd/plot-trajectory-Dataset-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="crossover" class="section level2">
+<h2>Crossover</h2>
+<p>Monocle assigns each cell a “state” which corresponds to a segment of the tree. In this case Monocle has identified 1 branch points and 3 states. We have chosen state 1 to be the root state of our tree. Let’s look at how those states relate to our nephron clusters.</p>
+<pre class="r"><code>pData(orgs.neph.cds) %&gt;%
+    count(State, NephCluster) %&gt;%
+    complete(State, NephCluster, fill = list(n = 0)) %&gt;%
+    group_by(State) %&gt;%
+    mutate(Total = sum(n)) %&gt;%
+    ggplot(aes(x = NephCluster, y = n / Total, fill = State)) +
+    geom_col() +
+    scale_y_continuous(labels = scales::percent) +
+    facet_wrap(~ State, ncol = 1, labeller = label_both) +
+    labs(title = &quot;State by nephron cluster&quot;,
+         x = &quot;Nephron cluster&quot;,
+         y = &quot;Percentage of cells in state&quot;) +
+    theme_minimal()</code></pre>
+<p><img src="figure/04C_Organoids_Trajectory.Rmd/crossover-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="pseudotime-genes" class="section level1">
+<h1>Pseudotime genes</h1>
+<div id="heatmap" class="section level2">
+<h2>Heatmap</h2>
+<p>We can show the expression of genes along this pseudotime trajectory. Here is a heatmap showing a selection of interesting kidney organoid genes.</p>
+<pre class="r"><code>plot.genes &lt;- c(&quot;PECAM1&quot;, &quot;CDH5&quot;, &quot;MEIS1&quot;, &quot;PDGFRA&quot;, &quot;HMGB2&quot;, &quot;CENPA&quot;, &quot;SIX1&quot;,
+                &quot;DAPL1&quot;, &quot;NPHS1&quot;, &quot;PODXL&quot;, &quot;S100A8&quot;, &quot;TYROBP&quot;, &quot;MAL&quot;, &quot;EMX2&quot;,
+                &quot;LRP2&quot;, &quot;GATA3&quot;, &quot;SLC12A1&quot;, &quot;SPINT2&quot;, &quot;TUBB2B&quot;, &quot;STMN2&quot;,
+                &quot;TTHY1&quot;, &quot;HBA1&quot;, &quot;HBG1&quot;)
+
+is_present &lt;- plot.genes %in% rownames(orgs.neph.cds)
+is_exprs &lt;- fData(orgs.neph.cds)[plot.genes[is_present], &quot;ExprsCells&quot;] &gt; 10
+plot.genes.use &lt;- plot.genes[is_present][is_exprs]</code></pre>
+<blockquote>
+<p>The following genes aren’t present in this dataset and will be skipped: TTHY1 and HBG1</p>
+</blockquote>
+<blockquote>
+<p>The following genes aren’t expressed in at least 10 cells in this dataset and will be skipped: NA</p>
+</blockquote>
+<pre class="r"><code>plot_pseudotime_heatmap(orgs.neph.cds[plot.genes.use, ],
+                        num_clusters = 3,
+                        cores = 1,
+                        show_rownames = TRUE,
+                        hmcols = viridis(100))</code></pre>
+<p><img src="figure/04C_Organoids_Trajectory.Rmd/time-genes-heatmap-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="expression" class="section level2 tabset">
+<h2>Expression</h2>
+<p>We can also show the changes in expression of each gene individually.</p>
+<pre class="r"><code>src_list &lt;- lapply(color.bys, function(color.by) {
+    src &lt;- c(&quot;### {{color.by}} {.unnumbered}&quot;,
+             &quot;```{r time-genes-exprs-{{color.by}}}&quot;,
+             &quot;plot_genes_in_pseudotime(&quot;,
+                 &quot;orgs.neph.cds[plot.genes.use, ],&quot;,
+                 &quot;ncol = 2, color_by = &#39;{{color.by}}&#39;)&quot;,  
+             &quot;```&quot;,
+             &quot;&quot;)
+    knit_expand(text = src)
+})
+
+out &lt;- knit_child(text = unlist(src_list), options = list(cache = FALSE))</code></pre>
+<div id="state-1" class="section level3 unnumbered">
+<h3>State</h3>
+<pre class="r"><code>plot_genes_in_pseudotime(
+orgs.neph.cds[plot.genes.use, ],
+ncol = 2, color_by = &#39;State&#39;)</code></pre>
+<p><img src="figure/04C_Organoids_Trajectory.Rmd/time-genes-exprs-State-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="pseudotime-1" class="section level3 unnumbered">
+<h3>Pseudotime</h3>
+<pre class="r"><code>plot_genes_in_pseudotime(
+orgs.neph.cds[plot.genes.use, ],
+ncol = 2, color_by = &#39;Pseudotime&#39;)</code></pre>
+<p><img src="figure/04C_Organoids_Trajectory.Rmd/time-genes-exprs-Pseudotime-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="nephcluster-1" class="section level3 unnumbered">
+<h3>NephCluster</h3>
+<pre class="r"><code>plot_genes_in_pseudotime(
+orgs.neph.cds[plot.genes.use, ],
+ncol = 2, color_by = &#39;NephCluster&#39;)</code></pre>
+<p><img src="figure/04C_Organoids_Trajectory.Rmd/time-genes-exprs-NephCluster-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="dataset-1" class="section level3 unnumbered">
+<h3>Dataset</h3>
+<pre class="r"><code>plot_genes_in_pseudotime(
+orgs.neph.cds[plot.genes.use, ],
+ncol = 2, color_by = &#39;Dataset&#39;)</code></pre>
+<p><img src="figure/04C_Organoids_Trajectory.Rmd/time-genes-exprs-Dataset-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+<div id="branching-genes" class="section level1">
+<h1>Branching genes</h1>
+<p>Monocle can identify branch points and it can be useful to examine how genes are expressed differentially along each branch.</p>
+<div id="heatmap-1" class="section level2 tabset">
+<h2>Heatmap</h2>
+<p>In this heatmap the centre shows the branch point, one branch moves towards the left and the other towards the right.</p>
+<div id="branch-point-1" class="section level3 unnumbered">
+<h3>Branch point 1</h3>
+<pre class="r"><code>plot_genes_branched_heatmap(orgs.neph.cds[plot.genes.use, ],
+                            branch_point = 1,
+                            num_clusters = 3,
+                            show_rownames = TRUE,
+                            hmcols = viridis(100))</code></pre>
+<p><img src="figure/04C_Organoids_Trajectory.Rmd/branch-genes-heatmap-1-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="expression-1" class="section level2 tabset">
+<h2>Expression</h2>
+<p>We can also look at how individual genes change from a branch point. Here the left is the branch point and the right is the end of each branch. Expression along a branch is shown by the two different lines.</p>
+<div id="branch-point-1-1" class="section level3 unnumbered tabset">
+<h3>Branch point 1</h3>
+<pre class="r"><code>src_list &lt;- lapply(color.bys, function(color.by) {
+    src &lt;- c(&quot;#### {{color.by}} {.unnumbered}&quot;,
+             &quot;```{r branch-genes-exprs-1-{{color.by}}}&quot;,
+             &quot;plot_genes_branched_pseudotime(orgs.neph.cds[plot.genes.use, ],&quot;,
+                 &quot;branch_point = 1,&quot;,
+                 &quot;ncol = 2, color_by = &#39;{{color.by}}&#39;)&quot;,  
+             &quot;```&quot;,
+             &quot;&quot;)
+    knit_expand(text = src)
+})
+
+out &lt;- knit_child(text = unlist(src_list), options = list(cache = FALSE))</code></pre>
+<div id="state-2" class="section level4 unnumbered">
+<h4>State</h4>
+<pre class="r"><code>plot_genes_branched_pseudotime(orgs.neph.cds[plot.genes.use, ],
+branch_point = 1,
+ncol = 2, color_by = &#39;State&#39;)</code></pre>
+<p><img src="figure/04C_Organoids_Trajectory.Rmd/branch-genes-exprs-1-State-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="pseudotime-2" class="section level4 unnumbered">
+<h4>Pseudotime</h4>
+<pre class="r"><code>plot_genes_branched_pseudotime(orgs.neph.cds[plot.genes.use, ],
+branch_point = 1,
+ncol = 2, color_by = &#39;Pseudotime&#39;)</code></pre>
+<p><img src="figure/04C_Organoids_Trajectory.Rmd/branch-genes-exprs-1-Pseudotime-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="nephcluster-2" class="section level4 unnumbered">
+<h4>NephCluster</h4>
+<pre class="r"><code>plot_genes_branched_pseudotime(orgs.neph.cds[plot.genes.use, ],
+branch_point = 1,
+ncol = 2, color_by = &#39;NephCluster&#39;)</code></pre>
+<p><img src="figure/04C_Organoids_Trajectory.Rmd/branch-genes-exprs-1-NephCluster-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="dataset-2" class="section level4 unnumbered">
+<h4>Dataset</h4>
+<pre class="r"><code>plot_genes_branched_pseudotime(orgs.neph.cds[plot.genes.use, ],
+branch_point = 1,
+ncol = 2, color_by = &#39;Dataset&#39;)</code></pre>
+<p><img src="figure/04C_Organoids_Trajectory.Rmd/branch-genes-exprs-1-Dataset-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+</div>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<div id="parameters" class="section level2">
+<h2>Parameters</h2>
+<p>This table describes parameters used and set in this document.</p>
+<pre class="r"><code>params &lt;- toJSON(list(
+    list(
+        Parameter = &quot;n.genes&quot;,
+        Value = length(ordering.genes),
+        Description = &quot;Number of genes used for trajectory analysis&quot;
+    ),
+    list(
+        Parameter = &quot;n.states&quot;,
+        Value = n.states,
+        Description = &quot;Number of states identified by trajectory analysis&quot;
+    ),
+    list(
+        Parameter = &quot;n.branch&quot;,
+        Value = n.branch,
+        Description = &quot;Number of branch points identified by trajectory analysis&quot;
+    ),
+    list(
+        Parameter = &quot;root.state&quot;,
+        Value = root.state,
+        Description = &quot;State chosen as root of the tree&quot;
+    )
+), pretty = TRUE)
+
+kable(fromJSON(params))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Parameter</th>
+<th align="left">Value</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">n.genes</td>
+<td align="left">455</td>
+<td align="left">Number of genes used for trajectory analysis</td>
+</tr>
+<tr class="even">
+<td align="left">n.states</td>
+<td align="left">3</td>
+<td align="left">Number of states identified by trajectory analysis</td>
+</tr>
+<tr class="odd">
+<td align="left">n.branch</td>
+<td align="left">1</td>
+<td align="left">Number of branch points identified by trajectory analysis</td>
+</tr>
+<tr class="even">
+<td align="left">root.state</td>
+<td align="left">1</td>
+<td align="left">State chosen as root of the tree</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="output-files" class="section level2">
+<h2>Output files</h2>
+<p>This table describes the output files produced by this document. Right click and <em>Save Link As…</em> to download the results.</p>
+<pre class="r"><code>write_rds(orgs.neph.cds, here(&quot;data/processed/Organoids_trajectory.Rds&quot;))</code></pre>
+<pre class="r"><code>dir.create(here(&quot;output&quot;, DOCNAME), showWarnings = FALSE)
+
+write_lines(params, here(&quot;output&quot;, DOCNAME, &quot;parameters.json&quot;))
+
+kable(data.frame(
+    File = c(
+        glue(&quot;[parameters.json]({getDownloadURL(&#39;parameters.json&#39;, DOCNAME)})&quot;)
+    ),
+    Description = c(
+        &quot;Parameters set and used in this analysis&quot;
+    )
+))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">File</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04C_Organoids_Trajectory/parameters.json">parameters.json</a></td>
+<td align="left">Parameters set and used in this analysis</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>devtools::session_info()</code></pre>
+<pre><code> setting  value                       
+ version  R version 3.5.0 (2018-04-23)
+ system   x86_64, linux-gnu           
+ ui       X11                         
+ language (EN)                        
+ collate  en_US.UTF-8                 
+ tz       Australia/Melbourne         
+ date     2018-08-29                  
+
+ package        * version    date       source                            
+ abind            1.4-5      2016-07-21 cran (@1.4-5)                     
+ acepack          1.4.1      2016-10-29 cran (@1.4.1)                     
+ ape              5.1        2018-04-04 cran (@5.1)                       
+ assertthat       0.2.0      2017-04-11 CRAN (R 3.5.0)                    
+ backports        1.1.2      2017-12-13 CRAN (R 3.5.0)                    
+ base           * 3.5.0      2018-06-18 local                             
+ base64enc        0.1-3      2015-07-28 CRAN (R 3.5.0)                    
+ bibtex           0.4.2      2017-06-30 cran (@0.4.2)                     
+ bindr            0.1.1      2018-03-13 cran (@0.1.1)                     
+ bindrcpp       * 0.2.2      2018-03-29 cran (@0.2.2)                     
+ Biobase        * 2.40.0     2018-07-30 Bioconductor                      
+ BiocGenerics   * 0.26.0     2018-07-30 Bioconductor                      
+ bitops           1.0-6      2013-08-17 cran (@1.0-6)                     
+ broom            0.5.0      2018-07-17 cran (@0.5.0)                     
+ caret            6.0-80     2018-05-26 cran (@6.0-80)                    
+ caTools          1.17.1.1   2018-07-20 cran (@1.17.1.)                   
+ cellranger       1.1.0      2016-07-27 CRAN (R 3.5.0)                    
+ checkmate        1.8.5      2017-10-24 cran (@1.8.5)                     
+ class            7.3-14     2015-08-30 CRAN (R 3.5.0)                    
+ cli              1.0.0      2017-11-05 CRAN (R 3.5.0)                    
+ cluster          2.0.7-1    2018-04-13 CRAN (R 3.5.0)                    
+ codetools        0.2-15     2016-10-05 CRAN (R 3.5.0)                    
+ colorspace       1.3-2      2016-12-14 cran (@1.3-2)                     
+ combinat         0.0-8      2012-10-29 CRAN (R 3.5.0)                    
+ compiler         3.5.0      2018-06-18 local                             
+ cowplot        * 0.9.3      2018-07-15 cran (@0.9.3)                     
+ crayon           1.3.4      2017-09-16 CRAN (R 3.5.0)                    
+ CVST             0.2-2      2018-05-26 cran (@0.2-2)                     
+ data.table       1.11.4     2018-05-27 cran (@1.11.4)                    
+ datasets       * 3.5.0      2018-06-18 local                             
+ ddalpha          1.3.4      2018-06-23 cran (@1.3.4)                     
+ DDRTree        * 0.1.5      2017-04-30 CRAN (R 3.5.0)                    
+ densityClust     0.3        2017-10-24 CRAN (R 3.5.0)                    
+ DEoptimR         1.0-8      2016-11-19 cran (@1.0-8)                     
+ devtools         1.13.6     2018-06-27 CRAN (R 3.5.0)                    
+ diffusionMap     1.1-0.1    2018-07-21 cran (@1.1-0.1)                   
+ digest           0.6.15     2018-01-28 CRAN (R 3.5.0)                    
+ dimRed           0.1.0      2017-05-04 cran (@0.1.0)                     
+ diptest          0.75-7     2016-12-05 cran (@0.75-7)                    
+ docopt           0.6        2018-08-03 CRAN (R 3.5.0)                    
+ doSNOW           1.0.16     2017-12-13 cran (@1.0.16)                    
+ dplyr          * 0.7.6      2018-06-29 cran (@0.7.6)                     
+ DRR              0.0.3      2018-01-06 cran (@0.0.3)                     
+ dtw              1.20-1     2018-05-18 cran (@1.20-1)                    
+ evaluate         0.10.1     2017-06-24 CRAN (R 3.5.0)                    
+ fastICA          1.2-1      2017-06-12 CRAN (R 3.5.0)                    
+ fitdistrplus     1.0-9      2017-03-24 cran (@1.0-9)                     
+ flexmix          2.3-14     2017-04-28 cran (@2.3-14)                    
+ FNN              1.1        2013-07-31 cran (@1.1)                       
+ forcats        * 0.3.0      2018-02-19 CRAN (R 3.5.0)                    
+ foreach          1.4.4      2017-12-12 cran (@1.4.4)                     
+ foreign          0.8-70     2017-11-28 CRAN (R 3.5.0)                    
+ Formula          1.2-3      2018-05-03 cran (@1.2-3)                     
+ fpc              2.1-11.1   2018-07-20 cran (@2.1-11.)                   
+ gbRd             0.4-11     2012-10-01 cran (@0.4-11)                    
+ gdata            2.18.0     2017-06-06 cran (@2.18.0)                    
+ geometry         0.3-6      2015-09-09 cran (@0.3-6)                     
+ ggplot2        * 3.0.0      2018-07-03 cran (@3.0.0)                     
+ ggrepel          0.8.0      2018-05-09 CRAN (R 3.5.0)                    
+ ggridges         0.5.0      2018-04-05 cran (@0.5.0)                     
+ git2r            0.21.0     2018-01-04 CRAN (R 3.5.0)                    
+ glue           * 1.3.0      2018-07-17 cran (@1.3.0)                     
+ gower            0.1.2      2017-02-23 cran (@0.1.2)                     
+ gplots           3.0.1      2016-03-30 cran (@3.0.1)                     
+ graphics       * 3.5.0      2018-06-18 local                             
+ grDevices      * 3.5.0      2018-06-18 local                             
+ grid             3.5.0      2018-06-18 local                             
+ gridExtra        2.3        2017-09-09 cran (@2.3)                       
+ gtable           0.2.0      2016-02-26 cran (@0.2.0)                     
+ gtools           3.8.1      2018-06-26 cran (@3.8.1)                     
+ haven            1.1.2      2018-06-27 CRAN (R 3.5.0)                    
+ here           * 0.1        2017-05-28 CRAN (R 3.5.0)                    
+ highr            0.7        2018-06-09 CRAN (R 3.5.0)                    
+ Hmisc            4.1-1      2018-01-03 cran (@4.1-1)                     
+ hms              0.4.2      2018-03-10 CRAN (R 3.5.0)                    
+ HSMMSingleCell   0.114.0    2018-08-28 Bioconductor                      
+ htmlTable        1.12       2018-05-26 cran (@1.12)                      
+ htmltools        0.3.6      2017-04-28 CRAN (R 3.5.0)                    
+ htmlwidgets      1.2        2018-04-19 cran (@1.2)                       
+ httr             1.3.1      2017-08-20 CRAN (R 3.5.0)                    
+ ica              1.0-2      2018-05-24 cran (@1.0-2)                     
+ igraph           1.2.2      2018-07-27 cran (@1.2.2)                     
+ ipred            0.9-6      2017-03-01 cran (@0.9-6)                     
+ irlba          * 2.3.2      2018-01-11 cran (@2.3.2)                     
+ iterators        1.0.10     2018-07-13 cran (@1.0.10)                    
+ jsonlite       * 1.5        2017-06-01 CRAN (R 3.5.0)                    
+ kernlab          0.9-26     2018-04-30 cran (@0.9-26)                    
+ KernSmooth       2.23-15    2015-06-29 CRAN (R 3.5.0)                    
+ knitr          * 1.20       2018-02-20 CRAN (R 3.5.0)                    
+ labeling         0.3        2014-08-23 cran (@0.3)                       
+ lars             1.2        2013-04-24 cran (@1.2)                       
+ lattice          0.20-35    2017-03-25 CRAN (R 3.5.0)                    
+ latticeExtra     0.6-28     2016-02-09 cran (@0.6-28)                    
+ lava             1.6.2      2018-07-02 cran (@1.6.2)                     
+ lazyeval         0.2.1      2017-10-29 cran (@0.2.1)                     
+ limma            3.36.2     2018-06-21 Bioconductor                      
+ lmtest           0.9-36     2018-04-04 cran (@0.9-36)                    
+ lubridate        1.7.4      2018-04-11 cran (@1.7.4)                     
+ magic            1.5-8      2018-01-26 cran (@1.5-8)                     
+ magrittr         1.5        2014-11-22 CRAN (R 3.5.0)                    
+ MASS             7.3-50     2018-04-30 CRAN (R 3.5.0)                    
+ Matrix         * 1.2-14     2018-04-09 CRAN (R 3.5.0)                    
+ matrixStats      0.54.0     2018-07-23 CRAN (R 3.5.0)                    
+ mclust           5.4.1      2018-06-27 cran (@5.4.1)                     
+ memoise          1.1.0      2017-04-21 CRAN (R 3.5.0)                    
+ metap            1.0        2018-07-25 cran (@1.0)                       
+ methods        * 3.5.0      2018-06-18 local                             
+ mixtools         1.1.0      2017-03-10 cran (@1.1.0)                     
+ ModelMetrics     1.1.0      2016-08-26 cran (@1.1.0)                     
+ modelr           0.1.2      2018-05-11 CRAN (R 3.5.0)                    
+ modeltools       0.2-22     2018-07-16 cran (@0.2-22)                    
+ monocle        * 2.8.0      2018-08-28 Bioconductor                      
+ munsell          0.5.0      2018-06-12 cran (@0.5.0)                     
+ mvtnorm          1.0-8      2018-05-31 cran (@1.0-8)                     
+ nlme             3.1-137    2018-04-07 CRAN (R 3.5.0)                    
+ nnet             7.3-12     2016-02-02 CRAN (R 3.5.0)                    
+ parallel       * 3.5.0      2018-06-18 local                             
+ pbapply          1.3-4      2018-01-10 cran (@1.3-4)                     
+ pheatmap         1.0.10     2018-05-19 CRAN (R 3.5.0)                    
+ pillar           1.3.0      2018-07-14 cran (@1.3.0)                     
+ pkgconfig        2.0.1      2017-03-21 cran (@2.0.1)                     
+ pls              2.6-0      2016-12-18 cran (@2.6-0)                     
+ plyr             1.8.4      2016-06-08 cran (@1.8.4)                     
+ png              0.1-7      2013-12-03 cran (@0.1-7)                     
+ prabclus         2.2-6      2015-01-14 cran (@2.2-6)                     
+ prodlim          2018.04.18 2018-04-18 cran (@2018.04)                   
+ proxy            0.4-22     2018-04-08 cran (@0.4-22)                    
+ purrr          * 0.2.5      2018-05-29 cran (@0.2.5)                     
+ qlcMatrix        0.9.7      2018-04-20 CRAN (R 3.5.0)                    
+ R.methodsS3      1.7.1      2016-02-16 CRAN (R 3.5.0)                    
+ R.oo             1.22.0     2018-04-22 CRAN (R 3.5.0)                    
+ R.utils          2.6.0      2017-11-05 CRAN (R 3.5.0)                    
+ R6               2.2.2      2017-06-17 CRAN (R 3.5.0)                    
+ ranger           0.10.1     2018-06-04 cran (@0.10.1)                    
+ RANN             2.6        2018-07-16 cran (@2.6)                       
+ RColorBrewer     1.1-2      2014-12-07 cran (@1.1-2)                     
+ Rcpp             0.12.18    2018-07-23 cran (@0.12.18)                   
+ RcppRoll         0.3.0      2018-06-05 cran (@0.3.0)                     
+ Rdpack           0.8-0      2018-05-24 cran (@0.8-0)                     
+ readr          * 1.1.1      2017-05-16 CRAN (R 3.5.0)                    
+ readxl           1.1.0      2018-04-20 CRAN (R 3.5.0)                    
+ recipes          0.1.3      2018-06-16 cran (@0.1.3)                     
+ reshape2         1.4.3      2017-12-11 cran (@1.4.3)                     
+ reticulate       1.9        2018-07-06 cran (@1.9)                       
+ rlang            0.2.1      2018-05-30 CRAN (R 3.5.0)                    
+ rmarkdown        1.10.2     2018-07-30 Github (rstudio/rmarkdown@18207b9)
+ robustbase       0.93-2     2018-07-27 cran (@0.93-2)                    
+ ROCR             1.0-7      2015-03-26 cran (@1.0-7)                     
+ rpart            4.1-13     2018-02-23 CRAN (R 3.5.0)                    
+ rprojroot        1.3-2      2018-01-03 CRAN (R 3.5.0)                    
+ rstudioapi       0.7        2017-09-07 CRAN (R 3.5.0)                    
+ Rtsne            0.13       2017-04-14 cran (@0.13)                      
+ rvest            0.3.2      2016-06-17 CRAN (R 3.5.0)                    
+ scales           0.5.0      2017-08-24 cran (@0.5.0)                     
+ scatterplot3d    0.3-41     2018-03-14 cran (@0.3-41)                    
+ SDMTools         1.1-221    2014-08-05 cran (@1.1-221)                   
+ segmented        0.5-3.0    2017-11-30 cran (@0.5-3.0)                   
+ Seurat         * 2.3.1      2018-05-05 url                               
+ sfsmisc          1.1-2      2018-03-05 cran (@1.1-2)                     
+ slam             0.1-43     2018-04-23 CRAN (R 3.5.0)                    
+ snow             0.4-2      2016-10-14 cran (@0.4-2)                     
+ sparsesvd        0.1-4      2018-02-15 CRAN (R 3.5.0)                    
+ splines        * 3.5.0      2018-06-18 local                             
+ stats          * 3.5.0      2018-06-18 local                             
+ stats4         * 3.5.0      2018-06-18 local                             
+ stringi          1.2.4      2018-07-20 cran (@1.2.4)                     
+ stringr        * 1.3.1      2018-05-10 CRAN (R 3.5.0)                    
+ survival         2.42-3     2018-04-16 CRAN (R 3.5.0)                    
+ tclust           1.4-1      2018-05-24 cran (@1.4-1)                     
+ tibble         * 1.4.2      2018-01-22 cran (@1.4.2)                     
+ tidyr          * 0.8.1      2018-05-18 cran (@0.8.1)                     
+ tidyselect       0.2.4      2018-02-26 cran (@0.2.4)                     
+ tidyverse      * 1.2.1      2017-11-14 CRAN (R 3.5.0)                    
+ timeDate         3043.102   2018-02-21 cran (@3043.10)                   
+ tools            3.5.0      2018-06-18 local                             
+ trimcluster      0.1-2.1    2018-07-20 cran (@0.1-2.1)                   
+ tsne             0.1-3      2016-07-15 cran (@0.1-3)                     
+ utils          * 3.5.0      2018-06-18 local                             
+ VGAM           * 1.0-5      2018-02-07 cran (@1.0-5)                     
+ viridis        * 0.5.1      2018-03-29 cran (@0.5.1)                     
+ viridisLite    * 0.3.0      2018-02-01 cran (@0.3.0)                     
+ whisker          0.3-2      2013-04-28 CRAN (R 3.5.0)                    
+ withr            2.1.2      2018-03-15 CRAN (R 3.5.0)                    
+ workflowr        1.1.1      2018-07-06 CRAN (R 3.5.0)                    
+ xml2             1.2.0      2018-01-24 CRAN (R 3.5.0)                    
+ yaml             2.2.0      2018-07-25 cran (@2.2.0)                     
+ zoo              1.8-3      2018-07-16 cran (@1.8-3)                     </code></pre>
+</div>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

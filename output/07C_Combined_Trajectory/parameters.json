@@ -1,0 +1,22 @@
+[
+  {
+    "Parameter": ["n.genes"],
+    "Value": [595],
+    "Description": ["Number of genes used for trajectory analysis"]
+  },
+  {
+    "Parameter": ["n.states"],
+    "Value": [5],
+    "Description": ["Number of states identified by trajectory analysis"]
+  },
+  {
+    "Parameter": ["n.branch"],
+    "Value": [2],
+    "Description": ["Number of branch points identified by trajectory analysis"]
+  },
+  {
+    "Parameter": ["root.state"],
+    "Value": [4],
+    "Description": ["State chosen as root of the tree"]
+  }
+]
