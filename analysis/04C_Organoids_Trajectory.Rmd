@@ -1,0 +1,382 @@
+---
+title: "Organoids Nephron Trajectory Analysis"
+output:
+    workflowr::wflow_html:
+        code_folding: hide
+        df_print: paged
+---
+
+```{r knitr, include = FALSE}
+DOCNAME = "04C_Organoids_Trajectory"
+knitr::opts_chunk$set(autodep        = TRUE,
+                      cache          = TRUE,
+                      cache.path     = paste0("cache/", DOCNAME, "/"),
+                      cache.comments = FALSE,
+                      echo           = TRUE,
+                      error          = FALSE,
+                      fig.align      = "center",
+                      fig.width      = 10,
+                      fig.height     = 8,
+                      message        = FALSE,
+                      warning        = FALSE)
+```
+
+```{r libaries, cache = FALSE}
+# scRNA-seq
+library("Seurat")
+library("monocle")
+
+# Plotting
+library("viridis")
+
+# Presentation
+library("glue")
+library("knitr")
+
+# Parallel
+
+# Paths
+library("here")
+
+# Output
+library("jsonlite")
+
+# Tidyverse
+library("tidyverse")
+```
+
+```{r source, cache = FALSE}
+source(here("R/output.R"))
+```
+
+```{r paths}
+orgs.neph.path <- here("data/processed/Organoids_nephron.Rds")
+```
+
+Introduction
+============
+
+In this document we are going to take the results of reclustering the nephron
+lineage in the organoids datasets and perform pseudotime trajectory analysis
+using Monocle. This should tell us more about how those clusters relate to each
+other and what is happening during the developmental process.
+
+```{r load, cache.extra = tools::md5sum(orgs.neph.path)}
+if (file.exists(orgs.neph.path)) {
+    orgs.neph <- read_rds(orgs.neph.path)
+} else {
+    stop("Clustered Organoids nephron dataset is missing. ",
+         "Please run '04B_Organoids_Nephron.Rmd' first.",
+         call. = FALSE)
+}
+
+orgs.neph.cds <- importCDS(orgs.neph)
+orgs.neph.cds <- estimateSizeFactors(orgs.neph.cds)
+```
+
+Gene selection
+==============
+
+We first need to select a set of genes to use for this analysis. As we have
+already identified marker genes for each cluster it makes sense to use those.
+We will use the top 100 conserved marker genes for each cluster with the
+greatest absolute foldchanges. 
+
+```{r select-genes}
+con.markers <- read_csv(here("output/04B_Organoids_Nephron",
+                             "conserved_markers.csv"))
+
+ordering.genes <- con.markers %>%
+    group_by(cluster) %>%
+    arrange(-abs(mean_avg_logFC)) %>%
+    top_n(100, mean_avg_logFC) %>%
+    pull(gene) %>%
+    unique()
+
+orgs.neph.cds <- setOrderingFilter(orgs.neph.cds, ordering.genes)
+fData(orgs.neph.cds)$ExprsCells <- rowSums(as.matrix(exprs(orgs.neph.cds)) > 0)
+```
+
+Taking the intersection of these sets gives us `r length(ordering.genes)`
+selected genes.
+
+Order cells
+===========
+
+Monocle then uses the selected genes to perform dimensionality reduction using
+the DDRTree algorithm and then orders the cells along a trajectory.
+
+```{r order-cells}
+orgs.neph.cds <- reduceDimension(orgs.neph.cds, max_components = 2,
+                                 method = "DDRTree")
+orgs.neph.cds <- orderCells(orgs.neph.cds)
+orgs.neph.cds <- orderCells(orgs.neph.cds, root_state = 1)
+```
+
+Plot trajectory {.tabset}
+---------------
+
+### State
+
+```{r plot-trajectory-state}
+plot_cell_trajectory(orgs.neph.cds, color_by = "State")
+```
+
+### Pseudotime
+
+```{r plot-trajectory-time}
+plot_cell_trajectory(orgs.neph.cds, color_by = "Pseudotime")
+```
+
+### Nephron cluster
+
+```{r plot-trajectory-clust}
+plot_cell_trajectory(orgs.neph.cds, color_by = "NephCluster")
+```
+
+### Dataset
+
+```{r plot-trajectory-dataset}
+plot_cell_trajectory(orgs.neph.cds, color_by = "Dataset")
+```
+
+Crossover
+---------
+
+Monocle assigns each cell a "state" which corresponds to a segment of the tree.
+In this case Monocle has identified
+`r length(orgs.neph.cds@auxOrderingData[[orgs.neph.cds@dim_reduce_type]]$branch_points)` branch points and `r length(unique(pData(orgs.neph.cds)$State))` states.
+Let's look at how those states relate to our nephron clusters.
+
+```{r crossover}
+pData(orgs.neph.cds) %>%
+    count(State, NephCluster) %>%
+    complete(State, NephCluster, fill = list(n = 0)) %>%
+    group_by(State) %>%
+    mutate(Total = sum(n)) %>%
+    ggplot(aes(x = NephCluster, y = n / Total, fill = State)) +
+    geom_col() +
+    scale_y_continuous(labels = scales::percent) +
+    facet_wrap(~ State, ncol = 1, labeller = label_both) +
+    labs(title = "State by nephron cluster",
+         x = "Nephron cluster",
+         y = "Percentage of cells in state") +
+    theme_minimal()
+```
+
+Pseudotime genes
+================
+
+Heatmap
+-------
+
+We can show the expression of genes along this pseudotime trajectory. Here is a
+heatmap showing a selection of interesting kidney organoid genes.
+
+```{r select-plot-genes}
+plot.genes <- c("PECAM1", "CDH5", "MEIS1", "PDGFRA", "HMGB2", "CENPA", "SIX1",
+                "DAPL1", "NPHS1", "PODXL", "S100A8", "TYROBP", "MAL", "EMX2",
+                "LRP2", "GATA3", "SLC12A1", "SPINT2", "TUBB2B", "STMN2",
+                "TTHY1", "HBA1", "HBG1")
+
+is_present <- plot.genes %in% rownames(orgs.neph.cds)
+is_exprs <- fData(orgs.neph.cds)[plot.genes[is_present], "ExprsCells"] > 10
+```
+
+> The following genes aren't present in this dataset and will be skipped:
+> `r glue_collapse(plot.genes[!is_present], sep = ", ", last = " and ")`
+
+> The following genes aren't expressed in at least 10 cells in this dataset and
+> will be skipped:
+> `r glue_collapse(plot.genes[!is_present][!is_exprs], sep = ", ", last = " and ")`
+
+```{r time-genes-heatmap}
+plot_pseudotime_heatmap(orgs.neph.cds[plot.genes[is_present][is_exprs], ],
+                        num_clusters = 3,
+                        cores = 1,
+                        show_rownames = TRUE,
+                        hmcols = viridis(100))
+```
+
+Expression {.tabset}
+----------
+
+We can also show the changes in expression of each gene individually.
+
+### State
+
+```{r time-genes-exprs-state}
+plot_genes_in_pseudotime(orgs.neph.cds[plot.genes[is_present][is_exprs], ],
+                         ncol = 2,
+                         color_by = "State")
+```
+
+### Pseudotime
+
+```{r time-genes-exprs-time}
+plot_genes_in_pseudotime(orgs.neph.cds[plot.genes[is_present][is_exprs], ],
+                         ncol = 2,
+                         color_by = "Pseudotime")
+```
+
+### Nephron cluster
+
+```{r time-genes-exprs-clust}
+plot_genes_in_pseudotime(orgs.neph.cds[plot.genes[is_present][is_exprs], ],
+                         ncol = 2,
+                         color_by = "NephCluster")
+```
+
+### Dataset
+
+```{r time-genes-exprs-dataset}
+plot_genes_in_pseudotime(orgs.neph.cds[plot.genes[is_present][is_exprs], ],
+                         ncol = 2,
+                         color_by = "Dataset")
+```
+
+Branching genes
+===============
+
+Monocle can identify branch points and it can be useful to examine how genes are
+expressed differentially along each branch.
+
+Heatmap
+-------
+
+If this heatmap the centre shows the branch point, one branch moves towards the
+left and the other towards the right.
+
+```{r beam-heatmap}
+plot_genes_branched_heatmap(orgs.neph.cds[plot.genes[is_present][is_exprs], ],
+                            num_clusters = 3,
+                            cores = 1,
+                            show_rownames = TRUE,
+                            hmcols = viridis(100))
+```
+
+Expression {.tabset}
+----------
+
+We can also look at how individual genes change from a branch point. Here the
+left is the branch point and the right is the end of each branch. Expression
+along a branch is shown by the two different lines.
+
+### State
+
+```{r branch-genes-exprs-state}
+plot_genes_branched_pseudotime(orgs.neph.cds[plot.genes[is_present][is_exprs], ],
+                               ncol = 2,
+                               color_by = "State")
+```
+
+### Pseudotime
+
+```{r branch-genes-exprs-time}
+plot_genes_branched_pseudotime(orgs.neph.cds[plot.genes[is_present][is_exprs], ],
+                               ncol = 2,
+                               color_by = "Pseudotime")
+```
+
+### Nephron cluster
+
+```{r branch-genes-exprs-clust}
+plot_genes_branched_pseudotime(orgs.neph.cds[plot.genes[is_present][is_exprs], ],
+                               ncol = 2,
+                               color_by = "NephCluster")
+```
+
+### Dataset
+
+```{r branch-genes-exprs-dataset}
+plot_genes_branched_pseudotime(orgs.neph.cds[plot.genes[is_present][is_exprs], ],
+                               ncol = 2,
+                               color_by = "Dataset")
+```
+
+<!--
+```{r time-genes, eval = FALSE}
+de.res <- differentialGeneTest(orgs.neph.cds,
+                               fullModelFormulaStr = "~sm.ns(Pseudotime)",
+                               cores = 10) %>%
+    select(Gene = gene_short_name, PVal = pval, QVal = qval,
+           Ordering = use_for_ordering) %>%
+    arrange(QVal)
+    
+sig.genes <- de.res %>%
+    top_n(100, -QVal) %>%
+    pull(Gene) %>%
+    as.character()
+```
+
+```{r beam, eval = FALSE}
+beam.res <- BEAM(orgs.neph.cds, branch_point = 1, cores = 10) %>%
+    select(Gene = gene_short_name, PVal = pval, QVal = qval,
+           Ordering = use_for_ordering) %>%
+    arrange(QVal)
+    
+sig.genes <- beam.res %>%
+    top_n(100, -QVal) %>%
+    mutate(Expressed = rowSums(
+        as.matrix(exprs(orgs.neph.cds[Gene, ])) > 0
+        ) > 10) %>%
+    filter(Expressed) %>%
+    pull(Gene) %>%
+    as.character()
+```
+-->
+
+Summary
+=======
+
+Parameters
+----------
+
+This table describes parameters used and set in this document.
+
+```{r parameters}
+params <- toJSON(list(
+    list(
+        Parameter = "n.genes",
+        Value = length(ordering.genes),
+        Description = "Number of genes used for trajectory analysis"
+    ),
+    list(
+        Parameter = "n.states",
+        Value = length(unique(pData(orgs.neph.cds)$State)),
+        Description = "Number of states identified by trajectory analysis"
+    ),
+    list(
+        Parameter = "n.branch",
+        Value = length(orgs.neph.cds@auxOrderingData[[orgs.neph.cds@dim_reduce_type]]$branch_points),
+        Description = "Number of branch points identified by trajectory analysis"
+    )
+), pretty = TRUE)
+
+kable(fromJSON(params))
+```
+
+Output files
+------------
+
+This table describes the output files produced by this document. Right click
+and _Save Link As..._ to download the results.
+
+```{r write-data}
+write_rds(orgs.neph.cds, here("data/processed/Organoids_trajectory.Rds"))
+```
+
+```{r output}
+dir.create(here("output", DOCNAME), showWarnings = FALSE)
+
+write_lines(params, here("output", DOCNAME, "parameters.json"))
+
+kable(data.frame(
+    File = c(
+        glue("[parameters.json]({getDownloadURL('parameters.json', DOCNAME)})")
+    ),
+    Description = c(
+        "Parameters set and used in this analysis"
+    )
+))
+```

@@ -10,13 +10,14 @@ output:
     * [Organoid Batch 1](01_Organoid123_QC.html)
     * [Organoid 4](02_Organoid4_QC.html)
     * [Lindstrom](05_Lindstrom_QC.html)
-* Integration
-    * [Organoids](03_Organoids_Integration.html)
-    * [Combined](06_Combined_Integration.html)
-* Clustering
-    * [Organoids](04_Organoids_Clustering.html)
-        * [Nephron reclustering](04B_Organoids_Nephron.html)
-    * [Combined](07_Combined_Clustering.html)
-        * [Nephron reclustering](07B_Combined_Nephron.html)
-    * [Crossover](08_Crossover.html)
+* Organoids analysis
+    * [Integration](03_Organoids_Integration.html)
+    * [Clustering](04_Organoids_Clustering.html)
+    * [Nephron reclustering](04B_Organoids_Nephron.html)
+    * [Nephron trajectory](04C_Organoids_Trajectory.html)
+* Combined analysis
+    * [Integration](06_Combined_Integration.html)
+    * [Clustering](07_Combined_Clustering.html)
+    * [Nephron reclustering](07B_Combined_Nephron.html)
+* [Clustering crossover](08_Crossover.html)
 * [Methods](99_Methods.html)
