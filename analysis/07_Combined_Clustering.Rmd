@@ -612,6 +612,32 @@ de <- FindMarkers(combined, "Organoid", "Lindstrom", logfc.threshold = 0,
 de %>% rownames_to_column("gene") %>% top_n(10, avg_logFC) %>% data.frame
 ```
 
+We are also interested in differental expression between some specific clusters.
+Here we will test for differences between Cluster 7 and Cluster 15.
+
+```{r de-c7c15, cache.lazy = FALSE}
+combined <- SetAllIdent(combined, id = "Cluster")
+
+de.c7c15 <- FindMarkers(combined, 7, 15, logfc.threshold = 0,
+                        min.pct = 0.1, print.bar = FALSE)
+
+de.c7c15 %>% rownames_to_column("gene") %>% top_n(10, avg_logFC) %>% data.frame
+```
+
+We can also test for differences between these cluster, considering only the
+cells from the Lindstrom dataset.
+
+```{r de-c7c15.lind, cache.lazy = FALSE}
+combined <- SetAllIdent(combined, id = "GroupCluster")
+
+de.c7c15.lind <- FindMarkers(combined, "Lindstrom_7", "Lindstrom_15",
+                             logfc.threshold = 0,
+                             min.pct = 0.1, print.bar = FALSE)
+
+de.c7c15.lind %>% rownames_to_column("gene") %>%
+    top_n(10, avg_logFC) %>% data.frame
+```
+
 ```{r reset-ident, cache.lazy = FALSE}
 combined <- SetAllIdent(combined, id = "Cluster")
 ```
@@ -763,6 +789,8 @@ write_xlsx(con.markers.list, here("output", DOCNAME, "conserved_markers.xlsx"))
 write_csv(cluster.de, here("output", DOCNAME, "cluster_de.csv"))
 write_xlsx(cluster.de.list, here("output", DOCNAME, "cluster_de.xlsx"))
 write_csv(de, here("output", DOCNAME, "group_de.csv"))
+write_csv(de.c7c15, here("output", DOCNAME, "c7_c15_de.csv"))
+write_csv(de.c7c15.lind, here("output", DOCNAME, "c7_c17_lind_de.csv"))
 
 kable(data.frame(
     File = c(
@@ -781,7 +809,9 @@ kable(data.frame(
              "({getDownloadURL('cluster_de.csv', DOCNAME)})"),
         glue("[cluster_de.xlsx]",
              "({getDownloadURL('cluster_de.xlsx', DOCNAME)})"),
-        glue("[group_de.csv]({getDownloadURL('group_de.csv', DOCNAME)})")
+        glue("[group_de.csv]({getDownloadURL('group_de.csv', DOCNAME)})"),
+        glue("[group_de.csv]({getDownloadURL('c7_c15_de.csv', DOCNAME)})"),
+        glue("[group_de.csv]({getDownloadURL('c7_c15_lind_de.csv', DOCNAME)})")
     ),
     Description = c(
         "Parameters set and used in this analysis",
@@ -798,7 +828,11 @@ kable(data.frame(
         paste("Results of within cluster differential expression testing",
              "in XLSX format with one cluster per tab"),
         paste("Results of between group differential expression testing",
-             "in CSV format")
+             "in CSV format"),
+        paste("Results of differential expression testing between Cluster 7 and",
+             "Cluster 15 in CSV format"),
+        paste("Results of differential expression testing between Lindstorm",  
+              "Cluster 7 and Cluster 15 in CSV format")
     )
 ))
 ```
