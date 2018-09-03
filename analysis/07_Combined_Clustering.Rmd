@@ -810,8 +810,8 @@ kable(data.frame(
         glue("[cluster_de.xlsx]",
              "({getDownloadURL('cluster_de.xlsx', DOCNAME)})"),
         glue("[group_de.csv]({getDownloadURL('group_de.csv', DOCNAME)})"),
-        glue("[group_de.csv]({getDownloadURL('c7_c15_de.csv', DOCNAME)})"),
-        glue("[group_de.csv]({getDownloadURL('c7_c15_lind_de.csv', DOCNAME)})")
+        glue("[c7_c15_de.csv]({getDownloadURL('c7_c15_de.csv', DOCNAME)})"),
+        glue("[c7_c15_lind_de.csv]({getDownloadURL('c7_c15_lind_de.csv', DOCNAME)})")
     ),
     Description = c(
         "Parameters set and used in this analysis",
