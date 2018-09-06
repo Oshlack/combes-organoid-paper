@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Organoids Figures</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Combes Organoid Paper Analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/jdblischak/workflowr">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Organoids Figures</h1>
+
+</div>
+
+
+<p><strong>Last updated:</strong> 2018-09-07</p>
+<strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
+<ul>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>R Markdown file:</strong> up-to-date </summary></p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Environment:</strong> empty </summary></p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Seed:</strong> <code>set.seed(20180730)</code> </summary></p>
+<p>The command <code>set.seed(20180730)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Session information:</strong> recorded </summary></p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</details>
+</li>
+<li>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/c30f9232bfa7be39a7eaa773726bd1b61f9da32a" target="_blank">c30f923</a> </summary></p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/cache/
+    Ignored:    packrat/lib-R/
+    Ignored:    packrat/lib-ext/
+    Ignored:    packrat/lib/
+    Ignored:    packrat/src/
+
+Untracked files:
+    Untracked:  output/04D_Organoids_Figures/
+    Untracked:  output/07D_Combined_Figures/
+    Untracked:  public/figure/04D_Organoids_Figures.Rmd/
+    Untracked:  public/figure/07D_Combined_Figures.Rmd/
+
+Unstaged changes:
+    Deleted:    output/07_Combined_Clustering/c7_c17_lind_de.csv
+
+</code></pre>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
+</li>
+</ul>
+<hr />
+<pre class="r"><code># scRNA-seq
+library(&quot;Seurat&quot;)
+library(&quot;monocle&quot;)
+
+# Plotting
+library(&quot;clustree&quot;)
+library(&quot;cowplot&quot;)
+library(&quot;paletteer&quot;)
+
+# Presentation
+library(&quot;glue&quot;)
+library(&quot;knitr&quot;)
+
+# Parallel
+
+# Paths
+library(&quot;here&quot;)
+
+# Output
+
+# Tidyverse
+library(&quot;tidyverse&quot;)</code></pre>
+<pre class="r"><code>source(here(&quot;R/output.R&quot;))</code></pre>
+<pre class="r"><code>orgs.path &lt;- here(&quot;data/processed/Organoids_clustered.Rds&quot;)
+orgs.neph.path &lt;- here(&quot;data/processed/Organoids_nephron.Rds&quot;)
+orgs.neph.cds.path &lt;- here(&quot;data/processed/Organoids_trajectory.Rds&quot;)
+
+dir.create(here(&quot;output&quot;, DOCNAME), showWarnings = FALSE)</code></pre>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>In this document we are going to look at all of the organoids analysis results and produce a series of figures for the paper.</p>
+<pre class="r"><code>if (file.exists(orgs.path)) {
+    orgs &lt;- read_rds(orgs.path)
+} else {
+    stop(&quot;Clustered Organoids dataset is missing. &quot;,
+         &quot;Please run &#39;04_Organoids_Clustering.Rmd&#39; first.&quot;,
+         call. = FALSE)
+}</code></pre>
+<pre class="r"><code>if (file.exists(orgs.neph.path)) {
+    orgs.neph &lt;- read_rds(orgs.neph.path)
+} else {
+    stop(&quot;Clustered Organoids nephron dataset is missing. &quot;,
+         &quot;Please run &#39;04B_Organoids_Nephron.Rmd&#39; first.&quot;,
+         call. = FALSE)
+}</code></pre>
+<pre class="r"><code>if (file.exists(orgs.neph.cds.path)) {
+    orgs.neph.cds &lt;- read_rds(orgs.neph.cds.path)
+} else {
+    stop(&quot;Organoids nephron trajectory dataset is missing. &quot;,
+         &quot;Please run &#39;04C_Organoids_Trajectory.Rmd&#39; first.&quot;,
+         call. = FALSE)
+}</code></pre>
+</div>
+<div id="figure-1a" class="section level1">
+<h1>Figure 1A</h1>
+<pre class="r"><code>f1A &lt;- clustree(orgs, node_size_range = c(6, 16), node_text_size = 5,
+                edge_width = 2)
+
+leg &lt;- {f1A + guides(colour = FALSE,
+             edge_alpha = guide_legend(title = &quot;In proportion&quot;,
+                                       title.position = &quot;top&quot;,
+                                       label.position = &quot;top&quot;,
+                                       override.aes = list(edge_width = 2),
+                                       keywidth = 3),
+             edge_colour = guide_edge_colourbar(title = &quot;Cell count&quot;,
+                                                title.position = &quot;top&quot;,
+                                                barwidth = 20,
+                                                barheight = 2.5),
+             size = guide_legend(title = &quot;Cluster size&quot;,
+                                 title.position = &quot;top&quot;,
+                                 label.position = &quot;top&quot;)) +
+    theme(legend.position = &quot;bottom&quot;)} %&gt;%
+    get_legend()
+
+f1A &lt;- f1A +
+    annotate(&quot;rect&quot;, xmin = -9, xmax = 6, ymin = 3.6, ymax = 4.4,
+             alpha = 0, colour = &quot;#00ADEF&quot;, size = 1.5) +
+    scale_colour_viridis_d(option = &quot;inferno&quot;, begin = 0.4, end = 0.9) +
+    guides(size = FALSE, edge_alpha = FALSE, edge_colour = FALSE,
+           colour = guide_legend(override.aes = list(size = 8),
+                                 keyheight = 3,
+                                 title = &quot;Clustering resolution&quot;,
+                                 label.theme = element_text(size = 12),
+                                 title.position = &quot;left&quot;,
+                                 title.theme = element_text(size = 16,
+                                                            angle = 90,
+                                                            hjust = 0.5))) +
+    theme(legend.position = &quot;left&quot;)
+
+f1A &lt;- plot_grid(f1A, leg, ncol = 1, rel_heights = c(1, 0.2))
+
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure1A.png&quot;), f1A,
+       height = 8, width = 10)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure1A.pdf&quot;), f1A,
+       height = 8, width = 10)
+
+f1A</code></pre>
+<p><img src="figure/04D_Organoids_Figures.Rmd/fig-1A-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="figure-1b" class="section level1">
+<h1>Figure 1B</h1>
+<pre class="r"><code>plot.data &lt;- orgs %&gt;%
+    GetDimReduction(&quot;tsne&quot;,  slot = &quot;cell.embeddings&quot;) %&gt;%
+    data.frame() %&gt;%
+    rownames_to_column(&quot;Cell&quot;) %&gt;%
+    mutate(Cluster = orgs@ident) %&gt;%
+    group_by(Cluster)
+
+lab.data &lt;- plot.data %&gt;%
+    group_by(Cluster) %&gt;%
+    summarise(tSNE_1 = mean(tSNE_1),
+              tSNE_2 = mean(tSNE_2)) %&gt;%
+    mutate(Label = paste0(&quot;O&quot;, Cluster))
+
+clust.labs &lt;- c(
+    &quot;O0 (Stroma) TAGLN, ACTA2, MGP\ncardiovascular system development&quot;,
+    &quot;O1 (Stroma) MAB21L2, CXCL14, PRRX1\ncartilage development&quot;,
+    &quot;O2 (Podocyte) PODXL, NPHS2, TCF21\nrenal filtration cell differentiation&quot;,
+    &quot;O3 (Stroma) DLK1, GATA3, IGFBP5\nwound healing&quot;,
+    &quot;O4 (Cell cycle) HIST1H4C, PCLAF, TYMS\nDNA conformation change&quot;,
+    &quot;O5 (Endothelium) CLDN5, PECAM1, KDR\ncardiovascular system development&quot;,
+    &quot;O6 (Cell cycle) CENPF, HMGB2, UBE2C\nmitotic cell cycle processes&quot;,
+    &quot;O7 (Stroma) COL2A1, COL9A3, CNMD\nextracellular matrix organisation&quot;,
+    &quot;O8 (Neural prog.) FABP7, TTHY1, SOX2\nbrain development&quot;,
+    &quot;O9 (Epithelium) PAX2, PAX8, KRT19\nreg. of nephron tubule differentiation&quot;,
+    &quot;O10 (Muscle prog.) MYOG, MYOD1\nmuscle filament sliding&quot;,
+    &quot;O11 (Neural prog.) HES6, STMN2\ngeneration of neurons&quot;,
+    &quot;O12 (Endothelium) GNG11, CALM1\nnegative reg. of cation channel activity&quot;
+)
+
+f1B &lt;- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
+    geom_point(data = filter(plot.data, Cluster %in% c(2, 9)),
+               colour = &quot;grey30&quot;, size = 4) +
+    geom_point() +
+    geom_text(data = lab.data, aes(label = Label), colour = &quot;black&quot;, size = 8) +
+    
+    scale_color_paletteer_d(&quot;ggthemes&quot;, &quot;gdocs&quot;, labels = clust.labs) +
+    guides(colour = guide_legend(ncol = 3, override.aes = list(size = 10),
+                                 label.theme = element_text(size = 8))) +
+    theme_cowplot() +
+    theme(legend.position = &quot;bottom&quot;,
+          legend.title = element_blank())
+
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure1B.png&quot;), f1B,
+       height = 8, width = 10)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure1B.pdf&quot;), f1B,
+       height = 8, width = 10)
+
+f1B</code></pre>
+<p><img src="figure/04D_Organoids_Figures.Rmd/fig-1B-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="figure-1c" class="section level1">
+<h1>Figure 1C</h1>
+<pre class="r"><code>plot.data &lt;- orgs.neph %&gt;%
+    GetDimReduction(&quot;tsne&quot;,  slot = &quot;cell.embeddings&quot;) %&gt;%
+    data.frame() %&gt;%
+    rownames_to_column(&quot;Cell&quot;) %&gt;%
+    mutate(Cluster = orgs.neph@ident) %&gt;%
+    group_by(Cluster)
+
+lab.data &lt;- plot.data %&gt;%
+    group_by(Cluster) %&gt;%
+    summarise(tSNE_1 = mean(tSNE_1),
+              tSNE_2 = mean(tSNE_2)) %&gt;%
+    mutate(Label = paste0(&quot;ON&quot;, Cluster))
+
+clust.labs &lt;- c(
+    &quot;ON0 (Podocyte) TCF21, PODXL, VEGFA, NPHS1, PTPRO&quot;,
+    &quot;ON1 (Pod. precursor) CTGF, OLFM3, MAFB, NPHS1&quot;,
+    &quot;ON2 (Nephron progenitor) DAPL1, LYPD1, SIX1, CRABP2&quot;,
+    &quot;ON3 (Proximal precursor) IGFBP7, FXYD2, CDH6, HNF1B&quot;,
+    &quot;ON4 (Distal precursor) EPCAM, EMX2, SPP1, MAL, PAX2&quot;
+)
+
+f1C &lt;- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
+    geom_point(size = 4) +
+    geom_text(data = lab.data, aes(label = Label), colour = &quot;black&quot;, size = 8) +
+    
+    scale_color_brewer(palette = &quot;Dark2&quot;, labels = clust.labs) +
+    guides(colour = guide_legend(ncol = 2, override.aes = list(size = 8),
+                                 label.theme = element_text(size = 11))) +
+    theme_cowplot() +
+    theme(legend.position = &quot;bottom&quot;,
+          legend.title = element_blank())
+
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure1C.png&quot;), f1C,
+       height = 8, width = 10)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure1C.pdf&quot;), f1C,
+       height = 8, width = 10)
+
+f1C</code></pre>
+<p><img src="figure/04D_Organoids_Figures.Rmd/fig-1C-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="figure-1d" class="section level1">
+<h1>Figure 1D</h1>
+<pre class="r"><code>clust.labs &lt;- c(
+    &quot;ON0 (Podocyte)&quot;,
+    &quot;ON1 (Pod. precursor)&quot;,
+    &quot;ON2 (Nephron progenitor)&quot;,
+    &quot;ON3 (Proximal precursor)&quot;,
+    &quot;ON4 (Distal precursor)&quot;
+)
+
+f1D &lt;- plot_cell_trajectory(orgs.neph.cds,
+                            color_by = &quot;NephCluster&quot;, cell_size = 3) +
+    scale_color_brewer(palette = &quot;Dark2&quot;, labels = clust.labs) +
+    guides(colour = guide_legend(nrow = 1, override.aes = list(size = 8),
+                                 label.theme = element_text(size = 11))) +
+    theme_cowplot() +
+    theme(legend.position = &quot;bottom&quot;,
+          legend.title = element_blank())
+
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure1D.png&quot;), f1D,
+       height = 8, width = 10)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure1D.pdf&quot;), f1D,
+       height = 8, width = 10)
+
+f1D</code></pre>
+<p><img src="figure/04D_Organoids_Figures.Rmd/fig-1D-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="figure-1e" class="section level1">
+<h1>Figure 1E</h1>
+<pre class="r"><code>genes &lt;- c(&quot;TCF21&quot;, &quot;PODXL&quot;, &quot;VEGFA&quot;, &quot;NPHS1&quot;, &quot;PTPRO&quot;, &quot;CTGF&quot;, &quot;OLFM3&quot;, &quot;MAFB&quot;,
+           &quot;DAPL1&quot;, &quot;LYPD1&quot;, &quot;SIX1&quot;, &quot;CRABP2&quot;, &quot;IGFBP7&quot;, &quot;FXYD2&quot;, &quot;CDH6&quot;,
+           &quot;HNF1B&quot;, &quot;EPCAM&quot;, &quot;EMX2&quot;, &quot;SPP1&quot;, &quot;MAL&quot;, &quot;PAX2&quot;)
+
+gene.groups &lt;- c(rep(&quot;Podocyte&quot;, 5),
+                 rep(&quot;Pod. precursor&quot;, 3),
+                 rep(&quot;Nephron progenitor&quot;, 4),
+                 rep(&quot;Proximal precursor&quot;, 4),
+                 rep(&quot;Distal precursor&quot;, 5))
+names(gene.groups) &lt;- genes
+
+plot.data &lt;- FetchData(orgs.neph, vars.all = genes) %&gt;%
+    data.frame() %&gt;%
+    rownames_to_column(&quot;Cell&quot;) %&gt;%
+    mutate(Cluster = paste0(&quot;ON&quot;, orgs.neph@ident)) %&gt;%
+    gather(key = &quot;Gene&quot;, value = &quot;Expr&quot;, -Cell, -Cluster) %&gt;%
+    group_by(Cluster, Gene) %&gt;%
+    summarize(AvgExpr = ExpMean(Expr),
+              Prop = Seurat:::PercentAbove(Expr, threshold = 0)) %&gt;%
+    group_by(Gene) %&gt;%
+    mutate(AvgExp = scale(AvgExpr)) %&gt;%
+    mutate(Group = gene.groups[Gene])
+
+f1E &lt;- ggplot(plot.data,
+              aes(x = Gene, y = Cluster, size = Prop, colour = AvgExpr)) +
+    geom_point() +
+    scale_colour_viridis_c() +
+    scale_radius(range = c(0, 10)) +
+    facet_grid(~ Group, scale = &quot;free_x&quot;, space = &quot;free_x&quot;, switch = &quot;y&quot;) +
+    theme(axis.title = element_blank(),
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+          panel.spacing = unit(1, &quot;lines&quot;),
+          strip.background = element_blank(),
+          strip.placement = &quot;outside&quot;,
+          legend.position = &quot;none&quot;)
+
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure1E.png&quot;), f1E,
+       height = 4, width = 20)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure1E.pdf&quot;), f1E,
+       height = 8, width = 10)
+
+f1E</code></pre>
+<p><img src="figure/04D_Organoids_Figures.Rmd/fig-1E-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="figure-1-panel" class="section level1">
+<h1>Figure 1 Panel</h1>
+<pre class="r"><code>p1 &lt;- plot_grid(f1A, f1B, f1C, f1D, nrow = 2,
+                labels = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;))
+panel &lt;- plot_grid(p1, f1E, ncol = 1, labels = c(&quot;&quot;, &quot;E&quot;),
+                   rel_heights = c(1, 0.2))
+
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure1_panel.png&quot;), panel,
+       height = 20, width = 16)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure1_panel.pdf&quot;), panel,
+       height = 20, width = 16)
+
+panel</code></pre>
+<p><img src="figure/04D_Organoids_Figures.Rmd/fig1-panel-1.png" width="1536" style="display: block; margin: auto;" /></p>
+</div>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<div id="output-files" class="section level2">
+<h2>Output files</h2>
+<p>This table describes the output files produced by this document. Right click and <em>Save Link As…</em> to download the results.</p>
+<pre class="r"><code>kable(data.frame(
+    File = c(
+        glue(&quot;[figure1A.png]({getDownloadURL(&#39;figure1A.png&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure1A.pdf]({getDownloadURL(&#39;figure1A.pdf&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure1B.png]({getDownloadURL(&#39;figure1B.png&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure1B.pdf]({getDownloadURL(&#39;figure1B.pdf&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure1C.png]({getDownloadURL(&#39;figure1C.png&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure1C.pdf]({getDownloadURL(&#39;figure1C.pdf&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure1D.png]({getDownloadURL(&#39;figure1D.png&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure1D.pdf]({getDownloadURL(&#39;figure1D.pdf&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure1E.png]({getDownloadURL(&#39;figure1E.png&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure1E.pdf]({getDownloadURL(&#39;figure1E.pdf&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure1_panel.png]({getDownloadURL(&#39;figure1_panel.png&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure1_panel.pdf]({getDownloadURL(&#39;figure1_panel.pdf&#39;, DOCNAME)})&quot;)
+    ),
+    Description = c(
+        &quot;Figure 1A in PNG format&quot;,
+        &quot;Figure 1A in PDF format&quot;,
+        &quot;Figure 1B in PNG format&quot;,
+        &quot;Figure 1B in PDF format&quot;,
+        &quot;Figure 1C in PNG format&quot;,
+        &quot;Figure 1C in PDF format&quot;,
+        &quot;Figure 1D in PNG format&quot;,
+        &quot;Figure 1D in PDF format&quot;,
+        &quot;Figure 1E in PNG format&quot;,
+        &quot;Figure 1E in PDF format&quot;,
+        &quot;Figure panel in PNG format&quot;,
+        &quot;Figure panel in PDF format&quot;
+    )
+))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">File</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04D_Organoids_Figures/figure1A.png">figure1A.png</a></td>
+<td align="left">Figure 1A in PNG format</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04D_Organoids_Figures/figure1A.pdf">figure1A.pdf</a></td>
+<td align="left">Figure 1A in PDF format</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04D_Organoids_Figures/figure1B.png">figure1B.png</a></td>
+<td align="left">Figure 1B in PNG format</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04D_Organoids_Figures/figure1B.pdf">figure1B.pdf</a></td>
+<td align="left">Figure 1B in PDF format</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04D_Organoids_Figures/figure1C.png">figure1C.png</a></td>
+<td align="left">Figure 1C in PNG format</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04D_Organoids_Figures/figure1C.pdf">figure1C.pdf</a></td>
+<td align="left">Figure 1C in PDF format</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04D_Organoids_Figures/figure1D.png">figure1D.png</a></td>
+<td align="left">Figure 1D in PNG format</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04D_Organoids_Figures/figure1D.pdf">figure1D.pdf</a></td>
+<td align="left">Figure 1D in PDF format</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04D_Organoids_Figures/figure1E.png">figure1E.png</a></td>
+<td align="left">Figure 1E in PNG format</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04D_Organoids_Figures/figure1E.pdf">figure1E.pdf</a></td>
+<td align="left">Figure 1E in PDF format</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04D_Organoids_Figures/figure1_panel.png">figure1_panel.png</a></td>
+<td align="left">Figure panel in PNG format</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04D_Organoids_Figures/figure1_panel.pdf">figure1_panel.pdf</a></td>
+<td align="left">Figure panel in PDF format</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<pre class="r"><code>devtools::session_info()</code></pre>
+<pre><code> setting  value                       
+ version  R version 3.5.0 (2018-04-23)
+ system   x86_64, linux-gnu           
+ ui       X11                         
+ language (EN)                        
+ collate  en_US.UTF-8                 
+ tz       Australia/Melbourne         
+ date     2018-09-05                  
+
+ package     * version date       source                            
+ assertthat    0.2.0   2017-04-11 CRAN (R 3.5.0)                    
+ backports     1.1.2   2017-12-13 CRAN (R 3.5.0)                    
+ base        * 3.5.0   2018-06-18 local                             
+ bindr         0.1.1   2018-03-13 cran (@0.1.1)                     
+ bindrcpp      0.2.2   2018-03-29 cran (@0.2.2)                     
+ broom         0.5.0   2018-07-17 cran (@0.5.0)                     
+ cellranger    1.1.0   2016-07-27 CRAN (R 3.5.0)                    
+ cli           1.0.0   2017-11-05 CRAN (R 3.5.0)                    
+ codetools     0.2-15  2016-10-05 CRAN (R 3.5.0)                    
+ colorspace    1.3-2   2016-12-14 cran (@1.3-2)                     
+ compiler      3.5.0   2018-06-18 local                             
+ crayon        1.3.4   2017-09-16 CRAN (R 3.5.0)                    
+ datasets    * 3.5.0   2018-06-18 local                             
+ devtools      1.13.6  2018-06-27 CRAN (R 3.5.0)                    
+ digest        0.6.15  2018-01-28 CRAN (R 3.5.0)                    
+ dplyr       * 0.7.6   2018-06-29 cran (@0.7.6)                     
+ evaluate      0.10.1  2017-06-24 CRAN (R 3.5.0)                    
+ forcats     * 0.3.0   2018-02-19 CRAN (R 3.5.0)                    
+ ggplot2     * 3.0.0   2018-07-03 cran (@3.0.0)                     
+ git2r         0.21.0  2018-01-04 CRAN (R 3.5.0)                    
+ glue        * 1.3.0   2018-07-17 cran (@1.3.0)                     
+ graphics    * 3.5.0   2018-06-18 local                             
+ grDevices   * 3.5.0   2018-06-18 local                             
+ grid          3.5.0   2018-06-18 local                             
+ gtable        0.2.0   2016-02-26 cran (@0.2.0)                     
+ haven         1.1.2   2018-06-27 CRAN (R 3.5.0)                    
+ here        * 0.1     2017-05-28 CRAN (R 3.5.0)                    
+ hms           0.4.2   2018-03-10 CRAN (R 3.5.0)                    
+ htmltools     0.3.6   2017-04-28 CRAN (R 3.5.0)                    
+ httr          1.3.1   2017-08-20 CRAN (R 3.5.0)                    
+ jsonlite    * 1.5     2017-06-01 CRAN (R 3.5.0)                    
+ knitr       * 1.20    2018-02-20 CRAN (R 3.5.0)                    
+ lattice       0.20-35 2017-03-25 CRAN (R 3.5.0)                    
+ lazyeval      0.2.1   2017-10-29 cran (@0.2.1)                     
+ lubridate     1.7.4   2018-04-11 cran (@1.7.4)                     
+ magrittr      1.5     2014-11-22 CRAN (R 3.5.0)                    
+ memoise       1.1.0   2017-04-21 CRAN (R 3.5.0)                    
+ methods     * 3.5.0   2018-06-18 local                             
+ modelr        0.1.2   2018-05-11 CRAN (R 3.5.0)                    
+ munsell       0.5.0   2018-06-12 cran (@0.5.0)                     
+ nlme          3.1-137 2018-04-07 CRAN (R 3.5.0)                    
+ pillar        1.3.0   2018-07-14 cran (@1.3.0)                     
+ pkgconfig     2.0.1   2017-03-21 cran (@2.0.1)                     
+ plyr          1.8.4   2016-06-08 cran (@1.8.4)                     
+ purrr       * 0.2.5   2018-05-29 cran (@0.2.5)                     
+ R.methodsS3   1.7.1   2016-02-16 CRAN (R 3.5.0)                    
+ R.oo          1.22.0  2018-04-22 CRAN (R 3.5.0)                    
+ R.utils       2.6.0   2017-11-05 CRAN (R 3.5.0)                    
+ R6            2.2.2   2017-06-17 CRAN (R 3.5.0)                    
+ Rcpp          0.12.18 2018-07-23 cran (@0.12.18)                   
+ readr       * 1.1.1   2017-05-16 CRAN (R 3.5.0)                    
+ readxl        1.1.0   2018-04-20 CRAN (R 3.5.0)                    
+ rlang         0.2.1   2018-05-30 CRAN (R 3.5.0)                    
+ rmarkdown     1.10.2  2018-07-30 Github (rstudio/rmarkdown@18207b9)
+ rprojroot     1.3-2   2018-01-03 CRAN (R 3.5.0)                    
+ rstudioapi    0.7     2017-09-07 CRAN (R 3.5.0)                    
+ rvest         0.3.2   2016-06-17 CRAN (R 3.5.0)                    
+ scales        0.5.0   2017-08-24 cran (@0.5.0)                     
+ stats       * 3.5.0   2018-06-18 local                             
+ stringi       1.2.4   2018-07-20 cran (@1.2.4)                     
+ stringr     * 1.3.1   2018-05-10 CRAN (R 3.5.0)                    
+ tibble      * 1.4.2   2018-01-22 cran (@1.4.2)                     
+ tidyr       * 0.8.1   2018-05-18 cran (@0.8.1)                     
+ tidyselect    0.2.4   2018-02-26 cran (@0.2.4)                     
+ tidyverse   * 1.2.1   2017-11-14 CRAN (R 3.5.0)                    
+ tools         3.5.0   2018-06-18 local                             
+ utils       * 3.5.0   2018-06-18 local                             
+ whisker       0.3-2   2013-04-28 CRAN (R 3.5.0)                    
+ withr         2.1.2   2018-03-15 CRAN (R 3.5.0)                    
+ workflowr     1.1.1   2018-07-06 CRAN (R 3.5.0)                    
+ xml2          1.2.0   2018-01-24 CRAN (R 3.5.0)                    
+ yaml          2.2.0   2018-07-25 cran (@2.2.0)                     </code></pre>
+</div>
+</div>
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+<hr>
+<p>
+  This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a>
+  analysis was created with
+  <a href="https://github.com/jdblischak/workflowr">workflowr</a> 1.1.1
+</p>
+<hr>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

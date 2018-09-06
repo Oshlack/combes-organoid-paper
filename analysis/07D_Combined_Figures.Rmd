@@ -1,0 +1,354 @@
+---
+title: "Combined Figures"
+output:
+    workflowr::wflow_html:
+        code_folding: hide
+        df_print: paged
+---
+
+```{r knitr, include = FALSE}
+DOCNAME = "07D_Combined_Figures"
+knitr::opts_chunk$set(autodep        = TRUE,
+                      cache          = TRUE,
+                      cache.path     = paste0("cache/", DOCNAME, "/"),
+                      cache.comments = FALSE,
+                      echo           = TRUE,
+                      error          = FALSE,
+                      fig.align      = "center",
+                      fig.width      = 10,
+                      fig.height     = 8,
+                      message        = FALSE,
+                      warning        = FALSE)
+```
+
+```{r libaries, cache = FALSE}
+# scRNA-seq
+library("Seurat")
+library("monocle")
+
+# Plotting
+library("clustree")
+library("cowplot")
+library("paletteer")
+
+# Presentation
+library("glue")
+library("knitr")
+
+# Parallel
+
+# Paths
+library("here")
+
+# Output
+
+# Tidyverse
+library("tidyverse")
+```
+
+```{r source, cache = FALSE}
+source(here("R/output.R"))
+```
+
+```{r paths}
+comb.path <- here("data/processed/Combined_clustered.Rds")
+comb.neph.path <- here("data/processed/Combined_nephron.Rds")
+
+dir.create(here("output", DOCNAME), showWarnings = FALSE)
+```
+
+Introduction
+============
+
+In this document we are going to look at all of the organoids analysis results
+and produce a series of figures for the paper.
+
+```{r load-comb, cache.extra = tools::md5sum(comb.path), cache.lazy = FALSE}
+if (file.exists(comb.path)) {
+    comb <- read_rds(comb.path)
+} else {
+    stop("Clustered Combined dataset is missing. ",
+         "Please run '07_Combined_Clustering.Rmd' first.",
+         call. = FALSE)
+}
+```
+
+```{r load-comb-neph, cache.extra = tools::md5sum(comb.neph.path)}
+if (file.exists(comb.neph.path)) {
+    comb.neph <- read_rds(comb.neph.path)
+} else {
+    stop("Clustered Combined nephron dataset is missing. ",
+         "Please run '07B_Organoids_Nephron.Rmd' first.",
+         call. = FALSE)
+}
+```
+
+Figure 2A
+=========
+
+```{r fig-2A}
+plot.data <- comb %>%
+    GetDimReduction("tsne",  slot = "cell.embeddings") %>%
+    data.frame() %>%
+    rownames_to_column("Cell") %>%
+    mutate(Group = comb@meta.data$Group) %>%
+    mutate(Group = if_else(Group == "Lindstrom", "Fetal kidney", Group)) %>%
+    mutate(Cluster = comb@ident)
+
+f2A <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Group)) +
+    geom_point() +
+    scale_color_manual(values = c("#F47920", "#7A52C7")) +
+    guides(colour = guide_legend(override.aes = list(size = 10))) +
+    theme_cowplot() +
+    theme(legend.position = "right",
+          legend.title = element_blank())
+
+ggsave(here("output", DOCNAME, "figure2A.png"), f2A,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure2A.pdf"), f2A,
+       height = 8, width = 10)
+
+f2A
+```
+
+Figure 2B
+=========
+
+```{r fig-2B}
+lab.data <- plot.data %>%
+    group_by(Cluster) %>%
+    summarise(tSNE_1 = mean(tSNE_1),
+              tSNE_2 = mean(tSNE_2)) %>%
+    mutate(Label = paste0("C", Cluster))
+
+clust.labs <- c(
+    "C0 (Stroma)\nTAGLN, ALDH1A2, COL6A3",
+    "C1 (Stroma)\nDCN, LUM, POSTN",
+    "C2 (Stroma)\nMGP, GATA3, NDUFA4L2",
+    "C3 (Stroma)\nZFHX4, CTSK, HNRNPA1",
+    "C4 (Endothelium)\nGNG11, CLDN5, CD34",
+    "C5 (Cell cycle)\nHIST1H4C, PCLAF, DUT",
+    "C6 (Committing nephron prog.)\nLYPD1, DAPL1, PAX8",
+    "C7 (Podocyte)\nPODXL, MAFB, TCF21",
+    "C8 (Cell cycle)\nCENPF, HMGB2, UBE2C",
+    "C9 (Stroma)\nCOL9A3, DCN, LUM, IGFBP6",
+    "C10 (Nephron)\nIGFBP7, EMBX2, MAL",
+    "C11 (Neural prog.)\nTTHY1, SOX2, S100B",
+    "C12 (Leukocyte)\nCD74, TYROBP, FCER1G",
+    "C13 (Blood)\nCYPC, SLC25A39, GPX1",
+    "C14 (Neural prog.)\nOrganoid only",
+    "C15 (Podocyte)\nFetal kidney only"
+)
+
+f2B <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
+    geom_point(data = filter(plot.data, Cluster %in% c(6, 7, 10, 15)),
+               colour = "grey30", size = 4) +
+    geom_point() +
+    geom_text(data = lab.data, aes(label = Label), colour = "black", size = 8) +
+    
+    scale_color_paletteer_d("ggthemes", "gdocs", labels = clust.labs) +
+    guides(colour = guide_legend(ncol = 1, override.aes = list(size = 10),
+                                 label.theme = element_text(size = 8))) +
+    theme_cowplot() +
+    theme(legend.position = "right",
+          legend.title = element_blank())
+
+ggsave(here("output", DOCNAME, "figure2B.png"), f2B,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure2B.pdf"), f2B,
+       height = 8, width = 10)
+
+f2B
+```
+
+Figure 2AB legend
+=================
+
+```{r fig-2AB-legend}
+lA <- get_legend(f2A)
+lB <- get_legend(f2B)
+
+lAB <- plot_grid(lA, lB, ncol = 1, rel_heights = c(0.1, 1))
+
+lAB
+```
+
+Figure 2C
+=========
+
+```{r fig-2C}
+plot.data <- comb.neph %>%
+    GetDimReduction("tsne",  slot = "cell.embeddings") %>%
+    data.frame() %>%
+    rownames_to_column("Cell") %>%
+    mutate(Cluster = comb.neph@ident)
+
+lab.data <- plot.data %>%
+    group_by(Cluster) %>%
+    summarise(tSNE_1 = mean(tSNE_1),
+              tSNE_2 = mean(tSNE_2)) %>%
+    mutate(Label = paste0("CN", Cluster))
+
+clust.labs <- c(
+    "CN0 (Podocyte)\nTCF21, PODXL, SYNPO",
+    "CN1 (Differentiating nephron prog.)\nLYPD1, PAX8, DAPL1",
+    "CN2 (Nephron prog.)\nCRABP2, SIX1, TMEM100, CITED1",
+    "CN3 (Podocyte precursor)\nCTGF, OLFM3, MAFB",
+    "CN4 (Distal)\nWFDC2, EMX2, MAL, GATA3",
+    "CN5 (Proximal)\nIGFBP7, MPC2, FXYD2, CDH6",
+    "CN6 (Stroma)\nfetal kidney only",
+    "CN7 (Podocyte)\nfetal kidney only"
+)
+
+f2C <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
+    geom_point() +
+    geom_text(data = lab.data, aes(label = Label), colour = "black", size = 8) +
+    scale_color_brewer(palette = "Dark2", labels = clust.labs) +
+    guides(colour = guide_legend(ncol = 4, override.aes = list(size = 10),
+                                 label.theme = element_text(size = 8))) +
+    theme_cowplot() +
+    theme(legend.position = "bottom",
+          legend.title = element_blank())
+
+ggsave(here("output", DOCNAME, "figure2C.png"), f2C,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure2C.pdf"), f2C,
+       height = 8, width = 10)
+
+f2C
+```
+
+Figure 2D
+=========
+
+```{r fig-2D}
+plot.data <- comb.neph@meta.data %>%
+    select(NephCluster, Group) %>%
+    mutate(NephCluster = paste0("CN", NephCluster)) %>%
+    mutate(Group = if_else(Group == "Lindstrom", "Fetal kidney", Group))
+
+f2D <- ggplot(plot.data, aes(x = NephCluster, fill = NephCluster)) +
+    geom_bar() +
+    scale_fill_brewer(palette = "Dark2") +
+    labs(y = "Number of cells") +
+    facet_wrap(~ Group, ncol = 1, scales = "free_y") +
+    theme_cowplot() +
+    theme(legend.position = "none",
+          axis.title.x = element_blank(),
+          strip.text = element_text(size = 15,
+                                    margin = margin(0, 0, 2, 0, "pt")),
+          strip.background = element_blank(),
+          strip.placement = "outside")
+
+ggsave(here("output", DOCNAME, "figure2D.png"), f2D,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure2D.pdf"), f2D,
+       height = 8, width = 10)
+
+f2D
+```
+
+Figure 2E
+=========
+
+```{r fig-2E}
+genes <- c("TCF21", "PODXL", "VEGFA", "NPHS1", "PTPRO", "CTGF", "OLFM3", "MAFB",
+           "DAPL1", "LYPD1", "SIX1", "CRABP2", "IGFBP7", "FXYD2", "CDH6",
+           "HNF1B", "EPCAM", "EMX2", "SPP1", "MAL", "PAX2", "HSPB1", "HSPA1A",
+           "HSPA4")
+
+gene.groups <- rev(c(rep("Podocyte", 5),
+                 rep("Pod. precursor", 3),
+                 rep("Nephron progenitor", 4),
+                 rep("Proximal precursor", 4),
+                 rep("Distal precursor", 5),
+                 rep("Heat shock", 3))) %>%
+    fct_relevel("Podocyte", "Pod. precursor",  "Nephron progenitor",
+                "Proximal precursor","Distal precursor", "Heat shock")
+
+clust.labs <- c(
+    "Fetal kidney CN0", "Organoid CN0",
+    "Fetal kidney CN1", "Organoid CN1",
+    "Fetal kidney CN2", "Organoid CN2",
+    "Fetal kidney CN3", "Organoid CN3",
+    "Fetal kidney CN4", "Organoid CN4",
+    "Fetal kidney CN5", "Organoid CN5",
+    "Fetal kidney CN6", "Organoid CN6",
+    "Fetal kidney CN7", "Organoid CN7"
+)
+
+f2E <- SplitDotPlotGG(comb.neph, "Group", genes, gene.groups,
+               cols.use = c("#F47920", "#7A52C7"), do.return = TRUE) +
+    scale_y_discrete(labels = clust.labs) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+ggsave(here("output", DOCNAME, "figure2E.png"), f2E,
+       height = 4, width = 20)
+ggsave(here("output", DOCNAME, "figure2E.pdf"), f2E,
+       height = 8, width = 10)
+
+f2E
+```
+
+Figure 2 Panel
+==============
+
+```{r fig2-panel, fig.height = 20, fig.width = 16}
+p1 <- plot_grid(f2A + theme(legend.position = "none"),
+                f2B + theme(legend.position = "none"),
+                lAB, nrow = 1, rel_widths = c(1, 1, 0.3),
+                labels = c("A", "B", ""))
+p2 <- plot_grid(f2C, f2D, nrow = 1,
+                labels = c("C", "D", ""))
+panel <- plot_grid(p1, p2, f2E, ncol = 1, labels = c("", "", "E"),
+                   rel_heights = c(1, 1, 0.5))
+
+ggsave(here("output", DOCNAME, "figure2_panel.png"), panel,
+       height = 20, width = 16)
+ggsave(here("output", DOCNAME, "figure2_panel.pdf"), panel,
+       height = 20, width = 16)
+
+panel
+```
+
+Summary
+=======
+
+Output files
+------------
+
+This table describes the output files produced by this document. Right click
+and _Save Link As..._ to download the results.
+
+```{r output}
+kable(data.frame(
+    File = c(
+        glue("[figure2A.png]({getDownloadURL('figure2A.png', DOCNAME)})"),
+        glue("[figure2A.pdf]({getDownloadURL('figure2A.pdf', DOCNAME)})"),
+        glue("[figure2B.png]({getDownloadURL('figure2B.png', DOCNAME)})"),
+        glue("[figure2B.pdf]({getDownloadURL('figure2B.pdf', DOCNAME)})"),
+        glue("[figure2C.png]({getDownloadURL('figure2C.png', DOCNAME)})"),
+        glue("[figure2C.pdf]({getDownloadURL('figure2C.pdf', DOCNAME)})"),
+        glue("[figure2D.png]({getDownloadURL('figure2D.png', DOCNAME)})"),
+        glue("[figure2D.pdf]({getDownloadURL('figure2D.pdf', DOCNAME)})"),
+        glue("[figure2E.png]({getDownloadURL('figure2E.png', DOCNAME)})"),
+        glue("[figure2E.pdf]({getDownloadURL('figure2E.pdf', DOCNAME)})"),
+        glue("[figure2_panel.png]({getDownloadURL('figure2_panel.png', DOCNAME)})"),
+        glue("[figure2_panel.pdf]({getDownloadURL('figure2_panel.pdf', DOCNAME)})")
+    ),
+    Description = c(
+        "Figure 1A in PNG format",
+        "Figure 1A in PDF format",
+        "Figure 1B in PNG format",
+        "Figure 1B in PDF format",
+        "Figure 1C in PNG format",
+        "Figure 1C in PDF format",
+        "Figure 1D in PNG format",
+        "Figure 1D in PDF format",
+        "Figure 1E in PNG format",
+        "Figure 1E in PDF format",
+        "Figure panel in PNG format",
+        "Figure panel in PDF format"
+    )
+))
+```
