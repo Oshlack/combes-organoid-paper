@@ -15,6 +15,7 @@ output:
     * [Clustering](04_Organoids_Clustering.html)
     * [Nephron reclustering](04B_Organoids_Nephron.html)
     * [Nephron trajectory](04C_Organoids_Trajectory.html)
+    * [Figures](04D_Organoids_Figures.html)
 * Combined analysis
     * [Integration](06_Combined_Integration.html)
     * [Clustering](07_Combined_Clustering.html)

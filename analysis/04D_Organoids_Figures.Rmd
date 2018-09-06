@@ -1,0 +1,377 @@
+---
+title: "Organoids Figures"
+output:
+    workflowr::wflow_html:
+        code_folding: hide
+        df_print: paged
+---
+
+```{r knitr, include = FALSE}
+DOCNAME = "04D_Organoids_Figures"
+knitr::opts_chunk$set(autodep        = TRUE,
+                      cache          = TRUE,
+                      cache.path     = paste0("cache/", DOCNAME, "/"),
+                      cache.comments = FALSE,
+                      echo           = TRUE,
+                      error          = FALSE,
+                      fig.align      = "center",
+                      fig.width      = 10,
+                      fig.height     = 8,
+                      message        = FALSE,
+                      warning        = FALSE)
+```
+
+```{r libaries, cache = FALSE}
+# scRNA-seq
+library("Seurat")
+library("monocle")
+
+# Plotting
+library("clustree")
+library("cowplot")
+library("paletteer")
+
+# Presentation
+library("glue")
+library("knitr")
+
+# Parallel
+
+# Paths
+library("here")
+
+# Output
+
+# Tidyverse
+library("tidyverse")
+```
+
+```{r source, cache = FALSE}
+source(here("R/output.R"))
+```
+
+```{r paths}
+orgs.path <- here("data/processed/Organoids_clustered.Rds")
+orgs.neph.path <- here("data/processed/Organoids_nephron.Rds")
+orgs.neph.cds.path <- here("data/processed/Organoids_trajectory.Rds")
+
+dir.create(here("output", DOCNAME), showWarnings = FALSE)
+```
+
+Introduction
+============
+
+In this document we are going to look at all of the organoids analysis results
+and produce a series of figures for the paper.
+
+```{r load-orgs, cache.extra = tools::md5sum(orgs.path)}
+if (file.exists(orgs.path)) {
+    orgs <- read_rds(orgs.path)
+} else {
+    stop("Clustered Organoids dataset is missing. ",
+         "Please run '04_Organoids_Clustering.Rmd' first.",
+         call. = FALSE)
+}
+```
+
+```{r load-orgs-neph, cache.extra = tools::md5sum(orgs.neph.path)}
+if (file.exists(orgs.neph.path)) {
+    orgs.neph <- read_rds(orgs.neph.path)
+} else {
+    stop("Clustered Organoids nephron dataset is missing. ",
+         "Please run '04B_Organoids_Nephron.Rmd' first.",
+         call. = FALSE)
+}
+```
+
+```{r load-orgs-neph-cds, cache.extra = tools::md5sum(orgs.neph.cds.path)}
+if (file.exists(orgs.neph.cds.path)) {
+    orgs.neph.cds <- read_rds(orgs.neph.cds.path)
+} else {
+    stop("Organoids nephron trajectory dataset is missing. ",
+         "Please run '04C_Organoids_Trajectory.Rmd' first.",
+         call. = FALSE)
+}
+```
+
+Figure 1A
+=========
+
+```{r fig-1A}
+f1A <- clustree(orgs, node_size_range = c(6, 16), node_text_size = 5,
+                edge_width = 2)
+
+leg <- {f1A + guides(colour = FALSE,
+             edge_alpha = guide_legend(title = "In proportion",
+                                       title.position = "top",
+                                       label.position = "top",
+                                       override.aes = list(edge_width = 2),
+                                       keywidth = 3),
+             edge_colour = guide_edge_colourbar(title = "Cell count",
+                                                title.position = "top",
+                                                barwidth = 20,
+                                                barheight = 2.5),
+             size = guide_legend(title = "Cluster size",
+                                 title.position = "top",
+                                 label.position = "top")) +
+    theme(legend.position = "bottom")} %>%
+    get_legend()
+
+f1A <- f1A +
+    annotate("rect", xmin = -9, xmax = 6, ymin = 3.6, ymax = 4.4,
+             alpha = 0, colour = "#00ADEF", size = 1.5) +
+    scale_colour_viridis_d(option = "inferno", begin = 0.4, end = 0.9) +
+    guides(size = FALSE, edge_alpha = FALSE, edge_colour = FALSE,
+           colour = guide_legend(override.aes = list(size = 8),
+                                 keyheight = 3,
+                                 title = "Clustering resolution",
+                                 label.theme = element_text(size = 12),
+                                 title.position = "left",
+                                 title.theme = element_text(size = 16,
+                                                            angle = 90,
+                                                            hjust = 0.5))) +
+    theme(legend.position = "left")
+
+f1A <- plot_grid(f1A, leg, ncol = 1, rel_heights = c(1, 0.2))
+
+ggsave(here("output", DOCNAME, "figure1A.png"), f1A,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure1A.pdf"), f1A,
+       height = 8, width = 10)
+
+f1A
+```
+
+Figure 1B
+=========
+
+```{r fig-1B}
+plot.data <- orgs %>%
+    GetDimReduction("tsne",  slot = "cell.embeddings") %>%
+    data.frame() %>%
+    rownames_to_column("Cell") %>%
+    mutate(Cluster = orgs@ident) %>%
+    group_by(Cluster)
+
+lab.data <- plot.data %>%
+    group_by(Cluster) %>%
+    summarise(tSNE_1 = mean(tSNE_1),
+              tSNE_2 = mean(tSNE_2)) %>%
+    mutate(Label = paste0("O", Cluster))
+
+clust.labs <- c(
+    "O0 (Stroma) TAGLN, ACTA2, MGP\ncardiovascular system development",
+    "O1 (Stroma) MAB21L2, CXCL14, PRRX1\ncartilage development",
+    "O2 (Podocyte) PODXL, NPHS2, TCF21\nrenal filtration cell differentiation",
+    "O3 (Stroma) DLK1, GATA3, IGFBP5\nwound healing",
+    "O4 (Cell cycle) HIST1H4C, PCLAF, TYMS\nDNA conformation change",
+    "O5 (Endothelium) CLDN5, PECAM1, KDR\ncardiovascular system development",
+    "O6 (Cell cycle) CENPF, HMGB2, UBE2C\nmitotic cell cycle processes",
+    "O7 (Stroma) COL2A1, COL9A3, CNMD\nextracellular matrix organisation",
+    "O8 (Neural prog.) FABP7, TTHY1, SOX2\nbrain development",
+    "O9 (Epithelium) PAX2, PAX8, KRT19\nreg. of nephron tubule differentiation",
+    "O10 (Muscle prog.) MYOG, MYOD1\nmuscle filament sliding",
+    "O11 (Neural prog.) HES6, STMN2\ngeneration of neurons",
+    "O12 (Endothelium) GNG11, CALM1\nnegative reg. of cation channel activity"
+)
+
+f1B <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
+    geom_point(data = filter(plot.data, Cluster %in% c(2, 9)),
+               colour = "grey30", size = 4) +
+    geom_point() +
+    geom_text(data = lab.data, aes(label = Label), colour = "black", size = 8) +
+    
+    scale_color_paletteer_d("ggthemes", "gdocs", labels = clust.labs) +
+    guides(colour = guide_legend(ncol = 3, override.aes = list(size = 10),
+                                 label.theme = element_text(size = 8))) +
+    theme_cowplot() +
+    theme(legend.position = "bottom",
+          legend.title = element_blank())
+
+ggsave(here("output", DOCNAME, "figure1B.png"), f1B,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure1B.pdf"), f1B,
+       height = 8, width = 10)
+
+f1B
+```
+
+Figure 1C
+=========
+
+```{r fig-1C}
+plot.data <- orgs.neph %>%
+    GetDimReduction("tsne",  slot = "cell.embeddings") %>%
+    data.frame() %>%
+    rownames_to_column("Cell") %>%
+    mutate(Cluster = orgs.neph@ident) %>%
+    group_by(Cluster)
+
+lab.data <- plot.data %>%
+    group_by(Cluster) %>%
+    summarise(tSNE_1 = mean(tSNE_1),
+              tSNE_2 = mean(tSNE_2)) %>%
+    mutate(Label = paste0("ON", Cluster))
+
+clust.labs <- c(
+    "ON0 (Podocyte) TCF21, PODXL, VEGFA, NPHS1, PTPRO",
+    "ON1 (Pod. precursor) CTGF, OLFM3, MAFB, NPHS1",
+    "ON2 (Nephron progenitor) DAPL1, LYPD1, SIX1, CRABP2",
+    "ON3 (Proximal precursor) IGFBP7, FXYD2, CDH6, HNF1B",
+    "ON4 (Distal precursor) EPCAM, EMX2, SPP1, MAL, PAX2"
+)
+
+f1C <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
+    geom_point(size = 4) +
+    geom_text(data = lab.data, aes(label = Label), colour = "black", size = 8) +
+    
+    scale_color_brewer(palette = "Dark2", labels = clust.labs) +
+    guides(colour = guide_legend(ncol = 2, override.aes = list(size = 8),
+                                 label.theme = element_text(size = 11))) +
+    theme_cowplot() +
+    theme(legend.position = "bottom",
+          legend.title = element_blank())
+
+ggsave(here("output", DOCNAME, "figure1C.png"), f1C,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure1C.pdf"), f1C,
+       height = 8, width = 10)
+
+f1C
+```
+
+Figure 1D
+=========
+
+```{r fig-1D}
+clust.labs <- c(
+    "ON0 (Podocyte)",
+    "ON1 (Pod. precursor)",
+    "ON2 (Nephron progenitor)",
+    "ON3 (Proximal precursor)",
+    "ON4 (Distal precursor)"
+)
+
+f1D <- plot_cell_trajectory(orgs.neph.cds,
+                            color_by = "NephCluster", cell_size = 3) +
+    scale_color_brewer(palette = "Dark2", labels = clust.labs) +
+    guides(colour = guide_legend(nrow = 1, override.aes = list(size = 8),
+                                 label.theme = element_text(size = 11))) +
+    theme_cowplot() +
+    theme(legend.position = "bottom",
+          legend.title = element_blank())
+
+ggsave(here("output", DOCNAME, "figure1D.png"), f1D,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure1D.pdf"), f1D,
+       height = 8, width = 10)
+
+f1D
+```
+
+Figure 1E
+=========
+
+```{r fig-1E}
+genes <- c("TCF21", "PODXL", "VEGFA", "NPHS1", "PTPRO", "CTGF", "OLFM3", "MAFB",
+           "DAPL1", "LYPD1", "SIX1", "CRABP2", "IGFBP7", "FXYD2", "CDH6",
+           "HNF1B", "EPCAM", "EMX2", "SPP1", "MAL", "PAX2")
+
+gene.groups <- c(rep("Podocyte", 5),
+                 rep("Pod. precursor", 3),
+                 rep("Nephron progenitor", 4),
+                 rep("Proximal precursor", 4),
+                 rep("Distal precursor", 5))
+names(gene.groups) <- genes
+
+plot.data <- FetchData(orgs.neph, vars.all = genes) %>%
+    data.frame() %>%
+    rownames_to_column("Cell") %>%
+    mutate(Cluster = paste0("ON", orgs.neph@ident)) %>%
+    gather(key = "Gene", value = "Expr", -Cell, -Cluster) %>%
+    group_by(Cluster, Gene) %>%
+    summarize(AvgExpr = ExpMean(Expr),
+              Prop = Seurat:::PercentAbove(Expr, threshold = 0)) %>%
+    group_by(Gene) %>%
+    mutate(AvgExp = scale(AvgExpr)) %>%
+    mutate(Group = gene.groups[Gene])
+
+f1E <- ggplot(plot.data,
+              aes(x = Gene, y = Cluster, size = Prop, colour = AvgExpr)) +
+    geom_point() +
+    scale_colour_viridis_c() +
+    scale_radius(range = c(0, 10)) +
+    facet_grid(~ Group, scale = "free_x", space = "free_x", switch = "y") +
+    theme(axis.title = element_blank(),
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+          panel.spacing = unit(1, "lines"),
+          strip.background = element_blank(),
+          strip.placement = "outside",
+          legend.position = "none")
+
+ggsave(here("output", DOCNAME, "figure1E.png"), f1E,
+       height = 4, width = 20)
+ggsave(here("output", DOCNAME, "figure1E.pdf"), f1E,
+       height = 8, width = 10)
+
+f1E
+```
+
+Figure 1 Panel
+==============
+
+```{r fig1-panel, fig.height = 20, fig.width = 16}
+p1 <- plot_grid(f1A, f1B, f1C, f1D, nrow = 2,
+                labels = c("A", "B", "C", "D"))
+panel <- plot_grid(p1, f1E, ncol = 1, labels = c("", "E"),
+                   rel_heights = c(1, 0.2))
+
+ggsave(here("output", DOCNAME, "figure1_panel.png"), panel,
+       height = 20, width = 16)
+ggsave(here("output", DOCNAME, "figure1_panel.pdf"), panel,
+       height = 20, width = 16)
+
+panel
+```
+
+Summary
+=======
+
+Output files
+------------
+
+This table describes the output files produced by this document. Right click
+and _Save Link As..._ to download the results.
+
+```{r output}
+kable(data.frame(
+    File = c(
+        glue("[figure1A.png]({getDownloadURL('figure1A.png', DOCNAME)})"),
+        glue("[figure1A.pdf]({getDownloadURL('figure1A.pdf', DOCNAME)})"),
+        glue("[figure1B.png]({getDownloadURL('figure1B.png', DOCNAME)})"),
+        glue("[figure1B.pdf]({getDownloadURL('figure1B.pdf', DOCNAME)})"),
+        glue("[figure1C.png]({getDownloadURL('figure1C.png', DOCNAME)})"),
+        glue("[figure1C.pdf]({getDownloadURL('figure1C.pdf', DOCNAME)})"),
+        glue("[figure1D.png]({getDownloadURL('figure1D.png', DOCNAME)})"),
+        glue("[figure1D.pdf]({getDownloadURL('figure1D.pdf', DOCNAME)})"),
+        glue("[figure1E.png]({getDownloadURL('figure1E.png', DOCNAME)})"),
+        glue("[figure1E.pdf]({getDownloadURL('figure1E.pdf', DOCNAME)})"),
+        glue("[figure1_panel.png]({getDownloadURL('figure1_panel.png', DOCNAME)})"),
+        glue("[figure1_panel.pdf]({getDownloadURL('figure1_panel.pdf', DOCNAME)})")
+    ),
+    Description = c(
+        "Figure 1A in PNG format",
+        "Figure 1A in PDF format",
+        "Figure 1B in PNG format",
+        "Figure 1B in PDF format",
+        "Figure 1C in PNG format",
+        "Figure 1C in PDF format",
+        "Figure 1D in PNG format",
+        "Figure 1D in PDF format",
+        "Figure 1E in PNG format",
+        "Figure 1E in PDF format",
+        "Figure panel in PNG format",
+        "Figure panel in PDF format"
+    )
+))
+```
