@@ -621,7 +621,11 @@ combined <- SetAllIdent(combined, id = "Cluster")
 de.c7c15 <- FindMarkers(combined, 7, 15, logfc.threshold = 0,
                         min.pct = 0.1, print.bar = FALSE)
 
-de.c7c15 %>% rownames_to_column("gene") %>% top_n(10, avg_logFC) %>% data.frame
+de.c7c15 <- de.c7c15 %>% rownames_to_column("gene") %>%
+    arrange(-avg_logFC)
+
+de.c7c15 %>%
+    top_n(10, avg_logFC) %>% data.frame
 ```
 
 We can also test for differences between these cluster, considering only the
@@ -634,7 +638,10 @@ de.c7c15.lind <- FindMarkers(combined, "Lindstrom_7", "Lindstrom_15",
                              logfc.threshold = 0,
                              min.pct = 0.1, print.bar = FALSE)
 
-de.c7c15.lind %>% rownames_to_column("gene") %>%
+de.c7c15.lind <- de.c7c15.lind %>% rownames_to_column("gene") %>%
+    arrange(-avg_logFC)
+
+de.c7c15.lind %>%
     top_n(10, avg_logFC) %>% data.frame
 ```
 
@@ -790,7 +797,7 @@ write_csv(cluster.de, here("output", DOCNAME, "cluster_de.csv"))
 write_xlsx(cluster.de.list, here("output", DOCNAME, "cluster_de.xlsx"))
 write_csv(de, here("output", DOCNAME, "group_de.csv"))
 write_csv(de.c7c15, here("output", DOCNAME, "c7_c15_de.csv"))
-write_csv(de.c7c15.lind, here("output", DOCNAME, "c7_c17_lind_de.csv"))
+write_csv(de.c7c15.lind, here("output", DOCNAME, "c7_c15_lind_de.csv"))
 
 kable(data.frame(
     File = c(
