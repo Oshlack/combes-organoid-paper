@@ -21,5 +21,6 @@ output:
     * [Clustering](07_Combined_Clustering.html)
     * [Nephron reclustering](07B_Combined_Nephron.html)
     * [Nephron trajectory](07C_Combined_Trajectory.html)
+    * [Figures](07D_Combined_Figures.html)
 * [Clustering crossover](08_Crossover.html)
 * [Methods](99_Methods.html)
