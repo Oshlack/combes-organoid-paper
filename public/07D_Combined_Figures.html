@@ -338,7 +338,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-09-07</p>
+<p><strong>Last updated:</strong> 2018-09-10</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -362,7 +362,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/c30f9232bfa7be39a7eaa773726bd1b61f9da32a" target="_blank">c30f923</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/91342d1148cafbd293ac501d1990f2959cccc826" target="_blank">91342d1</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -374,13 +374,17 @@ Ignored files:
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
 
-Untracked files:
-    Untracked:  output/04D_Organoids_Figures/
-    Untracked:  output/07D_Combined_Figures/
-    Untracked:  public/figure/04D_Organoids_Figures.Rmd/
-    Untracked:  public/figure/07D_Combined_Figures.Rmd/
-
 Unstaged changes:
+    Modified:   output/04D_Organoids_Figures/figure1B.pdf
+    Modified:   output/04D_Organoids_Figures/figure1C.pdf
+    Modified:   output/04D_Organoids_Figures/figure1D.pdf
+    Modified:   output/04D_Organoids_Figures/figure1_panel.pdf
+    Modified:   output/07D_Combined_Figures/figure2A.pdf
+    Modified:   output/07D_Combined_Figures/figure2B.pdf
+    Modified:   output/07D_Combined_Figures/figure2C.pdf
+    Modified:   output/07D_Combined_Figures/figure2D.pdf
+    Modified:   output/07D_Combined_Figures/figure2E.pdf
+    Modified:   output/07D_Combined_Figures/figure2_panel.pdf
     Deleted:    output/07_Combined_Clustering/c7_c17_lind_de.csv
 
 </code></pre>
@@ -410,6 +414,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/91342d1148cafbd293ac501d1990f2959cccc826/analysis/07D_Combined_Figures.Rmd" target="_blank">91342d1</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-10
+</td>
+<td style="text-align:left;">
+Adjust colours and remove shadows
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/35d26ccc3a43adb68fa89e9bafec51003efad914/analysis/07D_Combined_Figures.Rmd" target="_blank">35d26cc</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-10
+</td>
+<td style="text-align:left;">
+Update Figure 2E gene list
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//0a266e9e579b48e9fb415681012918f0a16cfbae/public/07D_Combined_Figures.html" target="_blank">0a266e9</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-07
+</td>
+<td style="text-align:left;">
+Build figures
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -489,7 +544,7 @@ dir.create(here(&quot;output&quot;, DOCNAME), showWarnings = FALSE)</code></pre>
 
 f2A &lt;- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Group)) +
     geom_point() +
-    scale_color_manual(values = c(&quot;#F47920&quot;, &quot;#7A52C7&quot;)) +
+    scale_color_manual(values = c(&quot;#EC008C&quot;, &quot;#00ADEF&quot;)) +
     guides(colour = guide_legend(override.aes = list(size = 10))) +
     theme_cowplot() +
     theme(legend.position = &quot;right&quot;,
@@ -502,6 +557,36 @@ ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2A.pdf&quot;), f2A,
 
 f2A</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-2A-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig-2A-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+0a266e9
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="figure-2b" class="section level1">
 <h1>Figure 2B</h1>
@@ -531,12 +616,9 @@ clust.labs &lt;- c(
 )
 
 f2B &lt;- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
-    geom_point(data = filter(plot.data, Cluster %in% c(6, 7, 10, 15)),
-               colour = &quot;grey30&quot;, size = 4) +
     geom_point() +
     geom_text(data = lab.data, aes(label = Label), colour = &quot;black&quot;, size = 8) +
-    
-    scale_color_paletteer_d(&quot;ggthemes&quot;, &quot;gdocs&quot;, labels = clust.labs) +
+    scale_colour_discrete(labels = clust.labs) +
     guides(colour = guide_legend(ncol = 1, override.aes = list(size = 10),
                                  label.theme = element_text(size = 8))) +
     theme_cowplot() +
@@ -550,6 +632,36 @@ ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2B.pdf&quot;), f2B,
 
 f2B</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-2B-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig-2B-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+0a266e9
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="figure-2ab-legend" class="section level1">
 <h1>Figure 2AB legend</h1>
@@ -560,6 +672,36 @@ lAB &lt;- plot_grid(lA, lB, ncol = 1, rel_heights = c(0.1, 1))
 
 lAB</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-2AB-legend-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig-2AB-legend-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+0a266e9
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="figure-2c" class="section level1">
 <h1>Figure 2C</h1>
@@ -587,9 +729,9 @@ clust.labs &lt;- c(
 )
 
 f2C &lt;- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
-    geom_point() +
+    geom_point(size = 3) +
     geom_text(data = lab.data, aes(label = Label), colour = &quot;black&quot;, size = 8) +
-    scale_color_brewer(palette = &quot;Dark2&quot;, labels = clust.labs) +
+    scale_color_brewer(palette = &quot;Set1&quot;, labels = clust.labs) +
     guides(colour = guide_legend(ncol = 4, override.aes = list(size = 10),
                                  label.theme = element_text(size = 8))) +
     theme_cowplot() +
@@ -603,6 +745,36 @@ ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2C.pdf&quot;), f2C,
 
 f2C</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-2C-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig-2C-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+0a266e9
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="figure-2d" class="section level1">
 <h1>Figure 2D</h1>
@@ -613,14 +785,14 @@ f2C</code></pre>
 
 f2D &lt;- ggplot(plot.data, aes(x = NephCluster, fill = NephCluster)) +
     geom_bar() +
-    scale_fill_brewer(palette = &quot;Dark2&quot;) +
+    scale_fill_brewer(palette = &quot;Set1&quot;) +
     labs(y = &quot;Number of cells&quot;) +
     facet_wrap(~ Group, ncol = 1, scales = &quot;free_y&quot;) +
     theme_cowplot() +
     theme(legend.position = &quot;none&quot;,
           axis.title.x = element_blank(),
           strip.text = element_text(size = 15,
-                                    margin = margin(0,0,2,0, &quot;pt&quot;)),
+                                    margin = margin(0, 0, 2, 0, &quot;pt&quot;)),
           strip.background = element_blank(),
           strip.placement = &quot;outside&quot;)
 
@@ -631,22 +803,54 @@ ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2D.pdf&quot;), f2D,
 
 f2D</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-2D-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig-2D-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+0a266e9
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="figure-2e" class="section level1">
 <h1>Figure 2E</h1>
-<pre class="r"><code>genes &lt;- c(&quot;TCF21&quot;, &quot;PODXL&quot;, &quot;VEGFA&quot;, &quot;NPHS1&quot;, &quot;PTPRO&quot;, &quot;CTGF&quot;, &quot;OLFM3&quot;, &quot;MAFB&quot;,
-           &quot;DAPL1&quot;, &quot;LYPD1&quot;, &quot;SIX1&quot;, &quot;CRABP2&quot;, &quot;IGFBP7&quot;, &quot;FXYD2&quot;, &quot;CDH6&quot;,
-           &quot;HNF1B&quot;, &quot;EPCAM&quot;, &quot;EMX2&quot;, &quot;SPP1&quot;, &quot;MAL&quot;, &quot;PAX2&quot;, &quot;HSPB1&quot;, &quot;HSPA1A&quot;,
-           &quot;HSPA4&quot;)
+<pre class="r"><code>genes &lt;- c(&quot;PTPRO&quot;, &quot;NPHS1&quot;, &quot;VEGFA&quot;, &quot;PODXL&quot;, &quot;TCF21&quot;, &quot;MAFB&quot;, &quot;OLFM3&quot;, &quot;CTGF&quot;,
+           &quot;SIX1&quot;, &quot;TMEM100&quot;, &quot;CITED1&quot;, &quot;LYPD1&quot;, &quot;PAX8&quot;, &quot;DAPL1&quot;, &quot;IGFBP7&quot;, 
+           &quot;EMX2&quot;, &quot;CDH6&quot;, &quot;WFDC2&quot;, &quot;MAL&quot;, &quot;EPCAM&quot;, &quot;HSPA1A&quot;, &quot;HSPA1B&quot;,
+           &quot;DNAJB1&quot;)
 
 gene.groups &lt;- rev(c(rep(&quot;Podocyte&quot;, 5),
                  rep(&quot;Pod. precursor&quot;, 3),
-                 rep(&quot;Nephron progenitor&quot;, 4),
-                 rep(&quot;Proximal precursor&quot;, 4),
-                 rep(&quot;Distal precursor&quot;, 5),
-                 rep(&quot;Heat shock&quot;, 3))) %&gt;%
+                 rep(&quot;Nephron progenitor&quot;, 3),
+                 rep(&quot;Differentiating NP&quot;, 3),
+                 rep(&quot;Proximal precursor&quot;, 3),
+                 rep(&quot;Distal precursor&quot;, 3),
+                 rep(&quot;Heatshock&quot;, 3))) %&gt;%
     fct_relevel(&quot;Podocyte&quot;, &quot;Pod. precursor&quot;,  &quot;Nephron progenitor&quot;,
-                &quot;Proximal precursor&quot;,&quot;Distal precursor&quot;, &quot;Heat shock&quot;)
+                &quot;Differentiating NP&quot;, &quot;Proximal precursor&quot;,
+                &quot;Distal precursor&quot;, &quot;Heatshock&quot;)
 
 clust.labs &lt;- c(
     &quot;Fetal kidney CN0&quot;, &quot;Organoid CN0&quot;,
@@ -660,17 +864,82 @@ clust.labs &lt;- c(
 )
 
 f2E &lt;- SplitDotPlotGG(comb.neph, &quot;Group&quot;, genes, gene.groups,
-               cols.use = c(&quot;#F47920&quot;, &quot;#7A52C7&quot;), do.return = TRUE) +
+                      cols.use = c(&quot;#EC008C&quot;, &quot;#00ADEF&quot;), dot.scale = 5,
+                      do.return = TRUE) +
     scale_y_discrete(labels = clust.labs) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-2E-1.png" width="960" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2E.png&quot;), f2E,
+<details> <summary><em>Expand here to see past versions of fig-2E-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+0a266e9
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+<pre class="r"><code>for (y in seq(2.5, 14.5, 2)) {
+    f2E &lt;- f2E + geom_hline(yintercept = y, size = 0.2, colour = &quot;grey70&quot;)
+}
+
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2E.png&quot;), f2E,
        height = 4, width = 20)
 ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2E.pdf&quot;), f2E,
        height = 8, width = 10)
 
 f2E</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-2E-2.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig-2E-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+0a266e9
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="figure-2-panel" class="section level1">
 <h1>Figure 2 Panel</h1>
@@ -690,6 +959,36 @@ ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2_panel.pdf&quot;), panel,
 
 panel</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig2-panel-1.png" width="1536" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig2-panel-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+0a266e9
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-07
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
@@ -712,16 +1011,16 @@ panel</code></pre>
         glue(&quot;[figure2_panel.pdf]({getDownloadURL(&#39;figure2_panel.pdf&#39;, DOCNAME)})&quot;)
     ),
     Description = c(
-        &quot;Figure 1A in PNG format&quot;,
-        &quot;Figure 1A in PDF format&quot;,
-        &quot;Figure 1B in PNG format&quot;,
-        &quot;Figure 1B in PDF format&quot;,
-        &quot;Figure 1C in PNG format&quot;,
-        &quot;Figure 1C in PDF format&quot;,
-        &quot;Figure 1D in PNG format&quot;,
-        &quot;Figure 1D in PDF format&quot;,
-        &quot;Figure 1E in PNG format&quot;,
-        &quot;Figure 1E in PDF format&quot;,
+        &quot;Figure 2A in PNG format&quot;,
+        &quot;Figure 2A in PDF format&quot;,
+        &quot;Figure 2B in PNG format&quot;,
+        &quot;Figure 2B in PDF format&quot;,
+        &quot;Figure 2C in PNG format&quot;,
+        &quot;Figure 2C in PDF format&quot;,
+        &quot;Figure 2D in PNG format&quot;,
+        &quot;Figure 2D in PDF format&quot;,
+        &quot;Figure 2E in PNG format&quot;,
+        &quot;Figure 2E in PDF format&quot;,
         &quot;Figure panel in PNG format&quot;,
         &quot;Figure panel in PDF format&quot;
     )
@@ -736,43 +1035,43 @@ panel</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2A.png">figure2A.png</a></td>
-<td align="left">Figure 1A in PNG format</td>
+<td align="left">Figure 2A in PNG format</td>
 </tr>
 <tr class="even">
 <td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2A.pdf">figure2A.pdf</a></td>
-<td align="left">Figure 1A in PDF format</td>
+<td align="left">Figure 2A in PDF format</td>
 </tr>
 <tr class="odd">
 <td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2B.png">figure2B.png</a></td>
-<td align="left">Figure 1B in PNG format</td>
+<td align="left">Figure 2B in PNG format</td>
 </tr>
 <tr class="even">
 <td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2B.pdf">figure2B.pdf</a></td>
-<td align="left">Figure 1B in PDF format</td>
+<td align="left">Figure 2B in PDF format</td>
 </tr>
 <tr class="odd">
 <td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2C.png">figure2C.png</a></td>
-<td align="left">Figure 1C in PNG format</td>
+<td align="left">Figure 2C in PNG format</td>
 </tr>
 <tr class="even">
 <td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2C.pdf">figure2C.pdf</a></td>
-<td align="left">Figure 1C in PDF format</td>
+<td align="left">Figure 2C in PDF format</td>
 </tr>
 <tr class="odd">
 <td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2D.png">figure2D.png</a></td>
-<td align="left">Figure 1D in PNG format</td>
+<td align="left">Figure 2D in PNG format</td>
 </tr>
 <tr class="even">
 <td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2D.pdf">figure2D.pdf</a></td>
-<td align="left">Figure 1D in PDF format</td>
+<td align="left">Figure 2D in PDF format</td>
 </tr>
 <tr class="odd">
 <td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2E.png">figure2E.png</a></td>
-<td align="left">Figure 1E in PNG format</td>
+<td align="left">Figure 2E in PNG format</td>
 </tr>
 <tr class="even">
 <td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2E.pdf">figure2E.pdf</a></td>
-<td align="left">Figure 1E in PDF format</td>
+<td align="left">Figure 2E in PDF format</td>
 </tr>
 <tr class="odd">
 <td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2_panel.png">figure2_panel.png</a></td>
