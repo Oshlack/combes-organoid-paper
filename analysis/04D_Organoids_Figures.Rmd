@@ -29,7 +29,6 @@ library("monocle")
 # Plotting
 library("clustree")
 library("cowplot")
-library("paletteer")
 
 # Presentation
 library("glue")
@@ -176,12 +175,9 @@ clust.labs <- c(
 )
 
 f1B <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
-    geom_point(data = filter(plot.data, Cluster %in% c(2, 9)),
-               colour = "grey30", size = 4) +
     geom_point() +
     geom_text(data = lab.data, aes(label = Label), colour = "black", size = 8) +
-    
-    scale_color_paletteer_d("ggthemes", "gdocs", labels = clust.labs) +
+    scale_colour_discrete(labels = clust.labs) +
     guides(colour = guide_legend(ncol = 3, override.aes = list(size = 10),
                                  label.theme = element_text(size = 8))) +
     theme_cowplot() +
@@ -225,7 +221,7 @@ f1C <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
     geom_point(size = 4) +
     geom_text(data = lab.data, aes(label = Label), colour = "black", size = 8) +
     
-    scale_color_brewer(palette = "Dark2", labels = clust.labs) +
+    scale_color_brewer(palette = "Set1", labels = clust.labs) +
     guides(colour = guide_legend(ncol = 2, override.aes = list(size = 8),
                                  label.theme = element_text(size = 11))) +
     theme_cowplot() +
@@ -309,8 +305,6 @@ kable(data.frame(
         glue("[figure1C.pdf]({getDownloadURL('figure1C.pdf', DOCNAME)})"),
         glue("[figure1D.png]({getDownloadURL('figure1D.png', DOCNAME)})"),
         glue("[figure1D.pdf]({getDownloadURL('figure1D.pdf', DOCNAME)})"),
-        glue("[figure1E.png]({getDownloadURL('figure1E.png', DOCNAME)})"),
-        glue("[figure1E.pdf]({getDownloadURL('figure1E.pdf', DOCNAME)})"),
         glue("[figure1_panel.png]({getDownloadURL('figure1_panel.png', DOCNAME)})"),
         glue("[figure1_panel.pdf]({getDownloadURL('figure1_panel.pdf', DOCNAME)})")
     ),
@@ -323,8 +317,6 @@ kable(data.frame(
         "Figure 1C in PDF format",
         "Figure 1D in PNG format",
         "Figure 1D in PDF format",
-        "Figure 1E in PNG format",
-        "Figure 1E in PDF format",
         "Figure panel in PNG format",
         "Figure panel in PDF format"
     )

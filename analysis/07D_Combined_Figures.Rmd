@@ -97,7 +97,7 @@ plot.data <- comb %>%
 
 f2A <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Group)) +
     geom_point() +
-    scale_color_manual(values = c("#F47920", "#7A52C7")) +
+    scale_color_manual(values = c("#EC008C", "#00ADEF")) +
     guides(colour = guide_legend(override.aes = list(size = 10))) +
     theme_cowplot() +
     theme(legend.position = "right",
@@ -141,12 +141,9 @@ clust.labs <- c(
 )
 
 f2B <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
-    geom_point(data = filter(plot.data, Cluster %in% c(6, 7, 10, 15)),
-               colour = "grey30", size = 4) +
     geom_point() +
     geom_text(data = lab.data, aes(label = Label), colour = "black", size = 8) +
-    
-    scale_color_paletteer_d("ggthemes", "gdocs", labels = clust.labs) +
+    scale_colour_discrete(labels = clust.labs) +
     guides(colour = guide_legend(ncol = 1, override.aes = list(size = 10),
                                  label.theme = element_text(size = 8))) +
     theme_cowplot() +
@@ -201,9 +198,9 @@ clust.labs <- c(
 )
 
 f2C <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
-    geom_point() +
+    geom_point(size = 3) +
     geom_text(data = lab.data, aes(label = Label), colour = "black", size = 8) +
-    scale_color_brewer(palette = "Dark2", labels = clust.labs) +
+    scale_color_brewer(palette = "Set1", labels = clust.labs) +
     guides(colour = guide_legend(ncol = 4, override.aes = list(size = 10),
                                  label.theme = element_text(size = 8))) +
     theme_cowplot() +
@@ -229,7 +226,7 @@ plot.data <- comb.neph@meta.data %>%
 
 f2D <- ggplot(plot.data, aes(x = NephCluster, fill = NephCluster)) +
     geom_bar() +
-    scale_fill_brewer(palette = "Dark2") +
+    scale_fill_brewer(palette = "Set1") +
     labs(y = "Number of cells") +
     facet_wrap(~ Group, ncol = 1, scales = "free_y") +
     theme_cowplot() +
@@ -280,9 +277,14 @@ clust.labs <- c(
 )
 
 f2E <- SplitDotPlotGG(comb.neph, "Group", genes, gene.groups,
-               cols.use = c("#F47920", "#7A52C7"), do.return = TRUE) +
+                      cols.use = c("#EC008C", "#00ADEF"), dot.scale = 5,
+                      do.return = TRUE) +
     scale_y_discrete(labels = clust.labs) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+for (y in seq(2.5, 14.5, 2)) {
+    f2E <- f2E + geom_hline(yintercept = y, size = 0.2, colour = "grey70")
+}
 
 ggsave(here("output", DOCNAME, "figure2E.png"), f2E,
        height = 4, width = 20)
@@ -339,16 +341,16 @@ kable(data.frame(
         glue("[figure2_panel.pdf]({getDownloadURL('figure2_panel.pdf', DOCNAME)})")
     ),
     Description = c(
-        "Figure 1A in PNG format",
-        "Figure 1A in PDF format",
-        "Figure 1B in PNG format",
-        "Figure 1B in PDF format",
-        "Figure 1C in PNG format",
-        "Figure 1C in PDF format",
-        "Figure 1D in PNG format",
-        "Figure 1D in PDF format",
-        "Figure 1E in PNG format",
-        "Figure 1E in PDF format",
+        "Figure 2A in PNG format",
+        "Figure 2A in PDF format",
+        "Figure 2B in PNG format",
+        "Figure 2B in PDF format",
+        "Figure 2C in PNG format",
+        "Figure 2C in PDF format",
+        "Figure 2D in PNG format",
+        "Figure 2D in PDF format",
+        "Figure 2E in PNG format",
+        "Figure 2E in PDF format",
         "Figure panel in PNG format",
         "Figure panel in PDF format"
     )
