@@ -108,7 +108,7 @@ leg <- {f1A + guides(colour = FALSE,
                                        keywidth = 3),
              edge_colour = guide_edge_colourbar(title = "Cell count",
                                                 title.position = "top",
-                                                barwidth = 20,
+                                                barwidth = 15,
                                                 barheight = 2.5),
              size = guide_legend(title = "Cluster size",
                                  title.position = "top",
@@ -250,7 +250,7 @@ clust.labs <- c(
 
 f1D <- plot_cell_trajectory(orgs.neph.cds,
                             color_by = "NephCluster", cell_size = 3) +
-    scale_color_brewer(palette = "Dark2", labels = clust.labs) +
+    scale_color_brewer(palette = "Set1", labels = clust.labs) +
     guides(colour = guide_legend(nrow = 2, override.aes = list(size = 8),
                                  label.theme = element_text(size = 11))) +
     theme_cowplot() +
