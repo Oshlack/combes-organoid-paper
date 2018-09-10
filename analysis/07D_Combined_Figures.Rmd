@@ -252,19 +252,21 @@ Figure 2E
 =========
 
 ```{r fig-2E}
-genes <- c("TCF21", "PODXL", "VEGFA", "NPHS1", "PTPRO", "CTGF", "OLFM3", "MAFB",
-           "DAPL1", "LYPD1", "SIX1", "CRABP2", "IGFBP7", "FXYD2", "CDH6",
-           "HNF1B", "EPCAM", "EMX2", "SPP1", "MAL", "PAX2", "HSPB1", "HSPA1A",
-           "HSPA4")
+genes <- c("PTPRO", "NPHS1", "VEGFA", "PODXL", "TCF21", "MAFB", "OLFM3", "CTGF",
+           "SIX1", "TMEM100", "CITED1", "LYPD1", "PAX8", "DAPL1", "IGFBP7", 
+           "EMX2", "CDH6", "WFDC2", "MAL", "EPCAM", "HSPA1A", "HSPA1B",
+           "DNAJB1")
 
 gene.groups <- rev(c(rep("Podocyte", 5),
                  rep("Pod. precursor", 3),
-                 rep("Nephron progenitor", 4),
-                 rep("Proximal precursor", 4),
-                 rep("Distal precursor", 5),
-                 rep("Heat shock", 3))) %>%
+                 rep("Nephron progenitor", 3),
+                 rep("Differentiating NP", 3),
+                 rep("Proximal precursor", 3),
+                 rep("Distal precursor", 3),
+                 rep("Heatshock", 3))) %>%
     fct_relevel("Podocyte", "Pod. precursor",  "Nephron progenitor",
-                "Proximal precursor","Distal precursor", "Heat shock")
+                "Differentiating NP", "Proximal precursor",
+                "Distal precursor", "Heatshock")
 
 clust.labs <- c(
     "Fetal kidney CN0", "Organoid CN0",
