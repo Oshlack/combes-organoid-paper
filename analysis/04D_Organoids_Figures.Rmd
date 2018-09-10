@@ -255,7 +255,7 @@ clust.labs <- c(
 f1D <- plot_cell_trajectory(orgs.neph.cds,
                             color_by = "NephCluster", cell_size = 3) +
     scale_color_brewer(palette = "Dark2", labels = clust.labs) +
-    guides(colour = guide_legend(nrow = 1, override.aes = list(size = 8),
+    guides(colour = guide_legend(nrow = 2, override.aes = list(size = 8),
                                  label.theme = element_text(size = 11))) +
     theme_cowplot() +
     theme(legend.position = "bottom",
@@ -269,67 +269,22 @@ ggsave(here("output", DOCNAME, "figure1D.pdf"), f1D,
 f1D
 ```
 
-Figure 1E
-=========
-
-```{r fig-1E}
-genes <- c("TCF21", "PODXL", "VEGFA", "NPHS1", "PTPRO", "CTGF", "OLFM3", "MAFB",
-           "DAPL1", "LYPD1", "SIX1", "CRABP2", "IGFBP7", "FXYD2", "CDH6",
-           "HNF1B", "EPCAM", "EMX2", "SPP1", "MAL", "PAX2")
-
-gene.groups <- c(rep("Podocyte", 5),
-                 rep("Pod. precursor", 3),
-                 rep("Nephron progenitor", 4),
-                 rep("Proximal precursor", 4),
-                 rep("Distal precursor", 5))
-names(gene.groups) <- genes
-
-plot.data <- FetchData(orgs.neph, vars.all = genes) %>%
-    data.frame() %>%
-    rownames_to_column("Cell") %>%
-    mutate(Cluster = paste0("ON", orgs.neph@ident)) %>%
-    gather(key = "Gene", value = "Expr", -Cell, -Cluster) %>%
-    group_by(Cluster, Gene) %>%
-    summarize(AvgExpr = ExpMean(Expr),
-              Prop = Seurat:::PercentAbove(Expr, threshold = 0)) %>%
-    group_by(Gene) %>%
-    mutate(AvgExp = scale(AvgExpr)) %>%
-    mutate(Group = gene.groups[Gene])
-
-f1E <- ggplot(plot.data,
-              aes(x = Gene, y = Cluster, size = Prop, colour = AvgExpr)) +
-    geom_point() +
-    scale_colour_viridis_c() +
-    scale_radius(range = c(0, 10)) +
-    facet_grid(~ Group, scale = "free_x", space = "free_x", switch = "y") +
-    theme(axis.title = element_blank(),
-          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
-          panel.spacing = unit(1, "lines"),
-          strip.background = element_blank(),
-          strip.placement = "outside",
-          legend.position = "none")
-
-ggsave(here("output", DOCNAME, "figure1E.png"), f1E,
-       height = 4, width = 20)
-ggsave(here("output", DOCNAME, "figure1E.pdf"), f1E,
-       height = 8, width = 10)
-
-f1E
-```
-
 Figure 1 Panel
 ==============
 
-```{r fig1-panel, fig.height = 20, fig.width = 16}
-p1 <- plot_grid(f1A, f1B, f1C, f1D, nrow = 2,
+```{r fig1-panel, fig.height = 18, fig.width = 16}
+leg <- get_legend(f1C + theme_minimal() + theme(legend.title = element_blank()))
+
+p1 <- plot_grid(f1A, f1B,
+                f1C + theme(legend.position = "none"),
+                f1D + theme(legend.position = "none"), nrow = 2,
                 labels = c("A", "B", "C", "D"))
-panel <- plot_grid(p1, f1E, ncol = 1, labels = c("", "E"),
-                   rel_heights = c(1, 0.2))
+panel <- plot_grid(p1, leg, ncol = 1, rel_heights = c(1, 0.1)) 
 
 ggsave(here("output", DOCNAME, "figure1_panel.png"), panel,
-       height = 20, width = 16)
+       height = 18, width = 16)
 ggsave(here("output", DOCNAME, "figure1_panel.pdf"), panel,
-       height = 20, width = 16)
+       height = 18, width = 16)
 
 panel
 ```
