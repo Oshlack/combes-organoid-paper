@@ -29,7 +29,6 @@ library("monocle")
 # Plotting
 library("clustree")
 library("cowplot")
-library("paletteer")
 
 # Presentation
 library("glue")

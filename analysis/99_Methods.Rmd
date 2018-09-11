@@ -39,7 +39,8 @@ library("tidyverse")
 ```
 
 ```{r pkg-bib}
-write_bib(c("SingleCellExperiment"), file = here("data/packages.bib"))
+write_bib(c("base", "SingleCellExperiment", "cowplot"),
+          file = here("data/packages.bib"))
 ```
 
 ```{r load}
@@ -71,7 +72,7 @@ Pre-processing
 ==============
 
 The Cell Ranger pipeline (v1.3.1) was used to perform sample demultiplexing,
-barcode processing and single-cell gene counting [ref]. Briefly, samples were
+barcode processing and single-cell gene counting. Briefly, samples were
 demultiplexed to produce a pair of FASTQ files for each sample. Reads containing
 sequence information were aligned to the GRCh38 reference genome provided with
 Cell Ranger (v1.2.0). Cell barcodes were filtered to remove empty droplets and
@@ -85,7 +86,7 @@ Quality control
 ===============
 
 The R statistical programming language
-(v`r str_extract(R.version.string, "[0-9\\.]+")`) [ref] was used for further 
+(v`r str_extract(R.version.string, "[0-9\\.]+")`) [@R-base] was used for further 
 analysis. Count data for each experiment was read into R and used to construct a 
 SingleCellExperiment object (v`r packageVersion("SingleCellExperiment")`)
 [@R-SingleCellExperiment].Gene annotation information was added from BioMart 
@@ -138,7 +139,7 @@ giving more clusters. We performed clustering over a range of resolutions from
 `r min(params$Organoids_Clustering$resolutions)` to
 `r max(params$Organoids_Clustering$resolutions)` in steps of 0.1 and used the 
 clustree package (v`r packageVersion("clustree")`) to produce clustering trees
-[@Zappia2018-ph] showing the expression of known marker genes to select the 
+[@Zappia2018-lz] showing the expression of known marker genes to select the 
 appropriate resolution to use. We chose to use a resolution of
 `r params$Organoids_Clustering$res` which produced
 `r params$Organoids_Clustering$n.clusts` clusters. 
@@ -159,11 +160,17 @@ clusters were re-clustered at a resolution of
 `r params$Organoids_Nephron$res` resulting in
 `r params$Organoids_Nephron$n.clusts` clusters. 
 
+We also performed pseudotime trajectory analysis on the nephron cells using
+Monocle (v`r packageVersion("monocle")`) [@Trapnell2014-he; @Qiu2017-mq]. The
+intersection of the top 100 genes with the greatest absolute foldchange for each
+nephron cluster were selected for this analysis, giving a set of 
+`r params$Organoids_Trajectory$n.genes` genes used to order the cells.
+
 Combined
 --------
 
-The combined organoid and human foetal kidney analysis used the procedure
-described for the organoid only analysis but with slightly different parameters.
+The combined organoid and human fetal kidney analysis used the procedure
+described for the organoid only analysis, but with slightly different parameters.
 We identified `r params$Combined_Integration$var_genes` variable genes present
 in all three datasets and selected the first
 `r params$Combined_Integration$n_CCs` canonical correlation dimensions. For
@@ -178,14 +185,20 @@ clusters.
 Visualisation
 =============
 
-Figures shown here were produced using...
+Figures shown here were produced using functions in the Seurat, Monocle and 
+clustree packages. Additional plots and customisations were created using the
+ggplot2 (v`r packageVersion("ggplot2")`) [@Wickham2010-zq] and cowplot
+(v`r packageVersion("cowplot")`) [@R-cowplot] packages.
 
 Availability
 ============
 
-The datasets are available from GEO accession numbers XXX. A website showing
-reports produced during analysis including the exact software versions and
-parameters used can be accessed at XXX and the code is available at XXX.
+Both organoid datasets are available from GEO accession number GSE114802 and the
+Lindstrom fetal kidney dataset is available from GEO accession GSE102596. A
+website showing reports produced during analysis including the exact software
+versions and parameters used can be accessed at 
+http://oshlack.github.io/combes-organoid-paper and the analysis code is
+available at https://github.com/Oshlack/combes-organoid-paper.
 
 References
 ==========
