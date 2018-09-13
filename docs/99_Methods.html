@@ -286,23 +286,86 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Combes Organoid Paper Analysis</a>
+      <a class="navbar-brand" href="index.html">Combes Organoid scRNA-seq</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
+  <a href="getting_started.html">Getting started</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Quality control
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="01_Organoid123_QC.html">Organoids Batch 1</a>
+    </li>
+    <li>
+      <a href="02_Organoid4_QC.html">Organoid 4</a>
+    </li>
+    <li>
+      <a href="05_Lindstrom_QC.html">Fetal kidney</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Organoids
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="03_Organoids_Integration.html">Integration</a>
+    </li>
+    <li>
+      <a href="04_Organoids_Clustering.html">Clustering</a>
+    </li>
+    <li>
+      <a href="04B_Organoids_Nephron.html">Nephron</a>
+    </li>
+    <li>
+      <a href="04C_Organoids_Trajectory.html">Trajectory</a>
+    </li>
+    <li>
+      <a href="04D_Organoids_Figures.html">Figures</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Combined
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="06_Combined_Integration.html">Integration</a>
+    </li>
+    <li>
+      <a href="07_Combined_Clustering.html">Clustering</a>
+    </li>
+    <li>
+      <a href="07B_Combined_Nephron.html">Nephron</a>
+    </li>
+    <li>
+      <a href="07D_Combined_Figures.html">Figures</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="about.html">About</a>
+  <a href="08_Crossover.html">Crossover</a>
 </li>
 <li>
-  <a href="license.html">License</a>
+  <a href="99_Methods.html">Methods</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/jdblischak/workflowr">
+  <a href="https://github.com/Oshlack/combes-organoid-paper">
     <span class="fa fa-github"></span>
      
   </a>
@@ -336,7 +399,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-09-11</p>
+<p><strong>Last updated:</strong> 2018-09-13</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -360,20 +423,21 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/1d8b5a63857d50ae3bf468b4d02b6026360fc400" target="_blank">1d8b5a6</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/a99f69a60710197d91455cf95bc19315513b0ac9" target="_blank">a99f69a</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    analysis/cache/
+    Ignored:    data/processed.bak/
     Ignored:    packrat/lib-R/
     Ignored:    packrat/lib-ext/
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
 
-Unstaged changes:
-    Deleted:    output/07_Combined_Clustering/c7_c17_lind_de.csv
+Untracked files:
+    Untracked:  analysis/cache.bak/
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -407,7 +471,58 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/1d8b5a63857d50ae3bf468b4d02b6026360fc400/analysis/99_Methods.Rmd" target="_blank">1d8b5a6</a>
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/a99f69a60710197d91455cf95bc19315513b0ac9/analysis/99_Methods.Rmd" target="_blank">a99f69a</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+<td style="text-align:left;">
+Fix link to site
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://github.com/Oshlack/combes-organoid-paper/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/99_Methods.html" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+<td style="text-align:left;">
+Switch to GitHub
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/57b7fc2a18bd6644c6f9ac5b77070763f41697d9/analysis/99_Methods.Rmd" target="_blank">57b7fc2</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+<td style="text-align:left;">
+Add workflowr to methods
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/1d8b5a63857d50ae3bf468b4d02b6026360fc400/analysis/99_Methods.Rmd" target="_blank">1d8b5a6</a>
 </td>
 <td style="text-align:left;">
 Luke Zappia
@@ -421,27 +536,10 @@ Update methods
 </tr>
 <tr>
 <td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//8f29e72333b7dfebcaae2f43e63eb18245708168/public/99_Methods.html" target="_blank">8f29e72</a>
-</td>
-<td style="text-align:left;">
-Luke Zappia
-</td>
-<td style="text-align:left;">
-2018-08-15
-</td>
-<td style="text-align:left;">
-Rebuild site
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/7755ac76209f291360ec8537359e8428cafb5b29/analysis/99_Methods.Rmd" target="_blank">7755ac7</a>
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/7755ac76209f291360ec8537359e8428cafb5b29/analysis/99_Methods.Rmd" target="_blank">7755ac7</a>
 </td>
 <td style="text-align:left;">
 Luke Zappia
@@ -451,23 +549,6 @@ Luke Zappia
 </td>
 <td style="text-align:left;">
 Add methods document
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//eff634dc716c004b015014a432f95a1823bcfedd/public/99_Methods.html" target="_blank">eff634d</a>
-</td>
-<td style="text-align:left;">
-Luke Zappia
-</td>
-<td style="text-align:left;">
-2018-08-14
-</td>
-<td style="text-align:left;">
-Build crossover
 </td>
 </tr>
 </tbody>
@@ -487,7 +568,7 @@ library(&quot;jsonlite&quot;)
 
 # Tidyverse
 library(&quot;tidyverse&quot;)</code></pre>
-<pre class="r"><code>write_bib(c(&quot;base&quot;, &quot;SingleCellExperiment&quot;, &quot;cowplot&quot;),
+<pre class="r"><code>write_bib(c(&quot;base&quot;, &quot;SingleCellExperiment&quot;, &quot;cowplot&quot;, &quot;workflowr&quot;),
           file = here(&quot;data/packages.bib&quot;))</code></pre>
 <pre class="r"><code>docs &lt;- list.dirs(here(&quot;output&quot;), full.names = FALSE)[-1]
 
@@ -537,13 +618,13 @@ names(params) &lt;- str_remove(docs, &quot;[0-9A-Z]+_&quot;)</code></pre>
 <p>The combined organoid and human fetal kidney analysis used the procedure described for the organoid only analysis, but with slightly different parameters. We identified 1368 variable genes present in all three datasets and selected the first 20 canonical correlation dimensions. For clustering we chose a resolution of 0.5 which produced 16 clusters. Clusters 6, 7, 10 and 15 were determined to be the nephron lineage and these 1964 cells were re-clustered at a resolution of 0.6 producing 8 clusters.</p>
 </div>
 </div>
-<div id="visualisation" class="section level1">
-<h1>Visualisation</h1>
-<p>Figures shown here were produced using functions in the Seurat, Monocle and clustree packages. Additional plots and customisations were created using the ggplot2 (v3.0.0) <span class="citation">(Wickham 2010)</span> and cowplot (v0.9.3) <span class="citation">(Wilke 2018)</span> packages.</p>
+<div id="visualisation-and-presentation" class="section level1">
+<h1>Visualisation and presentation</h1>
+<p>Figures shown here were produced using functions in the Seurat, Monocle and clustree packages. Additional plots and customisations were created using the ggplot2 (v3.0.0) <span class="citation">(Wickham 2010)</span> and cowplot (v0.9.3) <span class="citation">(Wilke 2018)</span> packages. The analysis project was managed using the workflowr (v1.1.1) <span class="citation">(Blischak, Carbonetto, and Stephens 2018)</span> package which was also used to produce the publically available website displaying the analysis code, results and output.</p>
 </div>
 <div id="availability" class="section level1">
 <h1>Availability</h1>
-<p>Both organoid datasets are available from GEO accession number GSE114802 and the Lindstrom fetal kidney dataset is available from GEO accession GSE102596. A website showing reports produced during analysis including the exact software versions and parameters used can be accessed at <a href="http://oshlack.github.io/combes-organoid-paper" class="uri">http://oshlack.github.io/combes-organoid-paper</a> and the analysis code is available at <a href="https://github.com/Oshlack/combes-organoid-paper" class="uri">https://github.com/Oshlack/combes-organoid-paper</a>.</p>
+<p>Both organoid datasets are available from GEO accession number GSE114802 and the Lindstrom fetal kidney dataset is available from GEO accession GSE102596. A website showing reports produced during analysis including the exact software versions and parameters used can be accessed at <a href="http://oshlacklab.com/combes-organoid-paper" class="uri">http://oshlacklab.com/combes-organoid-paper</a> and the analysis code is available at <a href="https://github.com/Oshlack/combes-organoid-paper" class="uri">https://github.com/Oshlack/combes-organoid-paper</a>.</p>
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
@@ -553,6 +634,9 @@ names(params) &lt;- str_remove(docs, &quot;[0-9A-Z]+_&quot;)</code></pre>
 </div>
 <div id="ref-Berndt1994-lh">
 <p>Berndt, Donald J, and James Clifford. 1994. “Using Dynamic Time Warping to Find Patterns in Time Series.” In <em>Proceedings of the 3rd International Conference on Knowledge Discovery and Data Mining</em>, 359–70. AAAIWS’94. Seattle, WA: AAAI Press. <a href="http://dl.acm.org/citation.cfm?id=3000850.3000887" class="uri">http://dl.acm.org/citation.cfm?id=3000850.3000887</a>.</p>
+</div>
+<div id="ref-R-workflowr">
+<p>Blischak, John, Peter Carbonetto, and Matthew Stephens. 2018. <em>Workflowr: A Framework for Reproducible and Collaborative Data Science</em>. <a href="https://CRAN.R-project.org/package=workflowr" class="uri">https://CRAN.R-project.org/package=workflowr</a>.</p>
 </div>
 <div id="ref-Blondel2008-ym">
 <p>Blondel, Vincent D, Jean-Loup Guillaume, Renaud Lambiotte, and Etienne Lefebvre. 2008. “Fast unfolding of communities in large networks.” <em>J. Stat. Mech.</em> 2008 (10). IOP Publishing: P10008. doi:<a href="https://doi.org/10.1088/1742-5468/2008/10/P10008">10.1088/1742-5468/2008/10/P10008</a>.</p>
@@ -616,7 +700,7 @@ names(params) &lt;- str_remove(docs, &quot;[0-9A-Z]+_&quot;)</code></pre>
  language (EN)                        
  collate  en_US.UTF-8                 
  tz       Australia/Melbourne         
- date     2018-09-11                  
+ date     2018-09-13                  
 
  package     * version date       source                            
  assertthat    0.2.0   2017-04-11 CRAN (R 3.5.0)                    

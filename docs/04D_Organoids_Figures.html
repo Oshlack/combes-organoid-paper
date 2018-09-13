@@ -288,23 +288,86 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Combes Organoid Paper Analysis</a>
+      <a class="navbar-brand" href="index.html">Combes Organoid scRNA-seq</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
+  <a href="getting_started.html">Getting started</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Quality control
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="01_Organoid123_QC.html">Organoids Batch 1</a>
+    </li>
+    <li>
+      <a href="02_Organoid4_QC.html">Organoid 4</a>
+    </li>
+    <li>
+      <a href="05_Lindstrom_QC.html">Fetal kidney</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Organoids
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="03_Organoids_Integration.html">Integration</a>
+    </li>
+    <li>
+      <a href="04_Organoids_Clustering.html">Clustering</a>
+    </li>
+    <li>
+      <a href="04B_Organoids_Nephron.html">Nephron</a>
+    </li>
+    <li>
+      <a href="04C_Organoids_Trajectory.html">Trajectory</a>
+    </li>
+    <li>
+      <a href="04D_Organoids_Figures.html">Figures</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Combined
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="06_Combined_Integration.html">Integration</a>
+    </li>
+    <li>
+      <a href="07_Combined_Clustering.html">Clustering</a>
+    </li>
+    <li>
+      <a href="07B_Combined_Nephron.html">Nephron</a>
+    </li>
+    <li>
+      <a href="07D_Combined_Figures.html">Figures</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="about.html">About</a>
+  <a href="08_Crossover.html">Crossover</a>
 </li>
 <li>
-  <a href="license.html">License</a>
+  <a href="99_Methods.html">Methods</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/jdblischak/workflowr">
+  <a href="https://github.com/Oshlack/combes-organoid-paper">
     <span class="fa fa-github"></span>
      
   </a>
@@ -338,7 +401,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-09-10</p>
+<p><strong>Last updated:</strong> 2018-09-13</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -362,23 +425,27 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/22002fe4e9e1c5c28f9144f95ab898cf04ad9ba1" target="_blank">22002fe</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/ad10b21a8d0eab94e778f482d3771118937de0b0" target="_blank">ad10b21</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    analysis/cache/
+    Ignored:    data/processed.bak/
     Ignored:    packrat/lib-R/
     Ignored:    packrat/lib-ext/
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
 
+Untracked files:
+    Untracked:  analysis/cache.bak/
+
 Unstaged changes:
-    Modified:   output/04D_Organoids_Figures/figure1A.pdf
-    Modified:   output/04D_Organoids_Figures/figure1D.pdf
-    Modified:   output/04D_Organoids_Figures/figure1_panel.pdf
-    Deleted:    output/07_Combined_Clustering/c7_c17_lind_de.csv
+    Modified:   analysis/99_Methods.Rmd
+
+Staged changes:
+    Deleted:    output/README.md
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -409,10 +476,44 @@ Message
 <tbody>
 <tr>
 <td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://github.com/Oshlack/combes-organoid-paper/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/04D_Organoids_Figures.html" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+<td style="text-align:left;">
+Switch to GitHub
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/22002fe4e9e1c5c28f9144f95ab898cf04ad9ba1/analysis/04D_Organoids_Figures.Rmd" target="_blank">22002fe</a>
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/ff4bd7c3f76a26efad19dc248f3d611194b5ff43/analysis/04D_Organoids_Figures.Rmd" target="_blank">ff4bd7c</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+<td style="text-align:left;">
+Rename proximal early nephron clusters
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/22002fe4e9e1c5c28f9144f95ab898cf04ad9ba1/analysis/04D_Organoids_Figures.Rmd" target="_blank">22002fe</a>
 </td>
 <td style="text-align:left;">
 Luke Zappia
@@ -426,27 +527,10 @@ Fix trajectory colours
 </tr>
 <tr>
 <td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//1948c527e849495bde135de7b3149f5fcc0e93aa/public/04D_Organoids_Figures.html" target="_blank">1948c52</a>
-</td>
-<td style="text-align:left;">
-Luke Zappia
-</td>
-<td style="text-align:left;">
-2018-09-10
-</td>
-<td style="text-align:left;">
-Rebuild figures
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/91342d1148cafbd293ac501d1990f2959cccc826/analysis/04D_Organoids_Figures.Rmd" target="_blank">91342d1</a>
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/91342d1148cafbd293ac501d1990f2959cccc826/analysis/04D_Organoids_Figures.Rmd" target="_blank">91342d1</a>
 </td>
 <td style="text-align:left;">
 Luke Zappia
@@ -463,7 +547,7 @@ Adjust colours and remove shadows
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/ebfe6e5baf4c0587874c088c034c61d75fabac57/analysis/04D_Organoids_Figures.Rmd" target="_blank">ebfe6e5</a>
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/ebfe6e5baf4c0587874c088c034c61d75fabac57/analysis/04D_Organoids_Figures.Rmd" target="_blank">ebfe6e5</a>
 </td>
 <td style="text-align:left;">
 Luke Zappia
@@ -473,23 +557,6 @@ Luke Zappia
 </td>
 <td style="text-align:left;">
 Remove Figure 1E
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//0a266e9e579b48e9fb415681012918f0a16cfbae/public/04D_Organoids_Figures.html" target="_blank">0a266e9</a>
-</td>
-<td style="text-align:left;">
-Luke Zappia
-</td>
-<td style="text-align:left;">
-2018-09-07
-</td>
-<td style="text-align:left;">
-Build figures
 </td>
 </tr>
 </tbody>
@@ -723,7 +790,7 @@ lab.data &lt;- plot.data %&gt;%
 
 clust.labs &lt;- c(
     &quot;ON0 (Podocyte) TCF21, PODXL, VEGFA, NPHS1, PTPRO&quot;,
-    &quot;ON1 (Pod. precursor) CTGF, OLFM3, MAFB, NPHS1&quot;,
+    &quot;ON1 (Proximal early nephron) CTGF, OLFM3, MAFB, NPHS1&quot;,
     &quot;ON2 (Nephron progenitor) DAPL1, LYPD1, SIX1, CRABP2&quot;,
     &quot;ON3 (Proximal precursor) IGFBP7, FXYD2, CDH6, HNF1B&quot;,
     &quot;ON4 (Distal precursor) EPCAM, EMX2, SPP1, MAL, PAX2&quot;
@@ -765,6 +832,17 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
+1948c52
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 0a266e9
 </td>
 <td style="text-align:left;">
@@ -782,7 +860,7 @@ Luke Zappia
 <h1>Figure 1D</h1>
 <pre class="r"><code>clust.labs &lt;- c(
     &quot;ON0 (Podocyte)&quot;,
-    &quot;ON1 (Pod. precursor)&quot;,
+    &quot;ON1 (Proximal early nephron)&quot;,
     &quot;ON2 (Nephron progenitor)&quot;,
     &quot;ON3 (Proximal precursor)&quot;,
     &quot;ON4 (Distal precursor)&quot;
@@ -820,6 +898,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+deb7d4a
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-10
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 1948c52
@@ -879,6 +968,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+deb7d4a
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-10
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 1948c52

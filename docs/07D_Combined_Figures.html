@@ -288,23 +288,86 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Combes Organoid Paper Analysis</a>
+      <a class="navbar-brand" href="index.html">Combes Organoid scRNA-seq</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
+  <a href="getting_started.html">Getting started</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Quality control
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="01_Organoid123_QC.html">Organoids Batch 1</a>
+    </li>
+    <li>
+      <a href="02_Organoid4_QC.html">Organoid 4</a>
+    </li>
+    <li>
+      <a href="05_Lindstrom_QC.html">Fetal kidney</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Organoids
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="03_Organoids_Integration.html">Integration</a>
+    </li>
+    <li>
+      <a href="04_Organoids_Clustering.html">Clustering</a>
+    </li>
+    <li>
+      <a href="04B_Organoids_Nephron.html">Nephron</a>
+    </li>
+    <li>
+      <a href="04C_Organoids_Trajectory.html">Trajectory</a>
+    </li>
+    <li>
+      <a href="04D_Organoids_Figures.html">Figures</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Combined
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="06_Combined_Integration.html">Integration</a>
+    </li>
+    <li>
+      <a href="07_Combined_Clustering.html">Clustering</a>
+    </li>
+    <li>
+      <a href="07B_Combined_Nephron.html">Nephron</a>
+    </li>
+    <li>
+      <a href="07D_Combined_Figures.html">Figures</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="about.html">About</a>
+  <a href="08_Crossover.html">Crossover</a>
 </li>
 <li>
-  <a href="license.html">License</a>
+  <a href="99_Methods.html">Methods</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/jdblischak/workflowr">
+  <a href="https://github.com/Oshlack/combes-organoid-paper">
     <span class="fa fa-github"></span>
      
   </a>
@@ -338,7 +401,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-09-11</p>
+<p><strong>Last updated:</strong> 2018-09-13</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -362,20 +425,27 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/1d8b5a63857d50ae3bf468b4d02b6026360fc400" target="_blank">1d8b5a6</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/ad10b21a8d0eab94e778f482d3771118937de0b0" target="_blank">ad10b21</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    analysis/cache/
+    Ignored:    data/processed.bak/
     Ignored:    packrat/lib-R/
     Ignored:    packrat/lib-ext/
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
 
+Untracked files:
+    Untracked:  analysis/cache.bak/
+
 Unstaged changes:
-    Deleted:    output/07_Combined_Clustering/c7_c17_lind_de.csv
+    Modified:   analysis/99_Methods.Rmd
+
+Staged changes:
+    Deleted:    output/README.md
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -406,10 +476,44 @@ Message
 <tbody>
 <tr>
 <td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://github.com/Oshlack/combes-organoid-paper/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/07D_Combined_Figures.html" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+<td style="text-align:left;">
+Switch to GitHub
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/1d8b5a63857d50ae3bf468b4d02b6026360fc400/analysis/07D_Combined_Figures.Rmd" target="_blank">1d8b5a6</a>
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/ff4bd7c3f76a26efad19dc248f3d611194b5ff43/analysis/07D_Combined_Figures.Rmd" target="_blank">ff4bd7c</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+<td style="text-align:left;">
+Rename proximal early nephron clusters
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/1d8b5a63857d50ae3bf468b4d02b6026360fc400/analysis/07D_Combined_Figures.Rmd" target="_blank">1d8b5a6</a>
 </td>
 <td style="text-align:left;">
 Luke Zappia
@@ -423,27 +527,10 @@ Update methods
 </tr>
 <tr>
 <td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//1948c527e849495bde135de7b3149f5fcc0e93aa/public/07D_Combined_Figures.html" target="_blank">1948c52</a>
-</td>
-<td style="text-align:left;">
-Luke Zappia
-</td>
-<td style="text-align:left;">
-2018-09-10
-</td>
-<td style="text-align:left;">
-Rebuild figures
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/91342d1148cafbd293ac501d1990f2959cccc826/analysis/07D_Combined_Figures.Rmd" target="_blank">91342d1</a>
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/91342d1148cafbd293ac501d1990f2959cccc826/analysis/07D_Combined_Figures.Rmd" target="_blank">91342d1</a>
 </td>
 <td style="text-align:left;">
 Luke Zappia
@@ -460,7 +547,7 @@ Adjust colours and remove shadows
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/35d26ccc3a43adb68fa89e9bafec51003efad914/analysis/07D_Combined_Figures.Rmd" target="_blank">35d26cc</a>
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/35d26ccc3a43adb68fa89e9bafec51003efad914/analysis/07D_Combined_Figures.Rmd" target="_blank">35d26cc</a>
 </td>
 <td style="text-align:left;">
 Luke Zappia
@@ -474,27 +561,10 @@ Update Figure 2E gene list
 </tr>
 <tr>
 <td style="text-align:left;">
-html
-</td>
-<td style="text-align:left;">
-<a href="https://cdn.rawgit.com/http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//0a266e9e579b48e9fb415681012918f0a16cfbae/public/07D_Combined_Figures.html" target="_blank">0a266e9</a>
-</td>
-<td style="text-align:left;">
-Luke Zappia
-</td>
-<td style="text-align:left;">
-2018-09-07
-</td>
-<td style="text-align:left;">
-Build figures
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/c30f9232bfa7be39a7eaa773726bd1b61f9da32a/analysis/07D_Combined_Figures.Rmd" target="_blank">c30f923</a>
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/c30f9232bfa7be39a7eaa773726bd1b61f9da32a/analysis/07D_Combined_Figures.Rmd" target="_blank">c30f923</a>
 </td>
 <td style="text-align:left;">
 Luke Zappia
@@ -632,7 +702,7 @@ clust.labs &lt;- c(
     &quot;C9 (Stroma)\nCOL9A3, DCN, LUM, IGFBP6&quot;,
     &quot;C10 (Nephron)\nIGFBP7, EMBX2, MAL&quot;,
     &quot;C11 (Neural prog.)\nTTHY1, SOX2, S100B&quot;,
-    &quot;C12 (Leukocyte)\nCD74, TYROBP, FCER1G&quot;,
+    &quot;C12 (Immune)\nCD74, TYROBP, FCER1G&quot;,
     &quot;C13 (Blood)\nCYPC, SLC25A39, GPX1&quot;,
     &quot;C14 (Neural prog.)\nOrganoid only&quot;,
     &quot;C15 (Podocyte)\nFetal kidney only&quot;
@@ -671,6 +741,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+1948c52
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-10
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 0a266e9
@@ -713,6 +794,17 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
+1948c52
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 0a266e9
 </td>
 <td style="text-align:left;">
@@ -744,7 +836,7 @@ clust.labs &lt;- c(
     &quot;CN0 (Podocyte)\nTCF21, PODXL, SYNPO&quot;,
     &quot;CN1 (Differentiating nephron prog.)\nLYPD1, PAX8, DAPL1&quot;,
     &quot;CN2 (Nephron prog.)\nCRABP2, SIX1, TMEM100, CITED1&quot;,
-    &quot;CN3 (Podocyte precursor)\nCTGF, OLFM3, MAFB&quot;,
+    &quot;CN3 (Proximal early nephron)\nCTGF, OLFM3, MAFB&quot;,
     &quot;CN4 (Distal)\nWFDC2, EMX2, MAL, GATA3&quot;,
     &quot;CN5 (Proximal)\nIGFBP7, MPC2, FXYD2, CDH6&quot;,
     &quot;CN6 (Stroma)\nfetal kidney only&quot;,
@@ -784,6 +876,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+1948c52
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-10
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 0a266e9
@@ -844,6 +947,17 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
+1948c52
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 0a266e9
 </td>
 <td style="text-align:left;">
@@ -865,13 +979,13 @@ Luke Zappia
            &quot;DNAJB1&quot;)
 
 gene.groups &lt;- rev(c(rep(&quot;Podocyte&quot;, 5),
-                 rep(&quot;Pod. precursor&quot;, 3),
+                 rep(&quot;Prox. early neph.&quot;, 3),
                  rep(&quot;Nephron progenitor&quot;, 3),
                  rep(&quot;Differentiating NP&quot;, 3),
                  rep(&quot;Proximal precursor&quot;, 3),
                  rep(&quot;Distal precursor&quot;, 3),
                  rep(&quot;Heatshock&quot;, 3))) %&gt;%
-    fct_relevel(&quot;Podocyte&quot;, &quot;Pod. precursor&quot;,  &quot;Nephron progenitor&quot;,
+    fct_relevel(&quot;Podocyte&quot;, &quot;Prox. early neph.&quot;,  &quot;Nephron progenitor&quot;,
                 &quot;Differentiating NP&quot;, &quot;Proximal precursor&quot;,
                 &quot;Distal precursor&quot;, &quot;Heatshock&quot;)
 
@@ -908,6 +1022,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+1948c52
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-10
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 0a266e9
@@ -949,6 +1074,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+1948c52
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-10
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 0a266e9
@@ -998,6 +1134,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+1948c52
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-10
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 0a266e9

@@ -288,23 +288,86 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Combes Organoid Paper Analysis</a>
+      <a class="navbar-brand" href="index.html">Combes Organoid scRNA-seq</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
+  <a href="getting_started.html">Getting started</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Quality control
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="01_Organoid123_QC.html">Organoids Batch 1</a>
+    </li>
+    <li>
+      <a href="02_Organoid4_QC.html">Organoid 4</a>
+    </li>
+    <li>
+      <a href="05_Lindstrom_QC.html">Fetal kidney</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Organoids
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="03_Organoids_Integration.html">Integration</a>
+    </li>
+    <li>
+      <a href="04_Organoids_Clustering.html">Clustering</a>
+    </li>
+    <li>
+      <a href="04B_Organoids_Nephron.html">Nephron</a>
+    </li>
+    <li>
+      <a href="04C_Organoids_Trajectory.html">Trajectory</a>
+    </li>
+    <li>
+      <a href="04D_Organoids_Figures.html">Figures</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Combined
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="06_Combined_Integration.html">Integration</a>
+    </li>
+    <li>
+      <a href="07_Combined_Clustering.html">Clustering</a>
+    </li>
+    <li>
+      <a href="07B_Combined_Nephron.html">Nephron</a>
+    </li>
+    <li>
+      <a href="07D_Combined_Figures.html">Figures</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="about.html">About</a>
+  <a href="08_Crossover.html">Crossover</a>
 </li>
 <li>
-  <a href="license.html">License</a>
+  <a href="99_Methods.html">Methods</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/jdblischak/workflowr">
+  <a href="https://github.com/Oshlack/combes-organoid-paper">
     <span class="fa fa-github"></span>
      
   </a>
@@ -338,7 +401,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-08-14</p>
+<p><strong>Last updated:</strong> 2018-09-13</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -362,45 +425,27 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//tree/bff4d5b6f5791a9f8bd28d3a7f5ab22f7df7b0d6" target="_blank">bff4d5b</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/ad10b21a8d0eab94e778f482d3771118937de0b0" target="_blank">ad10b21</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    analysis/cache/
+    Ignored:    data/processed.bak/
     Ignored:    packrat/lib-R/
     Ignored:    packrat/lib-ext/
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
 
 Untracked files:
-    Untracked:  analysis/99_Methods.Rmd
-    Untracked:  analysis/methods.docx
-    Untracked:  output/04B_Organoids_Nephron/cluster_assignments.csv
-    Untracked:  output/04B_Organoids_Nephron/cluster_expression.csv
-    Untracked:  output/04_Organoids_Clustering/cluster_assignments.csv
-    Untracked:  output/04_Organoids_Clustering/cluster_expression.csv
-    Untracked:  output/07B_Combined_Nephron/cluster_assignments.csv
-    Untracked:  output/07B_Combined_Nephron/cluster_expression.csv
-    Untracked:  output/07_Combined_Clustering/cluster_assignments.csv
-    Untracked:  output/07_Combined_Clustering/cluster_expression.csv
-    Untracked:  output/08_Crossover/
-    Untracked:  public/figure/08_Crossover.Rmd/
+    Untracked:  analysis/cache.bak/
 
 Unstaged changes:
-    Modified:   output/04B_Organoids_Nephron/cluster_de.xlsx
-    Modified:   output/04B_Organoids_Nephron/conserved_markers.xlsx
-    Modified:   output/04B_Organoids_Nephron/markers.xlsx
-    Modified:   output/04_Organoids_Clustering/cluster_de.xlsx
-    Modified:   output/04_Organoids_Clustering/conserved_markers.xlsx
-    Modified:   output/04_Organoids_Clustering/markers.xlsx
-    Modified:   output/07B_Combined_Nephron/cluster_de.xlsx
-    Modified:   output/07B_Combined_Nephron/conserved_markers.xlsx
-    Modified:   output/07B_Combined_Nephron/markers.xlsx
-    Modified:   output/07_Combined_Clustering/cluster_de.xlsx
-    Modified:   output/07_Combined_Clustering/conserved_markers.xlsx
-    Modified:   output/07_Combined_Clustering/markers.xlsx
+    Modified:   analysis/99_Methods.Rmd
+
+Staged changes:
+    Deleted:    output/README.md
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -431,10 +476,27 @@ Message
 <tbody>
 <tr>
 <td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://github.com/Oshlack/combes-organoid-paper/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/08_Crossover.html" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+<td style="text-align:left;">
+Switch to GitHub
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="http://bioinformatics.pages.mcri.edu.au/combes-organoid-paper//blob/bff4d5b6f5791a9f8bd28d3a7f5ab22f7df7b0d6/analysis/08_Crossover.Rmd" target="_blank">bff4d5b</a>
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/bff4d5b6f5791a9f8bd28d3a7f5ab22f7df7b0d6/analysis/08_Crossover.Rmd" target="_blank">bff4d5b</a>
 </td>
 <td style="text-align:left;">
 Luke Zappia
@@ -577,6 +639,36 @@ clusts &lt;- comb.clusts %&gt;%
           legend.text = element_text(size = 10),
           panel.grid = element_blank())</code></pre>
 <p><img src="figure/08_Crossover.Rmd/orgs-orgs-neph-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of orgs-orgs-neph-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/08_Crossover.Rmd/orgs-orgs-neph-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="vs-combined" class="section level2">
 <h2>vs Combined</h2>
@@ -611,6 +703,36 @@ clusts &lt;- comb.clusts %&gt;%
           legend.text = element_text(size = 10),
           panel.grid = element_blank())</code></pre>
 <p><img src="figure/08_Crossover.Rmd/orgs-combined-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of orgs-combined-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/08_Crossover.Rmd/orgs-combined-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="vs-combined-nephron" class="section level2">
 <h2>vs Combined Nephron</h2>
@@ -645,6 +767,36 @@ clusts &lt;- comb.clusts %&gt;%
           legend.text = element_text(size = 10),
           panel.grid = element_blank())</code></pre>
 <p><img src="figure/08_Crossover.Rmd/orgs-comb-neph-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of orgs-comb-neph-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/08_Crossover.Rmd/orgs-comb-neph-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 </div>
 <div id="combined" class="section level1">
@@ -682,6 +834,36 @@ clusts &lt;- comb.clusts %&gt;%
           legend.text = element_text(size = 10),
           panel.grid = element_blank())</code></pre>
 <p><img src="figure/08_Crossover.Rmd/combined-comb-neph-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of combined-comb-neph-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/08_Crossover.Rmd/combined-comb-neph-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="vs-organoids" class="section level2">
 <h2>vs Organoids</h2>
@@ -716,6 +898,36 @@ clusts &lt;- comb.clusts %&gt;%
           legend.text = element_text(size = 10),
           panel.grid = element_blank())</code></pre>
 <p><img src="figure/08_Crossover.Rmd/combined-orgs-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of combined-orgs-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/08_Crossover.Rmd/combined-orgs-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="vs-organoids-nephron-1" class="section level2">
 <h2>vs Organoids Nephron</h2>
@@ -750,6 +962,36 @@ clusts &lt;- comb.clusts %&gt;%
           legend.text = element_text(size = 10),
           panel.grid = element_blank())</code></pre>
 <p><img src="figure/08_Crossover.Rmd/combined-orgs-neph-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of combined-orgs-neph-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/08_Crossover.Rmd/combined-orgs-neph-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 </div>
 <div id="combined-nephron" class="section level1">
@@ -787,6 +1029,36 @@ clusts &lt;- comb.clusts %&gt;%
           legend.text = element_text(size = 10),
           panel.grid = element_blank())</code></pre>
 <p><img src="figure/08_Crossover.Rmd/comb-neph-orgs-neph-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of comb-neph-orgs-neph-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/08_Crossover.Rmd/comb-neph-orgs-neph-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 </div>
 <div id="summary" class="section level1">
@@ -816,6 +1088,10 @@ kable(data.frame(
 </thead>
 <tbody>
 <tr class="odd">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/08_Crossover/cluster_assignments.csv">cluster_assignments.csv</a></td>
+<td align="left">Cluster assignments for all clustering analyses</td>
+</tr>
+<tr class="even">
 <td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/08_Crossover/cluster_assignments.csv">cluster_assignments.csv</a></td>
 <td align="left">Cluster assignments for all clustering analyses</td>
 </tr>
@@ -832,7 +1108,7 @@ kable(data.frame(
  language (EN)                        
  collate  en_US.UTF-8                 
  tz       Australia/Melbourne         
- date     2018-08-14                  
+ date     2018-09-13                  
 
  package     * version date       source                            
  assertthat    0.2.0   2017-04-11 CRAN (R 3.5.0)                    
