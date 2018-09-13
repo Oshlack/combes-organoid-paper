@@ -1,5 +1,5 @@
 name: "Combes Organoid scRNA-seq"
-output_dir: "../public"
+output_dir: "../docs"
 navbar:
     title: "Combes Organoid scRNA-seq"
     left:
