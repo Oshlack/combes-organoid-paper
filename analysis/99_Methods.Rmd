@@ -200,7 +200,7 @@ Both organoid datasets are available from GEO accession number GSE114802 and the
 Lindstrom fetal kidney dataset is available from GEO accession GSE102596. A
 website showing reports produced during analysis including the exact software
 versions and parameters used can be accessed at 
-http://oshlack.github.io/combes-organoid-paper and the analysis code is
+http://oshlacklab.com/combes-organoid-paper and the analysis code is
 available at https://github.com/Oshlack/combes-organoid-paper.
 
 References
