@@ -33,8 +33,6 @@ navbar:
             href: 07_Combined_Clustering.html
           - text: "Nephron"
             href: 07B_Combined_Nephron.html
-          - text: "Trajectory"
-            href: 07C_Combined_Trajectory.html
           - text: "Figures"
             href: 07D_Combined_Figures.html
         - text: "Crossover"

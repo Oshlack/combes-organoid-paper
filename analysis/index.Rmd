@@ -36,8 +36,6 @@ analysis. If you want to reproduce the analysis please have a look at the
       dataset
     * [Nephron re-clustering](07B_Combined_Nephron.html) - Re-clustering of the
       nephron lineage in the combined dataset
-    * [Nephron trajectory](07C_Combined_Trajectory.html) - Trajectory analysis
-      of the nephron lineage in the combined dataset
     * [Figures](07D_Combined_Figures.html) - Figures for the combined analysis
       presented in the paper
 * [Clustering crossover](08_Crossover.html) - Overlap in samples between
