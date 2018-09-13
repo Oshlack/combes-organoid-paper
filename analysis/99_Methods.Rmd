@@ -39,7 +39,7 @@ library("tidyverse")
 ```
 
 ```{r pkg-bib}
-write_bib(c("base", "SingleCellExperiment", "cowplot"),
+write_bib(c("base", "SingleCellExperiment", "cowplot", "workflowr"),
           file = here("data/packages.bib"))
 ```
 
@@ -182,13 +182,16 @@ were determined to be the nephron lineage and these
 `r params$Combined_Nephron$res` producing `r params$Combined_Nephron$n.clusts`
 clusters.
 
-Visualisation
-=============
+Visualisation and presentation
+==============================
 
 Figures shown here were produced using functions in the Seurat, Monocle and 
 clustree packages. Additional plots and customisations were created using the
 ggplot2 (v`r packageVersion("ggplot2")`) [@Wickham2010-zq] and cowplot
-(v`r packageVersion("cowplot")`) [@R-cowplot] packages.
+(v`r packageVersion("cowplot")`) [@R-cowplot] packages. The analysis project
+was managed using the workflowr (v`r packageVersion("workflowr")`)
+[@R-workflowr] package which was also used to produce the publically available
+website displaying the analysis code, results and output.
 
 Availability
 ============
