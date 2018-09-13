@@ -133,7 +133,7 @@ clust.labs <- c(
     "C9 (Stroma)\nCOL9A3, DCN, LUM, IGFBP6",
     "C10 (Nephron)\nIGFBP7, EMBX2, MAL",
     "C11 (Neural prog.)\nTTHY1, SOX2, S100B",
-    "C12 (Leukocyte)\nCD74, TYROBP, FCER1G",
+    "C12 (Immune)\nCD74, TYROBP, FCER1G",
     "C13 (Blood)\nCYPC, SLC25A39, GPX1",
     "C14 (Neural prog.)\nOrganoid only",
     "C15 (Podocyte)\nFetal kidney only"
@@ -189,7 +189,7 @@ clust.labs <- c(
     "CN0 (Podocyte)\nTCF21, PODXL, SYNPO",
     "CN1 (Differentiating nephron prog.)\nLYPD1, PAX8, DAPL1",
     "CN2 (Nephron prog.)\nCRABP2, SIX1, TMEM100, CITED1",
-    "CN3 (Podocyte precursor)\nCTGF, OLFM3, MAFB",
+    "CN3 (Proximal early nephron)\nCTGF, OLFM3, MAFB",
     "CN4 (Distal)\nWFDC2, EMX2, MAL, GATA3",
     "CN5 (Proximal)\nIGFBP7, MPC2, FXYD2, CDH6",
     "CN6 (Stroma)\nfetal kidney only",
@@ -254,13 +254,13 @@ genes <- c("PTPRO", "NPHS1", "VEGFA", "PODXL", "TCF21", "MAFB", "OLFM3", "CTGF",
            "DNAJB1")
 
 gene.groups <- rev(c(rep("Podocyte", 5),
-                 rep("Pod. precursor", 3),
+                 rep("Prox. early neph.", 3),
                  rep("Nephron progenitor", 3),
                  rep("Differentiating NP", 3),
                  rep("Proximal precursor", 3),
                  rep("Distal precursor", 3),
                  rep("Heatshock", 3))) %>%
-    fct_relevel("Podocyte", "Pod. precursor",  "Nephron progenitor",
+    fct_relevel("Podocyte", "Prox. early neph.",  "Nephron progenitor",
                 "Differentiating NP", "Proximal precursor",
                 "Distal precursor", "Heatshock")
 

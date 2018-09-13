@@ -211,7 +211,7 @@ lab.data <- plot.data %>%
 
 clust.labs <- c(
     "ON0 (Podocyte) TCF21, PODXL, VEGFA, NPHS1, PTPRO",
-    "ON1 (Pod. precursor) CTGF, OLFM3, MAFB, NPHS1",
+    "ON1 (Proximal early nephron) CTGF, OLFM3, MAFB, NPHS1",
     "ON2 (Nephron progenitor) DAPL1, LYPD1, SIX1, CRABP2",
     "ON3 (Proximal precursor) IGFBP7, FXYD2, CDH6, HNF1B",
     "ON4 (Distal precursor) EPCAM, EMX2, SPP1, MAL, PAX2"
@@ -220,7 +220,6 @@ clust.labs <- c(
 f1C <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
     geom_point(size = 4) +
     geom_text(data = lab.data, aes(label = Label), colour = "black", size = 8) +
-    
     scale_color_brewer(palette = "Set1", labels = clust.labs) +
     guides(colour = guide_legend(ncol = 2, override.aes = list(size = 8),
                                  label.theme = element_text(size = 11))) +
@@ -242,7 +241,7 @@ Figure 1D
 ```{r fig-1D}
 clust.labs <- c(
     "ON0 (Podocyte)",
-    "ON1 (Pod. precursor)",
+    "ON1 (Proximal early nephron)",
     "ON2 (Nephron progenitor)",
     "ON3 (Proximal precursor)",
     "ON4 (Distal precursor)"
