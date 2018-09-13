@@ -6,21 +6,40 @@ output:
     toc: false
 ---
 
+This site contains the results of the analysis presented in the Combes kidney
+organoid scRNA-seq paper. Follow the links to see the different parts of the
+analysis. If you want to reproduce the analysis please have a look at the
+[Getting started](getting_started.html) page.
+
 * Quality control
-    * [Organoid Batch 1](01_Organoid123_QC.html)
-    * [Organoid 4](02_Organoid4_QC.html)
-    * [Lindstrom](05_Lindstrom_QC.html)
+    * [Organoid Batch 1](01_Organoid123_QC.html) - Quality control of the first
+      batch of organoids containing three samples
+    * [Organoid 4](02_Organoid4_QC.html) - Quality control of the second batch
+      of organoids containing a single sample
+    * [Fetal kidney](05_Lindstrom_QC.html) - Quality control of the Lindstrom
+      fetal kidney dataset
 * Organoids analysis
-    * [Integration](03_Organoids_Integration.html)
-    * [Clustering](04_Organoids_Clustering.html)
-    * [Nephron reclustering](04B_Organoids_Nephron.html)
-    * [Nephron trajectory](04C_Organoids_Trajectory.html)
-    * [Figures](04D_Organoids_Figures.html)
+    * [Integration](03_Organoids_Integration.html) - Integration of the four
+      organoid samples
+    * [Clustering](04_Organoids_Clustering.html) - Clustering of the organoid
+      samples
+    * [Nephron re-clustering](04B_Organoids_Nephron.html) - Re-clustering of the
+      organoid nephron lineage
+    * [Nephron trajectory](04C_Organoids_Trajectory.html) - Trajectory analysis
+      of the organoids nephron lineage
+    * [Figures](04D_Organoids_Figures.html) - Figures for the organoids analysis
+      presented in the paper
 * Combined analysis
-    * [Integration](06_Combined_Integration.html)
-    * [Clustering](07_Combined_Clustering.html)
-    * [Nephron reclustering](07B_Combined_Nephron.html)
-    * [Nephron trajectory](07C_Combined_Trajectory.html)
-    * [Figures](07D_Combined_Figures.html)
-* [Clustering crossover](08_Crossover.html)
-* [Methods](99_Methods.html)
+    * [Integration](06_Combined_Integration.html) - Integration of the organoids
+      datasets and the Lindstrom fetal kidney dataset
+    * [Clustering](07_Combined_Clustering.html) - Clustering of the combined
+      dataset
+    * [Nephron re-clustering](07B_Combined_Nephron.html) - Re-clustering of the
+      nephron lineage in the combined dataset
+    * [Nephron trajectory](07C_Combined_Trajectory.html) - Trajectory analysis
+      of the nephron lineage in the combined dataset
+    * [Figures](07D_Combined_Figures.html) - Figures for the combined analysis
+      presented in the paper
+* [Clustering crossover](08_Crossover.html) - Overlap in samples between
+  clusters from different parts of the analysis
+* [Methods](99_Methods.html) - Methods describing the analysis

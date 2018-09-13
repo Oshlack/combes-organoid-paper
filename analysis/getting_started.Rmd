@@ -1,0 +1,168 @@
+---
+title: "Getting started"
+output:
+  workflowr::wflow_html:
+    toc: false
+---
+
+```{r knitr, include = FALSE}
+knitr::opts_chunk$set(autodep        = TRUE,
+                      cache          = FALSE,
+                      cache.comments = FALSE,
+                      echo           = TRUE,
+                      error          = FALSE,
+                      fig.align      = "center",
+                      fig.width      = 10,
+                      fig.height     = 8,
+                      message        = FALSE,
+                      warning        = FALSE)
+```
+
+This page describes how to download the data and code used in this analysis,
+set up the project directory and rerun the analysis. We have use the
+[`workflowr`][workflowr] package to organise the analysis and insert
+reproducibilty information into the output documents. The [`packrat`][packrat]
+package has also been used to manage R package versions and dependencies.
+
+Getting the code
+================
+
+All the code and outputs of analysis are available from GitHub at XXX. If you
+want to replicate the analysis you can either fork the repository and clone it
+or download the repository as a zipped directory.
+
+Once you have a local copy of the repository you should see the following
+directory structure:
+
+* `analysis/` - Contains the RMarkdown documents with the various stages of
+  analysis. These are numbered according to the order they should be run.
+* `data/` - This directory contains the data files used in the analysis with
+  each dataset in it's own sub-directory (see [Getting the data](#data) for
+  details). Processed intermediate data files will also be placed here.
+* `output/` - Directory for output files produced by the analysis, each analysis
+  step has it's own sub-directory.
+* `docs/` - This directory contains the analysis website hosted at XXX,
+  including image files.
+* `R/` - R scripts with custom functions used in some analysis stages.
+* `packrat/` - Directory created by `packrat` that contains details of the R
+  packages and versions used in the analysis.
+* `README.md` - README describing the project.
+* `.Rprofile` - Custom R profile for the project including set up for
+  `packrat` and `workflowr`.
+* `.gitignore` - Details of files and directories that are excluded from the
+  repository.
+* `_workflowr.yml` - Workflowr configuration file.
+* `combes-organoid-paper.Rproj` - RStudio project file.
+
+Installing packages
+===================
+
+Packages and dependencies for this project are managed using
+[`packrat`][packrat]. This should allow you to install and use the same package
+versions as we have used for the analysis. `packrat` should automatically take
+care of this process for you the first time that you open R in the project
+directory. If for some reason this does not happen you may need to run the
+following commands:
+
+```r
+install.packages("packrat")
+packrat::restore()
+```
+
+Note that a clean install of all the required packages can take a significant
+amount of time when the project is first opened.
+
+Getting the data {#data}
+================
+
+In this project we have used three scRNA-seq datasets, two batches of kidney
+organoids, the first containing three samples and the second a single organoid,
+and a human fetal kidney dataset published by Lindstrom et al. The organoid
+datasets can be downloaded from GEO accession number [GSE114802][geo-orgs] and
+the fetal kidney dataset from GEO [GSE102596][geo-lind].
+
+Once the datasets have been downloaded they need to be extracted, placed in the 
+correct directorys and renamed. The analysis code assumes the following
+directory structure inside the `data/` directory:
+
+* `Lindstrom/`
+    * `GSM2741551_count-table-human16w.tsv`
+* `Organoid123/`
+    * `barcodes.tsv`
+    * `genes.tsv`
+    * `matrix.mtx`
+* `Organoid4/`
+    * `barcodes.tsv`
+    * `genes.tsv`
+    * `matrix.mtx`
+  
+Additional data files used during the analysis are provided as part of the
+repository. Intermediate data files created during the analysis will be placed
+in `data/processed`. These are used by later stages of the analysis so should
+not be moved, altered or deleted.
+
+Running the analysis
+====================
+
+The analysis directory contains the following analysis files:
+
+* `01_Organoid123_QC.Rmd`
+* `02_Organoid4_QC.Rmd`
+* `03_Organoids_Integration.Rmd`
+* `04_Organoids_Clustering.Rmd`
+* `04B_Organoids_Nephron.Rmd`
+* `04C_Organoids_Trajectory.Rmd`
+* `04D_Organoids_Figures.Rmd`
+* `05_Lindstrom_QC.Rmd`
+* `06_Combined_Integration.Rmd`
+* `07_Combined_Clustering.Rmd`
+* `07B_Combined_Nephron.Rmd`
+* `07C_Combined_Trajectory.Rmd`
+* `07D_Combined_Figures.Rmd`
+* `08_Crossover.Rmd`
+* `99_Methods.Rmd`
+
+As indicated by the numbering they should be run in this order. If you want to
+rerun the entire analysis this can be easily done using `workflowr`.
+
+```r
+workflowr::wflow_build(republish = TRUE)
+```
+
+It is important to consider the computer and environment you are using before
+doing this. Running this analysis from scratch requires a considerable amount
+of time, disk space and memory. Some stages of the analysis also assume that
+multiple (10) cores are available for processing. If you have fewer cores
+available you will need to change the following line in the relevant files and
+provide the number of cores that are available for use.
+
+```r
+bpparam <- MulticoreParam(workers = 10)
+```
+
+It is also possible to run individual stages of the analysis, either by
+providing the names of the file you want to run to `workflowr::wflow_build()` or
+by manually knitting the document (for example using the 'Kint' button in
+RStudio).
+
+Caching
+-------
+
+To avoid having to repeatably rerun long running sections of the analysis we
+have turned on caching in the analysis documents. However, this comes at a
+tradeoff with disk space, useability and (potentially but unlikely if careful)
+reproducibility. In most cases this should not be a problem but it is something
+to be aware of. In particularly there is a incompatibilty with caching and
+`workflowr` that can cause images to not appear in the resulting HTML files (see
+this [GitHub issue][workflowr-issue] for more details). If you have already run
+part of the analysis (and therefore have a cache) and want to rerun a document
+the safest option is the use the RStudio 'Knit' button.
+
+[geo-orgs]: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE114802 "GEO Organoids"
+[geo-lind]: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE102596 "GEO Lindstrom"
+[packrat]: https://rstudio.github.io/packrat/ "Packrat"
+[workflowr]: https://jdblischak.github.io/workflowr/ "Workflowr"
+[workflowr-issue]: https://github.com/jdblischak/workflowr/issues/113 "Workflowr caching issue"
+
+Summary
+=======

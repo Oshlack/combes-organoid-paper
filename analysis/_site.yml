@@ -1,21 +1,52 @@
-name: "Combes Organoid Paper Analysis"
+name: "Combes Organoid scRNA-seq"
 output_dir: "../public"
 navbar:
-    title: "Combes Organoid Paper Analysis"
+    title: "Combes Organoid scRNA-seq"
     left:
-        - text: "Home"
-          href: index.html
-        - text: "About"
-          href: about.html
-        - text: "License"
-          href: license.html
+        - text: "Getting started"
+          href: getting_started.html
+        - text: "Quality control"
+          menu:
+          - text: "Organoids Batch 1"
+            href: 01_Organoid123_QC.html
+          - text: "Organoid 4"
+            href: 02_Organoid4_QC.html
+          - text: "Fetal kidney"
+            href: 05_Lindstrom_QC.html
+        - text: "Organoids"
+          menu:
+          - text: "Integration"
+            href: 03_Organoids_Integration.html
+          - text: "Clustering"
+            href: 04_Organoids_Clustering.html
+          - text: "Nephron"
+            href: 04B_Organoids_Nephron.html
+          - text: "Trajectory"
+            href: 04C_Organoids_Trajectory.html
+          - text: "Figures"
+            href: 04D_Organoids_Figures.html
+        - text: "Combined"
+          menu:
+          - text: "Integration"
+            href: 06_Combined_Integration.html
+          - text: "Clustering"
+            href: 07_Combined_Clustering.html
+          - text: "Nephron"
+            href: 07B_Combined_Nephron.html
+          - text: "Trajectory"
+            href: 07C_Combined_Trajectory.html
+          - text: "Figures"
+            href: 07D_Combined_Figures.html
+        - text: "Crossover"
+          href: 08_Crossover.html
+        - text: "Methods"
+          href: 99_Methods.html
     right:
         - icon: fa-github
-          href: https://github.com/jdblischak/workflowr
+          href: https://github.com/Oshlack/combes-organoid-paper
 output:
     workflowr::wflow_html:
         toc: true
         toc_float: true
         theme: cosmo
         highlight: textmate
-

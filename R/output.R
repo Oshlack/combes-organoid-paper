@@ -1,3 +1,13 @@
+#' Get download URL
+#'
+#' Convert an output file name and location to a URL that can be used to
+#' download the file.
+#'
+#' @param file name of the output file
+#' @param folder name of the directory in the output directory containing the
+#' output file
+#'
+#' @return URL linking to the file
 getDownloadURL <- function(file, folder = NULL) {
     remote <- workflowr::wflow_git_remote(verbose = FALSE)
 
