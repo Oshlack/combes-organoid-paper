@@ -9,7 +9,7 @@
 #'
 #' @return URL linking to the file
 getDownloadURL <- function(file, folder = NULL) {
-    remote <- workflowr::wflow_git_remote(verbose = FALSE)
+    remote <- workflowr::wflow_git_remote(verbose = FALSE)["origin"]
 
     url <- gsub(":", "/", remote)
     url <- gsub("git@", "http://", url)
