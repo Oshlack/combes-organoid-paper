@@ -399,7 +399,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-09-13</p>
+<p><strong>Last updated:</strong> 2018-11-20</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -423,21 +423,42 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/a99f69a60710197d91455cf95bc19315513b0ac9" target="_blank">a99f69a</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/933e8e4bfa43a8490598f7a6893b8674688fe27c" target="_blank">933e8e4</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    analysis/cache/
+    Ignored:    data/Lindstrom2/
+    Ignored:    data/processed.bak.20181031/
     Ignored:    data/processed.bak/
+    Ignored:    data/processed.lind2.20181114/
     Ignored:    packrat/lib-R/
     Ignored:    packrat/lib-ext/
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
 
 Untracked files:
+    Untracked:  500_de_genes.csv
+    Untracked:  analysis/cache.bak.20181031/
     Untracked:  analysis/cache.bak/
+    Untracked:  analysis/cache.lind2.20181114/
+    Untracked:  cluster_de_filtered.csv
+    Untracked:  cluster_de_filtered.xlsx
+    Untracked:  genes.csv
+    Untracked:  output/07_Combined_Clustering/cluster_de_filtered.csv
+    Untracked:  output/07_Combined_Clustering/cluster_de_filtered.xlsx
+    Untracked:  output/07_Combined_Clustering/de_signature.csv
+    Untracked:  removed_genes.csv
+
+Unstaged changes:
+    Modified:   output/07_Combined_Clustering/cluster_de.xlsx
+    Modified:   output/07_Combined_Clustering/conserved_markers.xlsx
+    Modified:   output/07_Combined_Clustering/group_de.csv
+    Modified:   output/07_Combined_Clustering/markers.xlsx
+    Modified:   output/07_Combined_Clustering/parameters.json
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -466,6 +487,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/933e8e4bfa43a8490598f7a6893b8674688fe27c/analysis/99_Methods.Rmd" target="_blank">933e8e4</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-20
+</td>
+<td style="text-align:left;">
+Create DE signature and filter results
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://github.com/Oshlack/combes-organoid-paper/a61f9c98a128e5dd7b637a5b07f5eb81a9e10978/docs/99_Methods.html" target="_blank">a61f9c9</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+<td style="text-align:left;">
+Rebuild site
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 Rmd
@@ -616,6 +671,7 @@ names(params) &lt;- str_remove(docs, &quot;[0-9A-Z]+_&quot;)</code></pre>
 <div id="combined" class="section level2">
 <h2>Combined</h2>
 <p>The combined organoid and human fetal kidney analysis used the procedure described for the organoid only analysis, but with slightly different parameters. We identified 1368 variable genes present in all three datasets and selected the first 20 canonical correlation dimensions. For clustering we chose a resolution of 0.5 which produced 16 clusters. Clusters 6, 7, 10 and 15 were determined to be the nephron lineage and these 1964 cells were re-clustered at a resolution of 0.6 producing 8 clusters.</p>
+<p>We also performed differential expression testing between the two datasets as a whole which was used to identify a signature of 374 genes that represent the main differences between them. To identify cell type specific differences between organoid and human fetal kidney we performed differential expression testing between cells within a cluster and removed genes from the overall differential expression signature.</p>
 </div>
 </div>
 <div id="visualisation-and-presentation" class="section level1">
@@ -700,7 +756,7 @@ names(params) &lt;- str_remove(docs, &quot;[0-9A-Z]+_&quot;)</code></pre>
  language (EN)                        
  collate  en_US.UTF-8                 
  tz       Australia/Melbourne         
- date     2018-09-13                  
+ date     2018-11-20                  
 
  package     * version date       source                            
  assertthat    0.2.0   2017-04-11 CRAN (R 3.5.0)                    

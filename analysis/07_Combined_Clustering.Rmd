@@ -609,44 +609,34 @@ de <- FindMarkers(combined, "Organoid", "Lindstrom", logfc.threshold = 0,
 ```
 
 ```{r print-trad-de}
-de %>% rownames_to_column("gene") %>% top_n(10, avg_logFC) %>% data.frame
-```
-
-We are also interested in differental expression between some specific clusters.
-Here we will test for differences between Cluster 7 and Cluster 15.
-
-```{r de-c7c15, cache.lazy = FALSE}
-combined <- SetAllIdent(combined, id = "Cluster")
-
-de.c7c15 <- FindMarkers(combined, 7, 15, logfc.threshold = 0,
-                        min.pct = 0.1, print.bar = FALSE)
-
-de.c7c15 <- de.c7c15 %>% rownames_to_column("gene") %>%
-    arrange(-avg_logFC)
-
-de.c7c15 %>%
-    top_n(10, avg_logFC) %>% data.frame
-```
-
-We can also test for differences between these cluster, considering only the
-cells from the Lindstrom dataset.
-
-```{r de-c7c15.lind, cache.lazy = FALSE}
-combined <- SetAllIdent(combined, id = "GroupCluster")
-
-de.c7c15.lind <- FindMarkers(combined, "Lindstrom_7", "Lindstrom_15",
-                             logfc.threshold = 0,
-                             min.pct = 0.1, print.bar = FALSE)
-
-de.c7c15.lind <- de.c7c15.lind %>% rownames_to_column("gene") %>%
-    arrange(-avg_logFC)
-
-de.c7c15.lind %>%
-    top_n(10, avg_logFC) %>% data.frame
+de <- de %>% rownames_to_column("gene")
+de %>% top_n(10, avg_logFC) %>% data.frame
 ```
 
 ```{r reset-ident, cache.lazy = FALSE}
 combined <- SetAllIdent(combined, id = "Cluster")
+```
+
+From these results we can identify an overall signature of the differences
+between the datasets by selecting significant genes with an absolute log
+foldchange greater than 0.5.
+
+```{r de-sig}
+de.sig <- de %>%
+    filter(p_val_adj < 0.05, abs(avg_logFC) > 0.5) %>%
+    pull(gene)
+```
+
+This identifies a signature with `r length(de.sig)` genes.
+
+This signature can then be removed from the within cluster differential
+expression results to better highlight biological differences.
+
+```{r filter-cluster-de}
+cluster.de.filt <- filter(cluster.de, !(gene %in% de.sig))
+
+cluster.de.list.filt <- map(cluster.de.list,
+                            function(x) {filter(x, !(Gene %in% de.sig))})
 ```
 
 Gene plots
@@ -748,6 +738,11 @@ params <- toJSON(list(
         Parameter = "skipped",
         Value = paste(seq(0, n.clusts - 1))[skip],
         Description = "Clusters skipped for conserved marker and DE testing"
+    ),
+    list(
+        Parameter = "n.sig",
+        Value = length(de.sig),
+        Description = "Number of genes in the group DE signature"
     )
 ), pretty = TRUE)
 
@@ -796,8 +791,11 @@ write_xlsx(con.markers.list, here("output", DOCNAME, "conserved_markers.xlsx"))
 write_csv(cluster.de, here("output", DOCNAME, "cluster_de.csv"))
 write_xlsx(cluster.de.list, here("output", DOCNAME, "cluster_de.xlsx"))
 write_csv(de, here("output", DOCNAME, "group_de.csv"))
-write_csv(de.c7c15, here("output", DOCNAME, "c7_c15_de.csv"))
-write_csv(de.c7c15.lind, here("output", DOCNAME, "c7_c15_lind_de.csv"))
+write_csv(data.frame(Gene = de.sig),
+          here("output", DOCNAME, "de_signature.csv"))
+write_csv(cluster.de.filt, here("output", DOCNAME, "cluster_de_filtered.csv"))
+write_xlsx(cluster.de.list.filt,
+           here("output", DOCNAME, "cluster_de_filtered.xlsx"))
 
 kable(data.frame(
     File = c(
@@ -817,8 +815,12 @@ kable(data.frame(
         glue("[cluster_de.xlsx]",
              "({getDownloadURL('cluster_de.xlsx', DOCNAME)})"),
         glue("[group_de.csv]({getDownloadURL('group_de.csv', DOCNAME)})"),
-        glue("[c7_c15_de.csv]({getDownloadURL('c7_c15_de.csv', DOCNAME)})"),
-        glue("[c7_c15_lind_de.csv]({getDownloadURL('c7_c15_lind_de.csv', DOCNAME)})")
+        glue("[de_signature.csv]",
+             "({getDownloadURL('de_signature.csv', DOCNAME)})"),
+        glue("[cluster_de_filtered.csv]",
+             "({getDownloadURL('cluster_de_filtered.csv', DOCNAME)})"),
+        glue("[cluster_de_filtered.xlsx]",
+             "({getDownloadURL('cluster_de_filtered.xlsx', DOCNAME)})")
     ),
     Description = c(
         "Parameters set and used in this analysis",
@@ -836,10 +838,13 @@ kable(data.frame(
              "in XLSX format with one cluster per tab"),
         paste("Results of between group differential expression testing",
              "in CSV format"),
-        paste("Results of differential expression testing between Cluster 7 and",
-             "Cluster 15 in CSV format"),
-        paste("Results of differential expression testing between Lindstorm",  
-              "Cluster 7 and Cluster 15 in CSV format")
+        "Between group differential expression signature genes",
+        paste("Results of within cluster differential expression testing",
+             "after removing group DE signature in CSV format"),
+        paste("Results of within cluster differential expression testing",
+             "after removing group DE signature in XLSX format with one",
+             "cluster per tab")
+        )
     )
-))
+)
 ```

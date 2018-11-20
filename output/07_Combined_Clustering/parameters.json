@@ -18,5 +18,10 @@
     "Parameter": ["skipped"],
     "Value": ["14", "15"],
     "Description": ["Clusters skipped for conserved marker and DE testing"]
+  },
+  {
+    "Parameter": ["n.sig"],
+    "Value": [374],
+    "Description": ["Number of genes in the group DE signature"]
   }
 ]

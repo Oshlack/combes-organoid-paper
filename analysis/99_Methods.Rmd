@@ -182,6 +182,14 @@ were determined to be the nephron lineage and these
 `r params$Combined_Nephron$res` producing `r params$Combined_Nephron$n.clusts`
 clusters.
 
+We also performed differential expression testing between the two datasets as a
+whole which was used to identify a signature of
+`r params$Combined_Clustering$n.sig` genes that represent the main differences
+between them. To identify cell type specific differences between organoid and
+human fetal kidney we performed differential expression testing between cells
+within a cluster and removed genes from the overall differential expression
+signature.
+
 Visualisation and presentation
 ==============================
 
