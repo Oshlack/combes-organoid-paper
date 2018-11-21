@@ -35,6 +35,7 @@ library("tidyverse")
 
 ```{r source, cache = FALSE}
 source(here("R/output.R"))
+source(here("R/crossover.R"))
 ```
 
 ```{r paths}
@@ -110,34 +111,6 @@ size of the intersect divided by the size of the union. This will highlight
 clusters that are particularly similar. We will also label cells with the
 proportion of samples in a cluster that are also in another, so that rows and
 columns will each sum to one (using a separate colour for each).
-
-```{r summ-clusts}
-summariseClusts <- function(clusts, clust1, clust2) {
-    clust1 <- enquo(clust1)
-    clust2 <- enquo(clust2)
-    
-    clusts %>%
-        filter(!is.na(!!clust1) & !is.na(!!clust2)) %>%
-        group_by(!!clust1, !!clust2) %>%
-        summarise(Count = n()) %>%
-        ungroup() %>%
-        complete(!!clust1, !!clust2) %>%
-        mutate(!!quo_name(clust1) := factor(!!clust1),
-               !!quo_name(clust2) := factor(!!clust2)) %>%
-        group_by(!!clust1) %>%
-        mutate(!!paste0(quo_name(clust1), "Total") := sum(Count, na.rm = TRUE),
-               !!paste0(quo_name(clust1), "Pct") :=
-                   Count / sum(Count, na.rm = TRUE)) %>%
-        group_by(!!clust2) %>%
-        mutate(!!paste0(quo_name(clust2), "Total") := sum(Count, na.rm = TRUE),
-               !!paste0(quo_name(clust2), "Pct") :=
-                   Count / sum(Count, na.rm = TRUE)) %>%
-        mutate(Jaccard = Count / 
-                   (!!rlang::sym(paste0(quo_name(clust1), "Total")) +
-                        !!rlang::sym(paste0(quo_name(clust2), "Total")) -
-                        Count))
-}
-```
 
 Organoids
 =========
