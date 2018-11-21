@@ -718,8 +718,8 @@ write_csv(con.markers, here("output", DOCNAME, "conserved_markers.csv"))
 write_xlsx(con.markers.list, here("output", DOCNAME, "conserved_markers.xlsx"))
 write_csv(cluster.de, here("output", DOCNAME, "cluster_de.csv"))
 write_xlsx(cluster.de.list, here("output", DOCNAME, "cluster_de.xlsx"))
-write_csv(cluster.de, here("output", DOCNAME, "cluster_de_filtered.csv"))
-write_xlsx(cluster.de.list, here("output", DOCNAME, "cluster_de_filtered.xlsx"))
+write_csv(cluster.de.filt, here("output", DOCNAME, "cluster_de_filtered.csv"))
+write_xlsx(cluster.de.list.filt, here("output", DOCNAME, "cluster_de_filtered.xlsx"))
 
 kable(data.frame(
     File = c(
