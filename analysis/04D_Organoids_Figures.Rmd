@@ -264,17 +264,138 @@ ggsave(here("output", DOCNAME, "figure1D.pdf"), f1D,
 f1D
 ```
 
+Figure 1E
+=========
+
+```{r fig-1E}
+annot.data <- tribble(
+    ~Text,      ~x,   ~y, ~State,
+    "State 1",   7, -2.5,    "1",
+    "State 2",  -7,  1.5,    "2",
+    "State 3",   6,  4.5,    "3"
+)
+
+f1E <- plot_cell_trajectory(orgs.neph.cds,
+                            color_by = "State", cell_size = 3) +
+    geom_text(data = annot.data,
+              aes(x = x, y = y, label = Text, colour = State),
+              size = 8) +
+    guides(colour = guide_legend(nrow = 2, override.aes = list(size = 8),
+                                 label.theme = element_text(size = 11))) +
+    theme_cowplot() +
+    theme(legend.position = "none")
+
+ggsave(here("output", DOCNAME, "figure1E.png"), f1E,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure1E.pdf"), f1E,
+       height = 8, width = 10)
+
+f1E
+```
+
+Figure 1F
+=========
+
+```{r fig-1F}
+plot.genes <- c("PODXL", "NPHS1", "DAPL1", "LYPD1", "CDH6", "PAX2")
+
+f1F <- plot_genes_branched_pseudotime(
+        orgs.neph.cds[plot.genes, ],
+        branch_point = 1,
+        branch_labels = c("Nephron", "Tubule"),
+        ncol = 2,
+        panel_order = plot.genes,
+        color_by = "State",
+        trend_formula = "~ sm.ns(Pseudotime, df=2) * Branch"
+    ) +
+    theme(legend.position = "bottom")
+
+ggsave(here("output", DOCNAME, "figure1F.png"), f1F,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure1F.pdf"), f1F,
+       height = 8, width = 10)
+
+f1F
+```
+
+Figure 1G
+=========
+
+```{r fig-1G}
+plot.genes <- c("TCF21", "PODXL", "VEGFA", "NPHS1", "PTPRO", "CTGF", "OLFM3",
+                "MAFB", "DAPL1", "LYPD1", "SIX1", "CRABP2", "IGFBP7", "FXYD2",
+                "CDH6", "HNF1B", "EPCAM", "EMX2", "SPP1", "MAL", "PAX2")
+
+gene.groups <- factor(c(rep("Podocyte", 5),
+                        rep("Proximal early nephron", 3),
+                        rep("Nephron progenitor", 4),
+                        rep("Proximal precursor", 4),
+                        rep("Distal precursor", 5)),
+                      levels = c("Podocyte", "Proximal early nephron",
+                                 "Nephron progenitor", "Proximal precursor",
+                                 "Distal precursor"))
+names(gene.groups) <- plot.genes
+
+clust.labs <- c(
+    "ON0",
+    "ON1",
+    "ON2",
+    "ON3",
+    "ON4"
+)
+
+plot.data <- data.frame(FetchData(orgs.neph, vars.all = plot.genes)) %>%
+    rownames_to_column("Cell") %>%
+    mutate(Cluster = orgs.neph@ident) %>%
+    gather(key = "Gene", value = "Expr", -Cell, -Cluster) %>%
+    group_by(Cluster, Gene) %>%
+    summarize(AvgExpr = mean(expm1(Expr)),
+              PctExpr = Seurat:::PercentAbove(Expr, threshold = 0) * 100) %>%
+    group_by(Gene) %>%
+    mutate(AvgExprScale = scale(AvgExpr)) %>%
+    mutate(AvgExprScale = Seurat::MinMax(AvgExprScale,
+                                         max = 2.5, min = -2.5)) %>%
+    ungroup() %>%
+    mutate(Group = gene.groups[Gene]) %>%
+    mutate(Gene = factor(Gene, levels = plot.genes))
+
+f1G <- ggplot(plot.data,
+              aes(x = Gene, y = Cluster, size = PctExpr, colour = AvgExprScale)) +
+       geom_point() +
+       scale_radius(range = c(0, 10)) +
+       scale_colour_viridis_c() +
+       scale_y_discrete(labels = clust.labs) +
+       facet_grid(~ Group, scales = "free_x") +
+       theme(axis.title.x = element_blank(),
+             axis.title.y = element_blank(),
+             axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+             panel.spacing = unit(x = 1, units = "lines"),
+             strip.background = element_blank(),
+             strip.placement = "outside",
+             legend.position = "none")
+
+ggsave(here("output", DOCNAME, "figure1G.png"), f1G,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure1G.pdf"), f1G,
+       height = 8, width = 10)
+
+f1G
+```
+
 Figure 1 Panel
 ==============
 
 ```{r fig1-panel, fig.height = 18, fig.width = 16}
-leg <- get_legend(f1C + theme_minimal() + theme(legend.title = element_blank()))
-
-p1 <- plot_grid(f1A, f1B,
-                f1C + theme(legend.position = "none"),
-                f1D + theme(legend.position = "none"), nrow = 2,
-                labels = c("A", "B", "C", "D"))
-panel <- plot_grid(p1, leg, ncol = 1, rel_heights = c(1, 0.1)) 
+p1 <- plot_grid(f1D + theme(legend.position = "none"), f1E,
+                nrow = 1, labels = c("D", "E"))
+p2 <- plot_grid(p1, f1F,
+                nrow = 2, labels = c("", "F"))
+p3 <- plot_grid(f1A, f1B,
+                f1C, p2,
+                nrow = 2, labels = c("A", "B", "C", ""))
+panel <- plot_grid(p3, f1G,
+                   nrow = 2, labels = c("", "G"),
+                   rel_heights = c(1, 0.2)) 
 
 ggsave(here("output", DOCNAME, "figure1_panel.png"), panel,
        height = 18, width = 16)
@@ -304,6 +425,12 @@ kable(data.frame(
         glue("[figure1C.pdf]({getDownloadURL('figure1C.pdf', DOCNAME)})"),
         glue("[figure1D.png]({getDownloadURL('figure1D.png', DOCNAME)})"),
         glue("[figure1D.pdf]({getDownloadURL('figure1D.pdf', DOCNAME)})"),
+        glue("[figure1E.png]({getDownloadURL('figure1D.png', DOCNAME)})"),
+        glue("[figure1E.pdf]({getDownloadURL('figure1D.pdf', DOCNAME)})"),
+        glue("[figure1F.png]({getDownloadURL('figure1D.png', DOCNAME)})"),
+        glue("[figure1F.pdf]({getDownloadURL('figure1D.pdf', DOCNAME)})"),
+        glue("[figure1G.png]({getDownloadURL('figure1D.png', DOCNAME)})"),
+        glue("[figure1G.pdf]({getDownloadURL('figure1D.pdf', DOCNAME)})"),
         glue("[figure1_panel.png]({getDownloadURL('figure1_panel.png', DOCNAME)})"),
         glue("[figure1_panel.pdf]({getDownloadURL('figure1_panel.pdf', DOCNAME)})")
     ),
@@ -316,6 +443,12 @@ kable(data.frame(
         "Figure 1C in PDF format",
         "Figure 1D in PNG format",
         "Figure 1D in PDF format",
+        "Figure 1E in PNG format",
+        "Figure 1E in PDF format",
+        "Figure 1F in PNG format",
+        "Figure 1F in PDF format",
+        "Figure 1G in PNG format",
+        "Figure 1G in PDF format",
         "Figure panel in PNG format",
         "Figure panel in PDF format"
     )
