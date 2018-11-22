@@ -8,7 +8,7 @@
 analysis/figure
 analysis/*png
 analysis/*html
-analysis/cache
+analysis/cache*
 analysis/site_libs
 
 data/

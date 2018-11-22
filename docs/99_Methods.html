@@ -399,7 +399,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-11-20</p>
+<p><strong>Last updated:</strong> 2018-11-23</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -423,13 +423,16 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/933e8e4bfa43a8490598f7a6893b8674688fe27c" target="_blank">933e8e4</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/b80eb49ffc59c56fa02b12bf1f87145c41f0058e" target="_blank">b80eb49</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    analysis/cache.bak.20181031/
+    Ignored:    analysis/cache.bak/
+    Ignored:    analysis/cache.lind2.20181114/
     Ignored:    analysis/cache/
     Ignored:    data/Lindstrom2/
     Ignored:    data/processed.bak.20181031/
@@ -439,26 +442,6 @@ Ignored files:
     Ignored:    packrat/lib-ext/
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
-
-Untracked files:
-    Untracked:  500_de_genes.csv
-    Untracked:  analysis/cache.bak.20181031/
-    Untracked:  analysis/cache.bak/
-    Untracked:  analysis/cache.lind2.20181114/
-    Untracked:  cluster_de_filtered.csv
-    Untracked:  cluster_de_filtered.xlsx
-    Untracked:  genes.csv
-    Untracked:  output/07_Combined_Clustering/cluster_de_filtered.csv
-    Untracked:  output/07_Combined_Clustering/cluster_de_filtered.xlsx
-    Untracked:  output/07_Combined_Clustering/de_signature.csv
-    Untracked:  removed_genes.csv
-
-Unstaged changes:
-    Modified:   output/07_Combined_Clustering/cluster_de.xlsx
-    Modified:   output/07_Combined_Clustering/conserved_markers.xlsx
-    Modified:   output/07_Combined_Clustering/group_de.csv
-    Modified:   output/07_Combined_Clustering/markers.xlsx
-    Modified:   output/07_Combined_Clustering/parameters.json
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -492,7 +475,58 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="http://github.com/Oshlack/combes-organoid-paper/blob/933e8e4bfa43a8490598f7a6893b8674688fe27c/analysis/99_Methods.Rmd" target="_blank">933e8e4</a>
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/b80eb49ffc59c56fa02b12bf1f87145c41f0058e/analysis/99_Methods.Rmd" target="_blank">b80eb49</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+<td style="text-align:left;">
+Minor fixes to output
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://github.com/Oshlack/combes-organoid-paper/b80eb49ffc59c56fa02b12bf1f87145c41f0058e/docs/99_Methods.html" target="_blank">b80eb49</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+<td style="text-align:left;">
+Minor fixes to output
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/d79b8e79e7544bcb72b08d362d628684de3e9663/analysis/99_Methods.Rmd" target="_blank">d79b8e7</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-20
+</td>
+<td style="text-align:left;">
+Create DE signature and filter results
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://github.com/Oshlack/combes-organoid-paper/d79b8e79e7544bcb72b08d362d628684de3e9663/docs/99_Methods.html" target="_blank">d79b8e7</a>
 </td>
 <td style="text-align:left;">
 Luke Zappia
@@ -676,7 +710,7 @@ names(params) &lt;- str_remove(docs, &quot;[0-9A-Z]+_&quot;)</code></pre>
 </div>
 <div id="visualisation-and-presentation" class="section level1">
 <h1>Visualisation and presentation</h1>
-<p>Figures shown here were produced using functions in the Seurat, Monocle and clustree packages. Additional plots and customisations were created using the ggplot2 (v3.0.0) <span class="citation">(Wickham 2010)</span> and cowplot (v0.9.3) <span class="citation">(Wilke 2018)</span> packages. The analysis project was managed using the workflowr (v1.1.1) <span class="citation">(Blischak, Carbonetto, and Stephens 2018)</span> package which was also used to produce the publically available website displaying the analysis code, results and output.</p>
+<p>Figures shown here were produced using functions in the Seurat, Monocle and clustree packages. Additional plots and customisations were created using the ggplot2 (v3.0.0) <span class="citation">(Wickham 2010)</span> and cowplot (v0.9.3) <span class="citation">(Wilke 2018)</span> packages. The analysis project was managed using the workflowr (v1.1.1) <span class="citation">(Blischak, Carbonetto, and Stephens 2018)</span> package which was also used to produce the publicly available website displaying the analysis code, results and output.</p>
 </div>
 <div id="availability" class="section level1">
 <h1>Availability</h1>
@@ -756,7 +790,7 @@ names(params) &lt;- str_remove(docs, &quot;[0-9A-Z]+_&quot;)</code></pre>
  language (EN)                        
  collate  en_US.UTF-8                 
  tz       Australia/Melbourne         
- date     2018-11-20                  
+ date     2018-11-23                  
 
  package     * version date       source                            
  assertthat    0.2.0   2017-04-11 CRAN (R 3.5.0)                    

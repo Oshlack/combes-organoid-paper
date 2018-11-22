@@ -401,7 +401,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-09-13</p>
+<p><strong>Last updated:</strong> 2018-11-23</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -425,27 +425,31 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/ad10b21a8d0eab94e778f482d3771118937de0b0" target="_blank">ad10b21</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/7d8a1dd3ae6033f0e902d46fc31abe04bc98d482" target="_blank">7d8a1dd</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    analysis/cache.bak.20181031/
+    Ignored:    analysis/cache.bak/
+    Ignored:    analysis/cache.lind2.20181114/
     Ignored:    analysis/cache/
+    Ignored:    data/Lindstrom2/
+    Ignored:    data/processed.bak.20181031/
     Ignored:    data/processed.bak/
+    Ignored:    data/processed.lind2.20181114/
     Ignored:    packrat/lib-R/
     Ignored:    packrat/lib-ext/
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
 
-Untracked files:
-    Untracked:  analysis/cache.bak/
-
 Unstaged changes:
-    Modified:   analysis/99_Methods.Rmd
-
-Staged changes:
-    Deleted:    output/README.md
+    Modified:   .gitignore
+    Modified:   output/04_Organoids_Clustering/cluster_de.xlsx
+    Modified:   output/04_Organoids_Clustering/conserved_markers.xlsx
+    Modified:   output/04_Organoids_Clustering/markers.xlsx
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -474,6 +478,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/7d8a1dd3ae6033f0e902d46fc31abe04bc98d482/analysis/04B_Organoids_Nephron.Rmd" target="_blank">7d8a1dd</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+<td style="text-align:left;">
+Minor fixes to output
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://github.com/Oshlack/combes-organoid-paper/a61f9c98a128e5dd7b637a5b07f5eb81a9e10978/docs/04B_Organoids_Nephron.html" target="_blank">a61f9c9</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+<td style="text-align:left;">
+Rebuild site
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 html
@@ -1523,39 +1561,39 @@ kable(data.frame(
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/parameters.json">parameters.json</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/parameters.json">parameters.json</a></td>
 <td align="left">Parameters set and used in this analysis</td>
 </tr>
 <tr class="even">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/cluster_assignments.csv">cluster_assignments.csv</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/cluster_assignments.csv">cluster_assignments.csv</a></td>
 <td align="left">Cluster assignments for each cell</td>
 </tr>
 <tr class="odd">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/cluster_expression.csv">cluster_expression.csv</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/cluster_expression.csv">cluster_expression.csv</a></td>
 <td align="left">Cluster expression for each gene</td>
 </tr>
 <tr class="even">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/markers.csv">markers.csv</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/markers.csv">markers.csv</a></td>
 <td align="left">Results of marker gene testing in CSV format</td>
 </tr>
 <tr class="odd">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/markers.xlsx">markers.xlsx</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/markers.xlsx">markers.xlsx</a></td>
 <td align="left">Results of marker gene testing in XLSX format with one tab per cluster</td>
 </tr>
 <tr class="even">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/conserved_markers.csv">conserved_markers.csv</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/conserved_markers.csv">conserved_markers.csv</a></td>
 <td align="left">Results of conserved marker gene testing in CSV format</td>
 </tr>
 <tr class="odd">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/conserved_markers.xlsx">conserved_markers.xlsx</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/conserved_markers.xlsx">conserved_markers.xlsx</a></td>
 <td align="left">Results of conserved marker gene testing in XLSX format with one tab per cluster</td>
 </tr>
 <tr class="even">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/cluster_de.csv">cluster_de.csv</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/cluster_de.csv">cluster_de.csv</a></td>
 <td align="left">Results of within cluster differential expression testing in CSV format</td>
 </tr>
 <tr class="odd">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/cluster_de.xlsx">cluster_de.xlsx</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/04B_Organoids_Nephron/cluster_de.xlsx">cluster_de.xlsx</a></td>
 <td align="left">Results of within cluster differential expression testing in XLSX format with one cluster per tab</td>
 </tr>
 </tbody>
@@ -1571,7 +1609,7 @@ kable(data.frame(
  language (EN)                        
  collate  en_US.UTF-8                 
  tz       Australia/Melbourne         
- date     2018-08-13                  
+ date     2018-11-23                  
 
  package       * version    date       source                            
  abind           1.4-5      2016-07-21 cran (@1.4-5)                     
@@ -1620,7 +1658,7 @@ kable(data.frame(
  FNN             1.1        2013-07-31 cran (@1.1)                       
  forcats       * 0.3.0      2018-02-19 CRAN (R 3.5.0)                    
  foreach         1.4.4      2017-12-12 cran (@1.4.4)                     
- foreign         0.8-70     2017-11-28 CRAN (R 3.5.0)                    
+ foreign         0.8-71     2018-07-20 CRAN (R 3.5.0)                    
  Formula         1.2-3      2018-05-03 cran (@1.2-3)                     
  fpc             2.1-11.1   2018-07-20 cran (@2.1-11.)                   
  gbRd            0.4-11     2012-10-01 cran (@0.4-11)                    
@@ -1643,6 +1681,7 @@ kable(data.frame(
  gtools          3.8.1      2018-06-26 cran (@3.8.1)                     
  haven           1.1.2      2018-06-27 CRAN (R 3.5.0)                    
  here          * 0.1        2017-05-28 CRAN (R 3.5.0)                    
+ highr           0.7        2018-06-09 CRAN (R 3.5.0)                    
  Hmisc           4.1-1      2018-01-03 cran (@4.1-1)                     
  hms             0.4.2      2018-03-10 CRAN (R 3.5.0)                    
  htmlTable       1.12       2018-05-26 cran (@1.12)                      
@@ -1728,7 +1767,7 @@ kable(data.frame(
  stats4          3.5.0      2018-06-18 local                             
  stringi         1.2.4      2018-07-20 cran (@1.2.4)                     
  stringr       * 1.3.1      2018-05-10 CRAN (R 3.5.0)                    
- survival        2.42-3     2018-04-16 CRAN (R 3.5.0)                    
+ survival        2.42-6     2018-07-13 CRAN (R 3.5.0)                    
  tclust          1.4-1      2018-05-24 cran (@1.4-1)                     
  tibble        * 1.4.2      2018-01-22 cran (@1.4.2)                     
  tidyr         * 0.8.1      2018-05-18 cran (@0.8.1)                     

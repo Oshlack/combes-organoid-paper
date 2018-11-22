@@ -7,8 +7,8 @@ seed: 20180730
 # _workflowr.yml. See ?rmarkdown::render for details.
 knit_root_dir: "."
 
-# Use devtools session info
-sessioninfo: "devtools::session_info()"
+# Manually insert session info
+sessioninfo: ""
 
 # Set link URL
 github: "http://github.com/Oshlack/combes-organoid-paper"

@@ -198,7 +198,7 @@ clustree packages. Additional plots and customisations were created using the
 ggplot2 (v`r packageVersion("ggplot2")`) [@Wickham2010-zq] and cowplot
 (v`r packageVersion("cowplot")`) [@R-cowplot] packages. The analysis project
 was managed using the workflowr (v`r packageVersion("workflowr")`)
-[@R-workflowr] package which was also used to produce the publically available
+[@R-workflowr] package which was also used to produce the publicly available
 website displaying the analysis code, results and output.
 
 Availability
@@ -213,3 +213,12 @@ available at https://github.com/Oshlack/combes-organoid-paper.
 
 References
 ==========
+
+<div id="refs"></div>
+
+Session information
+-------------------
+
+```{r session-info, cache = FALSE}
+devtools::session_info()
+```

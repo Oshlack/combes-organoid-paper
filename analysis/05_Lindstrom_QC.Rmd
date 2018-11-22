@@ -610,3 +610,10 @@ kable(data.frame(
     )
 ))
 ```
+
+Session information
+-------------------
+
+```{r session-info, cache = FALSE}
+devtools::session_info()
+```

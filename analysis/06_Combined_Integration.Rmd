@@ -41,6 +41,7 @@ library("tidyverse")
 
 ```{r source, cache = FALSE}
 source(here("R/output.R"))
+source(here("R/seurat_helpers.R"))
 ```
 
 ```{r paths}
@@ -285,4 +286,11 @@ kable(data.frame(
         "Parameters set and used in this analysis"
     )
 ))
+```
+
+Session information
+-------------------
+
+```{r session-info, cache = FALSE}
+devtools::session_info()
 ```

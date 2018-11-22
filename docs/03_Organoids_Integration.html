@@ -399,7 +399,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-09-13</p>
+<p><strong>Last updated:</strong> 2018-11-23</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -423,27 +423,28 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/ad10b21a8d0eab94e778f482d3771118937de0b0" target="_blank">ad10b21</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/7d8a1dd3ae6033f0e902d46fc31abe04bc98d482" target="_blank">7d8a1dd</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    analysis/cache.bak.20181031/
+    Ignored:    analysis/cache.bak/
+    Ignored:    analysis/cache.lind2.20181114/
     Ignored:    analysis/cache/
+    Ignored:    data/Lindstrom2/
+    Ignored:    data/processed.bak.20181031/
     Ignored:    data/processed.bak/
+    Ignored:    data/processed.lind2.20181114/
     Ignored:    packrat/lib-R/
     Ignored:    packrat/lib-ext/
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
 
-Untracked files:
-    Untracked:  analysis/cache.bak/
-
 Unstaged changes:
-    Modified:   analysis/99_Methods.Rmd
-
-Staged changes:
-    Deleted:    output/README.md
+    Modified:   .gitignore
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -472,6 +473,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/7d8a1dd3ae6033f0e902d46fc31abe04bc98d482/analysis/03_Organoids_Integration.Rmd" target="_blank">7d8a1dd</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+<td style="text-align:left;">
+Minor fixes to output
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://github.com/Oshlack/combes-organoid-paper/a61f9c98a128e5dd7b637a5b07f5eb81a9e10978/docs/03_Organoids_Integration.html" target="_blank">a61f9c9</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+<td style="text-align:left;">
+Rebuild site
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 html
@@ -735,7 +770,7 @@ kable(data.frame(
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/03_Organoids_Integration/parameters.json">parameters.json</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/03_Organoids_Integration/parameters.json">parameters.json</a></td>
 <td align="left">Parameters set and used in this analysis</td>
 </tr>
 </tbody>
@@ -751,7 +786,7 @@ kable(data.frame(
  language (EN)                        
  collate  en_US.UTF-8                 
  tz       Australia/Melbourne         
- date     2018-08-01                  
+ date     2018-11-23                  
 
  package              * version    date      
  abind                  1.4-5      2016-07-21
@@ -763,7 +798,7 @@ kable(data.frame(
  base64enc              0.1-3      2015-07-28
  bibtex                 0.4.2      2017-06-30
  bindr                  0.1.1      2018-03-13
- bindrcpp               0.2.2      2018-03-29
+ bindrcpp             * 0.2.2      2018-03-29
  Biobase              * 2.40.0     2018-07-30
  BiocGenerics         * 0.26.0     2018-07-30
  BiocParallel         * 1.14.2     2018-07-08
@@ -802,7 +837,7 @@ kable(data.frame(
  FNN                    1.1        2013-07-31
  forcats              * 0.3.0      2018-02-19
  foreach                1.4.4      2017-12-12
- foreign                0.8-70     2017-11-28
+ foreign                0.8-71     2018-07-20
  Formula                1.2-3      2018-05-03
  fpc                    2.1-11.1   2018-07-20
  gbRd                   0.4-11     2012-10-01
@@ -814,7 +849,7 @@ kable(data.frame(
  ggplot2              * 3.0.0      2018-07-03
  ggridges               0.5.0      2018-04-05
  git2r                  0.21.0     2018-01-04
- glue                   1.3.0      2018-07-17
+ glue                 * 1.3.0      2018-07-17
  gower                  0.1.2      2017-02-23
  gplots                 3.0.1      2016-03-30
  graphics             * 3.5.0      2018-06-18
@@ -825,6 +860,7 @@ kable(data.frame(
  gtools                 3.8.1      2018-06-26
  haven                  1.1.2      2018-06-27
  here                 * 0.1        2017-05-28
+ highr                  0.7        2018-06-09
  Hmisc                  4.1-1      2018-01-03
  hms                    0.4.2      2018-03-10
  htmlTable              1.12       2018-05-26
@@ -837,10 +873,10 @@ kable(data.frame(
  IRanges              * 2.14.10    2018-07-30
  irlba                  2.3.2      2018-01-11
  iterators              1.0.10     2018-07-13
- jsonlite               1.5        2017-06-01
+ jsonlite             * 1.5        2017-06-01
  kernlab                0.9-26     2018-04-30
  KernSmooth             2.23-15    2015-06-29
- knitr                  1.20       2018-02-20
+ knitr                * 1.20       2018-02-20
  lars                   1.2        2013-04-24
  lattice                0.20-35    2017-03-25
  latticeExtra           0.6-28     2016-02-09
@@ -916,7 +952,7 @@ kable(data.frame(
  stringi                1.2.4      2018-07-20
  stringr              * 1.3.1      2018-05-10
  SummarizedExperiment * 1.10.1     2018-07-30
- survival               2.42-3     2018-04-16
+ survival               2.42-6     2018-07-13
  tclust                 1.4-1      2018-05-24
  tibble               * 1.4.2      2018-01-22
  tidyr                * 0.8.1      2018-05-18
@@ -1006,6 +1042,7 @@ kable(data.frame(
  cran (@2.3)                       
  cran (@0.2.0)                     
  cran (@3.8.1)                     
+ CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
  cran (@4.1-1)                     

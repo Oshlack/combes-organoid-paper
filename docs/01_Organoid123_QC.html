@@ -399,7 +399,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-09-13</p>
+<p><strong>Last updated:</strong> 2018-11-23</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -423,27 +423,27 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/ad10b21a8d0eab94e778f482d3771118937de0b0" target="_blank">ad10b21</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/7d8a1dd3ae6033f0e902d46fc31abe04bc98d482" target="_blank">7d8a1dd</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    analysis/cache/
+    Ignored:    data/Lindstrom2/
+    Ignored:    data/processed.bak.20181031/
     Ignored:    data/processed.bak/
+    Ignored:    data/processed.lind2.20181114/
     Ignored:    packrat/lib-R/
     Ignored:    packrat/lib-ext/
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
 
 Untracked files:
+    Untracked:  analysis/cache.bak.20181031/
     Untracked:  analysis/cache.bak/
-
-Unstaged changes:
-    Modified:   analysis/99_Methods.Rmd
-
-Staged changes:
-    Deleted:    output/README.md
+    Untracked:  analysis/cache.lind2.20181114/
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -472,6 +472,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/7d8a1dd3ae6033f0e902d46fc31abe04bc98d482/analysis/01_Organoid123_QC.Rmd" target="_blank">7d8a1dd</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+<td style="text-align:left;">
+Minor fixes to output
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://github.com/Oshlack/combes-organoid-paper/a61f9c98a128e5dd7b637a5b07f5eb81a9e10978/docs/01_Organoid123_QC.html" target="_blank">a61f9c9</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+<td style="text-align:left;">
+Rebuild site
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 html
@@ -1725,7 +1759,7 @@ kable(data.frame(
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/01_Organoid123_QC/parameters.json">parameters.json</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/01_Organoid123_QC/parameters.json">parameters.json</a></td>
 <td align="left">Parameters set and used in this analysis</td>
 </tr>
 </tbody>
@@ -1741,47 +1775,35 @@ kable(data.frame(
  language (EN)                        
  collate  en_US.UTF-8                 
  tz       Australia/Melbourne         
- date     2018-07-31                  
+ date     2018-11-23                  
 
  package              * version   date      
- AnnotationDbi          1.42.1    2018-07-30
  assertthat             0.2.0     2017-04-11
  backports              1.1.2     2017-12-13
  base                 * 3.5.0     2018-06-18
  beeswarm               0.2.3     2016-04-25
  bindr                  0.1.1     2018-03-13
- bindrcpp             * 0.2.2     2018-03-29
+ bindrcpp               0.2.2     2018-03-29
  Biobase              * 2.40.0    2018-07-30
  BiocGenerics         * 0.26.0    2018-07-30
  BiocParallel         * 1.14.2    2018-07-08
- biomaRt                2.36.1    2018-07-30
- bit                    1.1-14    2018-05-29
- bit64                  0.9-7     2017-05-08
  bitops                 1.0-6     2013-08-17
- blob                   1.1.1     2018-03-25
  broom                  0.5.0     2018-07-17
  cellranger             1.1.0     2016-07-27
  cli                    1.0.0     2017-11-05
- codetools              0.2-15    2016-10-05
  colorspace             1.3-2     2016-12-14
  compiler               3.5.0     2018-06-18
  cowplot              * 0.9.3     2018-07-15
  crayon                 1.3.4     2017-09-16
- curl                   3.2       2018-03-28
  data.table             1.11.4    2018-05-27
  datasets             * 3.5.0     2018-06-18
- DBI                    1.0.0     2018-05-02
  DelayedArray         * 0.6.2     2018-07-23
  DelayedMatrixStats     1.2.0     2018-07-30
  devtools               1.13.6    2018-06-27
  digest                 0.6.15    2018-01-28
  dplyr                * 0.7.6     2018-06-29
- DropletUtils           1.0.2     2018-07-30
- DT                     0.4       2018-01-30
- dynamicTreeCut         1.63-1    2016-03-11
  edgeR                  3.22.3    2018-06-21
  evaluate               0.10.1    2017-06-24
- FNN                    1.1       2013-07-31
  forcats              * 0.3.0     2018-02-19
  GenomeInfoDb         * 1.16.0    2018-07-30
  GenomeInfoDbData       1.1.0     2018-07-30
@@ -1789,7 +1811,7 @@ kable(data.frame(
  ggbeeswarm             0.6.0     2017-08-07
  ggplot2              * 3.0.0     2018-07-03
  git2r                  0.21.0    2018-01-04
- glue                   1.3.0     2018-07-17
+ glue                 * 1.3.0     2018-07-17
  graphics             * 3.5.0     2018-06-18
  grDevices            * 3.5.0     2018-06-18
  grid                   3.5.0     2018-06-18
@@ -1799,14 +1821,11 @@ kable(data.frame(
  here                 * 0.1       2017-05-28
  hms                    0.4.2     2018-03-10
  htmltools              0.3.6     2017-04-28
- htmlwidgets            1.2       2018-04-19
  httpuv                 1.4.5     2018-07-19
  httr                   1.3.1     2017-08-20
- igraph                 1.2.2     2018-07-27
  IRanges              * 2.14.10   2018-07-30
- jsonlite               1.5       2017-06-01
- knitr                  1.20      2018-02-20
- labeling               0.3       2014-08-23
+ jsonlite             * 1.5       2017-06-01
+ knitr                * 1.20      2018-02-20
  later                  0.7.3     2018-06-08
  lattice                0.20-35   2017-03-25
  lazyeval               0.2.1     2017-10-29
@@ -1818,7 +1837,6 @@ kable(data.frame(
  matrixStats          * 0.54.0    2018-07-23
  memoise                1.1.0     2017-04-21
  methods              * 3.5.0     2018-06-18
- mgcv                   1.8-24    2018-06-18
  mime                   0.5       2016-07-07
  modelr                 0.1.2     2018-05-11
  munsell                0.5.0     2018-06-12
@@ -1827,8 +1845,6 @@ kable(data.frame(
  pillar                 1.3.0     2018-07-14
  pkgconfig              2.0.1     2017-03-21
  plyr                   1.8.4     2016-06-08
- prettyunits            1.0.2     2015-07-13
- progress               1.2.0     2018-06-14
  promises               1.0.1     2018-04-13
  purrr                * 0.2.5     2018-05-29
  R.methodsS3            1.7.1     2016-02-16
@@ -1846,18 +1862,14 @@ kable(data.frame(
  rlang                  0.2.1     2018-05-30
  rmarkdown              1.10.2    2018-07-30
  rprojroot              1.3-2     2018-01-03
- RSQLite                2.1.1     2018-05-06
  rstudioapi             0.7       2017-09-07
- Rtsne                  0.13      2017-04-14
  rvest                  0.3.2     2016-06-17
  S4Vectors            * 0.18.3    2018-07-30
  scales                 0.5.0     2017-08-24
  scater               * 1.8.2     2018-07-27
- scran                  1.8.2     2018-07-30
  shiny                  1.1.0     2018-05-17
  shinydashboard         0.7.0     2018-03-21
  SingleCellExperiment * 1.2.0     2018-07-30
- statmod                1.4.30    2017-06-18
  stats                * 3.5.0     2018-06-18
  stats4               * 3.5.0     2018-06-18
  stringi                1.2.4     2018-07-20
@@ -1876,14 +1888,12 @@ kable(data.frame(
  whisker                0.3-2     2013-04-28
  withr                  2.1.2     2018-03-15
  workflowr              1.1.1     2018-07-06
- XML                    3.98-1.12 2018-07-15
  xml2                   1.2.0     2018-01-24
  xtable                 1.8-2     2016-02-05
  XVector                0.20.0    2018-07-30
  yaml                   2.2.0     2018-07-25
  zlibbioc               1.26.0    2018-07-30
  source                            
- Bioconductor                      
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
  local                             
@@ -1893,23 +1903,16 @@ kable(data.frame(
  Bioconductor                      
  Bioconductor                      
  Bioconductor                      
- Bioconductor                      
- CRAN (R 3.5.0)                    
- CRAN (R 3.5.0)                    
  cran (@1.0-6)                     
- CRAN (R 3.5.0)                    
  cran (@0.5.0)                     
- CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
  cran (@1.3-2)                     
  local                             
  cran (@0.9.3)                     
  CRAN (R 3.5.0)                    
- CRAN (R 3.5.0)                    
  cran (@1.11.4)                    
  local                             
- CRAN (R 3.5.0)                    
  Bioconductor                      
  Bioconductor                      
  CRAN (R 3.5.0)                    
@@ -1917,10 +1920,6 @@ kable(data.frame(
  cran (@0.7.6)                     
  Bioconductor                      
  CRAN (R 3.5.0)                    
- CRAN (R 3.5.0)                    
- Bioconductor                      
- CRAN (R 3.5.0)                    
- cran (@1.1)                       
  CRAN (R 3.5.0)                    
  Bioconductor                      
  Bioconductor                      
@@ -1938,14 +1937,11 @@ kable(data.frame(
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
- cran (@1.2)                       
  cran (@1.4.5)                     
  CRAN (R 3.5.0)                    
- cran (@1.2.2)                     
  Bioconductor                      
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
- cran (@0.3)                       
  cran (@0.7.3)                     
  CRAN (R 3.5.0)                    
  cran (@0.2.1)                     
@@ -1959,15 +1955,12 @@ kable(data.frame(
  local                             
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
- CRAN (R 3.5.0)                    
  cran (@0.5.0)                     
  CRAN (R 3.5.0)                    
  local                             
  cran (@1.3.0)                     
  cran (@2.0.1)                     
  cran (@1.8.4)                     
- CRAN (R 3.5.0)                    
- CRAN (R 3.5.0)                    
  cran (@1.0.1)                     
  cran (@0.2.5)                     
  CRAN (R 3.5.0)                    
@@ -1987,16 +1980,12 @@ kable(data.frame(
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
- cran (@0.13)                      
- CRAN (R 3.5.0)                    
  Bioconductor                      
  cran (@0.5.0)                     
- Bioconductor                      
  Bioconductor                      
  cran (@1.1.0)                     
  CRAN (R 3.5.0)                    
  Bioconductor                      
- CRAN (R 3.5.0)                    
  local                             
  local                             
  cran (@1.2.4)                     
@@ -2012,7 +2001,6 @@ kable(data.frame(
  CRAN (R 3.5.0)                    
  cran (@0.5.1)                     
  cran (@0.3.0)                     
- CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
  CRAN (R 3.5.0)                    
