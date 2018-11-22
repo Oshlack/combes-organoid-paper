@@ -47,11 +47,17 @@ library("tidyverse")
 
 ```{r source, cache = FALSE}
 source(here("R/output.R"))
+source(here("R/crossover.R"))
 ```
 
 ```{r paths}
 comb.path <- here("data/processed/Combined_clustered.Rds")
 comb.neph.path <- here("data/processed/Combined_nephron.Rds")
+
+o.path <- here("output/04_Organoids_Clustering/cluster_assignments.csv")
+on.path <- here("output/04B_Organoids_Nephron/cluster_assignments.csv")
+c.path <- here("output/07_Combined_Clustering/cluster_assignments.csv")
+cn.path <- here("output/07B_Combined_Nephron/cluster_assignments.csv")
 
 dir.create(here("output", DOCNAME), showWarnings = FALSE)
 ```
@@ -82,8 +88,61 @@ if (file.exists(comb.neph.path)) {
 }
 ```
 
+```{r load-clusts, cache.extra = c(tools::md5sum(o.path), tools::md5sum(on.path), tools::md5sum(c.path), tools::md5sum(cn.path))}
+orgs.clusts <- read_csv(o.path,
+                        col_types = cols(
+                            Cell = col_character(),
+                            Dataset = col_character(),
+                            Sample = col_integer(),
+                            Barcode = col_character(),
+                            Cluster = col_integer()
+                        )) %>%
+    rename(Organoids = Cluster)
+
+orgs.neph.clusts <- read_csv(on.path,
+                             col_types = cols(
+                                 Cell = col_character(),
+                                 Dataset = col_character(),
+                                 Sample = col_integer(),
+                                 Barcode = col_character(),
+                                 Cluster = col_integer()
+                             )) %>%
+    rename(OrgsNephron = Cluster)
+
+comb.clusts <- read_csv(c.path,
+                        col_types = cols(
+                            Cell = col_character(),
+                            Dataset = col_character(),
+                            Sample = col_integer(),
+                            Barcode = col_character(),
+                            Cluster = col_integer()
+                        )) %>%
+    rename(Combined = Cluster)
+
+comb.neph.clusts <- read_csv(cn.path,
+                             col_types = cols(
+                                 Cell = col_character(),
+                                 Dataset = col_character(),
+                                 Sample = col_integer(),
+                                 Barcode = col_character(),
+                                 Cluster = col_integer()
+                             )) %>%
+    rename(CombNephron = Cluster)
+
+clusts <- comb.clusts %>%
+    left_join(comb.neph.clusts,
+              by = c("Cell", "Dataset", "Sample", "Barcode")) %>%
+    left_join(orgs.clusts,
+              by = c("Cell", "Dataset", "Sample", "Barcode")) %>%
+    left_join(orgs.neph.clusts,
+              by = c("Cell", "Dataset", "Sample", "Barcode"))
+```
+
+Figure 2
+========
+
 Figure 2A
-=========
+---------
 
 ```{r fig-2A}
 plot.data <- comb %>%
@@ -97,10 +156,12 @@ plot.data <- comb %>%
 f2A <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Group)) +
     geom_point() +
     scale_color_manual(values = c("#EC008C", "#00ADEF")) +
-    guides(colour = guide_legend(override.aes = list(size = 10))) +
+    guides(colour = guide_legend(ncol = 1,
+                                 override.aes = list(size = 10))) +
     theme_cowplot() +
-    theme(legend.position = "right",
-          legend.title = element_blank())
+    theme(legend.position = "bottom",
+          legend.title = element_blank(),
+          legend.justification = "center")
 
 ggsave(here("output", DOCNAME, "figure2A.png"), f2A,
        height = 8, width = 10)
@@ -111,7 +172,7 @@ f2A
 ```
 
 Figure 2B
-=========
+---------
 
 ```{r fig-2B}
 lab.data <- plot.data %>%
@@ -130,24 +191,25 @@ clust.labs <- c(
     "C6 (Committing nephron prog.)\nLYPD1, DAPL1, PAX8",
     "C7 (Podocyte)\nPODXL, MAFB, TCF21",
     "C8 (Cell cycle)\nCENPF, HMGB2, UBE2C",
-    "C9 (Stroma)\nCOL9A3, DCN, LUM, IGFBP6",
+    "C9 (Stroma)\nCOL9A3, FIBIN, DLK1",
     "C10 (Nephron)\nIGFBP7, EMBX2, MAL",
-    "C11 (Neural prog.)\nTTHY1, SOX2, S100B",
-    "C12 (Immune)\nCD74, TYROBP, FCER1G",
-    "C13 (Blood)\nCYPC, SLC25A39, GPX1",
-    "C14 (Neural prog.)\nOrganoid only",
-    "C15 (Podocyte)\nFetal kidney only"
+    "C11 (Glial)\nTTHY1, FABP7, SOX2",
+    "C12 (Immune)\nPTPRC, TYROBP, FCER1G",
+    "C13 (Blood)\nHBG1, HBB, HBA2",
+    "C14 (Neural prog.)\nSOX11, ELAVL3, ELAVL4",
+    "C15 (Podocyte)\nPTPRO, TCF21, PODXL"
 )
 
 f2B <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
     geom_point() +
     geom_text(data = lab.data, aes(label = Label), colour = "black", size = 8) +
     scale_colour_discrete(labels = clust.labs) +
-    guides(colour = guide_legend(ncol = 1, override.aes = list(size = 10),
+    guides(colour = guide_legend(nrow = 2, override.aes = list(size = 10),
                                  label.theme = element_text(size = 8))) +
     theme_cowplot() +
-    theme(legend.position = "right",
-          legend.title = element_blank())
+    theme(legend.position = "bottom",
+          legend.title = element_blank(),
+          legend.justification = "center")
 
 ggsave(here("output", DOCNAME, "figure2B.png"), f2B,
        height = 8, width = 10)
@@ -158,53 +220,39 @@ f2B
 ```
 
 Figure 2AB legend
-=================
+-----------------
 
 ```{r fig-2AB-legend}
-lA <- get_legend(f2A)
-lB <- get_legend(f2B)
+l2A <- get_legend(f2A)
+l2B <- get_legend(f2B)
 
-lAB <- plot_grid(lA, lB, ncol = 1, rel_heights = c(0.1, 1))
+l2AB <- plot_grid(l2A, l2B, nrow = 1, rel_widths = c(0.15, 1))
 
-lAB
+l2AB
 ```
 
 Figure 2C
-=========
+---------
 
 ```{r fig-2C}
-plot.data <- comb.neph %>%
-    GetDimReduction("tsne",  slot = "cell.embeddings") %>%
-    data.frame() %>%
-    rownames_to_column("Cell") %>%
-    mutate(Cluster = comb.neph@ident)
-
-lab.data <- plot.data %>%
-    group_by(Cluster) %>%
-    summarise(tSNE_1 = mean(tSNE_1),
-              tSNE_2 = mean(tSNE_2)) %>%
-    mutate(Label = paste0("CN", Cluster))
-
-clust.labs <- c(
-    "CN0 (Podocyte)\nTCF21, PODXL, SYNPO",
-    "CN1 (Differentiating nephron prog.)\nLYPD1, PAX8, DAPL1",
-    "CN2 (Nephron prog.)\nCRABP2, SIX1, TMEM100, CITED1",
-    "CN3 (Proximal early nephron)\nCTGF, OLFM3, MAFB",
-    "CN4 (Distal)\nWFDC2, EMX2, MAL, GATA3",
-    "CN5 (Proximal)\nIGFBP7, MPC2, FXYD2, CDH6",
-    "CN6 (Stroma)\nfetal kidney only",
-    "CN7 (Podocyte)\nfetal kidney only"
-)
-
-f2C <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
-    geom_point(size = 3) +
-    geom_text(data = lab.data, aes(label = Label), colour = "black", size = 8) +
-    scale_color_brewer(palette = "Set1", labels = clust.labs) +
-    guides(colour = guide_legend(ncol = 4, override.aes = list(size = 10),
-                                 label.theme = element_text(size = 8))) +
-    theme_cowplot() +
-    theme(legend.position = "bottom",
-          legend.title = element_blank())
+f2C <- summariseClusts(clusts, Combined, Organoids) %>%
+    replace_na(list(Jaccard = 0)) %>%
+    ggplot(aes(x = Combined, y = Organoids, fill = Jaccard)) +
+    geom_tile() +
+    scale_fill_viridis_c(limits = c(0, 1), name = "Jaccard\nindex") +
+    scale_x_discrete(labels = paste0("C", 0:15)) +
+    scale_y_discrete(labels = paste0("O", 0:12)) +
+    coord_equal() +
+    xlab("Combined clusters") +
+    ylab("Organoid clusters") +
+    theme_minimal() +
+    theme(axis.text = element_text(size = 12, colour = "black"),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 20),
+          legend.key.height = unit(50, "pt"),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())
 
 ggsave(here("output", DOCNAME, "figure2C.png"), f2C,
        height = 8, width = 10)
@@ -215,17 +263,19 @@ f2C
 ```
 
 Figure 2D
-=========
+---------
 
 ```{r fig-2D}
-plot.data <- comb.neph@meta.data %>%
-    select(NephCluster, Group) %>%
-    mutate(NephCluster = paste0("CN", NephCluster)) %>%
+labs <- paste0("C", 0:max(as.numeric(comb@meta.data$Cluster)))
+
+plot.data <- comb@meta.data %>%
+    select(Cluster, Group) %>%
+    mutate(Cluster = paste0("C", Cluster)) %>%
+    mutate(Cluster = factor(Cluster, levels = labs)) %>%
     mutate(Group = if_else(Group == "Lindstrom", "Fetal kidney", Group))
 
-f2D <- ggplot(plot.data, aes(x = NephCluster, fill = NephCluster)) +
+f2D <- ggplot(plot.data, aes(x = Cluster, fill = Cluster)) +
     geom_bar() +
-    scale_fill_brewer(palette = "Set1") +
     labs(y = "Number of cells") +
     facet_wrap(~ Group, ncol = 1, scales = "free_y") +
     theme_cowplot() +
@@ -245,70 +295,492 @@ f2D
 ```
 
 Figure 2E
-=========
+---------
 
 ```{r fig-2E}
-genes <- c("PTPRO", "NPHS1", "VEGFA", "PODXL", "TCF21", "MAFB", "OLFM3", "CTGF",
-           "SIX1", "TMEM100", "CITED1", "LYPD1", "PAX8", "DAPL1", "IGFBP7", 
-           "EMX2", "CDH6", "WFDC2", "MAL", "EPCAM", "HSPA1A", "HSPA1B",
-           "DNAJB1")
+plot.data <- comb@meta.data %>%
+    select(Cluster, Group) %>%
+    mutate(Tissue = fct_collapse(Cluster,
+                                 Stroma = c("0", "1", "2", "3", "9"),
+                                 Nephron = c("6", "7", "10", "15"),
+                                 Endothelial = c("4"),
+                                 `Cell cycle` = c("5", "8"),
+                                 Other = c("11", "12", "13", "14"))) %>%
+    mutate(Tissue = fct_relevel(Tissue,
+                                "Stroma", "Nephron", "Endothelial",
+                                "Cell cycle", "Other")) %>%
+    group_by(Group, Tissue) %>%
+    summarise(Count = n()) %>%
+    mutate(Prop = Count / sum(Count)) %>%
+    ungroup() %>%
+    mutate(Group = if_else(Group == "Lindstrom", "Fetal kidney", Group))
 
-gene.groups <- rev(c(rep("Podocyte", 5),
-                 rep("Prox. early neph.", 3),
-                 rep("Nephron progenitor", 3),
-                 rep("Differentiating NP", 3),
-                 rep("Proximal precursor", 3),
-                 rep("Distal precursor", 3),
-                 rep("Heatshock", 3))) %>%
-    fct_relevel("Podocyte", "Prox. early neph.",  "Nephron progenitor",
-                "Differentiating NP", "Proximal precursor",
-                "Distal precursor", "Heatshock")
-
-clust.labs <- c(
-    "Fetal kidney CN0", "Organoid CN0",
-    "Fetal kidney CN1", "Organoid CN1",
-    "Fetal kidney CN2", "Organoid CN2",
-    "Fetal kidney CN3", "Organoid CN3",
-    "Fetal kidney CN4", "Organoid CN4",
-    "Fetal kidney CN5", "Organoid CN5",
-    "Fetal kidney CN6", "Organoid CN6",
-    "Fetal kidney CN7", "Organoid CN7"
-)
-
-f2E <- SplitDotPlotGG(comb.neph, "Group", genes, gene.groups,
-                      cols.use = c("#EC008C", "#00ADEF"), dot.scale = 5,
-                      do.return = TRUE) +
-    scale_y_discrete(labels = clust.labs) +
-    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-
-for (y in seq(2.5, 14.5, 2)) {
-    f2E <- f2E + geom_hline(yintercept = y, size = 0.2, colour = "grey70")
-}
+f2E <- ggplot(plot.data, aes(x = Group, y = Prop, fill = Tissue)) +
+    geom_col() +
+    labs(y = "Proportion of cells") +
+    guides(fill = guide_legend(direction = "vertical", ncol = 2)) +
+    theme_cowplot() +
+    theme(axis.title.x = element_blank(),
+          legend.position = "bottom")
 
 ggsave(here("output", DOCNAME, "figure2E.png"), f2E,
-       height = 4, width = 20)
+       height = 8, width = 10)
 ggsave(here("output", DOCNAME, "figure2E.pdf"), f2E,
        height = 8, width = 10)
 
 f2E
 ```
 
+Figure 2F
+---------
+
+```{r fig-2F}
+genes <- c("HSPA1A", "HSPA1B", "HBG2", "HSP90AA1", "DNAJB1", "FOS", "HSPA6",
+           "HBG1", "JUN", "GPC3", "MARCKSL1", "MARCKS", "RPS26", "YBX1", 
+           "HMGN2", "EEF1A1", "RPL41", "RPL39", "H3F3A", "RPS17")
+
+gene.groups <- c(rep("Up-regulated in fetal kidney", 10),
+                 rep("Up-regulated in organoid", 10)) %>%
+    fct_relevel("Up-regulated in fetal kidney", "Up-regulated in organoid")
+names(gene.groups) <- genes
+
+group.labs <- c("Fetal kidney", "Organoid")
+
+plot.data <- data.frame(FetchData(comb.neph, vars.all = genes)) %>%
+    rownames_to_column("Cell") %>%
+    mutate(Group = comb.neph@meta.data$Group) %>%
+    gather(key = "Gene", value = "Expr", -Cell, -Group) %>%
+    group_by(Group, Gene) %>%
+    summarize(AvgExpr = mean(expm1(Expr)),
+              PctExpr = Seurat:::PercentAbove(Expr, threshold = 0) * 100) %>%
+    group_by(Gene) %>%
+    mutate(AvgExprScale = scale(AvgExpr)) %>%
+    mutate(AvgExprScale = Seurat::MinMax(AvgExprScale,
+                                         max = 2.5, min = -2.5)) %>%
+    ungroup() %>%
+    mutate(GeneGroup = gene.groups[Gene]) %>%
+    mutate(Gene = factor(Gene, levels = genes))
+
+f2F <- ggplot(plot.data,
+              aes(x = Gene, y = Group, size = PctExpr,
+                  colour = Group, alpha = AvgExprScale)) +
+       geom_point() +
+       scale_radius(range = c(0, 10)) +
+       scale_color_manual(values = c("#EC008C", "#00ADEF")) +
+       scale_y_discrete(labels = group.labs) +
+       facet_grid(~ GeneGroup, scales = "free_x") +
+       theme(axis.title.x = element_blank(),
+             axis.title.y = element_blank(),
+             axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+             panel.spacing = unit(x = 1, units = "lines"),
+             strip.background = element_blank(),
+             strip.placement = "outside",
+             strip.text = element_text(size = 15,
+                                       margin = margin(0, 0, 2, 0, "pt")),
+             legend.position = "none")
+
+ggsave(here("output", DOCNAME, "figure2F.png"), f2F,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure2F.pdf"), f2F,
+       height = 8, width = 10)
+
+f2F
+```
+
+Figure 2G
+---------
+
+```{r fig-2G}
+genes.list <- list(
+    `4` = c("GNG11",  "CLDN5", "ESAM", "CD34", "PECAM1",
+            "PLXND1",  "CXCR4", "HEY1", "ICAM1", "CXCL2", "CXCL1",
+            "CCL21", "CXCL8"),
+    `0` = c("TAGLN", "ALDH1A2", "COL6A2", "ALX1", "ZEB2", "NRK", "STMN2",
+            "SULT1E1", "GPC3", "LBH", "CCBE1"),
+    `1` = c("IGF1", "COL3A1", "DCN", "LUM", "POSTN", "ACTA2", "DKK1",
+            "SERPINI1", "SFRP2", "WNT2B", "DKK2", "SEMA3C"),
+    `2` = c("MGP", "GATA3", "PDGFRB", "MEF2C", "SSBP4", "FTL", "REN", "ID1",
+            "ANGPT2"),
+    `3` = c("ZFHX4", "CTSK", "HNRNPA1", "MDK", "SRGAP1", "ACTA2", "NR2F1",
+            "ANGPT1"),
+    `9` = c("COL9A3", "DCN", "LUM", "DLK1", "SOX9", "CNMD", "PLPP3", "SPON2"),
+    `13` = c("SLC25A3", "GPX1", "FSCN1", "FKBP1A", "EIF4G2", "HBG1",
+             "HBB", "HBA2"),
+    `11` = c("S100B", "FABP7", "SOX2", "NTRK2", "MSX1", "MBP", "RELN",
+             "SEMA3G", "CRABP1", "SOX11", "ELAVL3", "ELAVL4"),
+    `12` = c("S100B", "FABP7", "SOX2", "NTRK2", "MSX1", "MBP", "RELN",
+             "SEMA3G", "CRABP1", "SOX11", "ELAVL3", "ELAVL4")
+)
+
+# 4 "EGLF7", "PVLAP", "APLN1",
+# 2 "ITG8A",
+# 13 "CYPC", 
+# 11 "A1PS2",
+# 12 "A1PS2",
+
+plot.data <- lapply(names(genes.list), function(name) {
+    genes <- genes.list[[name]]
+    comb %>%
+        FetchData(vars.all = genes) %>%
+        as_data_frame() %>%
+        rownames_to_column("Cell") %>%
+        mutate(Cluster = as.numeric(as.character(comb@ident)),
+               Group = comb@meta.data$Group) %>%
+        gather(key = "Gene", value = "Expr", -Cell, -Cluster, -Group) %>%
+        group_by(Cluster, Gene, Group) %>%
+        summarize(AvgExpr = mean(expm1(Expr)),
+                  PctExpr = Seurat:::PercentAbove(Expr, threshold = 0) * 100) %>%
+        group_by(Gene) %>%
+        mutate(AvgExprScale = scale(AvgExpr)) %>%
+        mutate(AvgExprScale = Seurat::MinMax(AvgExprScale,
+                                             max = 2.5, min = -2.5)) %>%
+        filter(Cluster == as.numeric(name))
+})
+
+plot.data <- plot.data %>%
+    bind_rows() %>%
+    mutate(Cluster = paste0("C", Cluster)) %>%
+    mutate(Cluster = factor(Cluster, levels = paste0("C", names(genes.list))))
+
+f2G <- ggplot(plot.data,
+              aes(x = Group, y = Gene, size = PctExpr,
+                  colour = Group, alpha = AvgExprScale)) +
+    geom_point() +
+    scale_radius(range = c(0, 10)) +
+    scale_alpha(range = c(0.1, 1)) +
+    scale_colour_manual(values = c("#EC008C", "#00ADEF")) +
+    scale_x_discrete(labels = c("Fetal kidney", "Organoid")) +
+    facet_wrap(~ Cluster, scales = "free", nrow = 1) +
+    theme(axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+          panel.spacing = unit(x = 1, units = "lines"),
+          strip.background = element_blank(),
+          strip.placement = "outside",
+          legend.position = "none")
+
+ggsave(here("output", DOCNAME, "figure2G.png"), f2G,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure2G.pdf"), f2G,
+       height = 8, width = 10)
+
+f2G
+```
+
 Figure 2 Panel
-==============
+--------------
 
 ```{r fig2-panel, fig.height = 20, fig.width = 16}
 p1 <- plot_grid(f2A + theme(legend.position = "none"),
                 f2B + theme(legend.position = "none"),
-                lAB, nrow = 1, rel_widths = c(1, 1, 0.3),
-                labels = c("A", "B", ""))
-p2 <- plot_grid(f2C, f2D, nrow = 1,
-                labels = c("C", "D", ""))
-panel <- plot_grid(p1, p2, f2E, ncol = 1, labels = c("", "", "E"),
-                   rel_heights = c(1, 1, 0.5))
+                nrow = 1,
+                labels = c("A", "B"))
+p2 <- plot_grid(f2C, f2D, f2E,
+                nrow = 1, rel_widths = c(1, 1, 0.5),
+                labels = c("C", "D", "E"))
+panel <- plot_grid(p1, l2AB, p2, f2F, f2G, ncol = 1,
+                   labels = c("", "", "", "F", "G"),
+                   rel_heights = c(1, 0.2, 0.7, 0.4, 0.9))
 
 ggsave(here("output", DOCNAME, "figure2_panel.png"), panel,
        height = 20, width = 16)
 ggsave(here("output", DOCNAME, "figure2_panel.pdf"), panel,
+       height = 20, width = 16)
+
+panel
+```
+
+
+Figure 3
+========
+
+Figure 3A
+---------
+
+```{r fig-3A}
+plot.data <- comb.neph %>%
+    GetDimReduction("tsne",  slot = "cell.embeddings") %>%
+    data.frame() %>%
+    rownames_to_column("Cell") %>%
+    mutate(Group = comb.neph@meta.data$Group) %>%
+    mutate(Group = if_else(Group == "Lindstrom", "Fetal kidney", Group))
+
+f3A <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Group)) +
+    geom_point(size = 3) +
+    scale_color_manual(values = c("#EC008C", "#00ADEF")) +
+    guides(colour = guide_legend(ncol = 4, override.aes = list(size = 12),
+                                 label.theme = element_text(size = 12))) +
+    theme_cowplot() +
+    theme(legend.position = "bottom",
+          legend.title = element_blank(),
+          legend.justification = "center")
+
+ggsave(here("output", DOCNAME, "figure3A.png"), f3A,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure3A.pdf"), f3A,
+       height = 8, width = 10)
+
+f3A
+```
+
+Figure 3B
+---------
+
+```{r fig-3B}
+plot.data <- comb.neph %>%
+    GetDimReduction("tsne",  slot = "cell.embeddings") %>%
+    data.frame() %>%
+    rownames_to_column("Cell") %>%
+    mutate(Cluster = comb.neph@ident)
+
+lab.data <- plot.data %>%
+    group_by(Cluster) %>%
+    summarise(tSNE_1 = mean(tSNE_1),
+              tSNE_2 = mean(tSNE_2)) %>%
+    mutate(Label = paste0("CN", Cluster))
+
+clust.labs <- c(
+    "CN0 (Podocyte)\nTCF21, PODXL, SYNPO",
+    "CN1 (Differentiating nephron prog.)\nLYPD1, PAX8, DAPL1",
+    "CN2 (Nephron progenitor)\nCRABP2, SIX1, TMEM100, CITED1",
+    "CN3 (Podocyte precursor)\nCTGF, OLFM3, MAFB",
+    "CN4 (Distal)\nWFDC2, EMX2, MAL, GATA3",
+    "CN5 (Proximal)\nIGFBP7, MPC2, FXYD2, CDH6",
+    "CN6 (Stroma)\nfetal kidney only",
+    "CN7 (Podocyte)\nfetal kidney only"
+)
+
+f3B <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
+    geom_point(size = 3) +
+    geom_text(data = lab.data, aes(label = Label), colour = "black", size = 8) +
+    #scale_color_brewer(palette = "Set1", labels = clust.labs) +
+    scale_colour_discrete(labels = clust.labs) +
+    guides(colour = guide_legend(ncol = 4, override.aes = list(size = 12),
+                                 label.theme = element_text(size = 12))) +
+    theme_cowplot() +
+    theme(legend.position = "bottom",
+          legend.title = element_blank(),
+          legend.justification = "center")
+
+ggsave(here("output", DOCNAME, "figure3B.png"), f3B,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure3B.pdf"), f3B,
+       height = 8, width = 10)
+
+f3B
+```
+
+Figure 3AB legend
+-----------------
+
+```{r fig-3AB-legend}
+l3A <- get_legend(f3A)
+l3B <- get_legend(f3B)
+
+l3AB <- plot_grid(l3A, l3B, nrow = 1, rel_widths = c(0.3, 1))
+
+l3AB
+```
+
+Figure 3C
+---------
+
+```{r fig-3C}
+f3C <- summariseClusts(clusts, CombNephron, OrgsNephron) %>%
+    replace_na(list(Jaccard = 0)) %>%
+    ggplot(aes(x = CombNephron, y = OrgsNephron, fill = Jaccard)) +
+    geom_tile() +
+    scale_fill_viridis_c(limits = c(0, 1), name = "Jaccard\nindex") +
+    scale_x_discrete(labels = paste0("CN", 0:7)) +
+    scale_y_discrete(labels = paste0("ON", 0:4)) +
+    coord_equal() +
+    xlab("Combined nephron clusters") +
+    ylab("Organoid nephron clusters") +
+    theme_minimal() +
+    theme(axis.text = element_text(size = 10, colour = "black"),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 16),
+          legend.key.height = unit(30, "pt"),
+          legend.title = element_text(size = 12),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())
+
+ggsave(here("output", DOCNAME, "figure3C.png"), f3C,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure3C.pdf"), f3C,
+       height = 8, width = 10)
+
+f3C
+```
+
+Figure 3D
+---------
+
+```{r fig-3D}
+plot.data <- comb.neph@meta.data %>%
+    select(NephCluster, Group) %>%
+    mutate(NephCluster = paste0("CN", NephCluster)) %>%
+    mutate(Group = if_else(Group == "Lindstrom", "Fetal kidney", Group))
+
+f3D <- ggplot(plot.data, aes(x = NephCluster, fill = NephCluster)) +
+    geom_bar() +
+    #scale_fill_brewer(palette = "Set1") +
+    labs(y = "Number of cells") +
+    facet_wrap(~ Group, ncol = 1, scales = "free_y") +
+    theme_cowplot() +
+    theme(legend.position = "none",
+          axis.title.x = element_blank(),
+          strip.text = element_text(size = 15,
+                                    margin = margin(0, 0, 2, 0, "pt")),
+          strip.background = element_blank(),
+          strip.placement = "outside")
+
+ggsave(here("output", DOCNAME, "figure3D.png"), f3D,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure3D.pdf"), f3D,
+       height = 8, width = 10)
+
+f3D
+```
+
+Figure 3E
+---------
+
+```{r fig-3E}
+genes <- c("TCF21",   "ROBO2",  "NPHS2",  "PTPRO",   "NPHS1",  "SYNPO",
+           "LYPD1",    "PAX8",  "DAPL1",   "CDH6",    "PAX2",   "HEY1",
+            "SIX1", "TMEM100", "CITED1",  "MEOX1",    "EYA1", "CRABP2",
+            "CTGF",   "OLFM3",   "MAFB",  "PODXL",   "VAMP8",  "WFDC2",
+            "EMX2",     "MAL",  "MECOM", "ATP1B1", "TMEM52B", "IGFBP7", 
+           "FXYD2",     "CLU", "COL1A1", "COL3A1",   "POSTN",   "NFIA",
+           "SNAI2",  "LGALS1", "CXCL12",  "TNNI1",   "TNNT2",  "ANXA2")
+
+gene.groups <- rev(c(rep("Podocyte", 6),
+                     rep("Differentiating\nnephron progenitor", 6),
+                     rep("Nephron\nprogenitor", 6),
+                     rep("Podocyte\nprecursor", 5),
+                     rep("Distal", 6),
+                     rep("Proximal", 3),
+                     rep("Stroma", 6),
+                     rep("hFK\nPodocyte", 4))) %>%
+    fct_relevel("Podocyte", "Differentiating\nnephron progenitor", 
+                "Nephron\nprogenitor", "Podocyte\nprecursor", "Distal",
+                "Proximal", "Stroma", "hFK\nPodocyte")
+
+clust.labs <- c(
+    "hFK CN0", "Org CN0",
+    "hFK CN1", "Org CN1",
+    "hFK CN2", "Org CN2",
+    "hFK CN3", "Org CN3",
+    "hFK CN4", "Org CN4",
+    "hFK CN5", "Org CN5",
+    "hFK CN6", "Org CN6",
+    "hFK CN7", "Org CN7"
+)
+
+f3E <- SplitDotPlotGG(comb.neph, "Group", genes, gene.groups,
+                      cols.use = c("#EC008C", "#00ADEF"), dot.scale = 5,
+                      do.return = TRUE) +
+    scale_y_discrete(labels = clust.labs) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+          strip.text.x = element_text(margin = margin(0, 0, 2, 0, "pt")))
+
+for (y in seq(2.5, 14.5, 2)) {
+    f3E <- f3E + geom_hline(yintercept = y, size = 0.2, colour = "grey70")
+}
+
+ggsave(here("output", DOCNAME, "figure3E.png"), f3E,
+       height = 4, width = 20)
+ggsave(here("output", DOCNAME, "figure3E.pdf"), f3E,
+       height = 8, width = 10)
+
+f3E
+```
+
+Figure 3F
+---------
+
+```{r fig-3F}
+genes.list <- list(
+    c("LYPD1", "PDGFC", "ITGA8", "PTPRO", "WT1", "ANXA1"),
+    c("CCND1", "CXCR4", "STMN1", "ATOX1", "BNIP3", "GNAS"),
+    c("TMEM100", "MEOX1", "ROBO2", "MYOD1", "MYOG","PITX2"),
+    c("CCND1", "CXCL1", "STMN1", "VEGFA", "SYNPO", "PTPRO"),
+    c("TSC22D1", "DDX5", "MALAT1", "GLRX5", "CITED2", "LHX1"),
+    c("SEPHS2",  "BEX1",  "COX14", "HNF1B", "LHX1", "CITED2"),
+    c("PITX2", "HNRNPAB", "CTDNEP1"),
+    c("S100A6", "TCF21",  "PODXL")
+)
+
+plot.data <- lapply(seq_along(genes.list), function(idx) {
+    genes <- genes.list[[idx]]
+    comb.neph %>%
+        FetchData(vars.all = genes) %>%
+        as_data_frame() %>%
+        rownames_to_column("Cell") %>%
+        mutate(Cluster = as.numeric(as.character(comb.neph@ident)),
+               Group = comb.neph@meta.data$Group) %>%
+        gather(key = "Gene", value = "Expr", -Cell, -Cluster, -Group) %>%
+        group_by(Cluster, Gene, Group) %>%
+        summarize(AvgExpr = mean(expm1(Expr)),
+                  PctExpr = Seurat:::PercentAbove(Expr, threshold = 0) * 100) %>%
+        group_by(Gene) %>%
+        mutate(AvgExprScale = scale(AvgExpr)) %>%
+        mutate(AvgExprScale = Seurat::MinMax(AvgExprScale,
+                                             max = 2.5, min = -2.5)) %>%
+        filter(Cluster == idx - 1)
+})
+
+plot.data <- plot.data %>%
+    bind_rows() %>%
+    mutate(Cluster = paste0("CN", Cluster))
+
+f3F <- ggplot(plot.data,
+              aes(x = Group, y = Gene, size = PctExpr,
+                  colour = Group, alpha = AvgExprScale)) +
+    geom_point() +
+    scale_radius(range = c(0, 10)) +
+    scale_alpha(range = c(0.1, 1)) +
+    scale_colour_manual(values = c("#EC008C", "#00ADEF")) +
+    scale_x_discrete(labels = c("Fetal kidney", "Organoid")) +
+    facet_wrap(~ Cluster, scales = "free", nrow = 1) +
+    theme(axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+          panel.spacing = unit(x = 1, units = "lines"),
+          strip.background = element_blank(),
+          strip.placement = "outside",
+          legend.position = "none")
+
+ggsave(here("output", DOCNAME, "figure3F.png"), f3F,
+       height = 8, width = 10)
+ggsave(here("output", DOCNAME, "figure3F.pdf"), f3F,
+       height = 8, width = 10)
+
+f3F
+```
+
+Figure 3 Panel
+--------------
+
+```{r fig3-panel, fig.height = 20, fig.width = 16}
+p1 <- plot_grid(f3A + theme(legend.position = "none"),
+                f3B + theme(legend.position = "none"),
+                nrow = 1,
+                labels = c("A", "B"))
+p2 <- plot_grid(f3C, f3D,
+                nrow = 1,
+                labels = c("C", "D"))
+p3 <- plot_grid(p1,
+                l3AB,
+                p2,
+                ncol = 1, rel_heights = c(1, 0.25, 0.6))
+panel <- plot_grid(p3, f3E, f3F, ncol = 1, labels = c("", "E", "F"),
+                   rel_heights = c(1, 0.4, 0.4))
+
+ggsave(here("output", DOCNAME, "figure3_panel.png"), panel,
+       height = 20, width = 16)
+ggsave(here("output", DOCNAME, "figure3_panel.pdf"), panel,
        height = 20, width = 16)
 
 panel
@@ -336,8 +808,30 @@ kable(data.frame(
         glue("[figure2D.pdf]({getDownloadURL('figure2D.pdf', DOCNAME)})"),
         glue("[figure2E.png]({getDownloadURL('figure2E.png', DOCNAME)})"),
         glue("[figure2E.pdf]({getDownloadURL('figure2E.pdf', DOCNAME)})"),
-        glue("[figure2_panel.png]({getDownloadURL('figure2_panel.png', DOCNAME)})"),
-        glue("[figure2_panel.pdf]({getDownloadURL('figure2_panel.pdf', DOCNAME)})")
+        glue("[figure2F.png]({getDownloadURL('figure2F.png', DOCNAME)})"),
+        glue("[figure2F.pdf]({getDownloadURL('figure2F.pdf', DOCNAME)})"),
+        glue("[figure2G.png]({getDownloadURL('figure2G.png', DOCNAME)})"),
+        glue("[figure2G.pdf]({getDownloadURL('figure2G.pdf', DOCNAME)})"),
+        glue("[figure2_panel.png]",
+             "({getDownloadURL('figure2_panel.png', DOCNAME)})"),
+        glue("[figure2_panel.pdf]",
+             "({getDownloadURL('figure2_panel.pdf', DOCNAME)})"),
+        glue("[figure3A.png]({getDownloadURL('figure3A.png', DOCNAME)})"),
+        glue("[figure3A.pdf]({getDownloadURL('figure3A.pdf', DOCNAME)})"),
+        glue("[figure3B.png]({getDownloadURL('figure3B.png', DOCNAME)})"),
+        glue("[figure3B.pdf]({getDownloadURL('figure3B.pdf', DOCNAME)})"),
+        glue("[figure3C.png]({getDownloadURL('figure3C.png', DOCNAME)})"),
+        glue("[figure3C.pdf]({getDownloadURL('figure3C.pdf', DOCNAME)})"),
+        glue("[figure3D.png]({getDownloadURL('figure3D.png', DOCNAME)})"),
+        glue("[figure3D.pdf]({getDownloadURL('figure3D.pdf', DOCNAME)})"),
+        glue("[figure3E.png]({getDownloadURL('figure3E.png', DOCNAME)})"),
+        glue("[figure3E.pdf]({getDownloadURL('figure3E.pdf', DOCNAME)})"),
+        glue("[figure3F.png]({getDownloadURL('figure3F.png', DOCNAME)})"),
+        glue("[figure3F.pdf]({getDownloadURL('figure3F.pdf', DOCNAME)})"),
+        glue("[figure3_panel.png]",
+             "({getDownloadURL('figure3_panel.png', DOCNAME)})"),
+        glue("[figure3_panel.pdf]",
+             "({getDownloadURL('figure3_panel.pdf', DOCNAME)})")
     ),
     Description = c(
         "Figure 2A in PNG format",
@@ -350,8 +844,26 @@ kable(data.frame(
         "Figure 2D in PDF format",
         "Figure 2E in PNG format",
         "Figure 2E in PDF format",
-        "Figure panel in PNG format",
-        "Figure panel in PDF format"
+        "Figure 2F in PNG format",
+        "Figure 2F in PDF format",
+        "Figure 2G in PNG format",
+        "Figure 2G in PDF format",
+        "Figure 2 panel in PNG format",
+        "Figure 2 panel in PDF format",
+        "Figure 3A in PNG format",
+        "Figure 3A in PDF format",
+        "Figure 3B in PNG format",
+        "Figure 3B in PDF format",
+        "Figure 3C in PNG format",
+        "Figure 3C in PDF format",
+        "Figure 3D in PNG format",
+        "Figure 3D in PDF format",
+        "Figure 3E in PNG format",
+        "Figure 3E in PDF format",
+        "Figure 3F in PNG format",
+        "Figure 3F in PDF format",
+        "Figure 3 panel in PNG format",
+        "Figure 3 panel in PDF format"
     )
 ))
 ```

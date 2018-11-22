@@ -401,7 +401,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-09-13</p>
+<p><strong>Last updated:</strong> 2018-11-23</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -425,28 +425,52 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/a61f9c98a128e5dd7b637a5b07f5eb81a9e10978" target="_blank">a61f9c9</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/253dca3f24e14e87f14d5e01c69d00d804189d1f" target="_blank">253dca3</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    analysis/cache/
+    Ignored:    data/Lindstrom2/
+    Ignored:    data/processed.bak.20181031/
     Ignored:    data/processed.bak/
+    Ignored:    data/processed.lind2.20181114/
     Ignored:    packrat/lib-R/
     Ignored:    packrat/lib-ext/
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
 
 Untracked files:
+    Untracked:  analysis/cache.bak.20181031/
     Untracked:  analysis/cache.bak/
+    Untracked:  analysis/cache.lind2.20181114/
+    Untracked:  output/07D_Combined_Figures/figure2F.pdf
+    Untracked:  output/07D_Combined_Figures/figure2G.pdf
+    Untracked:  output/07D_Combined_Figures/figure3A.pdf
+    Untracked:  output/07D_Combined_Figures/figure3B.pdf
+    Untracked:  output/07D_Combined_Figures/figure3C.pdf
+    Untracked:  output/07D_Combined_Figures/figure3D.pdf
+    Untracked:  output/07D_Combined_Figures/figure3E.pdf
+    Untracked:  output/07D_Combined_Figures/figure3F.pdf
+    Untracked:  output/07D_Combined_Figures/figure3_panel.pdf
 
 Unstaged changes:
     Modified:   output/04D_Organoids_Figures/figure1A.pdf
     Modified:   output/04D_Organoids_Figures/figure1B.pdf
     Modified:   output/04D_Organoids_Figures/figure1C.pdf
     Modified:   output/04D_Organoids_Figures/figure1D.pdf
+    Modified:   output/04D_Organoids_Figures/figure1E.pdf
+    Modified:   output/04D_Organoids_Figures/figure1F.pdf
+    Deleted:    output/04D_Organoids_Figures/figure1G.pdf
     Modified:   output/04D_Organoids_Figures/figure1_panel.pdf
+    Modified:   output/07D_Combined_Figures/figure2A.pdf
+    Modified:   output/07D_Combined_Figures/figure2B.pdf
+    Modified:   output/07D_Combined_Figures/figure2C.pdf
+    Modified:   output/07D_Combined_Figures/figure2D.pdf
+    Modified:   output/07D_Combined_Figures/figure2E.pdf
+    Modified:   output/07D_Combined_Figures/figure2_panel.pdf
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -475,6 +499,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/253dca3f24e14e87f14d5e01c69d00d804189d1f/analysis/07D_Combined_Figures.Rmd" target="_blank">253dca3</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+<td style="text-align:left;">
+Revise figures
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://github.com/Oshlack/combes-organoid-paper/2354d7041d95e9b1559dfb2f14073a2b02fd7e2a/docs/07D_Combined_Figures.html" target="_blank">2354d70</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+<td style="text-align:left;">
+Tidy output files
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 html
@@ -620,9 +678,15 @@ library(&quot;here&quot;)
 
 # Tidyverse
 library(&quot;tidyverse&quot;)</code></pre>
-<pre class="r"><code>source(here(&quot;R/output.R&quot;))</code></pre>
+<pre class="r"><code>source(here(&quot;R/output.R&quot;))
+source(here(&quot;R/crossover.R&quot;))</code></pre>
 <pre class="r"><code>comb.path &lt;- here(&quot;data/processed/Combined_clustered.Rds&quot;)
 comb.neph.path &lt;- here(&quot;data/processed/Combined_nephron.Rds&quot;)
+
+o.path &lt;- here(&quot;output/04_Organoids_Clustering/cluster_assignments.csv&quot;)
+on.path &lt;- here(&quot;output/04B_Organoids_Nephron/cluster_assignments.csv&quot;)
+c.path &lt;- here(&quot;output/07_Combined_Clustering/cluster_assignments.csv&quot;)
+cn.path &lt;- here(&quot;output/07B_Combined_Nephron/cluster_assignments.csv&quot;)
 
 dir.create(here(&quot;output&quot;, DOCNAME), showWarnings = FALSE)</code></pre>
 <div id="introduction" class="section level1">
@@ -642,9 +706,58 @@ dir.create(here(&quot;output&quot;, DOCNAME), showWarnings = FALSE)</code></pre>
          &quot;Please run &#39;07B_Organoids_Nephron.Rmd&#39; first.&quot;,
          call. = FALSE)
 }</code></pre>
+<pre class="r"><code>orgs.clusts &lt;- read_csv(o.path,
+                        col_types = cols(
+                            Cell = col_character(),
+                            Dataset = col_character(),
+                            Sample = col_integer(),
+                            Barcode = col_character(),
+                            Cluster = col_integer()
+                        )) %&gt;%
+    rename(Organoids = Cluster)
+
+orgs.neph.clusts &lt;- read_csv(on.path,
+                             col_types = cols(
+                                 Cell = col_character(),
+                                 Dataset = col_character(),
+                                 Sample = col_integer(),
+                                 Barcode = col_character(),
+                                 Cluster = col_integer()
+                             )) %&gt;%
+    rename(OrgsNephron = Cluster)
+
+comb.clusts &lt;- read_csv(c.path,
+                        col_types = cols(
+                            Cell = col_character(),
+                            Dataset = col_character(),
+                            Sample = col_integer(),
+                            Barcode = col_character(),
+                            Cluster = col_integer()
+                        )) %&gt;%
+    rename(Combined = Cluster)
+
+comb.neph.clusts &lt;- read_csv(cn.path,
+                             col_types = cols(
+                                 Cell = col_character(),
+                                 Dataset = col_character(),
+                                 Sample = col_integer(),
+                                 Barcode = col_character(),
+                                 Cluster = col_integer()
+                             )) %&gt;%
+    rename(CombNephron = Cluster)
+
+clusts &lt;- comb.clusts %&gt;%
+    left_join(comb.neph.clusts,
+              by = c(&quot;Cell&quot;, &quot;Dataset&quot;, &quot;Sample&quot;, &quot;Barcode&quot;)) %&gt;%
+    left_join(orgs.clusts,
+              by = c(&quot;Cell&quot;, &quot;Dataset&quot;, &quot;Sample&quot;, &quot;Barcode&quot;)) %&gt;%
+    left_join(orgs.neph.clusts,
+              by = c(&quot;Cell&quot;, &quot;Dataset&quot;, &quot;Sample&quot;, &quot;Barcode&quot;))</code></pre>
 </div>
-<div id="figure-2a" class="section level1">
-<h1>Figure 2A</h1>
+<div id="figure-2" class="section level1">
+<h1>Figure 2</h1>
+<div id="figure-2a" class="section level2">
+<h2>Figure 2A</h2>
 <pre class="r"><code>plot.data &lt;- comb %&gt;%
     GetDimReduction(&quot;tsne&quot;,  slot = &quot;cell.embeddings&quot;) %&gt;%
     data.frame() %&gt;%
@@ -656,10 +769,12 @@ dir.create(here(&quot;output&quot;, DOCNAME), showWarnings = FALSE)</code></pre>
 f2A &lt;- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Group)) +
     geom_point() +
     scale_color_manual(values = c(&quot;#EC008C&quot;, &quot;#00ADEF&quot;)) +
-    guides(colour = guide_legend(override.aes = list(size = 10))) +
+    guides(colour = guide_legend(ncol = 1,
+                                 override.aes = list(size = 10))) +
     theme_cowplot() +
-    theme(legend.position = &quot;right&quot;,
-          legend.title = element_blank())
+    theme(legend.position = &quot;bottom&quot;,
+          legend.title = element_blank(),
+          legend.justification = &quot;center&quot;)
 
 ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2A.png&quot;), f2A,
        height = 8, width = 10)
@@ -699,8 +814,8 @@ Luke Zappia
 </table>
 <p></details></p>
 </div>
-<div id="figure-2b" class="section level1">
-<h1>Figure 2B</h1>
+<div id="figure-2b" class="section level2">
+<h2>Figure 2B</h2>
 <pre class="r"><code>lab.data &lt;- plot.data %&gt;%
     group_by(Cluster) %&gt;%
     summarise(tSNE_1 = mean(tSNE_1),
@@ -717,24 +832,25 @@ clust.labs &lt;- c(
     &quot;C6 (Committing nephron prog.)\nLYPD1, DAPL1, PAX8&quot;,
     &quot;C7 (Podocyte)\nPODXL, MAFB, TCF21&quot;,
     &quot;C8 (Cell cycle)\nCENPF, HMGB2, UBE2C&quot;,
-    &quot;C9 (Stroma)\nCOL9A3, DCN, LUM, IGFBP6&quot;,
+    &quot;C9 (Stroma)\nCOL9A3, FIBIN, DLK1&quot;,
     &quot;C10 (Nephron)\nIGFBP7, EMBX2, MAL&quot;,
-    &quot;C11 (Neural prog.)\nTTHY1, SOX2, S100B&quot;,
-    &quot;C12 (Immune)\nCD74, TYROBP, FCER1G&quot;,
-    &quot;C13 (Blood)\nCYPC, SLC25A39, GPX1&quot;,
-    &quot;C14 (Neural prog.)\nOrganoid only&quot;,
-    &quot;C15 (Podocyte)\nFetal kidney only&quot;
+    &quot;C11 (Glial)\nTTHY1, FABP7, SOX2&quot;,
+    &quot;C12 (Immune)\nPTPRC, TYROBP, FCER1G&quot;,
+    &quot;C13 (Blood)\nHBG1, HBB, HBA2&quot;,
+    &quot;C14 (Neural prog.)\nSOX11, ELAVL3, ELAVL4&quot;,
+    &quot;C15 (Podocyte)\nPTPRO, TCF21, PODXL&quot;
 )
 
 f2B &lt;- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
     geom_point() +
     geom_text(data = lab.data, aes(label = Label), colour = &quot;black&quot;, size = 8) +
     scale_colour_discrete(labels = clust.labs) +
-    guides(colour = guide_legend(ncol = 1, override.aes = list(size = 10),
+    guides(colour = guide_legend(nrow = 2, override.aes = list(size = 10),
                                  label.theme = element_text(size = 8))) +
     theme_cowplot() +
-    theme(legend.position = &quot;right&quot;,
-          legend.title = element_blank())
+    theme(legend.position = &quot;bottom&quot;,
+          legend.title = element_blank(),
+          legend.justification = &quot;center&quot;)
 
 ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2B.png&quot;), f2B,
        height = 8, width = 10)
@@ -774,14 +890,14 @@ Luke Zappia
 </table>
 <p></details></p>
 </div>
-<div id="figure-2ab-legend" class="section level1">
-<h1>Figure 2AB legend</h1>
-<pre class="r"><code>lA &lt;- get_legend(f2A)
-lB &lt;- get_legend(f2B)
+<div id="figure-2ab-legend" class="section level2">
+<h2>Figure 2AB legend</h2>
+<pre class="r"><code>l2A &lt;- get_legend(f2A)
+l2B &lt;- get_legend(f2B)
 
-lAB &lt;- plot_grid(lA, lB, ncol = 1, rel_heights = c(0.1, 1))
+l2AB &lt;- plot_grid(l2A, l2B, nrow = 1, rel_widths = c(0.15, 1))
 
-lAB</code></pre>
+l2AB</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-2AB-legend-1.png" width="960" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of fig-2AB-legend-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -814,40 +930,26 @@ Luke Zappia
 </table>
 <p></details></p>
 </div>
-<div id="figure-2c" class="section level1">
-<h1>Figure 2C</h1>
-<pre class="r"><code>plot.data &lt;- comb.neph %&gt;%
-    GetDimReduction(&quot;tsne&quot;,  slot = &quot;cell.embeddings&quot;) %&gt;%
-    data.frame() %&gt;%
-    rownames_to_column(&quot;Cell&quot;) %&gt;%
-    mutate(Cluster = comb.neph@ident)
-
-lab.data &lt;- plot.data %&gt;%
-    group_by(Cluster) %&gt;%
-    summarise(tSNE_1 = mean(tSNE_1),
-              tSNE_2 = mean(tSNE_2)) %&gt;%
-    mutate(Label = paste0(&quot;CN&quot;, Cluster))
-
-clust.labs &lt;- c(
-    &quot;CN0 (Podocyte)\nTCF21, PODXL, SYNPO&quot;,
-    &quot;CN1 (Differentiating nephron prog.)\nLYPD1, PAX8, DAPL1&quot;,
-    &quot;CN2 (Nephron prog.)\nCRABP2, SIX1, TMEM100, CITED1&quot;,
-    &quot;CN3 (Proximal early nephron)\nCTGF, OLFM3, MAFB&quot;,
-    &quot;CN4 (Distal)\nWFDC2, EMX2, MAL, GATA3&quot;,
-    &quot;CN5 (Proximal)\nIGFBP7, MPC2, FXYD2, CDH6&quot;,
-    &quot;CN6 (Stroma)\nfetal kidney only&quot;,
-    &quot;CN7 (Podocyte)\nfetal kidney only&quot;
-)
-
-f2C &lt;- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
-    geom_point(size = 3) +
-    geom_text(data = lab.data, aes(label = Label), colour = &quot;black&quot;, size = 8) +
-    scale_color_brewer(palette = &quot;Set1&quot;, labels = clust.labs) +
-    guides(colour = guide_legend(ncol = 4, override.aes = list(size = 10),
-                                 label.theme = element_text(size = 8))) +
-    theme_cowplot() +
-    theme(legend.position = &quot;bottom&quot;,
-          legend.title = element_blank())
+<div id="figure-2c" class="section level2">
+<h2>Figure 2C</h2>
+<pre class="r"><code>f2C &lt;- summariseClusts(clusts, Combined, Organoids) %&gt;%
+    replace_na(list(Jaccard = 0)) %&gt;%
+    ggplot(aes(x = Combined, y = Organoids, fill = Jaccard)) +
+    geom_tile() +
+    scale_fill_viridis_c(limits = c(0, 1), name = &quot;Jaccard\nindex&quot;) +
+    scale_x_discrete(labels = paste0(&quot;C&quot;, 0:15)) +
+    scale_y_discrete(labels = paste0(&quot;O&quot;, 0:12)) +
+    coord_equal() +
+    xlab(&quot;Combined clusters&quot;) +
+    ylab(&quot;Organoid clusters&quot;) +
+    theme_minimal() +
+    theme(axis.text = element_text(size = 12, colour = &quot;black&quot;),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 20),
+          legend.key.height = unit(50, &quot;pt&quot;),
+          legend.title = element_text(size = 15),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())
 
 ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2C.png&quot;), f2C,
        height = 8, width = 10)
@@ -887,16 +989,18 @@ Luke Zappia
 </table>
 <p></details></p>
 </div>
-<div id="figure-2d" class="section level1">
-<h1>Figure 2D</h1>
-<pre class="r"><code>plot.data &lt;- comb.neph@meta.data %&gt;%
-    select(NephCluster, Group) %&gt;%
-    mutate(NephCluster = paste0(&quot;CN&quot;, NephCluster)) %&gt;%
+<div id="figure-2d" class="section level2">
+<h2>Figure 2D</h2>
+<pre class="r"><code>labs &lt;- paste0(&quot;C&quot;, 0:max(as.numeric(comb@meta.data$Cluster)))
+
+plot.data &lt;- comb@meta.data %&gt;%
+    select(Cluster, Group) %&gt;%
+    mutate(Cluster = paste0(&quot;C&quot;, Cluster)) %&gt;%
+    mutate(Cluster = factor(Cluster, levels = labs)) %&gt;%
     mutate(Group = if_else(Group == &quot;Lindstrom&quot;, &quot;Fetal kidney&quot;, Group))
 
-f2D &lt;- ggplot(plot.data, aes(x = NephCluster, fill = NephCluster)) +
+f2D &lt;- ggplot(plot.data, aes(x = Cluster, fill = Cluster)) +
     geom_bar() +
-    scale_fill_brewer(palette = &quot;Set1&quot;) +
     labs(y = &quot;Number of cells&quot;) +
     facet_wrap(~ Group, ncol = 1, scales = &quot;free_y&quot;) +
     theme_cowplot() +
@@ -945,40 +1049,39 @@ Luke Zappia
 </table>
 <p></details></p>
 </div>
-<div id="figure-2e" class="section level1">
-<h1>Figure 2E</h1>
-<pre class="r"><code>genes &lt;- c(&quot;PTPRO&quot;, &quot;NPHS1&quot;, &quot;VEGFA&quot;, &quot;PODXL&quot;, &quot;TCF21&quot;, &quot;MAFB&quot;, &quot;OLFM3&quot;, &quot;CTGF&quot;,
-           &quot;SIX1&quot;, &quot;TMEM100&quot;, &quot;CITED1&quot;, &quot;LYPD1&quot;, &quot;PAX8&quot;, &quot;DAPL1&quot;, &quot;IGFBP7&quot;, 
-           &quot;EMX2&quot;, &quot;CDH6&quot;, &quot;WFDC2&quot;, &quot;MAL&quot;, &quot;EPCAM&quot;, &quot;HSPA1A&quot;, &quot;HSPA1B&quot;,
-           &quot;DNAJB1&quot;)
+<div id="figure-2e" class="section level2">
+<h2>Figure 2E</h2>
+<pre class="r"><code>plot.data &lt;- comb@meta.data %&gt;%
+    select(Cluster, Group) %&gt;%
+    mutate(Tissue = fct_collapse(Cluster,
+                                 Stroma = c(&quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;9&quot;),
+                                 Nephron = c(&quot;6&quot;, &quot;7&quot;, &quot;10&quot;, &quot;15&quot;),
+                                 Endothelial = c(&quot;4&quot;),
+                                 `Cell cycle` = c(&quot;5&quot;, &quot;8&quot;),
+                                 Other = c(&quot;11&quot;, &quot;12&quot;, &quot;13&quot;, &quot;14&quot;))) %&gt;%
+    mutate(Tissue = fct_relevel(Tissue,
+                                &quot;Stroma&quot;, &quot;Nephron&quot;, &quot;Endothelial&quot;,
+                                &quot;Cell cycle&quot;, &quot;Other&quot;)) %&gt;%
+    group_by(Group, Tissue) %&gt;%
+    summarise(Count = n()) %&gt;%
+    mutate(Prop = Count / sum(Count)) %&gt;%
+    ungroup() %&gt;%
+    mutate(Group = if_else(Group == &quot;Lindstrom&quot;, &quot;Fetal kidney&quot;, Group))
 
-gene.groups &lt;- rev(c(rep(&quot;Podocyte&quot;, 5),
-                 rep(&quot;Prox. early neph.&quot;, 3),
-                 rep(&quot;Nephron progenitor&quot;, 3),
-                 rep(&quot;Differentiating NP&quot;, 3),
-                 rep(&quot;Proximal precursor&quot;, 3),
-                 rep(&quot;Distal precursor&quot;, 3),
-                 rep(&quot;Heatshock&quot;, 3))) %&gt;%
-    fct_relevel(&quot;Podocyte&quot;, &quot;Prox. early neph.&quot;,  &quot;Nephron progenitor&quot;,
-                &quot;Differentiating NP&quot;, &quot;Proximal precursor&quot;,
-                &quot;Distal precursor&quot;, &quot;Heatshock&quot;)
+f2E &lt;- ggplot(plot.data, aes(x = Group, y = Prop, fill = Tissue)) +
+    geom_col() +
+    labs(y = &quot;Proportion of cells&quot;) +
+    guides(fill = guide_legend(direction = &quot;vertical&quot;, ncol = 2)) +
+    theme_cowplot() +
+    theme(axis.title.x = element_blank(),
+          legend.position = &quot;bottom&quot;)
 
-clust.labs &lt;- c(
-    &quot;Fetal kidney CN0&quot;, &quot;Organoid CN0&quot;,
-    &quot;Fetal kidney CN1&quot;, &quot;Organoid CN1&quot;,
-    &quot;Fetal kidney CN2&quot;, &quot;Organoid CN2&quot;,
-    &quot;Fetal kidney CN3&quot;, &quot;Organoid CN3&quot;,
-    &quot;Fetal kidney CN4&quot;, &quot;Organoid CN4&quot;,
-    &quot;Fetal kidney CN5&quot;, &quot;Organoid CN5&quot;,
-    &quot;Fetal kidney CN6&quot;, &quot;Organoid CN6&quot;,
-    &quot;Fetal kidney CN7&quot;, &quot;Organoid CN7&quot;
-)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2E.png&quot;), f2E,
+       height = 8, width = 10)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2E.pdf&quot;), f2E,
+       height = 8, width = 10)
 
-f2E &lt;- SplitDotPlotGG(comb.neph, &quot;Group&quot;, genes, gene.groups,
-                      cols.use = c(&quot;#EC008C&quot;, &quot;#00ADEF&quot;), dot.scale = 5,
-                      do.return = TRUE) +
-    scale_y_discrete(labels = clust.labs) +
-    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))</code></pre>
+f2E</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-2E-1.png" width="960" style="display: block; margin: auto;" /></p>
 <details> <summary><em>Expand here to see past versions of fig-2E-1.png:</em></summary>
 <table style="border-collapse:separate; border-spacing:5px;">
@@ -1010,58 +1113,151 @@ Luke Zappia
 </tbody>
 </table>
 <p></details></p>
-<pre class="r"><code>for (y in seq(2.5, 14.5, 2)) {
-    f2E &lt;- f2E + geom_hline(yintercept = y, size = 0.2, colour = &quot;grey70&quot;)
-}
+</div>
+<div id="figure-2f" class="section level2">
+<h2>Figure 2F</h2>
+<pre class="r"><code>genes &lt;- c(&quot;HSPA1A&quot;, &quot;HSPA1B&quot;, &quot;HBG2&quot;, &quot;HSP90AA1&quot;, &quot;DNAJB1&quot;, &quot;FOS&quot;, &quot;HSPA6&quot;,
+           &quot;HBG1&quot;, &quot;JUN&quot;, &quot;GPC3&quot;, &quot;MARCKSL1&quot;, &quot;MARCKS&quot;, &quot;RPS26&quot;, &quot;YBX1&quot;, 
+           &quot;HMGN2&quot;, &quot;EEF1A1&quot;, &quot;RPL41&quot;, &quot;RPL39&quot;, &quot;H3F3A&quot;, &quot;RPS17&quot;)
 
-ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2E.png&quot;), f2E,
-       height = 4, width = 20)
-ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2E.pdf&quot;), f2E,
+gene.groups &lt;- c(rep(&quot;Up-regulated in fetal kidney&quot;, 10),
+                 rep(&quot;Up-regulated in organoid&quot;, 10)) %&gt;%
+    fct_relevel(&quot;Up-regulated in fetal kidney&quot;, &quot;Up-regulated in organoid&quot;)
+names(gene.groups) &lt;- genes
+
+group.labs &lt;- c(&quot;Fetal kidney&quot;, &quot;Organoid&quot;)
+
+plot.data &lt;- data.frame(FetchData(comb.neph, vars.all = genes)) %&gt;%
+    rownames_to_column(&quot;Cell&quot;) %&gt;%
+    mutate(Group = comb.neph@meta.data$Group) %&gt;%
+    gather(key = &quot;Gene&quot;, value = &quot;Expr&quot;, -Cell, -Group) %&gt;%
+    group_by(Group, Gene) %&gt;%
+    summarize(AvgExpr = mean(expm1(Expr)),
+              PctExpr = Seurat:::PercentAbove(Expr, threshold = 0) * 100) %&gt;%
+    group_by(Gene) %&gt;%
+    mutate(AvgExprScale = scale(AvgExpr)) %&gt;%
+    mutate(AvgExprScale = Seurat::MinMax(AvgExprScale,
+                                         max = 2.5, min = -2.5)) %&gt;%
+    ungroup() %&gt;%
+    mutate(GeneGroup = gene.groups[Gene]) %&gt;%
+    mutate(Gene = factor(Gene, levels = genes))
+
+f2F &lt;- ggplot(plot.data,
+              aes(x = Gene, y = Group, size = PctExpr,
+                  colour = Group, alpha = AvgExprScale)) +
+       geom_point() +
+       scale_radius(range = c(0, 10)) +
+       scale_color_manual(values = c(&quot;#EC008C&quot;, &quot;#00ADEF&quot;)) +
+       scale_y_discrete(labels = group.labs) +
+       facet_grid(~ GeneGroup, scales = &quot;free_x&quot;) +
+       theme(axis.title.x = element_blank(),
+             axis.title.y = element_blank(),
+             axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+             panel.spacing = unit(x = 1, units = &quot;lines&quot;),
+             strip.background = element_blank(),
+             strip.placement = &quot;outside&quot;,
+             strip.text = element_text(size = 15,
+                                       margin = margin(0, 0, 2, 0, &quot;pt&quot;)),
+             legend.position = &quot;none&quot;)
+
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2F.png&quot;), f2F,
+       height = 8, width = 10)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2F.pdf&quot;), f2F,
        height = 8, width = 10)
 
-f2E</code></pre>
-<p><img src="figure/07D_Combined_Figures.Rmd/fig-2E-2.png" width="960" style="display: block; margin: auto;" /></p>
-<details> <summary><em>Expand here to see past versions of fig-2E-2.png:</em></summary>
-<table style="border-collapse:separate; border-spacing:5px;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Version
-</th>
-<th style="text-align:left;">
-Author
-</th>
-<th style="text-align:left;">
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/07D_Combined_Figures.Rmd/fig-2E-2.png" target="_blank">ad10b21</a>
-</td>
-<td style="text-align:left;">
-Luke Zappia
-</td>
-<td style="text-align:left;">
-2018-09-13
-</td>
-</tr>
-</tbody>
-</table>
-<p></details></p>
+f2F</code></pre>
+<p><img src="figure/07D_Combined_Figures.Rmd/fig-2F-1.png" width="960" style="display: block; margin: auto;" /></p>
 </div>
-<div id="figure-2-panel" class="section level1">
-<h1>Figure 2 Panel</h1>
+<div id="figure-2g" class="section level2">
+<h2>Figure 2G</h2>
+<pre class="r"><code>genes.list &lt;- list(
+    `4` = c(&quot;GNG11&quot;,  &quot;CLDN5&quot;, &quot;ESAM&quot;, &quot;CD34&quot;, &quot;PECAM1&quot;,
+            &quot;PLXND1&quot;,  &quot;CXCR4&quot;, &quot;HEY1&quot;, &quot;ICAM1&quot;, &quot;CXCL2&quot;, &quot;CXCL1&quot;,
+            &quot;CCL21&quot;, &quot;CXCL8&quot;),
+    `0` = c(&quot;TAGLN&quot;, &quot;ALDH1A2&quot;, &quot;COL6A2&quot;, &quot;ALX1&quot;, &quot;ZEB2&quot;, &quot;NRK&quot;, &quot;STMN2&quot;,
+            &quot;SULT1E1&quot;, &quot;GPC3&quot;, &quot;LBH&quot;, &quot;CCBE1&quot;),
+    `1` = c(&quot;IGF1&quot;, &quot;COL3A1&quot;, &quot;DCN&quot;, &quot;LUM&quot;, &quot;POSTN&quot;, &quot;ACTA2&quot;, &quot;DKK1&quot;,
+            &quot;SERPINI1&quot;, &quot;SFRP2&quot;, &quot;WNT2B&quot;, &quot;DKK2&quot;, &quot;SEMA3C&quot;),
+    `2` = c(&quot;MGP&quot;, &quot;GATA3&quot;, &quot;PDGFRB&quot;, &quot;MEF2C&quot;, &quot;SSBP4&quot;, &quot;FTL&quot;, &quot;REN&quot;, &quot;ID1&quot;,
+            &quot;ANGPT2&quot;),
+    `3` = c(&quot;ZFHX4&quot;, &quot;CTSK&quot;, &quot;HNRNPA1&quot;, &quot;MDK&quot;, &quot;SRGAP1&quot;, &quot;ACTA2&quot;, &quot;NR2F1&quot;,
+            &quot;ANGPT1&quot;),
+    `9` = c(&quot;COL9A3&quot;, &quot;DCN&quot;, &quot;LUM&quot;, &quot;DLK1&quot;, &quot;SOX9&quot;, &quot;CNMD&quot;, &quot;PLPP3&quot;, &quot;SPON2&quot;),
+    `13` = c(&quot;SLC25A3&quot;, &quot;GPX1&quot;, &quot;FSCN1&quot;, &quot;FKBP1A&quot;, &quot;EIF4G2&quot;, &quot;HBG1&quot;,
+             &quot;HBB&quot;, &quot;HBA2&quot;),
+    `11` = c(&quot;S100B&quot;, &quot;FABP7&quot;, &quot;SOX2&quot;, &quot;NTRK2&quot;, &quot;MSX1&quot;, &quot;MBP&quot;, &quot;RELN&quot;,
+             &quot;SEMA3G&quot;, &quot;CRABP1&quot;, &quot;SOX11&quot;, &quot;ELAVL3&quot;, &quot;ELAVL4&quot;),
+    `12` = c(&quot;S100B&quot;, &quot;FABP7&quot;, &quot;SOX2&quot;, &quot;NTRK2&quot;, &quot;MSX1&quot;, &quot;MBP&quot;, &quot;RELN&quot;,
+             &quot;SEMA3G&quot;, &quot;CRABP1&quot;, &quot;SOX11&quot;, &quot;ELAVL3&quot;, &quot;ELAVL4&quot;)
+)
+
+# 4 &quot;EGLF7&quot;, &quot;PVLAP&quot;, &quot;APLN1&quot;,
+# 2 &quot;ITG8A&quot;,
+# 13 &quot;CYPC&quot;, 
+# 11 &quot;A1PS2&quot;,
+# 12 &quot;A1PS2&quot;,
+
+plot.data &lt;- lapply(names(genes.list), function(name) {
+    genes &lt;- genes.list[[name]]
+    comb %&gt;%
+        FetchData(vars.all = genes) %&gt;%
+        as_data_frame() %&gt;%
+        rownames_to_column(&quot;Cell&quot;) %&gt;%
+        mutate(Cluster = as.numeric(as.character(comb@ident)),
+               Group = comb@meta.data$Group) %&gt;%
+        gather(key = &quot;Gene&quot;, value = &quot;Expr&quot;, -Cell, -Cluster, -Group) %&gt;%
+        group_by(Cluster, Gene, Group) %&gt;%
+        summarize(AvgExpr = mean(expm1(Expr)),
+                  PctExpr = Seurat:::PercentAbove(Expr, threshold = 0) * 100) %&gt;%
+        group_by(Gene) %&gt;%
+        mutate(AvgExprScale = scale(AvgExpr)) %&gt;%
+        mutate(AvgExprScale = Seurat::MinMax(AvgExprScale,
+                                             max = 2.5, min = -2.5)) %&gt;%
+        filter(Cluster == as.numeric(name))
+})
+
+plot.data &lt;- plot.data %&gt;%
+    bind_rows() %&gt;%
+    mutate(Cluster = paste0(&quot;C&quot;, Cluster)) %&gt;%
+    mutate(Cluster = factor(Cluster, levels = paste0(&quot;C&quot;, names(genes.list))))
+
+f2G &lt;- ggplot(plot.data,
+              aes(x = Group, y = Gene, size = PctExpr,
+                  colour = Group, alpha = AvgExprScale)) +
+    geom_point() +
+    scale_radius(range = c(0, 10)) +
+    scale_alpha(range = c(0.1, 1)) +
+    scale_colour_manual(values = c(&quot;#EC008C&quot;, &quot;#00ADEF&quot;)) +
+    scale_x_discrete(labels = c(&quot;Fetal kidney&quot;, &quot;Organoid&quot;)) +
+    facet_wrap(~ Cluster, scales = &quot;free&quot;, nrow = 1) +
+    theme(axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+          panel.spacing = unit(x = 1, units = &quot;lines&quot;),
+          strip.background = element_blank(),
+          strip.placement = &quot;outside&quot;,
+          legend.position = &quot;none&quot;)
+
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2G.png&quot;), f2G,
+       height = 8, width = 10)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2G.pdf&quot;), f2G,
+       height = 8, width = 10)
+
+f2G</code></pre>
+<p><img src="figure/07D_Combined_Figures.Rmd/fig-2G-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="figure-2-panel" class="section level2">
+<h2>Figure 2 Panel</h2>
 <pre class="r"><code>p1 &lt;- plot_grid(f2A + theme(legend.position = &quot;none&quot;),
                 f2B + theme(legend.position = &quot;none&quot;),
-                lAB, nrow = 1, rel_widths = c(1, 1, 0.3),
-                labels = c(&quot;A&quot;, &quot;B&quot;, &quot;&quot;))
-p2 &lt;- plot_grid(f2C, f2D, nrow = 1,
-                labels = c(&quot;C&quot;, &quot;D&quot;, &quot;&quot;))
-panel &lt;- plot_grid(p1, p2, f2E, ncol = 1, labels = c(&quot;&quot;, &quot;&quot;, &quot;E&quot;),
-                   rel_heights = c(1, 1, 0.5))
+                nrow = 1,
+                labels = c(&quot;A&quot;, &quot;B&quot;))
+p2 &lt;- plot_grid(f2C, f2D, f2E,
+                nrow = 1, rel_widths = c(1, 1, 0.5),
+                labels = c(&quot;C&quot;, &quot;D&quot;, &quot;E&quot;))
+panel &lt;- plot_grid(p1, l2AB, p2, f2F, f2G, ncol = 1,
+                   labels = c(&quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;F&quot;, &quot;G&quot;),
+                   rel_heights = c(1, 0.2, 0.7, 0.4, 0.9))
 
 ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2_panel.png&quot;), panel,
        height = 20, width = 16)
@@ -1101,6 +1297,286 @@ Luke Zappia
 </table>
 <p></details></p>
 </div>
+</div>
+<div id="figure-3" class="section level1">
+<h1>Figure 3</h1>
+<div id="figure-3a" class="section level2">
+<h2>Figure 3A</h2>
+<pre class="r"><code>plot.data &lt;- comb.neph %&gt;%
+    GetDimReduction(&quot;tsne&quot;,  slot = &quot;cell.embeddings&quot;) %&gt;%
+    data.frame() %&gt;%
+    rownames_to_column(&quot;Cell&quot;) %&gt;%
+    mutate(Group = comb.neph@meta.data$Group) %&gt;%
+    mutate(Group = if_else(Group == &quot;Lindstrom&quot;, &quot;Fetal kidney&quot;, Group))
+
+f3A &lt;- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Group)) +
+    geom_point(size = 3) +
+    scale_color_manual(values = c(&quot;#EC008C&quot;, &quot;#00ADEF&quot;)) +
+    guides(colour = guide_legend(ncol = 4, override.aes = list(size = 12),
+                                 label.theme = element_text(size = 12))) +
+    theme_cowplot() +
+    theme(legend.position = &quot;bottom&quot;,
+          legend.title = element_blank(),
+          legend.justification = &quot;center&quot;)
+
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3A.png&quot;), f3A,
+       height = 8, width = 10)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3A.pdf&quot;), f3A,
+       height = 8, width = 10)
+
+f3A</code></pre>
+<p><img src="figure/07D_Combined_Figures.Rmd/fig-3A-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="figure-3b" class="section level2">
+<h2>Figure 3B</h2>
+<pre class="r"><code>plot.data &lt;- comb.neph %&gt;%
+    GetDimReduction(&quot;tsne&quot;,  slot = &quot;cell.embeddings&quot;) %&gt;%
+    data.frame() %&gt;%
+    rownames_to_column(&quot;Cell&quot;) %&gt;%
+    mutate(Cluster = comb.neph@ident)
+
+lab.data &lt;- plot.data %&gt;%
+    group_by(Cluster) %&gt;%
+    summarise(tSNE_1 = mean(tSNE_1),
+              tSNE_2 = mean(tSNE_2)) %&gt;%
+    mutate(Label = paste0(&quot;CN&quot;, Cluster))
+
+clust.labs &lt;- c(
+    &quot;CN0 (Podocyte)\nTCF21, PODXL, SYNPO&quot;,
+    &quot;CN1 (Differentiating nephron prog.)\nLYPD1, PAX8, DAPL1&quot;,
+    &quot;CN2 (Nephron progenitor)\nCRABP2, SIX1, TMEM100, CITED1&quot;,
+    &quot;CN3 (Podocyte precursor)\nCTGF, OLFM3, MAFB&quot;,
+    &quot;CN4 (Distal)\nWFDC2, EMX2, MAL, GATA3&quot;,
+    &quot;CN5 (Proximal)\nIGFBP7, MPC2, FXYD2, CDH6&quot;,
+    &quot;CN6 (Stroma)\nfetal kidney only&quot;,
+    &quot;CN7 (Podocyte)\nfetal kidney only&quot;
+)
+
+f3B &lt;- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
+    geom_point(size = 3) +
+    geom_text(data = lab.data, aes(label = Label), colour = &quot;black&quot;, size = 8) +
+    #scale_color_brewer(palette = &quot;Set1&quot;, labels = clust.labs) +
+    scale_colour_discrete(labels = clust.labs) +
+    guides(colour = guide_legend(ncol = 4, override.aes = list(size = 12),
+                                 label.theme = element_text(size = 12))) +
+    theme_cowplot() +
+    theme(legend.position = &quot;bottom&quot;,
+          legend.title = element_blank(),
+          legend.justification = &quot;center&quot;)
+
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3B.png&quot;), f3B,
+       height = 8, width = 10)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3B.pdf&quot;), f3B,
+       height = 8, width = 10)
+
+f3B</code></pre>
+<p><img src="figure/07D_Combined_Figures.Rmd/fig-3B-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="figure-3ab-legend" class="section level2">
+<h2>Figure 3AB legend</h2>
+<pre class="r"><code>l3A &lt;- get_legend(f3A)
+l3B &lt;- get_legend(f3B)
+
+l3AB &lt;- plot_grid(l3A, l3B, nrow = 1, rel_widths = c(0.3, 1))
+
+l3AB</code></pre>
+<p><img src="figure/07D_Combined_Figures.Rmd/fig-3AB-legend-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="figure-3c" class="section level2">
+<h2>Figure 3C</h2>
+<pre class="r"><code>f3C &lt;- summariseClusts(clusts, CombNephron, OrgsNephron) %&gt;%
+    replace_na(list(Jaccard = 0)) %&gt;%
+    ggplot(aes(x = CombNephron, y = OrgsNephron, fill = Jaccard)) +
+    geom_tile() +
+    scale_fill_viridis_c(limits = c(0, 1), name = &quot;Jaccard\nindex&quot;) +
+    scale_x_discrete(labels = paste0(&quot;CN&quot;, 0:7)) +
+    scale_y_discrete(labels = paste0(&quot;ON&quot;, 0:4)) +
+    coord_equal() +
+    xlab(&quot;Combined nephron clusters&quot;) +
+    ylab(&quot;Organoid nephron clusters&quot;) +
+    theme_minimal() +
+    theme(axis.text = element_text(size = 10, colour = &quot;black&quot;),
+          axis.ticks = element_blank(),
+          axis.title = element_text(size = 16),
+          legend.key.height = unit(30, &quot;pt&quot;),
+          legend.title = element_text(size = 12),
+          legend.text = element_text(size = 10),
+          panel.grid = element_blank())
+
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3C.png&quot;), f3C,
+       height = 8, width = 10)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3C.pdf&quot;), f3C,
+       height = 8, width = 10)
+
+f3C</code></pre>
+<p><img src="figure/07D_Combined_Figures.Rmd/fig-3C-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="figure-3d" class="section level2">
+<h2>Figure 3D</h2>
+<pre class="r"><code>plot.data &lt;- comb.neph@meta.data %&gt;%
+    select(NephCluster, Group) %&gt;%
+    mutate(NephCluster = paste0(&quot;CN&quot;, NephCluster)) %&gt;%
+    mutate(Group = if_else(Group == &quot;Lindstrom&quot;, &quot;Fetal kidney&quot;, Group))
+
+f3D &lt;- ggplot(plot.data, aes(x = NephCluster, fill = NephCluster)) +
+    geom_bar() +
+    #scale_fill_brewer(palette = &quot;Set1&quot;) +
+    labs(y = &quot;Number of cells&quot;) +
+    facet_wrap(~ Group, ncol = 1, scales = &quot;free_y&quot;) +
+    theme_cowplot() +
+    theme(legend.position = &quot;none&quot;,
+          axis.title.x = element_blank(),
+          strip.text = element_text(size = 15,
+                                    margin = margin(0, 0, 2, 0, &quot;pt&quot;)),
+          strip.background = element_blank(),
+          strip.placement = &quot;outside&quot;)
+
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3D.png&quot;), f3D,
+       height = 8, width = 10)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3D.pdf&quot;), f3D,
+       height = 8, width = 10)
+
+f3D</code></pre>
+<p><img src="figure/07D_Combined_Figures.Rmd/fig-3D-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="figure-3e" class="section level2">
+<h2>Figure 3E</h2>
+<pre class="r"><code>genes &lt;- c(&quot;TCF21&quot;,   &quot;ROBO2&quot;,  &quot;NPHS2&quot;,  &quot;PTPRO&quot;,   &quot;NPHS1&quot;,  &quot;SYNPO&quot;,
+           &quot;LYPD1&quot;,    &quot;PAX8&quot;,  &quot;DAPL1&quot;,   &quot;CDH6&quot;,    &quot;PAX2&quot;,   &quot;HEY1&quot;,
+            &quot;SIX1&quot;, &quot;TMEM100&quot;, &quot;CITED1&quot;,  &quot;MEOX1&quot;,    &quot;EYA1&quot;, &quot;CRABP2&quot;,
+            &quot;CTGF&quot;,   &quot;OLFM3&quot;,   &quot;MAFB&quot;,  &quot;PODXL&quot;,   &quot;VAMP8&quot;,  &quot;WFDC2&quot;,
+            &quot;EMX2&quot;,     &quot;MAL&quot;,  &quot;MECOM&quot;, &quot;ATP1B1&quot;, &quot;TMEM52B&quot;, &quot;IGFBP7&quot;, 
+           &quot;FXYD2&quot;,     &quot;CLU&quot;, &quot;COL1A1&quot;, &quot;COL3A1&quot;,   &quot;POSTN&quot;,   &quot;NFIA&quot;,
+           &quot;SNAI2&quot;,  &quot;LGALS1&quot;, &quot;CXCL12&quot;,  &quot;TNNI1&quot;,   &quot;TNNT2&quot;,  &quot;ANXA2&quot;)
+
+gene.groups &lt;- rev(c(rep(&quot;Podocyte&quot;, 6),
+                     rep(&quot;Differentiating\nnephron progenitor&quot;, 6),
+                     rep(&quot;Nephron\nprogenitor&quot;, 6),
+                     rep(&quot;Podocyte\nprecursor&quot;, 5),
+                     rep(&quot;Distal&quot;, 6),
+                     rep(&quot;Proximal&quot;, 3),
+                     rep(&quot;Stroma&quot;, 6),
+                     rep(&quot;hFK\nPodocyte&quot;, 4))) %&gt;%
+    fct_relevel(&quot;Podocyte&quot;, &quot;Differentiating\nnephron progenitor&quot;, 
+                &quot;Nephron\nprogenitor&quot;, &quot;Podocyte\nprecursor&quot;, &quot;Distal&quot;,
+                &quot;Proximal&quot;, &quot;Stroma&quot;, &quot;hFK\nPodocyte&quot;)
+
+clust.labs &lt;- c(
+    &quot;hFK CN0&quot;, &quot;Org CN0&quot;,
+    &quot;hFK CN1&quot;, &quot;Org CN1&quot;,
+    &quot;hFK CN2&quot;, &quot;Org CN2&quot;,
+    &quot;hFK CN3&quot;, &quot;Org CN3&quot;,
+    &quot;hFK CN4&quot;, &quot;Org CN4&quot;,
+    &quot;hFK CN5&quot;, &quot;Org CN5&quot;,
+    &quot;hFK CN6&quot;, &quot;Org CN6&quot;,
+    &quot;hFK CN7&quot;, &quot;Org CN7&quot;
+)
+
+f3E &lt;- SplitDotPlotGG(comb.neph, &quot;Group&quot;, genes, gene.groups,
+                      cols.use = c(&quot;#EC008C&quot;, &quot;#00ADEF&quot;), dot.scale = 5,
+                      do.return = TRUE) +
+    scale_y_discrete(labels = clust.labs) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+          strip.text.x = element_text(margin = margin(0, 0, 2, 0, &quot;pt&quot;)))</code></pre>
+<p><img src="figure/07D_Combined_Figures.Rmd/fig-3E-1.png" width="960" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>for (y in seq(2.5, 14.5, 2)) {
+    f3E &lt;- f3E + geom_hline(yintercept = y, size = 0.2, colour = &quot;grey70&quot;)
+}
+
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3E.png&quot;), f3E,
+       height = 4, width = 20)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3E.pdf&quot;), f3E,
+       height = 8, width = 10)
+
+f3E</code></pre>
+<p><img src="figure/07D_Combined_Figures.Rmd/fig-3E-2.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="figure-3f" class="section level2">
+<h2>Figure 3F</h2>
+<pre class="r"><code>genes.list &lt;- list(
+    c(&quot;LYPD1&quot;, &quot;PDGFC&quot;, &quot;ITGA8&quot;, &quot;PTPRO&quot;, &quot;WT1&quot;, &quot;ANXA1&quot;),
+    c(&quot;CCND1&quot;, &quot;CXCR4&quot;, &quot;STMN1&quot;, &quot;ATOX1&quot;, &quot;BNIP3&quot;, &quot;GNAS&quot;),
+    c(&quot;TMEM100&quot;, &quot;MEOX1&quot;, &quot;ROBO2&quot;, &quot;MYOD1&quot;, &quot;MYOG&quot;,&quot;PITX2&quot;),
+    c(&quot;CCND1&quot;, &quot;CXCL1&quot;, &quot;STMN1&quot;, &quot;VEGFA&quot;, &quot;SYNPO&quot;, &quot;PTPRO&quot;),
+    c(&quot;TSC22D1&quot;, &quot;DDX5&quot;, &quot;MALAT1&quot;, &quot;GLRX5&quot;, &quot;CITED2&quot;, &quot;LHX1&quot;),
+    c(&quot;SEPHS2&quot;,  &quot;BEX1&quot;,  &quot;COX14&quot;, &quot;HNF1B&quot;, &quot;LHX1&quot;, &quot;CITED2&quot;),
+    c(&quot;PITX2&quot;, &quot;HNRNPAB&quot;, &quot;CTDNEP1&quot;),
+    c(&quot;S100A6&quot;, &quot;TCF21&quot;,  &quot;PODXL&quot;)
+)
+
+plot.data &lt;- lapply(seq_along(genes.list), function(idx) {
+    genes &lt;- genes.list[[idx]]
+    comb.neph %&gt;%
+        FetchData(vars.all = genes) %&gt;%
+        as_data_frame() %&gt;%
+        rownames_to_column(&quot;Cell&quot;) %&gt;%
+        mutate(Cluster = as.numeric(as.character(comb.neph@ident)),
+               Group = comb.neph@meta.data$Group) %&gt;%
+        gather(key = &quot;Gene&quot;, value = &quot;Expr&quot;, -Cell, -Cluster, -Group) %&gt;%
+        group_by(Cluster, Gene, Group) %&gt;%
+        summarize(AvgExpr = mean(expm1(Expr)),
+                  PctExpr = Seurat:::PercentAbove(Expr, threshold = 0) * 100) %&gt;%
+        group_by(Gene) %&gt;%
+        mutate(AvgExprScale = scale(AvgExpr)) %&gt;%
+        mutate(AvgExprScale = Seurat::MinMax(AvgExprScale,
+                                             max = 2.5, min = -2.5)) %&gt;%
+        filter(Cluster == idx - 1)
+})
+
+plot.data &lt;- plot.data %&gt;%
+    bind_rows() %&gt;%
+    mutate(Cluster = paste0(&quot;CN&quot;, Cluster))
+
+f3F &lt;- ggplot(plot.data,
+              aes(x = Group, y = Gene, size = PctExpr,
+                  colour = Group, alpha = AvgExprScale)) +
+    geom_point() +
+    scale_radius(range = c(0, 10)) +
+    scale_alpha(range = c(0.1, 1)) +
+    scale_colour_manual(values = c(&quot;#EC008C&quot;, &quot;#00ADEF&quot;)) +
+    scale_x_discrete(labels = c(&quot;Fetal kidney&quot;, &quot;Organoid&quot;)) +
+    facet_wrap(~ Cluster, scales = &quot;free&quot;, nrow = 1) +
+    theme(axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+          panel.spacing = unit(x = 1, units = &quot;lines&quot;),
+          strip.background = element_blank(),
+          strip.placement = &quot;outside&quot;,
+          legend.position = &quot;none&quot;)
+
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3F.png&quot;), f3F,
+       height = 8, width = 10)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3F.pdf&quot;), f3F,
+       height = 8, width = 10)
+
+f3F</code></pre>
+<p><img src="figure/07D_Combined_Figures.Rmd/fig-3F-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="figure-3-panel" class="section level2">
+<h2>Figure 3 Panel</h2>
+<pre class="r"><code>p1 &lt;- plot_grid(f3A + theme(legend.position = &quot;none&quot;),
+                f3B + theme(legend.position = &quot;none&quot;),
+                nrow = 1,
+                labels = c(&quot;A&quot;, &quot;B&quot;))
+p2 &lt;- plot_grid(f3C, f3D,
+                nrow = 1,
+                labels = c(&quot;C&quot;, &quot;D&quot;))
+p3 &lt;- plot_grid(p1,
+                l3AB,
+                p2,
+                ncol = 1, rel_heights = c(1, 0.25, 0.6))
+panel &lt;- plot_grid(p3, f3E, f3F, ncol = 1, labels = c(&quot;&quot;, &quot;E&quot;, &quot;F&quot;),
+                   rel_heights = c(1, 0.4, 0.4))
+
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3_panel.png&quot;), panel,
+       height = 20, width = 16)
+ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3_panel.pdf&quot;), panel,
+       height = 20, width = 16)
+
+panel</code></pre>
+<p><img src="figure/07D_Combined_Figures.Rmd/fig3-panel-1.png" width="1536" style="display: block; margin: auto;" /></p>
+</div>
+</div>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
 <div id="output-files" class="section level2">
@@ -1118,8 +1594,30 @@ Luke Zappia
         glue(&quot;[figure2D.pdf]({getDownloadURL(&#39;figure2D.pdf&#39;, DOCNAME)})&quot;),
         glue(&quot;[figure2E.png]({getDownloadURL(&#39;figure2E.png&#39;, DOCNAME)})&quot;),
         glue(&quot;[figure2E.pdf]({getDownloadURL(&#39;figure2E.pdf&#39;, DOCNAME)})&quot;),
-        glue(&quot;[figure2_panel.png]({getDownloadURL(&#39;figure2_panel.png&#39;, DOCNAME)})&quot;),
-        glue(&quot;[figure2_panel.pdf]({getDownloadURL(&#39;figure2_panel.pdf&#39;, DOCNAME)})&quot;)
+        glue(&quot;[figure2F.png]({getDownloadURL(&#39;figure2F.png&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure2F.pdf]({getDownloadURL(&#39;figure2F.pdf&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure2G.png]({getDownloadURL(&#39;figure2G.png&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure2G.pdf]({getDownloadURL(&#39;figure2G.pdf&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure2_panel.png]&quot;,
+             &quot;({getDownloadURL(&#39;figure2_panel.png&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure2_panel.pdf]&quot;,
+             &quot;({getDownloadURL(&#39;figure2_panel.pdf&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure3A.png]({getDownloadURL(&#39;figure3A.png&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure3A.pdf]({getDownloadURL(&#39;figure3A.pdf&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure3B.png]({getDownloadURL(&#39;figure3B.png&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure3B.pdf]({getDownloadURL(&#39;figure3B.pdf&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure3C.png]({getDownloadURL(&#39;figure3C.png&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure3C.pdf]({getDownloadURL(&#39;figure3C.pdf&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure3D.png]({getDownloadURL(&#39;figure3D.png&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure3D.pdf]({getDownloadURL(&#39;figure3D.pdf&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure3E.png]({getDownloadURL(&#39;figure3E.png&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure3E.pdf]({getDownloadURL(&#39;figure3E.pdf&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure3F.png]({getDownloadURL(&#39;figure3F.png&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure3F.pdf]({getDownloadURL(&#39;figure3F.pdf&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure3_panel.png]&quot;,
+             &quot;({getDownloadURL(&#39;figure3_panel.png&#39;, DOCNAME)})&quot;),
+        glue(&quot;[figure3_panel.pdf]&quot;,
+             &quot;({getDownloadURL(&#39;figure3_panel.pdf&#39;, DOCNAME)})&quot;)
     ),
     Description = c(
         &quot;Figure 2A in PNG format&quot;,
@@ -1132,8 +1630,26 @@ Luke Zappia
         &quot;Figure 2D in PDF format&quot;,
         &quot;Figure 2E in PNG format&quot;,
         &quot;Figure 2E in PDF format&quot;,
-        &quot;Figure panel in PNG format&quot;,
-        &quot;Figure panel in PDF format&quot;
+        &quot;Figure 2F in PNG format&quot;,
+        &quot;Figure 2F in PDF format&quot;,
+        &quot;Figure 2G in PNG format&quot;,
+        &quot;Figure 2G in PDF format&quot;,
+        &quot;Figure 2 panel in PNG format&quot;,
+        &quot;Figure 2 panel in PDF format&quot;,
+        &quot;Figure 3A in PNG format&quot;,
+        &quot;Figure 3A in PDF format&quot;,
+        &quot;Figure 3B in PNG format&quot;,
+        &quot;Figure 3B in PDF format&quot;,
+        &quot;Figure 3C in PNG format&quot;,
+        &quot;Figure 3C in PDF format&quot;,
+        &quot;Figure 3D in PNG format&quot;,
+        &quot;Figure 3D in PDF format&quot;,
+        &quot;Figure 3E in PNG format&quot;,
+        &quot;Figure 3E in PDF format&quot;,
+        &quot;Figure 3F in PNG format&quot;,
+        &quot;Figure 3F in PDF format&quot;,
+        &quot;Figure 3 panel in PNG format&quot;,
+        &quot;Figure 3 panel in PDF format&quot;
     )
 ))</code></pre>
 <table>
@@ -1145,52 +1661,124 @@ Luke Zappia
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2A.png">figure2A.png</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2A.png">figure2A.png</a></td>
 <td align="left">Figure 2A in PNG format</td>
 </tr>
 <tr class="even">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2A.pdf">figure2A.pdf</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2A.pdf">figure2A.pdf</a></td>
 <td align="left">Figure 2A in PDF format</td>
 </tr>
 <tr class="odd">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2B.png">figure2B.png</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2B.png">figure2B.png</a></td>
 <td align="left">Figure 2B in PNG format</td>
 </tr>
 <tr class="even">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2B.pdf">figure2B.pdf</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2B.pdf">figure2B.pdf</a></td>
 <td align="left">Figure 2B in PDF format</td>
 </tr>
 <tr class="odd">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2C.png">figure2C.png</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2C.png">figure2C.png</a></td>
 <td align="left">Figure 2C in PNG format</td>
 </tr>
 <tr class="even">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2C.pdf">figure2C.pdf</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2C.pdf">figure2C.pdf</a></td>
 <td align="left">Figure 2C in PDF format</td>
 </tr>
 <tr class="odd">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2D.png">figure2D.png</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2D.png">figure2D.png</a></td>
 <td align="left">Figure 2D in PNG format</td>
 </tr>
 <tr class="even">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2D.pdf">figure2D.pdf</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2D.pdf">figure2D.pdf</a></td>
 <td align="left">Figure 2D in PDF format</td>
 </tr>
 <tr class="odd">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2E.png">figure2E.png</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2E.png">figure2E.png</a></td>
 <td align="left">Figure 2E in PNG format</td>
 </tr>
 <tr class="even">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2E.pdf">figure2E.pdf</a></td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2E.pdf">figure2E.pdf</a></td>
 <td align="left">Figure 2E in PDF format</td>
 </tr>
 <tr class="odd">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2_panel.png">figure2_panel.png</a></td>
-<td align="left">Figure panel in PNG format</td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2F.png">figure2F.png</a></td>
+<td align="left">Figure 2F in PNG format</td>
 </tr>
 <tr class="even">
-<td align="left"><a href="http://git.mcri.edu.au/bioinformatics/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2_panel.pdf">figure2_panel.pdf</a></td>
-<td align="left">Figure panel in PDF format</td>
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2F.pdf">figure2F.pdf</a></td>
+<td align="left">Figure 2F in PDF format</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2G.png">figure2G.png</a></td>
+<td align="left">Figure 2G in PNG format</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2G.pdf">figure2G.pdf</a></td>
+<td align="left">Figure 2G in PDF format</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2_panel.png">figure2_panel.png</a></td>
+<td align="left">Figure 2 panel in PNG format</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure2_panel.pdf">figure2_panel.pdf</a></td>
+<td align="left">Figure 2 panel in PDF format</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure3A.png">figure3A.png</a></td>
+<td align="left">Figure 3A in PNG format</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure3A.pdf">figure3A.pdf</a></td>
+<td align="left">Figure 3A in PDF format</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure3B.png">figure3B.png</a></td>
+<td align="left">Figure 3B in PNG format</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure3B.pdf">figure3B.pdf</a></td>
+<td align="left">Figure 3B in PDF format</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure3C.png">figure3C.png</a></td>
+<td align="left">Figure 3C in PNG format</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure3C.pdf">figure3C.pdf</a></td>
+<td align="left">Figure 3C in PDF format</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure3D.png">figure3D.png</a></td>
+<td align="left">Figure 3D in PNG format</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure3D.pdf">figure3D.pdf</a></td>
+<td align="left">Figure 3D in PDF format</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure3E.png">figure3E.png</a></td>
+<td align="left">Figure 3E in PNG format</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure3E.pdf">figure3E.pdf</a></td>
+<td align="left">Figure 3E in PDF format</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure3F.png">figure3F.png</a></td>
+<td align="left">Figure 3F in PNG format</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure3F.pdf">figure3F.pdf</a></td>
+<td align="left">Figure 3F in PDF format</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure3_panel.png">figure3_panel.png</a></td>
+<td align="left">Figure 3 panel in PNG format</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://github.com/Oshlack/combes-organoid-paper/raw/master/output/07D_Combined_Figures/figure3_panel.pdf">figure3_panel.pdf</a></td>
+<td align="left">Figure 3 panel in PDF format</td>
 </tr>
 </tbody>
 </table>
@@ -1205,7 +1793,7 @@ Luke Zappia
  language (EN)                        
  collate  en_US.UTF-8                 
  tz       Australia/Melbourne         
- date     2018-09-06                  
+ date     2018-11-23                  
 
  package        * version    date       source                            
  abind            1.4-5      2016-07-21 cran (@1.4-5)                     
@@ -1217,7 +1805,7 @@ Luke Zappia
  base64enc        0.1-3      2015-07-28 CRAN (R 3.5.0)                    
  bibtex           0.4.2      2017-06-30 cran (@0.4.2)                     
  bindr            0.1.1      2018-03-13 cran (@0.1.1)                     
- bindrcpp         0.2.2      2018-03-29 cran (@0.2.2)                     
+ bindrcpp       * 0.2.2      2018-03-29 cran (@0.2.2)                     
  Biobase        * 2.40.0     2018-07-30 Bioconductor                      
  BiocGenerics   * 0.26.0     2018-07-30 Bioconductor                      
  bitops           1.0-6      2013-08-17 cran (@1.0-6)                     
@@ -1300,6 +1888,7 @@ Luke Zappia
  kernlab          0.9-26     2018-04-30 cran (@0.9-26)                    
  KernSmooth       2.23-15    2015-06-29 CRAN (R 3.5.0)                    
  knitr          * 1.20       2018-02-20 CRAN (R 3.5.0)                    
+ labeling         0.3        2014-08-23 cran (@0.3)                       
  lars             1.2        2013-04-24 cran (@1.2)                       
  lattice          0.20-35    2017-03-25 CRAN (R 3.5.0)                    
  latticeExtra     0.6-28     2016-02-09 cran (@0.6-28)                    
