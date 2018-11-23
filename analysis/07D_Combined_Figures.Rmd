@@ -204,8 +204,8 @@ f2B <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
     geom_point() +
     geom_text(data = lab.data, aes(label = Label), colour = "black", size = 8) +
     scale_colour_discrete(labels = clust.labs) +
-    guides(colour = guide_legend(nrow = 2, override.aes = list(size = 10),
-                                 label.theme = element_text(size = 8))) +
+    guides(colour = guide_legend(nrow = 3, override.aes = list(size = 10),
+                                 label.theme = element_text(size = 10))) +
     theme_cowplot() +
     theme(legend.position = "bottom",
           legend.title = element_blank(),
@@ -246,10 +246,10 @@ f2C <- summariseClusts(clusts, Combined, Organoids) %>%
     xlab("Combined clusters") +
     ylab("Organoid clusters") +
     theme_minimal() +
-    theme(axis.text = element_text(size = 12, colour = "black"),
+    theme(axis.text = element_text(size = 10, colour = "black"),
           axis.ticks = element_blank(),
-          axis.title = element_text(size = 20),
-          legend.key.height = unit(50, "pt"),
+          axis.title = element_text(size = 15),
+          legend.key.height = unit(30, "pt"),
           legend.title = element_text(size = 15),
           legend.text = element_text(size = 10),
           panel.grid = element_blank())
@@ -281,6 +281,7 @@ f2D <- ggplot(plot.data, aes(x = Cluster, fill = Cluster)) +
     theme_cowplot() +
     theme(legend.position = "none",
           axis.title.x = element_blank(),
+          axis.text = element_text(size = 10),
           strip.text = element_text(size = 15,
                                     margin = margin(0, 0, 2, 0, "pt")),
           strip.background = element_blank(),
@@ -392,31 +393,31 @@ Figure 2G
 
 ```{r fig-2G}
 genes.list <- list(
-    `4` = c("GNG11",  "CLDN5", "ESAM", "CD34", "PECAM1",
-            "PLXND1",  "CXCR4", "HEY1", "ICAM1", "CXCL2", "CXCL1",
-            "CCL21", "CXCL8"),
-    `0` = c("TAGLN", "ALDH1A2", "COL6A2", "ALX1", "ZEB2", "NRK", "STMN2",
-            "SULT1E1", "GPC3", "LBH", "CCBE1"),
-    `1` = c("IGF1", "COL3A1", "DCN", "LUM", "POSTN", "ACTA2", "DKK1",
-            "SERPINI1", "SFRP2", "WNT2B", "DKK2", "SEMA3C"),
-    `2` = c("MGP", "GATA3", "PDGFRB", "MEF2C", "SSBP4", "FTL", "REN", "ID1",
-            "ANGPT2"),
-    `3` = c("ZFHX4", "CTSK", "HNRNPA1", "MDK", "SRGAP1", "ACTA2", "NR2F1",
-            "ANGPT1"),
-    `9` = c("COL9A3", "DCN", "LUM", "DLK1", "SOX9", "CNMD", "PLPP3", "SPON2"),
-    `13` = c("SLC25A3", "GPX1", "FSCN1", "FKBP1A", "EIF4G2", "HBG1",
-             "HBB", "HBA2"),
-    `11` = c("S100B", "FABP7", "SOX2", "NTRK2", "MSX1", "MBP", "RELN",
-             "SEMA3G", "CRABP1", "SOX11", "ELAVL3", "ELAVL4"),
-    `12` = c("S100B", "FABP7", "SOX2", "NTRK2", "MSX1", "MBP", "RELN",
-             "SEMA3G", "CRABP1", "SOX11", "ELAVL3", "ELAVL4")
+    `4` = c("GNG11", "CLDN5", "ESAM", "CD34", "PECAM1", "PLXND1", "APLN", 
+            "CXCR4", "HEY1", "ICAM1", "CXCL2", "CXCL1", "CXCL8"),
+    `0` = c("TAGLN", "ALDH1A2", "COL6A3", "ALX1", "PDGFRA", "ACTA2", "NRK", 
+            "STMN2", "SULT1E1", "GPC3", "SERPINH1", "EGR1", "CCBE1"),
+    `1` = c("DCN", "COL1A1", "LUM", "IGF1", "POSTN", "SFRP2", "ACTA2", "DKK1", 
+            "PALLD", "WNT2B", "DKK2", "SEMA3C", "CRABP1"),
+    `2` = c("MGP", "GATA3", "PDGFRB", "MEF2C", "SSBP4", "FTL", "REN", "ID1", 
+            "ITGA8", "ANGPT2", "DLK1", "APOE", "SLN"),
+    `3` = c("ZFHX4", "CTSK", "HNRNPA1", "MAB21L2", "PRRX1", "MDK", "SRGAP1",
+            "VIM", "SOX6", "ACTA2", "NR2F1", "ANGPT1", "TSPYL2"),
+    `9` = c("COL9A3", "DCN", "LUM", "FIBIN", "OGN", "SOX9", "CNMD", "MIA",
+            "GNG5", "PLPP3", "SPON2", "ITM2B", "MATN4"),
+    `13` = c("HBG1", "HBB", "HBA2", "HBA1", "HBM", "AHSP", "ALAS2", "GYPC", 
+             "SLC25A3", "GPX1", "FSCN1", "FKBP1A", "EIF4G2"),
+    `11` = c("TTYH1", "S100B", "FABP7", "SOX2", "AP1S2", "MSX1", "TUBB2B",
+             "RELN", "GFRA3", "SEMA3G", "NTRK2", "LYPD1", "PTN"),
+    `14` = c("HES6", "TUBB2B", "CRABP1", "STMN2", "TUBA1A", "DCX", "ELAVL3",
+             "SOX11", "ELAVL4", "ATOH1", "RBP1", "NCAM1", "STMN1"),
+    `12` = c("PTPRC", "CD74", "SRGN", "S100A9", "TYROBP", "HLA-DPB1", "S100A8",
+             "LYZ", "FCER1G", "CXCL8", "HLA-DRB1", "HLA-DRA", "IL1B")
 )
 
-# 4 "EGLF7", "PVLAP", "APLN1",
-# 2 "ITG8A",
-# 13 "CYPC", 
-# 11 "A1PS2",
-# 12 "A1PS2",
+clust.labs <- c("C4\nEndo", "C0\nStr", "C1\nStr", "C2\nStr", "C3\nStr",
+                "C9\nStr", "C13\nBlood", "C11\nGlia", "C14\nNeural",
+                "C12\nImmune")
 
 plot.data <- lapply(names(genes.list), function(name) {
     genes <- genes.list[[name]]
@@ -439,14 +440,17 @@ plot.data <- lapply(names(genes.list), function(name) {
 
 plot.data <- plot.data %>%
     bind_rows() %>%
-    mutate(Cluster = paste0("C", Cluster)) %>%
-    mutate(Cluster = factor(Cluster, levels = paste0("C", names(genes.list))))
+    ungroup() %>%
+    mutate(Cluster = factor(Cluster,
+                            levels = names(genes.list),
+                            labels = clust.labs)) %>%
+    mutate(Gene = factor(Gene, levels = unique(unlist(genes.list))))
 
 f2G <- ggplot(plot.data,
               aes(x = Group, y = Gene, size = PctExpr,
                   colour = Group, alpha = AvgExprScale)) +
     geom_point() +
-    scale_radius(range = c(0, 10)) +
+    scale_radius(range = c(0, 8)) +
     scale_alpha(range = c(0.1, 1)) +
     scale_colour_manual(values = c("#EC008C", "#00ADEF")) +
     scale_x_discrete(labels = c("Fetal kidney", "Organoid")) +
@@ -473,14 +477,16 @@ Figure 2 Panel
 ```{r fig2-panel, fig.height = 20, fig.width = 16}
 p1 <- plot_grid(f2A + theme(legend.position = "none"),
                 f2B + theme(legend.position = "none"),
-                nrow = 1,
-                labels = c("A", "B"))
+                nrow = 1, labels = c("A", "B"),
+                label_size = 20)
 p2 <- plot_grid(f2C, f2D, f2E,
-                nrow = 1, rel_widths = c(1, 1, 0.5),
-                labels = c("C", "D", "E"))
+                nrow = 1, rel_widths = c(1.1, 1, 0.5),
+                labels = c("C", "D", "E"),
+                label_size = 20)
 panel <- plot_grid(p1, l2AB, p2, f2F, f2G, ncol = 1,
                    labels = c("", "", "", "F", "G"),
-                   rel_heights = c(1, 0.2, 0.7, 0.4, 0.9))
+                   rel_heights = c(1, 0.22, 0.7, 0.4, 0.9),
+                   label_size = 20)
 
 ggsave(here("output", DOCNAME, "figure2_panel.png"), panel,
        height = 20, width = 16)
@@ -647,22 +653,23 @@ Figure 3E
 ---------
 
 ```{r fig-3E}
-genes <- c("TCF21",   "ROBO2",  "NPHS2",  "PTPRO",   "NPHS1",  "SYNPO",
-           "LYPD1",    "PAX8",  "DAPL1",   "CDH6",    "PAX2",   "HEY1",
-            "SIX1", "TMEM100", "CITED1",  "MEOX1",    "EYA1", "CRABP2",
-            "CTGF",   "OLFM3",   "MAFB",  "PODXL",   "VAMP8",  "WFDC2",
-            "EMX2",     "MAL",  "MECOM", "ATP1B1", "TMEM52B", "IGFBP7", 
-           "FXYD2",     "CLU", "COL1A1", "COL3A1",   "POSTN",   "NFIA",
-           "SNAI2",  "LGALS1", "CXCL12",  "TNNI1",   "TNNT2",  "ANXA2")
+genes <- c( "TCF21",   "ROBO2",  "NPHS2", "NPHS1",   "SYNPO",
+            "LYPD1",    "PAX8",  "DAPL1",  "CDH6",    "PAX2",   "HEY1",
+             "SIX1", "TMEM100", "CITED1", "MEOX1",    "EYA1", "CRABP2",
+             "CTGF",   "OLFM3",   "MAFB", "PODXL",   "VAMP8",
+            "WFDC2",    "EMX2",    "MAL", "MECOM", "TMEM52B",
+           "IGFBP7",   "FXYD2",    "CLU",  "MPC2",
+           "COL1A1",  "COL3A1",  "SNAI2", "POSTN",  "LGALS1",
+            "PTPRO",   "TPPP3",  "CLIC5", "ENPEP",     "GSN", "TSPAN2")
 
-gene.groups <- rev(c(rep("Podocyte", 6),
+gene.groups <- rev(c(rep("Podocyte", 5),
                      rep("Differentiating\nnephron progenitor", 6),
                      rep("Nephron\nprogenitor", 6),
                      rep("Podocyte\nprecursor", 5),
-                     rep("Distal", 6),
-                     rep("Proximal", 3),
-                     rep("Stroma", 6),
-                     rep("hFK\nPodocyte", 4))) %>%
+                     rep("Distal", 5),
+                     rep("Proximal", 4),
+                     rep("Stroma", 5),
+                     rep("hFK\nPodocyte", 6))) %>%
     fct_relevel("Podocyte", "Differentiating\nnephron progenitor", 
                 "Nephron\nprogenitor", "Podocyte\nprecursor", "Distal",
                 "Proximal", "Stroma", "hFK\nPodocyte")
@@ -702,15 +709,19 @@ Figure 3F
 
 ```{r fig-3F}
 genes.list <- list(
-    c("LYPD1", "PDGFC", "ITGA8", "PTPRO", "WT1", "ANXA1"),
-    c("CCND1", "CXCR4", "STMN1", "ATOX1", "BNIP3", "GNAS"),
-    c("TMEM100", "MEOX1", "ROBO2", "MYOD1", "MYOG","PITX2"),
-    c("CCND1", "CXCL1", "STMN1", "VEGFA", "SYNPO", "PTPRO"),
-    c("TSC22D1", "DDX5", "MALAT1", "GLRX5", "CITED2", "LHX1"),
-    c("SEPHS2",  "BEX1",  "COX14", "HNF1B", "LHX1", "CITED2"),
-    c("PITX2", "HNRNPAB", "CTDNEP1"),
-    c("S100A6", "TCF21",  "PODXL")
+    c("LYPD1", "PDGFC", "ITGA8", "TUBA1A", "PTPRO", "WT1", "ANXA1", "VAMP8"),
+    c("CCND1", "CXCR4", "TUBA1B", "STMN1", "ATOX1", "BNIP3", "GNAS", "FTL"),
+    c("TMEM100", "MEOX1", "ROBO2", "DAPL1", "MYOD1", "MYOG", "PITX2", "TPM2"),
+    c("CCND1", "CXCL1", "HNRNPR", "STMN1", "VEGFA", "SYNPO", "WT1", "PTPRO"),
+    c("PTGR1", "TSC22D1", "DDX5", "MALAT1", "CITED2", "FTL", "BNIP3", "LHX1"),
+    c("SEPHS2", "BEX1", "COX14", "ELF3", "HNF1B", "LHX1", "VAMP8", "CITED2"),
+    c("SFRP1", "CTDNEP1", "HNRNPAB", "PCSK1N", "PITX2", "H1FX", "MID1", 
+      "LINC00632"),
+    c("TNNI1", "TNNT2", "MRGPRF", "MYL9", "COL4A4", "TUBB2A", "HMGCS1", "MSMO1")
 )
+
+clust.labs <- c("CN0\nPodocyte", "CN1\nDiff. NP", "CN2\nNP", "CN3\nPod. Pre.",
+                "CN4\nDistal", "CN5\nProximal", "CN6\nStroma", "CN7\nPodocyte")
 
 plot.data <- lapply(seq_along(genes.list), function(idx) {
     genes <- genes.list[[idx]]
@@ -733,7 +744,9 @@ plot.data <- lapply(seq_along(genes.list), function(idx) {
 
 plot.data <- plot.data %>%
     bind_rows() %>%
-    mutate(Cluster = paste0("CN", Cluster))
+    ungroup() %>%
+    mutate(Cluster = factor(Cluster, labels = clust.labs)) %>%
+    mutate(Gene = factor(Gene, levels = unique(unlist(genes.list))))
 
 f3F <- ggplot(plot.data,
               aes(x = Group, y = Gene, size = PctExpr,
@@ -766,17 +779,18 @@ Figure 3 Panel
 ```{r fig3-panel, fig.height = 20, fig.width = 16}
 p1 <- plot_grid(f3A + theme(legend.position = "none"),
                 f3B + theme(legend.position = "none"),
-                nrow = 1,
-                labels = c("A", "B"))
+                nrow = 1, labels = c("A", "B"),
+                label_size = 20)
 p2 <- plot_grid(f3C, f3D,
-                nrow = 1,
-                labels = c("C", "D"))
+                nrow = 1, labels = c("C", "D"),
+                label_size = 20)
 p3 <- plot_grid(p1,
                 l3AB,
                 p2,
-                ncol = 1, rel_heights = c(1, 0.25, 0.6))
+                ncol = 1, rel_heights = c(1, 0.2, 0.6))
 panel <- plot_grid(p3, f3E, f3F, ncol = 1, labels = c("", "E", "F"),
-                   rel_heights = c(1, 0.4, 0.4))
+                   rel_heights = c(1, 0.4, 0.4),
+                   label_size = 20)
 
 ggsave(here("output", DOCNAME, "figure3_panel.png"), panel,
        height = 20, width = 16)

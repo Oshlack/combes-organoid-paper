@@ -425,7 +425,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/7d8a1dd3ae6033f0e902d46fc31abe04bc98d482" target="_blank">7d8a1dd</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/b7e169e5d17ec0e27d837617b11a3dc4b9bc3e43" target="_blank">b7e169e</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -444,23 +444,6 @@ Ignored files:
     Ignored:    packrat/lib-ext/
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
-
-Unstaged changes:
-    Modified:   .gitignore
-    Modified:   output/04B_Organoids_Nephron/cluster_de.xlsx
-    Modified:   output/04B_Organoids_Nephron/conserved_markers.xlsx
-    Modified:   output/04B_Organoids_Nephron/markers.xlsx
-    Modified:   output/04_Organoids_Clustering/cluster_de.xlsx
-    Modified:   output/04_Organoids_Clustering/conserved_markers.xlsx
-    Modified:   output/04_Organoids_Clustering/markers.xlsx
-    Modified:   output/07B_Combined_Nephron/cluster_de.xlsx
-    Modified:   output/07B_Combined_Nephron/cluster_de_filtered.xlsx
-    Modified:   output/07B_Combined_Nephron/conserved_markers.xlsx
-    Modified:   output/07B_Combined_Nephron/markers.xlsx
-    Modified:   output/07_Combined_Clustering/cluster_de.xlsx
-    Modified:   output/07_Combined_Clustering/cluster_de_filtered.xlsx
-    Modified:   output/07_Combined_Clustering/conserved_markers.xlsx
-    Modified:   output/07_Combined_Clustering/markers.xlsx
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -494,7 +477,7 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="http://github.com/Oshlack/combes-organoid-paper/blob/7d8a1dd3ae6033f0e902d46fc31abe04bc98d482/analysis/07D_Combined_Figures.Rmd" target="_blank">7d8a1dd</a>
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/b7e169e5d17ec0e27d837617b11a3dc4b9bc3e43/analysis/07D_Combined_Figures.Rmd" target="_blank">b7e169e</a>
 </td>
 <td style="text-align:left;">
 Luke Zappia
@@ -503,7 +486,7 @@ Luke Zappia
 2018-11-23
 </td>
 <td style="text-align:left;">
-Minor fixes to output
+Update gene lists for figures
 </td>
 </tr>
 <tr>
@@ -852,8 +835,8 @@ f2B &lt;- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
     geom_point() +
     geom_text(data = lab.data, aes(label = Label), colour = &quot;black&quot;, size = 8) +
     scale_colour_discrete(labels = clust.labs) +
-    guides(colour = guide_legend(nrow = 2, override.aes = list(size = 10),
-                                 label.theme = element_text(size = 8))) +
+    guides(colour = guide_legend(nrow = 3, override.aes = list(size = 10),
+                                 label.theme = element_text(size = 10))) +
     theme_cowplot() +
     theme(legend.position = &quot;bottom&quot;,
           legend.title = element_blank(),
@@ -882,6 +865,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/07D_Combined_Figures.Rmd/fig-2B-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 <a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/07D_Combined_Figures.Rmd/fig-2B-1.png" target="_blank">ad10b21</a>
@@ -924,6 +918,17 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/07D_Combined_Figures.Rmd/fig-2AB-legend-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 <a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/07D_Combined_Figures.Rmd/fig-2AB-legend-1.png" target="_blank">ad10b21</a>
 </td>
 <td style="text-align:left;">
@@ -950,10 +955,10 @@ Luke Zappia
     xlab(&quot;Combined clusters&quot;) +
     ylab(&quot;Organoid clusters&quot;) +
     theme_minimal() +
-    theme(axis.text = element_text(size = 12, colour = &quot;black&quot;),
+    theme(axis.text = element_text(size = 10, colour = &quot;black&quot;),
           axis.ticks = element_blank(),
-          axis.title = element_text(size = 20),
-          legend.key.height = unit(50, &quot;pt&quot;),
+          axis.title = element_text(size = 15),
+          legend.key.height = unit(30, &quot;pt&quot;),
           legend.title = element_text(size = 15),
           legend.text = element_text(size = 10),
           panel.grid = element_blank())
@@ -981,6 +986,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/07D_Combined_Figures.Rmd/fig-2C-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 <a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/07D_Combined_Figures.Rmd/fig-2C-1.png" target="_blank">ad10b21</a>
@@ -1013,6 +1029,7 @@ f2D &lt;- ggplot(plot.data, aes(x = Cluster, fill = Cluster)) +
     theme_cowplot() +
     theme(legend.position = &quot;none&quot;,
           axis.title.x = element_blank(),
+          axis.text = element_text(size = 10),
           strip.text = element_text(size = 15,
                                     margin = margin(0, 0, 2, 0, &quot;pt&quot;)),
           strip.background = element_blank(),
@@ -1041,6 +1058,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/07D_Combined_Figures.Rmd/fig-2D-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 <a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/07D_Combined_Figures.Rmd/fig-2D-1.png" target="_blank">ad10b21</a>
@@ -1106,6 +1134,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/07D_Combined_Figures.Rmd/fig-2E-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 <a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/07D_Combined_Figures.Rmd/fig-2E-1.png" target="_blank">ad10b21</a>
@@ -1174,35 +1213,65 @@ ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2F.pdf&quot;), f2F,
 
 f2F</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-2F-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig-2F-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/07D_Combined_Figures.Rmd/fig-2F-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="figure-2g" class="section level2">
 <h2>Figure 2G</h2>
 <pre class="r"><code>genes.list &lt;- list(
-    `4` = c(&quot;GNG11&quot;,  &quot;CLDN5&quot;, &quot;ESAM&quot;, &quot;CD34&quot;, &quot;PECAM1&quot;,
-            &quot;PLXND1&quot;,  &quot;CXCR4&quot;, &quot;HEY1&quot;, &quot;ICAM1&quot;, &quot;CXCL2&quot;, &quot;CXCL1&quot;,
-            &quot;CCL21&quot;, &quot;CXCL8&quot;),
-    `0` = c(&quot;TAGLN&quot;, &quot;ALDH1A2&quot;, &quot;COL6A2&quot;, &quot;ALX1&quot;, &quot;ZEB2&quot;, &quot;NRK&quot;, &quot;STMN2&quot;,
-            &quot;SULT1E1&quot;, &quot;GPC3&quot;, &quot;LBH&quot;, &quot;CCBE1&quot;),
-    `1` = c(&quot;IGF1&quot;, &quot;COL3A1&quot;, &quot;DCN&quot;, &quot;LUM&quot;, &quot;POSTN&quot;, &quot;ACTA2&quot;, &quot;DKK1&quot;,
-            &quot;SERPINI1&quot;, &quot;SFRP2&quot;, &quot;WNT2B&quot;, &quot;DKK2&quot;, &quot;SEMA3C&quot;),
-    `2` = c(&quot;MGP&quot;, &quot;GATA3&quot;, &quot;PDGFRB&quot;, &quot;MEF2C&quot;, &quot;SSBP4&quot;, &quot;FTL&quot;, &quot;REN&quot;, &quot;ID1&quot;,
-            &quot;ANGPT2&quot;),
-    `3` = c(&quot;ZFHX4&quot;, &quot;CTSK&quot;, &quot;HNRNPA1&quot;, &quot;MDK&quot;, &quot;SRGAP1&quot;, &quot;ACTA2&quot;, &quot;NR2F1&quot;,
-            &quot;ANGPT1&quot;),
-    `9` = c(&quot;COL9A3&quot;, &quot;DCN&quot;, &quot;LUM&quot;, &quot;DLK1&quot;, &quot;SOX9&quot;, &quot;CNMD&quot;, &quot;PLPP3&quot;, &quot;SPON2&quot;),
-    `13` = c(&quot;SLC25A3&quot;, &quot;GPX1&quot;, &quot;FSCN1&quot;, &quot;FKBP1A&quot;, &quot;EIF4G2&quot;, &quot;HBG1&quot;,
-             &quot;HBB&quot;, &quot;HBA2&quot;),
-    `11` = c(&quot;S100B&quot;, &quot;FABP7&quot;, &quot;SOX2&quot;, &quot;NTRK2&quot;, &quot;MSX1&quot;, &quot;MBP&quot;, &quot;RELN&quot;,
-             &quot;SEMA3G&quot;, &quot;CRABP1&quot;, &quot;SOX11&quot;, &quot;ELAVL3&quot;, &quot;ELAVL4&quot;),
-    `12` = c(&quot;S100B&quot;, &quot;FABP7&quot;, &quot;SOX2&quot;, &quot;NTRK2&quot;, &quot;MSX1&quot;, &quot;MBP&quot;, &quot;RELN&quot;,
-             &quot;SEMA3G&quot;, &quot;CRABP1&quot;, &quot;SOX11&quot;, &quot;ELAVL3&quot;, &quot;ELAVL4&quot;)
+    `4` = c(&quot;GNG11&quot;, &quot;CLDN5&quot;, &quot;ESAM&quot;, &quot;CD34&quot;, &quot;PECAM1&quot;, &quot;PLXND1&quot;, &quot;APLN&quot;, 
+            &quot;CXCR4&quot;, &quot;HEY1&quot;, &quot;ICAM1&quot;, &quot;CXCL2&quot;, &quot;CXCL1&quot;, &quot;CXCL8&quot;),
+    `0` = c(&quot;TAGLN&quot;, &quot;ALDH1A2&quot;, &quot;COL6A3&quot;, &quot;ALX1&quot;, &quot;PDGFRA&quot;, &quot;ACTA2&quot;, &quot;NRK&quot;, 
+            &quot;STMN2&quot;, &quot;SULT1E1&quot;, &quot;GPC3&quot;, &quot;SERPINH1&quot;, &quot;EGR1&quot;, &quot;CCBE1&quot;),
+    `1` = c(&quot;DCN&quot;, &quot;COL1A1&quot;, &quot;LUM&quot;, &quot;IGF1&quot;, &quot;POSTN&quot;, &quot;SFRP2&quot;, &quot;ACTA2&quot;, &quot;DKK1&quot;, 
+            &quot;PALLD&quot;, &quot;WNT2B&quot;, &quot;DKK2&quot;, &quot;SEMA3C&quot;, &quot;CRABP1&quot;),
+    `2` = c(&quot;MGP&quot;, &quot;GATA3&quot;, &quot;PDGFRB&quot;, &quot;MEF2C&quot;, &quot;SSBP4&quot;, &quot;FTL&quot;, &quot;REN&quot;, &quot;ID1&quot;, 
+            &quot;ITGA8&quot;, &quot;ANGPT2&quot;, &quot;DLK1&quot;, &quot;APOE&quot;, &quot;SLN&quot;),
+    `3` = c(&quot;ZFHX4&quot;, &quot;CTSK&quot;, &quot;HNRNPA1&quot;, &quot;MAB21L2&quot;, &quot;PRRX1&quot;, &quot;MDK&quot;, &quot;SRGAP1&quot;,
+            &quot;VIM&quot;, &quot;SOX6&quot;, &quot;ACTA2&quot;, &quot;NR2F1&quot;, &quot;ANGPT1&quot;, &quot;TSPYL2&quot;),
+    `9` = c(&quot;COL9A3&quot;, &quot;DCN&quot;, &quot;LUM&quot;, &quot;FIBIN&quot;, &quot;OGN&quot;, &quot;SOX9&quot;, &quot;CNMD&quot;, &quot;MIA&quot;,
+            &quot;GNG5&quot;, &quot;PLPP3&quot;, &quot;SPON2&quot;, &quot;ITM2B&quot;, &quot;MATN4&quot;),
+    `13` = c(&quot;HBG1&quot;, &quot;HBB&quot;, &quot;HBA2&quot;, &quot;HBA1&quot;, &quot;HBM&quot;, &quot;AHSP&quot;, &quot;ALAS2&quot;, &quot;GYPC&quot;, 
+             &quot;SLC25A3&quot;, &quot;GPX1&quot;, &quot;FSCN1&quot;, &quot;FKBP1A&quot;, &quot;EIF4G2&quot;),
+    `11` = c(&quot;TTYH1&quot;, &quot;S100B&quot;, &quot;FABP7&quot;, &quot;SOX2&quot;, &quot;AP1S2&quot;, &quot;MSX1&quot;, &quot;TUBB2B&quot;,
+             &quot;RELN&quot;, &quot;GFRA3&quot;, &quot;SEMA3G&quot;, &quot;NTRK2&quot;, &quot;LYPD1&quot;, &quot;PTN&quot;),
+    `14` = c(&quot;HES6&quot;, &quot;TUBB2B&quot;, &quot;CRABP1&quot;, &quot;STMN2&quot;, &quot;TUBA1A&quot;, &quot;DCX&quot;, &quot;ELAVL3&quot;,
+             &quot;SOX11&quot;, &quot;ELAVL4&quot;, &quot;ATOH1&quot;, &quot;RBP1&quot;, &quot;NCAM1&quot;, &quot;STMN1&quot;),
+    `12` = c(&quot;PTPRC&quot;, &quot;CD74&quot;, &quot;SRGN&quot;, &quot;S100A9&quot;, &quot;TYROBP&quot;, &quot;HLA-DPB1&quot;, &quot;S100A8&quot;,
+             &quot;LYZ&quot;, &quot;FCER1G&quot;, &quot;CXCL8&quot;, &quot;HLA-DRB1&quot;, &quot;HLA-DRA&quot;, &quot;IL1B&quot;)
 )
 
-# 4 &quot;EGLF7&quot;, &quot;PVLAP&quot;, &quot;APLN1&quot;,
-# 2 &quot;ITG8A&quot;,
-# 13 &quot;CYPC&quot;, 
-# 11 &quot;A1PS2&quot;,
-# 12 &quot;A1PS2&quot;,
+clust.labs &lt;- c(&quot;C4\nEndo&quot;, &quot;C0\nStr&quot;, &quot;C1\nStr&quot;, &quot;C2\nStr&quot;, &quot;C3\nStr&quot;,
+                &quot;C9\nStr&quot;, &quot;C13\nBlood&quot;, &quot;C11\nGlia&quot;, &quot;C14\nNeural&quot;,
+                &quot;C12\nImmune&quot;)
 
 plot.data &lt;- lapply(names(genes.list), function(name) {
     genes &lt;- genes.list[[name]]
@@ -1225,14 +1294,17 @@ plot.data &lt;- lapply(names(genes.list), function(name) {
 
 plot.data &lt;- plot.data %&gt;%
     bind_rows() %&gt;%
-    mutate(Cluster = paste0(&quot;C&quot;, Cluster)) %&gt;%
-    mutate(Cluster = factor(Cluster, levels = paste0(&quot;C&quot;, names(genes.list))))
+    ungroup() %&gt;%
+    mutate(Cluster = factor(Cluster,
+                            levels = names(genes.list),
+                            labels = clust.labs)) %&gt;%
+    mutate(Gene = factor(Gene, levels = unique(unlist(genes.list))))
 
 f2G &lt;- ggplot(plot.data,
               aes(x = Group, y = Gene, size = PctExpr,
                   colour = Group, alpha = AvgExprScale)) +
     geom_point() +
-    scale_radius(range = c(0, 10)) +
+    scale_radius(range = c(0, 8)) +
     scale_alpha(range = c(0.1, 1)) +
     scale_colour_manual(values = c(&quot;#EC008C&quot;, &quot;#00ADEF&quot;)) +
     scale_x_discrete(labels = c(&quot;Fetal kidney&quot;, &quot;Organoid&quot;)) +
@@ -1252,19 +1324,51 @@ ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2G.pdf&quot;), f2G,
 
 f2G</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-2G-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig-2G-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/07D_Combined_Figures.Rmd/fig-2G-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="figure-2-panel" class="section level2">
 <h2>Figure 2 Panel</h2>
 <pre class="r"><code>p1 &lt;- plot_grid(f2A + theme(legend.position = &quot;none&quot;),
                 f2B + theme(legend.position = &quot;none&quot;),
-                nrow = 1,
-                labels = c(&quot;A&quot;, &quot;B&quot;))
+                nrow = 1, labels = c(&quot;A&quot;, &quot;B&quot;),
+                label_size = 20)
 p2 &lt;- plot_grid(f2C, f2D, f2E,
-                nrow = 1, rel_widths = c(1, 1, 0.5),
-                labels = c(&quot;C&quot;, &quot;D&quot;, &quot;E&quot;))
+                nrow = 1, rel_widths = c(1.1, 1, 0.5),
+                labels = c(&quot;C&quot;, &quot;D&quot;, &quot;E&quot;),
+                label_size = 20)
 panel &lt;- plot_grid(p1, l2AB, p2, f2F, f2G, ncol = 1,
                    labels = c(&quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;F&quot;, &quot;G&quot;),
-                   rel_heights = c(1, 0.2, 0.7, 0.4, 0.9))
+                   rel_heights = c(1, 0.22, 0.7, 0.4, 0.9),
+                   label_size = 20)
 
 ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure2_panel.png&quot;), panel,
        height = 20, width = 16)
@@ -1289,6 +1393,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/07D_Combined_Figures.Rmd/fig2-panel-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 <a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/07D_Combined_Figures.Rmd/fig2-panel-1.png" target="_blank">ad10b21</a>
@@ -1333,6 +1448,36 @@ ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3A.pdf&quot;), f3A,
 
 f3A</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-3A-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig-3A-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/07D_Combined_Figures.Rmd/fig-3A-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="figure-3b" class="section level2">
 <h2>Figure 3B</h2>
@@ -1378,6 +1523,36 @@ ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3B.pdf&quot;), f3B,
 
 f3B</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-3B-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig-3B-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/07D_Combined_Figures.Rmd/fig-3B-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="figure-3ab-legend" class="section level2">
 <h2>Figure 3AB legend</h2>
@@ -1388,6 +1563,36 @@ l3AB &lt;- plot_grid(l3A, l3B, nrow = 1, rel_widths = c(0.3, 1))
 
 l3AB</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-3AB-legend-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig-3AB-legend-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/07D_Combined_Figures.Rmd/fig-3AB-legend-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="figure-3c" class="section level2">
 <h2>Figure 3C</h2>
@@ -1445,25 +1650,56 @@ ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3D.pdf&quot;), f3D,
 
 f3D</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-3D-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig-3D-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/07D_Combined_Figures.Rmd/fig-3D-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="figure-3e" class="section level2">
 <h2>Figure 3E</h2>
-<pre class="r"><code>genes &lt;- c(&quot;TCF21&quot;,   &quot;ROBO2&quot;,  &quot;NPHS2&quot;,  &quot;PTPRO&quot;,   &quot;NPHS1&quot;,  &quot;SYNPO&quot;,
-           &quot;LYPD1&quot;,    &quot;PAX8&quot;,  &quot;DAPL1&quot;,   &quot;CDH6&quot;,    &quot;PAX2&quot;,   &quot;HEY1&quot;,
-            &quot;SIX1&quot;, &quot;TMEM100&quot;, &quot;CITED1&quot;,  &quot;MEOX1&quot;,    &quot;EYA1&quot;, &quot;CRABP2&quot;,
-            &quot;CTGF&quot;,   &quot;OLFM3&quot;,   &quot;MAFB&quot;,  &quot;PODXL&quot;,   &quot;VAMP8&quot;,  &quot;WFDC2&quot;,
-            &quot;EMX2&quot;,     &quot;MAL&quot;,  &quot;MECOM&quot;, &quot;ATP1B1&quot;, &quot;TMEM52B&quot;, &quot;IGFBP7&quot;, 
-           &quot;FXYD2&quot;,     &quot;CLU&quot;, &quot;COL1A1&quot;, &quot;COL3A1&quot;,   &quot;POSTN&quot;,   &quot;NFIA&quot;,
-           &quot;SNAI2&quot;,  &quot;LGALS1&quot;, &quot;CXCL12&quot;,  &quot;TNNI1&quot;,   &quot;TNNT2&quot;,  &quot;ANXA2&quot;)
+<pre class="r"><code>genes &lt;- c( &quot;TCF21&quot;,   &quot;ROBO2&quot;,  &quot;NPHS2&quot;, &quot;NPHS1&quot;,   &quot;SYNPO&quot;,
+            &quot;LYPD1&quot;,    &quot;PAX8&quot;,  &quot;DAPL1&quot;,  &quot;CDH6&quot;,    &quot;PAX2&quot;,   &quot;HEY1&quot;,
+             &quot;SIX1&quot;, &quot;TMEM100&quot;, &quot;CITED1&quot;, &quot;MEOX1&quot;,    &quot;EYA1&quot;, &quot;CRABP2&quot;,
+             &quot;CTGF&quot;,   &quot;OLFM3&quot;,   &quot;MAFB&quot;, &quot;PODXL&quot;,   &quot;VAMP8&quot;,
+            &quot;WFDC2&quot;,    &quot;EMX2&quot;,    &quot;MAL&quot;, &quot;MECOM&quot;, &quot;TMEM52B&quot;,
+           &quot;IGFBP7&quot;,   &quot;FXYD2&quot;,    &quot;CLU&quot;,  &quot;MPC2&quot;,
+           &quot;COL1A1&quot;,  &quot;COL3A1&quot;,  &quot;SNAI2&quot;, &quot;POSTN&quot;,  &quot;LGALS1&quot;,
+            &quot;PTPRO&quot;,   &quot;TPPP3&quot;,  &quot;CLIC5&quot;, &quot;ENPEP&quot;,     &quot;GSN&quot;, &quot;TSPAN2&quot;)
 
-gene.groups &lt;- rev(c(rep(&quot;Podocyte&quot;, 6),
+gene.groups &lt;- rev(c(rep(&quot;Podocyte&quot;, 5),
                      rep(&quot;Differentiating\nnephron progenitor&quot;, 6),
                      rep(&quot;Nephron\nprogenitor&quot;, 6),
                      rep(&quot;Podocyte\nprecursor&quot;, 5),
-                     rep(&quot;Distal&quot;, 6),
-                     rep(&quot;Proximal&quot;, 3),
-                     rep(&quot;Stroma&quot;, 6),
-                     rep(&quot;hFK\nPodocyte&quot;, 4))) %&gt;%
+                     rep(&quot;Distal&quot;, 5),
+                     rep(&quot;Proximal&quot;, 4),
+                     rep(&quot;Stroma&quot;, 5),
+                     rep(&quot;hFK\nPodocyte&quot;, 6))) %&gt;%
     fct_relevel(&quot;Podocyte&quot;, &quot;Differentiating\nnephron progenitor&quot;, 
                 &quot;Nephron\nprogenitor&quot;, &quot;Podocyte\nprecursor&quot;, &quot;Distal&quot;,
                 &quot;Proximal&quot;, &quot;Stroma&quot;, &quot;hFK\nPodocyte&quot;)
@@ -1486,6 +1722,36 @@ f3E &lt;- SplitDotPlotGG(comb.neph, &quot;Group&quot;, genes, gene.groups,
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
           strip.text.x = element_text(margin = margin(0, 0, 2, 0, &quot;pt&quot;)))</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-3E-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig-3E-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/07D_Combined_Figures.Rmd/fig-3E-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <pre class="r"><code>for (y in seq(2.5, 14.5, 2)) {
     f3E &lt;- f3E + geom_hline(yintercept = y, size = 0.2, colour = &quot;grey70&quot;)
 }
@@ -1497,19 +1763,53 @@ ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3E.pdf&quot;), f3E,
 
 f3E</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-3E-2.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig-3E-2.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/07D_Combined_Figures.Rmd/fig-3E-2.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="figure-3f" class="section level2">
 <h2>Figure 3F</h2>
 <pre class="r"><code>genes.list &lt;- list(
-    c(&quot;LYPD1&quot;, &quot;PDGFC&quot;, &quot;ITGA8&quot;, &quot;PTPRO&quot;, &quot;WT1&quot;, &quot;ANXA1&quot;),
-    c(&quot;CCND1&quot;, &quot;CXCR4&quot;, &quot;STMN1&quot;, &quot;ATOX1&quot;, &quot;BNIP3&quot;, &quot;GNAS&quot;),
-    c(&quot;TMEM100&quot;, &quot;MEOX1&quot;, &quot;ROBO2&quot;, &quot;MYOD1&quot;, &quot;MYOG&quot;,&quot;PITX2&quot;),
-    c(&quot;CCND1&quot;, &quot;CXCL1&quot;, &quot;STMN1&quot;, &quot;VEGFA&quot;, &quot;SYNPO&quot;, &quot;PTPRO&quot;),
-    c(&quot;TSC22D1&quot;, &quot;DDX5&quot;, &quot;MALAT1&quot;, &quot;GLRX5&quot;, &quot;CITED2&quot;, &quot;LHX1&quot;),
-    c(&quot;SEPHS2&quot;,  &quot;BEX1&quot;,  &quot;COX14&quot;, &quot;HNF1B&quot;, &quot;LHX1&quot;, &quot;CITED2&quot;),
-    c(&quot;PITX2&quot;, &quot;HNRNPAB&quot;, &quot;CTDNEP1&quot;),
-    c(&quot;S100A6&quot;, &quot;TCF21&quot;,  &quot;PODXL&quot;)
+    c(&quot;LYPD1&quot;, &quot;PDGFC&quot;, &quot;ITGA8&quot;, &quot;TUBA1A&quot;, &quot;PTPRO&quot;, &quot;WT1&quot;, &quot;ANXA1&quot;, &quot;VAMP8&quot;),
+    c(&quot;CCND1&quot;, &quot;CXCR4&quot;, &quot;TUBA1B&quot;, &quot;STMN1&quot;, &quot;ATOX1&quot;, &quot;BNIP3&quot;, &quot;GNAS&quot;, &quot;FTL&quot;),
+    c(&quot;TMEM100&quot;, &quot;MEOX1&quot;, &quot;ROBO2&quot;, &quot;DAPL1&quot;, &quot;MYOD1&quot;, &quot;MYOG&quot;, &quot;PITX2&quot;, &quot;TPM2&quot;),
+    c(&quot;CCND1&quot;, &quot;CXCL1&quot;, &quot;HNRNPR&quot;, &quot;STMN1&quot;, &quot;VEGFA&quot;, &quot;SYNPO&quot;, &quot;WT1&quot;, &quot;PTPRO&quot;),
+    c(&quot;PTGR1&quot;, &quot;TSC22D1&quot;, &quot;DDX5&quot;, &quot;MALAT1&quot;, &quot;CITED2&quot;, &quot;FTL&quot;, &quot;BNIP3&quot;, &quot;LHX1&quot;),
+    c(&quot;SEPHS2&quot;, &quot;BEX1&quot;, &quot;COX14&quot;, &quot;ELF3&quot;, &quot;HNF1B&quot;, &quot;LHX1&quot;, &quot;VAMP8&quot;, &quot;CITED2&quot;),
+    c(&quot;SFRP1&quot;, &quot;CTDNEP1&quot;, &quot;HNRNPAB&quot;, &quot;PCSK1N&quot;, &quot;PITX2&quot;, &quot;H1FX&quot;, &quot;MID1&quot;, 
+      &quot;LINC00632&quot;),
+    c(&quot;TNNI1&quot;, &quot;TNNT2&quot;, &quot;MRGPRF&quot;, &quot;MYL9&quot;, &quot;COL4A4&quot;, &quot;TUBB2A&quot;, &quot;HMGCS1&quot;, &quot;MSMO1&quot;)
 )
+
+clust.labs &lt;- c(&quot;CN0\nPodocyte&quot;, &quot;CN1\nDiff. NP&quot;, &quot;CN2\nNP&quot;, &quot;CN3\nPod. Pre.&quot;,
+                &quot;CN4\nDistal&quot;, &quot;CN5\nProximal&quot;, &quot;CN6\nStroma&quot;, &quot;CN7\nPodocyte&quot;)
 
 plot.data &lt;- lapply(seq_along(genes.list), function(idx) {
     genes &lt;- genes.list[[idx]]
@@ -1532,7 +1832,9 @@ plot.data &lt;- lapply(seq_along(genes.list), function(idx) {
 
 plot.data &lt;- plot.data %&gt;%
     bind_rows() %&gt;%
-    mutate(Cluster = paste0(&quot;CN&quot;, Cluster))
+    ungroup() %&gt;%
+    mutate(Cluster = factor(Cluster, labels = clust.labs)) %&gt;%
+    mutate(Gene = factor(Gene, levels = unique(unlist(genes.list))))
 
 f3F &lt;- ggplot(plot.data,
               aes(x = Group, y = Gene, size = PctExpr,
@@ -1558,22 +1860,53 @@ ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3F.pdf&quot;), f3F,
 
 f3F</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig-3F-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig-3F-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/07D_Combined_Figures.Rmd/fig-3F-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="figure-3-panel" class="section level2">
 <h2>Figure 3 Panel</h2>
 <pre class="r"><code>p1 &lt;- plot_grid(f3A + theme(legend.position = &quot;none&quot;),
                 f3B + theme(legend.position = &quot;none&quot;),
-                nrow = 1,
-                labels = c(&quot;A&quot;, &quot;B&quot;))
+                nrow = 1, labels = c(&quot;A&quot;, &quot;B&quot;),
+                label_size = 20)
 p2 &lt;- plot_grid(f3C, f3D,
-                nrow = 1,
-                labels = c(&quot;C&quot;, &quot;D&quot;))
+                nrow = 1, labels = c(&quot;C&quot;, &quot;D&quot;),
+                label_size = 20)
 p3 &lt;- plot_grid(p1,
                 l3AB,
                 p2,
-                ncol = 1, rel_heights = c(1, 0.25, 0.6))
+                ncol = 1, rel_heights = c(1, 0.2, 0.6))
 panel &lt;- plot_grid(p3, f3E, f3F, ncol = 1, labels = c(&quot;&quot;, &quot;E&quot;, &quot;F&quot;),
-                   rel_heights = c(1, 0.4, 0.4))
+                   rel_heights = c(1, 0.4, 0.4),
+                   label_size = 20)
 
 ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3_panel.png&quot;), panel,
        height = 20, width = 16)
@@ -1582,6 +1915,36 @@ ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure3_panel.pdf&quot;), panel,
 
 panel</code></pre>
 <p><img src="figure/07D_Combined_Figures.Rmd/fig3-panel-1.png" width="1536" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of fig3-panel-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/07D_Combined_Figures.Rmd/fig3-panel-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 </div>
 <div id="summary" class="section level1">
@@ -1878,7 +2241,6 @@ panel</code></pre>
  gtools           3.8.1      2018-06-26 cran (@3.8.1)                     
  haven            1.1.2      2018-06-27 CRAN (R 3.5.0)                    
  here           * 0.1        2017-05-28 CRAN (R 3.5.0)                    
- highr            0.7        2018-06-09 CRAN (R 3.5.0)                    
  Hmisc            4.1-1      2018-01-03 cran (@4.1-1)                     
  hms              0.4.2      2018-03-10 CRAN (R 3.5.0)                    
  HSMMSingleCell   0.114.0    2018-08-28 Bioconductor                      
@@ -1895,6 +2257,7 @@ panel</code></pre>
  kernlab          0.9-26     2018-04-30 cran (@0.9-26)                    
  KernSmooth       2.23-15    2015-06-29 CRAN (R 3.5.0)                    
  knitr          * 1.20       2018-02-20 CRAN (R 3.5.0)                    
+ labeling         0.3        2014-08-23 cran (@0.3)                       
  lars             1.2        2013-04-24 cran (@1.2)                       
  lattice          0.20-35    2017-03-25 CRAN (R 3.5.0)                    
  latticeExtra     0.6-28     2016-02-09 cran (@0.6-28)                    

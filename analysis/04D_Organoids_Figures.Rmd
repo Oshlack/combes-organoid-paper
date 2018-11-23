@@ -130,7 +130,7 @@ f1A <- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
     geom_point() +
     geom_text(data = lab.data, aes(label = Label), colour = "black", size = 6) +
     scale_colour_discrete(labels = clust.labs) +
-    guides(colour = guide_legend(ncol = 2, override.aes = list(size = 20),
+    guides(colour = guide_legend(ncol = 2, override.aes = list(size = 16),
                                  label.theme = element_text(size = 12),
                                  keyheight = 4)) +
     theme_cowplot() +
@@ -204,7 +204,6 @@ clust.labs <- c(
 
 f1C <- plot_cell_trajectory(orgs.neph.cds,
                             color_by = "NephCluster", cell_size = 2) +
-    #scale_color_brewer(palette = "Set1", labels = clust.labs) +
     scale_color_discrete(labels = clust.labs) +
     guides(colour = guide_legend(nrow = 2, override.aes = list(size = 8),
                                  label.theme = element_text(size = 11))) +
@@ -318,10 +317,9 @@ plot.data <- data.frame(FetchData(orgs.neph, vars.all = genes)) %>%
 
 f1F <- ggplot(plot.data,
               aes(x = Gene, y = Cluster, size = PctExpr,
-                  colour = AvgExprScale)) +
-       geom_point() +
+                  alpha = AvgExprScale)) +
+       geom_point(colour = "#00ADEF") +
        scale_radius(range = c(0, 10)) +
-       scale_colour_viridis_c() +
        scale_y_discrete(labels = clust.labs) +
        facet_grid(~ Group, scales = "free_x") +
        theme(axis.title.x = element_blank(),
@@ -345,14 +343,18 @@ Figure 1 Panel
 
 ```{r fig1-panel, fig.height = 18, fig.width = 16}
 p1 <- plot_grid(f1C + theme(legend.position = "none"), f1D,
-                nrow = 1, labels = c("C", "D"))
+                nrow = 1, labels = c("C", "D"),
+                label_size = 20)
 p2 <- plot_grid(p1, f1E,
-                nrow = 2, labels = c("", "E"))
+                nrow = 2, labels = c("", "E"),
+                label_size = 20)
 p3 <- plot_grid(f1B, p2,
-                nrow = 1, labels = c("B", ""))
+                nrow = 1, labels = c("B", ""),
+                label_size = 20)
 panel <- plot_grid(f1A, p3, f1F,
                    nrow = 3, labels = c("A", "", "F"),
-                   rel_heights = c(0.8, 1, 0.5)) 
+                   rel_heights = c(0.8, 1, 0.5),
+                   label_size = 20) 
 
 ggsave(here("output", DOCNAME, "figure1_panel.png"), panel,
        height = 18, width = 16)

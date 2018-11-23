@@ -425,7 +425,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/7d8a1dd3ae6033f0e902d46fc31abe04bc98d482" target="_blank">7d8a1dd</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/b7e169e5d17ec0e27d837617b11a3dc4b9bc3e43" target="_blank">b7e169e</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -446,13 +446,19 @@ Ignored files:
     Ignored:    packrat/src/
 
 Unstaged changes:
-    Modified:   .gitignore
-    Modified:   output/04B_Organoids_Nephron/cluster_de.xlsx
-    Modified:   output/04B_Organoids_Nephron/conserved_markers.xlsx
-    Modified:   output/04B_Organoids_Nephron/markers.xlsx
-    Modified:   output/04_Organoids_Clustering/cluster_de.xlsx
-    Modified:   output/04_Organoids_Clustering/conserved_markers.xlsx
-    Modified:   output/04_Organoids_Clustering/markers.xlsx
+    Modified:   output/07D_Combined_Figures/figure2B.pdf
+    Modified:   output/07D_Combined_Figures/figure2C.pdf
+    Modified:   output/07D_Combined_Figures/figure2D.pdf
+    Modified:   output/07D_Combined_Figures/figure2E.pdf
+    Modified:   output/07D_Combined_Figures/figure2F.pdf
+    Modified:   output/07D_Combined_Figures/figure2G.pdf
+    Modified:   output/07D_Combined_Figures/figure2_panel.pdf
+    Modified:   output/07D_Combined_Figures/figure3A.pdf
+    Modified:   output/07D_Combined_Figures/figure3B.pdf
+    Modified:   output/07D_Combined_Figures/figure3D.pdf
+    Modified:   output/07D_Combined_Figures/figure3E.pdf
+    Modified:   output/07D_Combined_Figures/figure3F.pdf
+    Modified:   output/07D_Combined_Figures/figure3_panel.pdf
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -486,7 +492,7 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="http://github.com/Oshlack/combes-organoid-paper/blob/7d8a1dd3ae6033f0e902d46fc31abe04bc98d482/analysis/04D_Organoids_Figures.Rmd" target="_blank">7d8a1dd</a>
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/b7e169e5d17ec0e27d837617b11a3dc4b9bc3e43/analysis/04D_Organoids_Figures.Rmd" target="_blank">b7e169e</a>
 </td>
 <td style="text-align:left;">
 Luke Zappia
@@ -495,7 +501,7 @@ Luke Zappia
 2018-11-23
 </td>
 <td style="text-align:left;">
-Minor fixes to output
+Update gene lists for figures
 </td>
 </tr>
 <tr>
@@ -760,7 +766,7 @@ f1A &lt;- ggplot(plot.data, aes(x = tSNE_1, y = tSNE_2, colour = Cluster)) +
     geom_point() +
     geom_text(data = lab.data, aes(label = Label), colour = &quot;black&quot;, size = 6) +
     scale_colour_discrete(labels = clust.labs) +
-    guides(colour = guide_legend(ncol = 2, override.aes = list(size = 20),
+    guides(colour = guide_legend(ncol = 2, override.aes = list(size = 16),
                                  label.theme = element_text(size = 12),
                                  keyheight = 4)) +
     theme_cowplot() +
@@ -789,6 +795,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/04D_Organoids_Figures.Rmd/fig-1A-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 <a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04D_Organoids_Figures.Rmd/fig-1A-1.png" target="_blank">ad10b21</a>
@@ -865,6 +882,17 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/04D_Organoids_Figures.Rmd/fig-1B-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 <a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04D_Organoids_Figures.Rmd/fig-1B-1.png" target="_blank">ad10b21</a>
 </td>
 <td style="text-align:left;">
@@ -890,7 +918,6 @@ Luke Zappia
 
 f1C &lt;- plot_cell_trajectory(orgs.neph.cds,
                             color_by = &quot;NephCluster&quot;, cell_size = 2) +
-    #scale_color_brewer(palette = &quot;Set1&quot;, labels = clust.labs) +
     scale_color_discrete(labels = clust.labs) +
     guides(colour = guide_legend(nrow = 2, override.aes = list(size = 8),
                                  label.theme = element_text(size = 11))) +
@@ -921,6 +948,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/04D_Organoids_Figures.Rmd/fig-1C-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 <a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04D_Organoids_Figures.Rmd/fig-1C-1.png" target="_blank">ad10b21</a>
@@ -1099,10 +1137,9 @@ plot.data &lt;- data.frame(FetchData(orgs.neph, vars.all = genes)) %&gt;%
 
 f1F &lt;- ggplot(plot.data,
               aes(x = Gene, y = Cluster, size = PctExpr,
-                  colour = AvgExprScale)) +
-       geom_point() +
+                  alpha = AvgExprScale)) +
+       geom_point(colour = &quot;#00ADEF&quot;) +
        scale_radius(range = c(0, 10)) +
-       scale_colour_viridis_c() +
        scale_y_discrete(labels = clust.labs) +
        facet_grid(~ Group, scales = &quot;free_x&quot;) +
        theme(axis.title.x = element_blank(),
@@ -1138,6 +1175,17 @@ Date
 <tbody>
 <tr>
 <td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/04D_Organoids_Figures.Rmd/fig-1F-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 <a href="https://github.com/Oshlack/combes-organoid-paper/blob/e86d7ce5e90e9129391e2088e79fba712c2691a9/docs/figure/04D_Organoids_Figures.Rmd/fig-1F-1.png" target="_blank">e86d7ce</a>
 </td>
 <td style="text-align:left;">
@@ -1154,14 +1202,18 @@ Luke Zappia
 <div id="figure-1-panel" class="section level1">
 <h1>Figure 1 Panel</h1>
 <pre class="r"><code>p1 &lt;- plot_grid(f1C + theme(legend.position = &quot;none&quot;), f1D,
-                nrow = 1, labels = c(&quot;C&quot;, &quot;D&quot;))
+                nrow = 1, labels = c(&quot;C&quot;, &quot;D&quot;),
+                label_size = 20)
 p2 &lt;- plot_grid(p1, f1E,
-                nrow = 2, labels = c(&quot;&quot;, &quot;E&quot;))
+                nrow = 2, labels = c(&quot;&quot;, &quot;E&quot;),
+                label_size = 20)
 p3 &lt;- plot_grid(f1B, p2,
-                nrow = 1, labels = c(&quot;B&quot;, &quot;&quot;))
+                nrow = 1, labels = c(&quot;B&quot;, &quot;&quot;),
+                label_size = 20)
 panel &lt;- plot_grid(f1A, p3, f1F,
                    nrow = 3, labels = c(&quot;A&quot;, &quot;&quot;, &quot;F&quot;),
-                   rel_heights = c(0.8, 1, 0.5)) 
+                   rel_heights = c(0.8, 1, 0.5),
+                   label_size = 20) 
 
 ggsave(here(&quot;output&quot;, DOCNAME, &quot;figure1_panel.png&quot;), panel,
        height = 18, width = 16)
@@ -1186,6 +1238,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/a1f9f384c8338dd58886d7294efd013a526f6455/docs/figure/04D_Organoids_Figures.Rmd/fig1-panel-1.png" target="_blank">a1f9f38</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-11-23
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 <a href="https://github.com/Oshlack/combes-organoid-paper/blob/e86d7ce5e90e9129391e2088e79fba712c2691a9/docs/figure/04D_Organoids_Figures.Rmd/fig1-panel-1.png" target="_blank">e86d7ce</a>
@@ -1450,7 +1513,6 @@ f1A</code></pre>
  gtools           3.8.1      2018-06-26 cran (@3.8.1)                     
  haven            1.1.2      2018-06-27 CRAN (R 3.5.0)                    
  here           * 0.1        2017-05-28 CRAN (R 3.5.0)                    
- highr            0.7        2018-06-09 CRAN (R 3.5.0)                    
  Hmisc            4.1-1      2018-01-03 cran (@4.1-1)                     
  hms              0.4.2      2018-03-10 CRAN (R 3.5.0)                    
  HSMMSingleCell   0.114.0    2018-08-28 Bioconductor                      
@@ -1467,6 +1529,7 @@ f1A</code></pre>
  kernlab          0.9-26     2018-04-30 cran (@0.9-26)                    
  KernSmooth       2.23-15    2015-06-29 CRAN (R 3.5.0)                    
  knitr          * 1.20       2018-02-20 CRAN (R 3.5.0)                    
+ labeling         0.3        2014-08-23 cran (@0.3)                       
  lars             1.2        2013-04-24 cran (@1.2)                       
  lattice          0.20-35    2017-03-25 CRAN (R 3.5.0)                    
  latticeExtra     0.6-28     2016-02-09 cran (@0.6-28)                    
