@@ -401,7 +401,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-11-23</p>
+<p><strong>Last updated:</strong> 2018-12-03</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -425,7 +425,7 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/7d8a1dd3ae6033f0e902d46fc31abe04bc98d482" target="_blank">7d8a1dd</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/817589566918333b1454fd65246c39ece8838425" target="_blank">8175895</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
@@ -444,12 +444,6 @@ Ignored files:
     Ignored:    packrat/lib-ext/
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
-
-Unstaged changes:
-    Modified:   .gitignore
-    Modified:   output/04_Organoids_Clustering/cluster_de.xlsx
-    Modified:   output/04_Organoids_Clustering/conserved_markers.xlsx
-    Modified:   output/04_Organoids_Clustering/markers.xlsx
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -483,16 +477,16 @@ Message
 Rmd
 </td>
 <td style="text-align:left;">
-<a href="http://github.com/Oshlack/combes-organoid-paper/blob/7d8a1dd3ae6033f0e902d46fc31abe04bc98d482/analysis/04B_Organoids_Nephron.Rmd" target="_blank">7d8a1dd</a>
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/817589566918333b1454fd65246c39ece8838425/analysis/04B_Organoids_Nephron.Rmd" target="_blank">8175895</a>
 </td>
 <td style="text-align:left;">
 Luke Zappia
 </td>
 <td style="text-align:left;">
-2018-11-23
+2018-12-03
 </td>
 <td style="text-align:left;">
-Minor fixes to output
+Fix DE results summary plot cluster labels
 </td>
 </tr>
 <tr>
@@ -731,12 +725,12 @@ out &lt;- knit_child(text = unlist(src_list), options = list(cache = FALSE))</co
 <p>Coloured by the expression of some well-known kidney marker genes.</p>
 <pre class="r"><code>genes &lt;- c(&quot;PECAM1&quot;, &quot;CDH5&quot;, &quot;MEIS1&quot;, &quot;PDGFRA&quot;, &quot;HMGB2&quot;, &quot;CENPA&quot;, &quot;SIX1&quot;,
            &quot;DAPL1&quot;, &quot;NPHS1&quot;, &quot;PODXL&quot;, &quot;S100A8&quot;, &quot;TYROBP&quot;, &quot;MAL&quot;, &quot;EMX2&quot;,
-           &quot;LRP2&quot;, &quot;GATA3&quot;, &quot;SLC12A1&quot;, &quot;SPINT2&quot;, &quot;TUBB2B&quot;, &quot;STMN2&quot;, &quot;TTHY1&quot;,
+           &quot;LRP2&quot;, &quot;GATA3&quot;, &quot;SLC12A1&quot;, &quot;SPINT2&quot;, &quot;TUBB2B&quot;, &quot;STMN2&quot;, &quot;TTYH1&quot;,
            &quot;HBA1&quot;, &quot;HBG1&quot;)
 
 is_present &lt;- genes %in% rownames(orgs.neph@data)</code></pre>
 <blockquote>
-<p>The following genes aren’t present in this dataset and will be skipped: TTHY1, HBG1</p>
+<p>The following genes aren’t present in this dataset and will be skipped: HBG1</p>
 </blockquote>
 <pre class="r"><code>src_list &lt;- lapply(genes[is_present], function(gene) {
     src &lt;- c(&quot;##### {{gene}} {.unnumbered}&quot;,
@@ -758,6 +752,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-PECAM1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-PECAM1-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-PECAM1-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="cdh5" class="section level5 unnumbered">
 <h5>CDH5</h5>
@@ -766,6 +790,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-CDH5-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-CDH5-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-CDH5-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="meis1" class="section level5 unnumbered">
 <h5>MEIS1</h5>
@@ -774,6 +828,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-MEIS1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-MEIS1-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-MEIS1-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="pdgfra" class="section level5 unnumbered">
 <h5>PDGFRA</h5>
@@ -782,6 +866,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-PDGFRA-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-PDGFRA-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-PDGFRA-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="hmgb2" class="section level5 unnumbered">
 <h5>HMGB2</h5>
@@ -790,6 +904,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-HMGB2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-HMGB2-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-HMGB2-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="cenpa" class="section level5 unnumbered">
 <h5>CENPA</h5>
@@ -798,6 +942,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-CENPA-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-CENPA-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-CENPA-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="six1" class="section level5 unnumbered">
 <h5>SIX1</h5>
@@ -806,6 +980,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-SIX1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-SIX1-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-SIX1-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="dapl1" class="section level5 unnumbered">
 <h5>DAPL1</h5>
@@ -814,6 +1018,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-DAPL1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-DAPL1-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-DAPL1-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="nphs1" class="section level5 unnumbered">
 <h5>NPHS1</h5>
@@ -822,6 +1056,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-NPHS1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-NPHS1-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-NPHS1-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="podxl" class="section level5 unnumbered">
 <h5>PODXL</h5>
@@ -830,6 +1094,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-PODXL-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-PODXL-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-PODXL-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="s100a8" class="section level5 unnumbered">
 <h5>S100A8</h5>
@@ -838,6 +1132,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-S100A8-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-S100A8-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-S100A8-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="tyrobp" class="section level5 unnumbered">
 <h5>TYROBP</h5>
@@ -846,6 +1170,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-TYROBP-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-TYROBP-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-TYROBP-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="mal" class="section level5 unnumbered">
 <h5>MAL</h5>
@@ -854,6 +1208,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-MAL-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-MAL-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-MAL-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="emx2" class="section level5 unnumbered">
 <h5>EMX2</h5>
@@ -862,6 +1246,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-EMX2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-EMX2-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-EMX2-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="lrp2" class="section level5 unnumbered">
 <h5>LRP2</h5>
@@ -870,6 +1284,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-LRP2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-LRP2-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-LRP2-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="gata3" class="section level5 unnumbered">
 <h5>GATA3</h5>
@@ -878,6 +1322,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-GATA3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-GATA3-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-GATA3-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="slc12a1" class="section level5 unnumbered">
 <h5>SLC12A1</h5>
@@ -886,6 +1360,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-SLC12A1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-SLC12A1-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-SLC12A1-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="spint2" class="section level5 unnumbered">
 <h5>SPINT2</h5>
@@ -894,6 +1398,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-SPINT2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-SPINT2-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-SPINT2-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="tubb2b" class="section level5 unnumbered">
 <h5>TUBB2B</h5>
@@ -902,6 +1436,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-TUBB2B-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-TUBB2B-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-TUBB2B-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 <div id="stmn2" class="section level5 unnumbered">
 <h5>STMN2</h5>
@@ -910,6 +1474,44 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-STMN2-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-STMN2-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-STMN2-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
+</div>
+<div id="ttyh1" class="section level5 unnumbered">
+<h5>TTYH1</h5>
+<pre class="r"><code>clustree(orgs.neph, node_colour = &#39;TTYH1&#39;,
+node_colour_aggr = &#39;mean&#39;,
+exprs = &#39;scale.data&#39;) +
+scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
+<p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-TTYH1-1.png" width="960" style="display: block; margin: auto;" /></p>
 </div>
 <div id="hba1" class="section level5 unnumbered">
 <h5>HBA1</h5>
@@ -918,6 +1520,36 @@ node_colour_aggr = &#39;mean&#39;,
 exprs = &#39;scale.data&#39;) +
 scale_colour_viridis_c(option = &#39;plasma&#39;, begin = 0.3)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/clustree-HBA1-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of clustree-HBA1-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/clustree-HBA1-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 </div>
 </div>
 </div>
@@ -1004,15 +1636,16 @@ DoHeatmap(orgs.neph, genes.use = top$gene, slim.col.label = TRUE,
 
 names(markers.list) &lt;- paste(&quot;Cluster&quot;, 0:(n.clusts - 1))</code></pre>
 <pre class="r"><code>marker.summary &lt;- markers.list %&gt;%
-    map2_df(seq_along(markers.list), ~ mutate(.x, Cluster = .y)) %&gt;%
+    map2_df(names(markers.list), ~ mutate(.x, Cluster = .y)) %&gt;%
     mutate(IsUp = LogFC &gt; 0) %&gt;%
     group_by(Cluster) %&gt;%
     summarise(Up = sum(IsUp), Down = sum(!IsUp)) %&gt;%
     mutate(Down = -Down) %&gt;%
-    gather(key = &quot;Direction&quot;, value = &quot;Count&quot;, -Cluster)
+    gather(key = &quot;Direction&quot;, value = &quot;Count&quot;, -Cluster) %&gt;%
+    mutate(Cluster = factor(Cluster, levels = names(markers.list)))
 
 ggplot(marker.summary,
-       aes(x = fct_rev(factor(Cluster)), y = Count, fill = Direction)) +
+       aes(x = fct_rev(Cluster), y = Count, fill = Direction)) +
     geom_col() +
     geom_text(aes(y = Count + sign(Count) * max(abs(Count)) * 0.07,
                   label = abs(Count)),
@@ -1020,13 +1653,42 @@ ggplot(marker.summary,
     coord_flip() +
     scale_fill_manual(values = c(&quot;#377eb8&quot;, &quot;#e41a1c&quot;)) +
     ggtitle(&quot;Number of identified genes&quot;) +
-    xlab(&quot;Cluster&quot;) +
-    theme(axis.title.x = element_blank(),
+    theme(axis.title = element_blank(),
           axis.line = element_blank(),
           axis.ticks = element_blank(),
           axis.text.x = element_blank(),
           legend.position = &quot;bottom&quot;)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/marker-cluster-counts-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of marker-cluster-counts-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/marker-cluster-counts-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>We can also look at the full table of significant marker genes for each cluster.</p>
 <pre class="r"><code>src_list &lt;- lapply(0:(n.clusts - 1), function(i) {
     src &lt;- c(&quot;### {{i}} {.unnumbered}&quot;,
@@ -1154,15 +1816,16 @@ DoHeatmap(orgs.neph, genes.use = top$gene, slim.col.label = TRUE,
 
 names(con.markers.list) &lt;- paste(&quot;Cluster&quot;, 0:(n.clusts - 1))</code></pre>
 <pre class="r"><code>con.marker.summary &lt;- con.markers.list %&gt;%
-    map2_df(seq_along(con.markers.list), ~ mutate(.x, Cluster = .y)) %&gt;%
+    map2_df(names(con.markers.list), ~ mutate(.x, Cluster = .y)) %&gt;%
     mutate(IsUp = MeanLogFC &gt; 0) %&gt;%
     group_by(Cluster) %&gt;%
     summarise(Up = sum(IsUp), Down = sum(!IsUp)) %&gt;%
     mutate(Down = -Down) %&gt;%
-    gather(key = &quot;Direction&quot;, value = &quot;Count&quot;, -Cluster)
+    gather(key = &quot;Direction&quot;, value = &quot;Count&quot;, -Cluster) %&gt;%
+    mutate(Cluster = factor(Cluster, levels = names(markers.list)))
 
 ggplot(con.marker.summary,
-       aes(x = fct_rev(factor(Cluster)), y = Count, fill = Direction)) +
+       aes(x = fct_rev(Cluster), y = Count, fill = Direction)) +
     geom_col() +
     geom_text(aes(y = Count + sign(Count) * max(abs(Count)) * 0.07,
                   label = abs(Count)),
@@ -1170,13 +1833,42 @@ ggplot(con.marker.summary,
     coord_flip() +
     scale_fill_manual(values = c(&quot;#377eb8&quot;, &quot;#e41a1c&quot;)) +
     ggtitle(&quot;Number of identified genes&quot;) +
-    xlab(&quot;Cluster&quot;) +
-    theme(axis.title.x = element_blank(),
+    theme(axis.title = element_blank(),
           axis.line = element_blank(),
           axis.ticks = element_blank(),
           axis.text.x = element_blank(),
           legend.position = &quot;bottom&quot;)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/con-marker-cluster-counts-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of con-marker-cluster-counts-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/con-marker-cluster-counts-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>We can also look at the full table of significant conserved marker genes for each cluster.</p>
 <pre class="r"><code>src_list &lt;- lapply(0:(length(con.markers.list)-1), function(i) {
     src &lt;- c(&quot;### {{i}} {.unnumbered}&quot;,
@@ -1303,15 +1995,16 @@ DoHeatmap(orgs.neph, genes.use = top$gene, slim.col.label = TRUE,
 
 names(cluster.de.list) &lt;- paste(&quot;Cluster&quot;, 0:(n.clusts - 1))</code></pre>
 <pre class="r"><code>cluster.de.summary &lt;- cluster.de.list %&gt;%
-    map2_df(seq_along(cluster.de.list), ~ mutate(.x, Cluster = .y)) %&gt;%
+    map2_df(names(cluster.de.list), ~ mutate(.x, Cluster = .y)) %&gt;%
     mutate(IsUp = LogFC &gt; 0) %&gt;%
     group_by(Cluster) %&gt;%
     summarise(Up = sum(IsUp), Down = sum(!IsUp)) %&gt;%
     mutate(Down = -Down) %&gt;%
-    gather(key = &quot;Direction&quot;, value = &quot;Count&quot;, -Cluster)
+    gather(key = &quot;Direction&quot;, value = &quot;Count&quot;, -Cluster) %&gt;%
+    mutate(Cluster = factor(Cluster, levels = names(markers.list)))
 
 ggplot(cluster.de.summary,
-       aes(x = fct_rev(factor(Cluster)), y = Count, fill = Direction)) +
+       aes(x = fct_rev(Cluster), y = Count, fill = Direction)) +
     geom_col() +
     geom_text(aes(y = Count + sign(Count) * max(abs(Count)) * 0.07,
                   label = abs(Count)),
@@ -1319,13 +2012,42 @@ ggplot(cluster.de.summary,
     coord_flip() +
     scale_fill_manual(values = c(&quot;#377eb8&quot;, &quot;#e41a1c&quot;)) +
     ggtitle(&quot;Number of identified genes&quot;) +
-    xlab(&quot;Cluster&quot;) +
-    theme(axis.title.x = element_blank(),
+    theme(axis.title = element_blank(),
           axis.line = element_blank(),
           axis.ticks = element_blank(),
           axis.text.x = element_blank(),
           legend.position = &quot;bottom&quot;)</code></pre>
 <p><img src="figure/04B_Organoids_Nephron.Rmd/de-cluster-counts-1.png" width="960" style="display: block; margin: auto;" /></p>
+<details> <summary><em>Expand here to see past versions of de-cluster-counts-1.png:</em></summary>
+<table style="border-collapse:separate; border-spacing:5px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Version
+</th>
+<th style="text-align:left;">
+Author
+</th>
+<th style="text-align:left;">
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<a href="https://github.com/Oshlack/combes-organoid-paper/blob/ad10b21a8d0eab94e778f482d3771118937de0b0/docs/figure/04B_Organoids_Nephron.Rmd/de-cluster-counts-1.png" target="_blank">ad10b21</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+</tr>
+</tbody>
+</table>
+<p></details></p>
 <p>We can also look at the full table of significant DE genes for each cluster.</p>
 <pre class="r"><code>src_list &lt;- lapply(0:(length(cluster.de.list) - 1), function(i) {
     src &lt;- c(&quot;### {{i}} {.unnumbered}&quot;,
@@ -1609,7 +2331,7 @@ kable(data.frame(
  language (EN)                        
  collate  en_US.UTF-8                 
  tz       Australia/Melbourne         
- date     2018-11-23                  
+ date     2018-12-03                  
 
  package       * version    date       source                            
  abind           1.4-5      2016-07-21 cran (@1.4-5)                     
@@ -1681,7 +2403,6 @@ kable(data.frame(
  gtools          3.8.1      2018-06-26 cran (@3.8.1)                     
  haven           1.1.2      2018-06-27 CRAN (R 3.5.0)                    
  here          * 0.1        2017-05-28 CRAN (R 3.5.0)                    
- highr           0.7        2018-06-09 CRAN (R 3.5.0)                    
  Hmisc           4.1-1      2018-01-03 cran (@4.1-1)                     
  hms             0.4.2      2018-03-10 CRAN (R 3.5.0)                    
  htmlTable       1.12       2018-05-26 cran (@1.12)                      
@@ -1697,6 +2418,7 @@ kable(data.frame(
  kernlab         0.9-26     2018-04-30 cran (@0.9-26)                    
  KernSmooth      2.23-15    2015-06-29 CRAN (R 3.5.0)                    
  knitr         * 1.20       2018-02-20 CRAN (R 3.5.0)                    
+ labeling        0.3        2014-08-23 cran (@0.3)                       
  lars            1.2        2013-04-24 cran (@1.2)                       
  lattice         0.20-35    2017-03-25 CRAN (R 3.5.0)                    
  latticeExtra    0.6-28     2016-02-09 cran (@0.6-28)                    
@@ -1770,6 +2492,7 @@ kable(data.frame(
  survival        2.42-6     2018-07-13 CRAN (R 3.5.0)                    
  tclust          1.4-1      2018-05-24 cran (@1.4-1)                     
  tibble        * 1.4.2      2018-01-22 cran (@1.4.2)                     
+ tidygraph       1.1.0      2018-02-10 CRAN (R 3.5.0)                    
  tidyr         * 0.8.1      2018-05-18 cran (@0.8.1)                     
  tidyselect      0.2.4      2018-02-26 cran (@0.2.4)                     
  tidyverse     * 1.2.1      2017-11-14 CRAN (R 3.5.0)                    

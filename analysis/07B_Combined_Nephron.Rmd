@@ -159,7 +159,7 @@ Coloured by the expression of some well-known kidney marker genes.
 ```{r select-clustree-genes}
 genes <- c("PECAM1", "CDH5", "MEIS1", "PDGFRA", "HMGB2", "CENPA", "SIX1",
            "DAPL1", "NPHS1", "PODXL", "S100A8", "TYROBP", "MAL", "EMX2",
-           "LRP2", "GATA3", "SLC12A1", "SPINT2", "TUBB2B", "STMN2", "TTHY1",
+           "LRP2", "GATA3", "SLC12A1", "SPINT2", "TUBB2B", "STMN2", "TTYH1",
            "HBA1", "HBG1")
 
 is_present <- genes %in% rownames(comb.neph@data)
@@ -302,15 +302,16 @@ names(markers.list) <- paste("Cluster", 0:(n.clusts - 1))
 
 ```{r marker-cluster-counts}
 marker.summary <- markers.list %>%
-    map2_df(seq_along(markers.list), ~ mutate(.x, Cluster = .y)) %>%
+    map2_df(names(markers.list), ~ mutate(.x, Cluster = .y)) %>%
     mutate(IsUp = LogFC > 0) %>%
     group_by(Cluster) %>%
     summarise(Up = sum(IsUp), Down = sum(!IsUp)) %>%
     mutate(Down = -Down) %>%
-    gather(key = "Direction", value = "Count", -Cluster)
+    gather(key = "Direction", value = "Count", -Cluster) %>%
+    mutate(Cluster = factor(Cluster, levels = names(markers.list)))
 
 ggplot(marker.summary,
-       aes(x = fct_rev(factor(Cluster)), y = Count, fill = Direction)) +
+       aes(x = fct_rev(Cluster), y = Count, fill = Direction)) +
     geom_col() +
     geom_text(aes(y = Count + sign(Count) * max(abs(Count)) * 0.07,
                   label = abs(Count)),
@@ -318,8 +319,7 @@ ggplot(marker.summary,
     coord_flip() +
     scale_fill_manual(values = c("#377eb8", "#e41a1c")) +
     ggtitle("Number of identified genes") +
-    xlab("Cluster") +
-    theme(axis.title.x = element_blank(),
+    theme(axis.title = element_blank(),
           axis.line = element_blank(),
           axis.ticks = element_blank(),
           axis.text.x = element_blank(),
@@ -348,8 +348,8 @@ Conserved markers
 =================
 
 Here we are going to look for genes that are cluster markers in both the
-Organoid and Lindstrom datasets. Each dataset will be tested individually and the
-results combined to see if they are present in both datasets.
+Organoid and Lindstrom datasets. Each dataset will be tested individually and
+the results combined to see if they are present in both datasets.
 
 ```{r skip-clusters}
 skip <- comb.neph@meta.data %>%
@@ -366,7 +366,7 @@ skip <- comb.neph@meta.data %>%
 >
 > Testing conserved markers isn't possible for clusters that only contain cells
 > from one dataset. In this case the following clusters are skipped:
-> r glue_collapse(seq(0, n.clusts - 1)[skip], sep = ", ", last = " and ")
+> `r glue_collapse(seq(0, n.clusts - 1)[skip], sep = ", ", last = " and ")`
 
 ```{r con-markers-mc}
 con.markers <- bplapply(seq_len(n.clusts) - 1, function(cl) {
@@ -436,15 +436,16 @@ names(con.markers.list) <- paste("Cluster", 0:(n.clusts - 1))
 
 ```{r con-marker-cluster-counts}
 con.marker.summary <- con.markers.list %>%
-    map2_df(seq_along(con.markers.list), ~ mutate(.x, Cluster = .y)) %>%
+    map2_df(names(con.markers.list), ~ mutate(.x, Cluster = .y)) %>%
     mutate(IsUp = MeanLogFC > 0) %>%
     group_by(Cluster) %>%
     summarise(Up = sum(IsUp), Down = sum(!IsUp)) %>%
     mutate(Down = -Down) %>%
-    gather(key = "Direction", value = "Count", -Cluster)
+    gather(key = "Direction", value = "Count", -Cluster) %>%
+    mutate(Cluster = factor(Cluster, levels = names(markers.list)))
 
 ggplot(con.marker.summary,
-       aes(x = fct_rev(factor(Cluster)), y = Count, fill = Direction)) +
+       aes(x = fct_rev(Cluster), y = Count, fill = Direction)) +
     geom_col() +
     geom_text(aes(y = Count + sign(Count) * max(abs(Count)) * 0.07,
                   label = abs(Count)),
@@ -452,8 +453,7 @@ ggplot(con.marker.summary,
     coord_flip() +
     scale_fill_manual(values = c("#377eb8", "#e41a1c")) +
     ggtitle("Number of identified genes") +
-    xlab("Cluster") +
-    theme(axis.title.x = element_blank(),
+    theme(axis.title = element_blank(),
           axis.line = element_blank(),
           axis.ticks = element_blank(),
           axis.text.x = element_blank(),
@@ -571,15 +571,16 @@ names(cluster.de.list) <- paste("Cluster", 0:(n.clusts - 1))
 
 ```{r de-cluster-counts}
 cluster.de.summary <- cluster.de.list %>%
-    map2_df(seq_along(cluster.de.list), ~ mutate(.x, Cluster = .y)) %>%
+    map2_df(names(cluster.de.list), ~ mutate(.x, Cluster = .y)) %>%
     mutate(IsUp = LogFC > 0) %>%
     group_by(Cluster) %>%
     summarise(Up = sum(IsUp), Down = sum(!IsUp)) %>%
     mutate(Down = -Down) %>%
-    gather(key = "Direction", value = "Count", -Cluster)
+    gather(key = "Direction", value = "Count", -Cluster) %>%
+    mutate(Cluster = factor(Cluster, levels = names(markers.list)))
 
 ggplot(cluster.de.summary,
-       aes(x = fct_rev(factor(Cluster)), y = Count, fill = Direction)) +
+       aes(x = fct_rev(Cluster), y = Count, fill = Direction)) +
     geom_col() +
     geom_text(aes(y = Count + sign(Count) * max(abs(Count)) * 0.07,
                   label = abs(Count)),
@@ -587,8 +588,7 @@ ggplot(cluster.de.summary,
     coord_flip() +
     scale_fill_manual(values = c("#377eb8", "#e41a1c")) +
     ggtitle("Number of identified genes") +
-    xlab("Cluster") +
-    theme(axis.title.x = element_blank(),
+    theme(axis.title = element_blank(),
           axis.line = element_blank(),
           axis.ticks = element_blank(),
           axis.text.x = element_blank(),
