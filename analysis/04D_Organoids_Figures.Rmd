@@ -119,7 +119,7 @@ clust.labs <- c(
     "O5 (Endothelium)\nCLDN5, PECAM1, KDR\ncardiovascular system development",
     "O6 (Cell cycle)\nCENPF, HMGB2, UBE2C\nmitotic cell cycle processes",
     "O7 (Stroma)\nCOL2A1, COL9A3, CNMD\nextracellular matrix organisation",
-    "O8 (Neural progenitor)\nFABP7, TTHY1, SOX2\nbrain development",
+    "O8 (Glial)\nFABP7, TTYH1, SOX2\nbrain development",
     "O9 (Epithelium)\nPAX2, PAX8, KRT19\nreg. of nephron tubule differentiation",
     "O10 (Muscle progenitor)\nMYOG, MYOD1\nmuscle filament sliding",
     "O11 (Neural progenitor)\nHES6, STMN2\ngeneration of neurons",

@@ -193,7 +193,7 @@ clust.labs <- c(
     "C8 (Cell cycle)\nCENPF, HMGB2, UBE2C",
     "C9 (Stroma)\nCOL9A3, FIBIN, DLK1",
     "C10 (Nephron)\nIGFBP7, EMBX2, MAL",
-    "C11 (Glial)\nTTHY1, FABP7, SOX2",
+    "C11 (Glial)\nTTYH1, FABP7, SOX2",
     "C12 (Immune)\nPTPRC, TYROBP, FCER1G",
     "C13 (Blood)\nHBG1, HBB, HBA2",
     "C14 (Neural prog.)\nSOX11, ELAVL3, ELAVL4",
@@ -322,6 +322,7 @@ f2E <- ggplot(plot.data, aes(x = Group, y = Prop, fill = Tissue)) +
     guides(fill = guide_legend(direction = "vertical", ncol = 2)) +
     theme_cowplot() +
     theme(axis.title.x = element_blank(),
+          legend.title = element_blank(),
           legend.position = "bottom")
 
 ggsave(here("output", DOCNAME, "figure2E.png"), f2E,
@@ -393,34 +394,36 @@ Figure 2G
 
 ```{r fig-2G}
 genes.list <- list(
-    `4` = c("GNG11", "CLDN5", "ESAM", "CD34", "PECAM1", "PLXND1", "APLN", 
-            "CXCR4", "HEY1", "ICAM1", "CXCL2", "CXCL1", "CXCL8"),
-    `0` = c("TAGLN", "ALDH1A2", "COL6A3", "ALX1", "PDGFRA", "ACTA2", "NRK", 
-            "STMN2", "SULT1E1", "GPC3", "SERPINH1", "EGR1", "CCBE1"),
-    `1` = c("DCN", "COL1A1", "LUM", "IGF1", "POSTN", "SFRP2", "ACTA2", "DKK1", 
-            "PALLD", "WNT2B", "DKK2", "SEMA3C", "CRABP1"),
-    `2` = c("MGP", "GATA3", "PDGFRB", "MEF2C", "SSBP4", "FTL", "REN", "ID1", 
-            "ITGA8", "ANGPT2", "DLK1", "APOE", "SLN"),
-    `3` = c("ZFHX4", "CTSK", "HNRNPA1", "MAB21L2", "PRRX1", "MDK", "SRGAP1",
-            "VIM", "SOX6", "ACTA2", "NR2F1", "ANGPT1", "TSPYL2"),
-    `9` = c("COL9A3", "DCN", "LUM", "FIBIN", "OGN", "SOX9", "CNMD", "MIA",
-            "GNG5", "PLPP3", "SPON2", "ITM2B", "MATN4"),
-    `13` = c("HBG1", "HBB", "HBA2", "HBA1", "HBM", "AHSP", "ALAS2", "GYPC", 
-             "SLC25A3", "GPX1", "FSCN1", "FKBP1A", "EIF4G2"),
-    `11` = c("TTYH1", "S100B", "FABP7", "SOX2", "AP1S2", "MSX1", "TUBB2B",
-             "RELN", "GFRA3", "SEMA3G", "NTRK2", "LYPD1", "PTN"),
-    `14` = c("HES6", "TUBB2B", "CRABP1", "STMN2", "TUBA1A", "DCX", "ELAVL3",
-             "SOX11", "ELAVL4", "ATOH1", "RBP1", "NCAM1", "STMN1"),
-    `12` = c("PTPRC", "CD74", "SRGN", "S100A9", "TYROBP", "HLA-DPB1", "S100A8",
-             "LYZ", "FCER1G", "CXCL8", "HLA-DRB1", "HLA-DRA", "IL1B")
+    `0` = c("GPC3", "SULT1E1", "CCBE1", "LBH", "CKS2", "STMN2", "NRK", "ACTA2",
+            "PDGFRA", "ALX1", "COL6A3", "ALDH1A2", "TAGLN"),
+    `1` = c("DKK2", "WNT2B", "S100A10", "SERPINI1", "PALLD", "DKK1", "ACTA2_1",
+            "SFRP2", "POSTN", "IGF1", "LUM", "COL1A1", "DCN"),
+    `2` = c("ANGPT2", "MCAM", "TUBA1B", "ENG", "ID1", "REN", "FTL", "SSBP4",
+            "PDLIM1", "MEF2C", "PDGFRB", "GATA3", "MGP"),
+    `3` = c("ROBO2", "ANGPT1", "NR2F1", "ACTA2_2", "SNHG8", "DKK1_1", "VAMP2",
+            "VIM", "TBX3", "SOX4", "HNRNPA1", "CTSK", "ZFHX4"),
+    `9` = c("IGF1_1", "ITM2B", "PLPP3", "COL1A1_1", "COL11A1", "COL9A1",
+            "PEG10", "CNMD", "OGN", "FIBIN", "LUM_1", "DCN_1", "COL9A3"),
+    `4` = c("CXCL8", "CXCL1", "CXCL2", "ICAM1", "HEY1", "CXCR4", "APLN",
+            "PECAM1", "PLXND1", "CD34", "ESAM", "CLDN5", "GNG11"),
+    `11` = c("PMP22", "MPZ", "ERBB3", "ARHGAP15", "MSX1", "ZFP36L1", "FABP7",
+             "AP1S2", "VIM_1", "SOX2", "PLP1", "TTYH1", "S100B"),
+    `14` = c("STMN1", "NCAM1", "RBP1", "ATOH1", "ELAVL4", "SOX11", "ELAVL3",
+             "DCX", "TUBA1A", "STMN2_1", "CRABP1", "TUBB2B", "HES6"),
+    `12` = c("CXCL8_1", "IL1B", "HLA-DPA1", "HLA-DPB1", "LGALS1", "CTSG", "MPO",
+             "PRTN3", "TYROBP", "S100A9", "SRGN", "CD74", "PTPRC"),
+    `13` = c("HBA1", "HBA2", "HBB", "HBG1", "AHSP", "HBM", "GNG5", "EGFL7",
+             "FSCN1", "FKBP1A", "GPX1", "SLC25A3", "GYPC")
 )
 
-clust.labs <- c("C4\nEndo", "C0\nStr", "C1\nStr", "C2\nStr", "C3\nStr",
-                "C9\nStr", "C13\nBlood", "C11\nGlia", "C14\nNeural",
-                "C12\nImmune")
+clust.labs <- c("C0\nStr", "C1\nStr", "C2\nStr", "C3\nStr", "C9\nStr",
+                "C4\nEndo", "C11\nGlia", "C14\nNeural", "C12\nImmune",
+                "C13\nBlood")
 
 plot.data <- lapply(names(genes.list), function(name) {
-    genes <- genes.list[[name]]
+    genes.raw <- genes.list[[name]]
+    genes <- str_remove(genes.raw, "_[0-9]")
+    names(genes.raw) <- genes
     comb %>%
         FetchData(vars.all = genes) %>%
         as_data_frame() %>%
@@ -435,16 +438,17 @@ plot.data <- lapply(names(genes.list), function(name) {
         mutate(AvgExprScale = scale(AvgExpr)) %>%
         mutate(AvgExprScale = Seurat::MinMax(AvgExprScale,
                                              max = 2.5, min = -2.5)) %>%
-        filter(Cluster == as.numeric(name))
+        filter(Cluster == as.numeric(name)) %>%
+        ungroup() %>%
+        mutate(Gene = genes.raw[Gene])
 })
 
 plot.data <- plot.data %>%
     bind_rows() %>%
-    ungroup() %>%
     mutate(Cluster = factor(Cluster,
                             levels = names(genes.list),
                             labels = clust.labs)) %>%
-    mutate(Gene = factor(Gene, levels = unique(unlist(genes.list))))
+    mutate(Gene = factor(Gene, levels = unlist(genes.list)))
 
 f2G <- ggplot(plot.data,
               aes(x = Group, y = Gene, size = PctExpr,
@@ -454,6 +458,8 @@ f2G <- ggplot(plot.data,
     scale_alpha(range = c(0.1, 1)) +
     scale_colour_manual(values = c("#EC008C", "#00ADEF")) +
     scale_x_discrete(labels = c("Fetal kidney", "Organoid")) +
+    scale_y_discrete(labels = str_remove(unlist(genes.list), "_[0-9]"),
+                     breaks = unlist(genes.list)) +
     facet_wrap(~ Cluster, scales = "free", nrow = 1) +
     theme(axis.title.x = element_blank(),
           axis.title.y = element_blank(),
@@ -712,10 +718,13 @@ genes.list <- list(
     c("LYPD1", "PDGFC", "ITGA8", "TUBA1A", "PTPRO", "WT1", "ANXA1", "VAMP8"),
     c("CCND1", "CXCR4", "TUBA1B", "STMN1", "ATOX1", "BNIP3", "GNAS", "FTL"),
     c("TMEM100", "MEOX1", "ROBO2", "DAPL1", "MYOD1", "MYOG", "PITX2", "TPM2"),
-    c("CCND1", "CXCL1", "HNRNPR", "STMN1", "VEGFA", "SYNPO", "WT1", "PTPRO"),
-    c("PTGR1", "TSC22D1", "DDX5", "MALAT1", "CITED2", "FTL", "BNIP3", "LHX1"),
-    c("SEPHS2", "BEX1", "COX14", "ELF3", "HNF1B", "LHX1", "VAMP8", "CITED2"),
-    c("SFRP1", "CTDNEP1", "HNRNPAB", "PCSK1N", "PITX2", "H1FX", "MID1", 
+    c("HNRNPR", "CXCL1", "OLFM3", "CCND1_1", "PTPRO_1", "WT1_1", "VEGFA",
+      "SYNPO"),
+    c("PAPPA2", "LIMCH1", "MAL", "PTGR1", "CITED2", "FTL_1", "BNIP3_1",
+      "LHX1"),
+    c("VCAN", "PSMA2", "CA2", "CCND1_2", "VAMP8_1", "BNIP3_2", "LHX1_1",
+      "HNF1B"),
+    c("SFRP1", "CTDNEP1", "HNRNPAB", "PCSK1N", "PITX2_1", "H1FX", "MID1", 
       "LINC00632"),
     c("TNNI1", "TNNT2", "MRGPRF", "MYL9", "COL4A4", "TUBB2A", "HMGCS1", "MSMO1")
 )
@@ -724,7 +733,9 @@ clust.labs <- c("CN0\nPodocyte", "CN1\nDiff. NP", "CN2\nNP", "CN3\nPod. Pre.",
                 "CN4\nDistal", "CN5\nProximal", "CN6\nStroma", "CN7\nPodocyte")
 
 plot.data <- lapply(seq_along(genes.list), function(idx) {
-    genes <- genes.list[[idx]]
+    genes.raw <- genes.list[[idx]]
+    genes <- str_remove(genes.raw, "_[0-9]")
+    names(genes.raw) <- genes
     comb.neph %>%
         FetchData(vars.all = genes) %>%
         as_data_frame() %>%
@@ -739,14 +750,15 @@ plot.data <- lapply(seq_along(genes.list), function(idx) {
         mutate(AvgExprScale = scale(AvgExpr)) %>%
         mutate(AvgExprScale = Seurat::MinMax(AvgExprScale,
                                              max = 2.5, min = -2.5)) %>%
-        filter(Cluster == idx - 1)
+        filter(Cluster == idx - 1)  %>%
+        ungroup() %>%
+        mutate(Gene = genes.raw[Gene])
 })
 
 plot.data <- plot.data %>%
     bind_rows() %>%
-    ungroup() %>%
     mutate(Cluster = factor(Cluster, labels = clust.labs)) %>%
-    mutate(Gene = factor(Gene, levels = unique(unlist(genes.list))))
+    mutate(Gene = factor(Gene, levels = unlist(genes.list)))
 
 f3F <- ggplot(plot.data,
               aes(x = Group, y = Gene, size = PctExpr,
@@ -756,6 +768,8 @@ f3F <- ggplot(plot.data,
     scale_alpha(range = c(0.1, 1)) +
     scale_colour_manual(values = c("#EC008C", "#00ADEF")) +
     scale_x_discrete(labels = c("Fetal kidney", "Organoid")) +
+    scale_y_discrete(labels = str_remove(unlist(genes.list), "_[0-9]"),
+                     breaks = unlist(genes.list)) +
     facet_wrap(~ Cluster, scales = "free", nrow = 1) +
     theme(axis.title.x = element_blank(),
           axis.title.y = element_blank(),
