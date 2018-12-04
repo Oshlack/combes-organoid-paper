@@ -33,5 +33,15 @@
     "Parameter": ["skipped"],
     "Value": ["7"],
     "Description": ["Clusters skipped for conserved marker and DE testing"]
+  },
+  {
+    "Parameter": ["pod_clust"],
+    "Value": ["0"],
+    "Description": ["Podocyte cluster"]
+  },
+  {
+    "Parameter": ["hFK_pod_clust"],
+    "Value": ["7"],
+    "Description": ["Human fetal kidney specific podocyte cluster"]
   }
 ]

@@ -627,6 +627,41 @@ cluster.de.list.filt <- map(cluster.de.list,
 comb.neph <- SetAllIdent(comb.neph, id = "NephCluster")
 ```
 
+Human specific podocytes
+========================
+
+```{r pod-clusts}
+hFK_pod_clust <- "7"
+pod_clust <- "0"
+```
+
+Our analysis indicates that there is a small cluster (cluster `r hFK_pod_clust`) 
+that  appears to be podocytes but only contains fetal kidney cells. Let's
+compare this  cluster to the main podocyte cluster (cluster `r pod_clust`) to
+see what the differences are. Genes with positive foldchanges are up-regulated
+in the human specific cluster.
+
+```{r pod-de}
+pod.de <- FindMarkers(comb.neph, hFK_pod_clust, pod_clust,
+                      logfc.threshold = 0,
+                      min.pct = 0.1, print.bar = FALSE)
+pod.de <- pod.de %>% rownames_to_column("gene") %>%
+    arrange(-avg_logFC)
+
+pod.de %>%
+    top_n(10, abs(avg_logFC)) %>% data.frame
+```
+
+Much of this list is the general between dataset difference. Let's remove our
+DE signature again.
+
+```{r pod-de-filt}
+pod.de.filt <- pod.de %>% filter(!(gene %in% de.sig))
+
+pod.de.filt %>%
+    top_n(10, abs(avg_logFC)) %>% data.frame
+```
+
 Summary
 =======
 
@@ -671,6 +706,16 @@ params <- toJSON(list(
         Parameter = "skipped",
         Value = paste(seq(0, n.clusts - 1))[skip],
         Description = "Clusters skipped for conserved marker and DE testing"
+    ),
+    list(
+        Parameter = "pod_clust",
+        Value = pod_clust,
+        Description = "Podocyte cluster"
+    ),
+    list(
+        Parameter = "hFK_pod_clust",
+        Value = hFK_pod_clust,
+        Description = "Human fetal kidney specific podocyte cluster"
     )
 ), pretty = TRUE)
 
@@ -719,7 +764,10 @@ write_xlsx(con.markers.list, here("output", DOCNAME, "conserved_markers.xlsx"))
 write_csv(cluster.de, here("output", DOCNAME, "cluster_de.csv"))
 write_xlsx(cluster.de.list, here("output", DOCNAME, "cluster_de.xlsx"))
 write_csv(cluster.de.filt, here("output", DOCNAME, "cluster_de_filtered.csv"))
-write_xlsx(cluster.de.list.filt, here("output", DOCNAME, "cluster_de_filtered.xlsx"))
+write_xlsx(cluster.de.list.filt,
+           here("output", DOCNAME, "cluster_de_filtered.xlsx"))
+write_csv(pod.de, here("output", DOCNAME, "podocyte_de.csv"))
+write_csv(pod.de.filt, here("output", DOCNAME, "podocyte_de_filtered.csv"))
 
 kable(data.frame(
     File = c(
@@ -741,7 +789,11 @@ kable(data.frame(
         glue("[cluster_de_filtered.csv]",
              "({getDownloadURL('cluster_de_filtered.csv', DOCNAME)})"),
         glue("[cluster_de_filtered.xlsx]",
-             "({getDownloadURL('cluster_de_filtered.xlsx', DOCNAME)})")
+             "({getDownloadURL('cluster_de_filtered.xlsx', DOCNAME)})"),
+        glue("[podocyte_de.csv]",
+             "({getDownloadURL('podocyte_de.csv', DOCNAME)})"),
+        glue("[podocyte_de_filtered.csv]",
+             "({getDownloadURL('podocyte_de_filtered.csv', DOCNAME)})")
     ),
     Description = c(
         "Parameters set and used in this analysis",
@@ -761,7 +813,12 @@ kable(data.frame(
              "after removing group DE signature in CSV format"),
         paste("Results of within cluster differential expression testing",
              "after removing group DE signature in XLSX format with one",
-             "cluster per tab")
+             "cluster per tab"),
+        paste("Results of differential expression testing between human",
+              "specific podocytes and other podocytes"),
+        paste("Results of differential expression testing between human",
+              "specific podocytes and other podocytes fter removing group",
+              "DE signature")
     )
 ))
 ```
