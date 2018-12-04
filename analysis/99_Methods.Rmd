@@ -190,8 +190,9 @@ human fetal kidney we performed differential expression testing between cells
 within a cluster and removed genes from the overall differential expression
 signature. Cluster `r params$Combined_Nephron$hFK_pod_clust` in the combined
 nephron analysis was identified as a human fetal kidney specific podocyte
-cluster. To investigate the differences we compared expressions in this cluster
-to the general podocyte cluster (CN`r params$Combined_Nephron$pod_clust`).
+cluster. To investigate the differences between these cells and other podocytes
+we compared gene expression in this cluster to the general podocyte cluster
+(CN`r params$Combined_Nephron$pod_clust`).
 
 Visualisation and presentation
 ==============================
