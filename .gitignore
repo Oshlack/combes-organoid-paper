@@ -14,3 +14,5 @@ analysis/site_libs
 data/
 
 packrat/lib*/
+
+!output/*/*.csv.zip

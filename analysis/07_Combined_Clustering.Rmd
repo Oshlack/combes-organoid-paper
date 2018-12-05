@@ -784,18 +784,20 @@ dir.create(here("output", DOCNAME), showWarnings = FALSE)
 write_lines(params, here("output", DOCNAME, "parameters.json"))
 write_csv(cluster.assign, here("output", DOCNAME, "cluster_assignments.csv"))
 write_csv(cluster.expr, here("output", DOCNAME, "cluster_expression.csv"))
-write_csv(markers, here("output", DOCNAME, "markers.csv"))
-write_xlsx(markers.list, here("output", DOCNAME, "markers.xlsx"))
-write_csv(con.markers, here("output", DOCNAME, "conserved_markers.csv"))
-write_xlsx(con.markers.list, here("output", DOCNAME, "conserved_markers.xlsx"))
-write_csv(cluster.de, here("output", DOCNAME, "cluster_de.csv"))
-write_xlsx(cluster.de.list, here("output", DOCNAME, "cluster_de.xlsx"))
-write_csv(de, here("output", DOCNAME, "group_de.csv"))
+writeGeneTable(markers, here("output", DOCNAME, "markers.csv"))
+writeGeneTable(markers.list, here("output", DOCNAME, "markers.xlsx"))
+writeGeneTable(con.markers, here("output", DOCNAME, "conserved_markers.csv"))
+writeGeneTable(con.markers.list,
+               here("output", DOCNAME, "conserved_markers.xlsx"))
+writeGeneTable(cluster.de, here("output", DOCNAME, "cluster_de.csv"))
+writeGeneTable(cluster.de.list, here("output", DOCNAME, "cluster_de.xlsx"))
+writeGeneTable(de, here("output", DOCNAME, "group_de.csv"))
 write_csv(data.frame(Gene = de.sig),
           here("output", DOCNAME, "de_signature.csv"))
-write_csv(cluster.de.filt, here("output", DOCNAME, "cluster_de_filtered.csv"))
-write_xlsx(cluster.de.list.filt,
-           here("output", DOCNAME, "cluster_de_filtered.xlsx"))
+writeGeneTable(cluster.de.filt,
+               here("output", DOCNAME, "cluster_de_filtered.csv"))
+writeGeneTable(cluster.de.list.filt,
+               here("output", DOCNAME, "cluster_de_filtered.xlsx"))
 
 kable(data.frame(
     File = c(
@@ -804,21 +806,21 @@ kable(data.frame(
              "({getDownloadURL('cluster_assignments.csv', DOCNAME)})"),
         glue("[cluster_expression.csv]",
              "({getDownloadURL('cluster_expression.csv', DOCNAME)})"),
-        glue("[markers.csv]({getDownloadURL('markers.csv', DOCNAME)})"),
+        glue("[markers.csv]({getDownloadURL('markers.csv.zip', DOCNAME)})"),
         glue("[markers.xlsx]({getDownloadURL('markers.xlsx', DOCNAME)})"),
         glue("[conserved_markers.csv]",
-             "({getDownloadURL('conserved_markers.csv', DOCNAME)})"),
+             "({getDownloadURL('conserved_markers.csv.zip', DOCNAME)})"),
         glue("[conserved_markers.xlsx]",
              "({getDownloadURL('conserved_markers.xlsx', DOCNAME)})"),
         glue("[cluster_de.csv]",
-             "({getDownloadURL('cluster_de.csv', DOCNAME)})"),
+             "({getDownloadURL('cluster_de.csv.zip', DOCNAME)})"),
         glue("[cluster_de.xlsx]",
              "({getDownloadURL('cluster_de.xlsx', DOCNAME)})"),
-        glue("[group_de.csv]({getDownloadURL('group_de.csv', DOCNAME)})"),
+        glue("[group_de.csv]({getDownloadURL('group_de.csv.zip', DOCNAME)})"),
         glue("[de_signature.csv]",
              "({getDownloadURL('de_signature.csv', DOCNAME)})"),
         glue("[cluster_de_filtered.csv]",
-             "({getDownloadURL('cluster_de_filtered.csv', DOCNAME)})"),
+             "({getDownloadURL('cluster_de_filtered.csv.zip', DOCNAME)})"),
         glue("[cluster_de_filtered.xlsx]",
              "({getDownloadURL('cluster_de_filtered.xlsx', DOCNAME)})")
     ),
