@@ -1,5 +1,7 @@
 # Combes Organoid Paper Analysis
 
+[![DOI](https://zenodo.org/badge/148580527.svg)][doi]
+
 This repository contains code and output for the analysis in the Combes kidney
 organoid scRNA-seq paper.
 
@@ -13,5 +15,6 @@ content is covered by a [Creative Commons CC-BY][cc] license.
 The associated publication and the datasets used are covered by their respective
 licenses and usage agreements. Please refer to those sources for details.
 
+[doi]: https://zenodo.org/badge/latestdoi/148580527 "DOI"
 [mit]: https://choosealicense.com/licenses/mit/ "MIT License"
 [cc]: https://creativecommons.org/licenses/by/4.0/ "CC-BY License"

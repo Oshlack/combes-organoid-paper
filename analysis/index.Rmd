@@ -8,6 +8,9 @@ output:
 
 # Single cell analysis reveals congruence between kidney organoids and human fetal kidney
 
+**Website and code:** [![DOI](https://zenodo.org/badge/148580527.svg)][doi]
+
+
 This site contains the results of the analysis presented in the Combes kidney
 organoid scRNA-seq paper. Follow the links below to see the different parts of
 the analysis. If you want to reproduce the analysis please have a look at the
@@ -100,6 +103,16 @@ content on this website is covered by a [Creative Commons CC-BY][cc] license.
 The associated publication and the datasets used are covered by their respective
 licenses and usage agreements. Please refer to those sources for details.
 
+Citations
+---------
+
+This website and the analysis code can be cited as:
+
+> Zappia, Luke, Combes, Alexander N., Er, Pei Xuan, Vanslambrouck, Jessica M., 
+> Oshlack, Alicia, & Little, Melissa H. Combes organoid paper analysis code. 
+> Zenodo. http://doi.org/10.5281/zenodo.1960044
+
+[doi]: https://zenodo.org/badge/latestdoi/148580527 "DOI"
 [mit]: https://choosealicense.com/licenses/mit/ "MIT License"
 [cc]: https://creativecommons.org/licenses/by/4.0/ "CC-BY License"
 
