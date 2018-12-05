@@ -284,7 +284,7 @@ div.section {
 </div>
 
 
-<p><strong>Last updated:</strong> 2018-09-13</p>
+<p><strong>Last updated:</strong> 2018-12-05</p>
 <strong>workflowr checks:</strong> <small>(Click a bullet for more information)</small>
 <ul>
 <li>
@@ -293,21 +293,26 @@ div.section {
 </details>
 </li>
 <li>
-<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/a99f69a60710197d91455cf95bc19315513b0ac9" target="_blank">a99f69a</a> </summary></p>
+<p><details> <summary> <strong style="color:blue;">✔</strong> <strong>Repository version:</strong> <a href="http://github.com/Oshlack/combes-organoid-paper/tree/8ff4af60b70e3a94ad1219576e0ee08c2cc6bc93" target="_blank">8ff4af6</a> </summary></p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    analysis/cache.bak.20181031/
+    Ignored:    analysis/cache.bak/
+    Ignored:    analysis/cache.lind2.20181114/
     Ignored:    analysis/cache/
+    Ignored:    data/Lindstrom2/
+    Ignored:    data/processed.bak.20181031/
     Ignored:    data/processed.bak/
+    Ignored:    data/processed.lind2.20181114/
     Ignored:    packrat/lib-R/
     Ignored:    packrat/lib-ext/
     Ignored:    packrat/lib/
     Ignored:    packrat/src/
-
-Untracked files:
-    Untracked:  analysis/cache.bak/
+    Ignored:    test.csv.zip
 
 </code></pre>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes. </details>
@@ -336,6 +341,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+Rmd
+</td>
+<td style="text-align:left;">
+<a href="http://github.com/Oshlack/combes-organoid-paper/blob/8ff4af60b70e3a94ad1219576e0ee08c2cc6bc93/analysis/index.Rmd" target="_blank">8ff4af6</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-12-05
+</td>
+<td style="text-align:left;">
+Update home page and getting started
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+html
+</td>
+<td style="text-align:left;">
+<a href="https://cdn.rawgit.com/http://github.com/Oshlack/combes-organoid-paper/a61f9c98a128e5dd7b637a5b07f5eb81a9e10978/docs/index.html" target="_blank">a61f9c9</a>
+</td>
+<td style="text-align:left;">
+Luke Zappia
+</td>
+<td style="text-align:left;">
+2018-09-13
+</td>
+<td style="text-align:left;">
+Rebuild site
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 html
@@ -664,7 +703,33 @@ Start workflowr project.
 </ul>
 <p></details></p>
 <hr />
-<p>This site contains the results of the analysis presented in the Combes kidney organoid scRNA-seq paper. Follow the links to see the different parts of the analysis. If you want to reproduce the analysis please have a look at the <a href="getting_started.html">Getting started</a> page.</p>
+<div id="single-cell-analysis-reveals-congruence-between-kidney-organoids-and-human-fetal-kidney" class="section level1">
+<h1>Single cell analysis reveals congruence between kidney organoids and human fetal kidney</h1>
+<p>This site contains the results of the analysis presented in the Combes kidney organoid scRNA-seq paper. Follow the links below to see the different parts of the analysis. If you want to reproduce the analysis please have a look at the <a href="getting_started.html">Getting started</a> page.</p>
+<div id="abstract" class="section level2">
+<h2>Abstract</h2>
+<div id="background" class="section level3">
+<h3>Background:</h3>
+<p>Human kidney organoids hold promise for studying development, disease modelling and drug screening. However, the utility of stem cell-derived kidney tissues will depend on how faithfully these replicate normal fetal development at the level of cellular identity and complexity.</p>
+</div>
+<div id="results" class="section level3">
+<h3>Results:</h3>
+<p>Here we present an integrated analysis of single cell datasets from human kidney organoids and human fetal kidney to assess similarities and differences between the component cell types. When overlaid, individual cell clusters contained cells from both organoid and fetal kidney with transcriptional congruence for key stromal, endothelial and nephron cell-type specific markers. Organoid enriched neural, glial and muscle progenitor populations are also evident. Major transcriptional differences between organoid and human tissue were likely related to technical artefacts. Cell type-specific comparisons revealed differences in stromal, endothelial, and nephron progenitor cell types including expression of WNT2B in the human fetal kidney stroma but not in the organoids.</p>
+</div>
+<div id="conclusions" class="section level3">
+<h3>Conclusions:</h3>
+<p>This study supports the fidelity of kidney organoids as models of the developing kidney and affirms their potential in disease modelling and drug screening.</p>
+</div>
+</div>
+<div id="authors" class="section level2">
+<h2>Authors</h2>
+<p>Alexander N. Combes<sup>#1,2+</sup>, Luke Zappia<sup>#2,3</sup>, Pei Xuan Er<sup>2</sup>, Jessica M. Vanslambrouck<sup>2</sup>, Alicia Oshlack<sup>2,3</sup>, Melissa H. Little<sup>1,2,3,4,+</sup></p>
+<p><sup>1</sup> Department of Anatomy &amp; Neuroscience, University of Melbourne, VIC, Australia <sup>2</sup> Murdoch Children’s Research Institute, Flemington Rd, Parkville, VIC, Australia <sup>3</sup> School of Biosciences, The University of Melbourne, VIC, Australia <sup>4</sup> Department of Paediatrics, The University of Melbourne, VIC, Australia</p>
+<p><sup>#</sup> Equal contribution</p>
+<p><sup>+</sup> Corresponding authors</p>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
 <ul>
 <li>Quality control
 <ul>
@@ -690,6 +755,13 @@ Start workflowr project.
 <li><a href="08_Crossover.html">Clustering crossover</a> - Overlap in samples between clusters from different parts of the analysis</li>
 <li><a href="99_Methods.html">Methods</a> - Methods describing the analysis</li>
 </ul>
+</div>
+<div id="licenses" class="section level2">
+<h2>Licenses</h2>
+<p>The code in this analysis is covered by the <a href="https://choosealicense.com/licenses/mit/" title="MIT License">MIT license</a> and the written content on this website is covered by a <a href="https://creativecommons.org/licenses/by/4.0/" title="CC-BY License">Creative Commons CC-BY</a> license.</p>
+<p>The associated publication and the datasets used are covered by their respective licenses and usage agreements. Please refer to those sources for details.</p>
+</div>
+</div>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see

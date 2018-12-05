@@ -6,10 +6,59 @@ output:
     toc: false
 ---
 
+# Single cell analysis reveals congruence between kidney organoids and human fetal kidney
+
 This site contains the results of the analysis presented in the Combes kidney
-organoid scRNA-seq paper. Follow the links to see the different parts of the
-analysis. If you want to reproduce the analysis please have a look at the
+organoid scRNA-seq paper. Follow the links below to see the different parts of
+the analysis. If you want to reproduce the analysis please have a look at the
 [Getting started](getting_started.html) page.
+
+Abstract
+--------
+
+### Background:
+
+Human kidney organoids hold promise for studying development, disease modelling
+and drug screening. However, the utility of stem cell-derived kidney tissues
+will depend on how faithfully these replicate normal fetal development at the
+level of cellular identity and complexity.
+
+### Results:
+
+Here we present an integrated analysis of single cell datasets from human kidney 
+organoids and human fetal kidney to assess similarities and differences between
+the component cell types. When overlaid, individual cell clusters contained
+cells from both organoid and fetal kidney with transcriptional congruence for
+key stromal, endothelial and nephron cell-type specific markers. Organoid
+enriched neural, glial and muscle progenitor populations are also evident. Major 
+transcriptional differences between organoid and human tissue were likely
+related to technical artefacts. Cell type-specific comparisons revealed
+differences in stromal, endothelial, and nephron progenitor cell types including
+expression of WNT2B in the human fetal kidney stroma but not in the organoids.
+
+### Conclusions:
+
+This study supports the fidelity of kidney organoids as models of the developing 
+kidney and affirms their potential in disease modelling and drug screening.
+
+Authors
+-------
+
+Alexander N. Combes^#1,2+^, Luke Zappia^#2,3^, Pei Xuan Er^2^, Jessica M. 
+Vanslambrouck^2^, Alicia Oshlack^2,3^, Melissa H. Little^1,2,3,4,+^
+
+^1^ Department of Anatomy & Neuroscience, University of Melbourne, VIC,
+Australia ^2^ Murdoch Children's Research Institute, Flemington Rd, Parkville, 
+VIC, Australia ^3^ School of Biosciences, The University of Melbourne, VIC, 
+Australia ^4^ Department of Paediatrics, The University of Melbourne, VIC, 
+Australia
+
+^#^ Equal contribution
+
+^+^ Corresponding authors
+
+Analysis
+--------
 
 * Quality control
     * [Organoid Batch 1](01_Organoid123_QC.html) - Quality control of the first
@@ -41,3 +90,16 @@ analysis. If you want to reproduce the analysis please have a look at the
 * [Clustering crossover](08_Crossover.html) - Overlap in samples between
   clusters from different parts of the analysis
 * [Methods](99_Methods.html) - Methods describing the analysis
+
+Licenses
+--------
+
+The code in this analysis is covered by the [MIT license][mit] and the written
+content on this website is covered by a [Creative Commons CC-BY][cc] license.
+
+The associated publication and the datasets used are covered by their respective
+licenses and usage agreements. Please refer to those sources for details.
+
+[mit]: https://choosealicense.com/licenses/mit/ "MIT License"
+[cc]: https://creativecommons.org/licenses/by/4.0/ "CC-BY License"
+

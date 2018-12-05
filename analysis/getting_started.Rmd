@@ -27,9 +27,10 @@ package has also been used to manage R package versions and dependencies.
 Getting the code
 ================
 
-All the code and outputs of analysis are available from GitHub at XXX. If you
-want to replicate the analysis you can either fork the repository and clone it
-or download the repository as a zipped directory.
+All the code and outputs of analysis are available from GitHub at 
+https://github.com/Oshlack/combes-organoid-paper. If you want to replicate the 
+analysis you can either fork the repository and clone it or download the 
+repository as a zipped directory.
 
 Once you have a local copy of the repository you should see the following
 directory structure:
@@ -41,8 +42,8 @@ directory structure:
   details). Processed intermediate data files will also be placed here.
 * `output/` - Directory for output files produced by the analysis, each analysis
   step has it's own sub-directory.
-* `docs/` - This directory contains the analysis website hosted at XXX,
-  including image files.
+* `docs/` - This directory contains the analysis website hosted at 
+  http://oshlacklab.com/combes-organoid-paper, including image files.
 * `R/` - R scripts with custom functions used in some analysis stages.
 * `packrat/` - Directory created by `packrat` that contains details of the R
   packages and versions used in the analysis.
@@ -164,5 +165,6 @@ the safest option is the use the RStudio 'Knit' button.
 [workflowr]: https://jdblischak.github.io/workflowr/ "Workflowr"
 [workflowr-issue]: https://github.com/jdblischak/workflowr/issues/113 "Workflowr caching issue"
 
-Summary
-=======
+```{r session-info, cache = FALSE, eval = FALSE}
+devtools::session_info()
+```
