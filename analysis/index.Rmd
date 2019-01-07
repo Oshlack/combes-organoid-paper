@@ -47,8 +47,8 @@ kidney and affirms their potential in disease modelling and drug screening.
 Authors
 -------
 
-Alexander N. Combes^#1,2+^, Luke Zappia^#2,3^, Pei Xuan Er^2^, Jessica M. 
-Vanslambrouck^2^, Alicia Oshlack^2,3^, Melissa H. Little^1,2,3,4,+^
+Alexander N. Combes^#1,2+^, Luke Zappia^#2,3^, Pei Xuan Er^2^, Alicia 
+Oshlack^2,3^, Melissa H. Little^1,2,3,4,+^
 
 ^1^ Department of Anatomy & Neuroscience, University of Melbourne, VIC,
 Australia ^2^ Murdoch Children's Research Institute, Flemington Rd, Parkville, 
@@ -108,11 +108,10 @@ Citations
 
 This website and the analysis code can be cited as:
 
-> Zappia, Luke, Combes, Alexander N., Er, Pei Xuan, Vanslambrouck, Jessica M., 
-> Oshlack, Alicia, & Little, Melissa H. Combes organoid paper analysis code. 
-> Zenodo. http://doi.org/10.5281/zenodo.1960044
+> Zappia, Luke, Combes, Alexander N., Er, Pei Xuan, Oshlack, Alicia, & Little,
+> Melissa H. Combes organoid paper analysis code. Zenodo. 
+> http://doi.org/10.5281/zenodo.1960044
 
 [doi]: https://zenodo.org/badge/latestdoi/148580527 "DOI"
 [mit]: https://choosealicense.com/licenses/mit/ "MIT License"
 [cc]: https://creativecommons.org/licenses/by/4.0/ "CC-BY License"
-
