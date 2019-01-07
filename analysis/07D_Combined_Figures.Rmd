@@ -724,8 +724,8 @@ genes.list <- list(
       "LHX1"),
     c("VCAN", "PSMA2", "CA2", "CCND1_2", "VAMP8_1", "BNIP3_2", "LHX1_1",
       "HNF1B"),
-    c("SFRP1", "CTDNEP1", "HNRNPAB", "PCSK1N", "PITX2_1", "H1FX", "MID1", 
-      "LINC00632"),
+    c("COL1A1", "COL3A1", "SERPINH1", "POSTN", "MEG3", "COL1A2", "CYR61", 
+      "MEIS2"),
     c("TNNI1", "TNNT2", "MRGPRF", "MYL9", "COL4A4", "TUBB2A", "HMGCS1", "MSMO1")
 )
 
