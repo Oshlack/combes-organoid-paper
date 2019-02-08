@@ -3,6 +3,160 @@ PackratVersion: 0.4.9.3
 RVersion: 3.5.0
 Repos: CRAN=https://mirror.aarnet.edu.au/pub/CRAN
 
+Package: AnnotationDbi
+Source: Bioconductor
+Version: 1.42.1
+Hash: 2ba97e9787bfba64e9dc271d4d3736a5
+Requires: Biobase, BiocGenerics, DBI, IRanges, RSQLite, S4Vectors
+
+Package: BH
+Source: CRAN
+Version: 1.66.0-1
+Hash: 4cc8883584b955ed01f38f68bc03af6d
+
+Package: Biobase
+Source: Bioconductor
+Version: 2.40.0
+Hash: 42673ddebdb21b040069f975517ac402
+Requires: BiocGenerics
+
+Package: BiocGenerics
+Source: Bioconductor
+Version: 0.26.0
+Hash: 79cfa274553b9197eb19c267720d948b
+
+Package: BiocManager
+Source: CRAN
+Version: 1.30.1
+Hash: 9aa1eef2c266dbc0a311f3d773853088
+
+Package: BiocParallel
+Source: Bioconductor
+Version: 1.14.2
+Hash: 944d3fc50d0d6775e3aa33a82ccfd17f
+Requires: BH, futile.logger, snow
+
+Package: BiocVersion
+Source: Bioconductor
+Version: 3.7.4
+Hash: 2b54d67f2dd3f01297a6457ce923b951
+
+Package: CVST
+Source: CRAN
+Version: 0.2-2
+Hash: f20592cb2b04f2597e5d7c7d4e060bae
+Requires: kernlab
+
+Package: DBI
+Source: CRAN
+Version: 1.0.0
+Hash: 6abedd7919c4457604c0aa44529a6683
+
+Package: DDRTree
+Source: CRAN
+Version: 0.1.5
+Hash: 7b224b112c9fa3564f1abf52befe9f71
+Requires: BH, Rcpp, RcppEigen, irlba
+
+Package: DEoptimR
+Source: CRAN
+Version: 1.0-8
+Hash: adc74e88e85eabe6c7d73db6a86fe6cf
+
+Package: DRR
+Source: CRAN
+Version: 0.0.3
+Hash: cd7cdf55dde64ded98a7d8d0621c9242
+Requires: CVST, kernlab
+
+Package: DT
+Source: CRAN
+Version: 0.4
+Hash: a6e844446350a7128c734516fa8215e3
+Requires: crosstalk, htmltools, htmlwidgets, magrittr
+
+Package: DelayedArray
+Source: Bioconductor
+Version: 0.6.2
+Hash: 10d8f93503d87359f1406fe455355841
+Requires: BiocGenerics, BiocParallel, IRanges, S4Vectors, matrixStats
+
+Package: DelayedMatrixStats
+Source: Bioconductor
+Version: 1.2.0
+Hash: 2c7a70d81e817f9dec34433647b0eb32
+Requires: DelayedArray, IRanges, S4Vectors, matrixStats
+
+Package: DropletUtils
+Source: Bioconductor
+Version: 1.0.2
+Hash: 65c8e4ecad2188f45bc15efa16ae9b07
+Requires: BiocParallel, Rcpp, Rhdf5lib, S4Vectors,
+    SingleCellExperiment, beachmat, edgeR, rhdf5
+
+Package: FNN
+Source: CRAN
+Version: 1.1
+Hash: c057509dc46a5303c20514f256f79a5e
+
+Package: Formula
+Source: CRAN
+Version: 1.2-3
+Hash: 9772da3bc51603a19a2b75f008fd63e3
+
+Package: GO.db
+Source: Bioconductor
+Version: 3.6.0
+Hash: 03928e874eaffdbf8ddf966b08fb19c5
+Requires: AnnotationDbi
+
+Package: GenomeInfoDb
+Source: Bioconductor
+Version: 1.16.0
+Hash: 730e80056e0ccb816e9999f49c2c0723
+Requires: BiocGenerics, GenomeInfoDbData, IRanges, RCurl, S4Vectors
+
+Package: GenomeInfoDbData
+Source: Bioconductor
+Version: 1.1.0
+Hash: e4e35f4a96bd6385cb2a55178a44067a
+
+Package: GenomicRanges
+Source: Bioconductor
+Version: 1.32.6
+Hash: 816407dd7e95ee8c1ed66090c2a94e0e
+Requires: BiocGenerics, GenomeInfoDb, IRanges, S4Vectors, XVector
+
+Package: HDF5Array
+Source: Bioconductor
+Version: 1.8.1
+Hash: 7fa48fe82766b2778a67058036baae44
+Requires: BiocGenerics, DelayedArray, IRanges, S4Vectors, rhdf5
+
+Package: HSMMSingleCell
+Source: Bioconductor
+Version: 0.114.0
+Hash: ae03b257a6c7d79595fffbcd49dc7c45
+
+Package: Hmisc
+Source: CRAN
+Version: 4.1-1
+Hash: cc5979743125dccc274f1920eb9c8197
+Requires: Formula, acepack, base64enc, data.table, ggplot2, gridExtra,
+    gtable, htmlTable, htmltools, latticeExtra, viridis
+
+Package: IRanges
+Source: Bioconductor
+Version: 2.14.10
+Hash: 040cba2c417dde662519453a9b4bc536
+Requires: BiocGenerics, S4Vectors
+
+Package: ModelMetrics
+Source: CRAN
+Version: 1.1.0
+Hash: 5a4c826ad06fea6be26571a5cfd09d87
+Requires: Rcpp
+
 Package: R.methodsS3
 Source: CRAN
 Version: 1.7.1
@@ -25,10 +179,156 @@ Source: CRAN
 Version: 2.2.2
 Hash: b2366cd9d2f3851a5704b4e192b985c2
 
+Package: RANN
+Source: CRAN
+Version: 2.6
+Hash: 30dcac78871c7a12453cd753ee7d97dc
+
+Package: RBGL
+Source: Bioconductor
+Version: 1.56.0
+Hash: c9e7a8d8deca37e268b5db0df9812948
+Requires: graph
+
+Package: RColorBrewer
+Source: CRAN
+Version: 1.1-2
+Hash: c0d56cd15034f395874c870141870c25
+
+Package: RCurl
+Source: CRAN
+Version: 1.95-4.11
+Hash: 98b1b04db217dc56baca68aa34079fdd
+Requires: bitops
+
+Package: ROCR
+Source: CRAN
+Version: 1.0-7
+Hash: 086f78987ebf3c55b01013ee64a5e1e2
+Requires: gplots
+
+Package: RSQLite
+Source: CRAN
+Version: 2.1.1
+Hash: ac9f9b0549ff03717259c309c668ba97
+Requires: BH, DBI, Rcpp, bit64, blob, memoise, pkgconfig, plogr
+
+Package: RUnit
+Source: CRAN
+Version: 0.4.32
+Hash: 7dd10abc3e32399b6398fc956ce43ad4
+
 Package: Rcpp
 Source: CRAN
-Version: 0.12.17
-Hash: d2eff4634ccd7aca030c540ad805ac4a
+Version: 0.12.18
+Hash: c80398774358bc105b9f91f7f7519d7a
+
+Package: RcppEigen
+Source: CRAN
+Version: 0.3.3.4.0
+Hash: b84de17dacf31807f222f0a5229a50b4
+Requires: Rcpp
+
+Package: RcppProgress
+Source: CRAN
+Version: 0.4.1
+Hash: aebe1dc2371438de232a94f0ef8ea5b5
+
+Package: RcppRoll
+Source: CRAN
+Version: 0.3.0
+Hash: 726781be7f8d00a0667a180202e54416
+Requires: Rcpp
+
+Package: Rdpack
+Source: CRAN
+Version: 0.8-0
+Hash: 2116953cd252aa412812258d6ca39642
+Requires: bibtex, gbRd
+
+Package: Rhdf5lib
+Source: Bioconductor
+Version: 1.2.1
+Hash: f9c6a40e9268b3a4a973a17c73c80e88
+
+Package: Rtsne
+Source: CRAN
+Version: 0.13
+Hash: bc7cb23c1fc4d1f9d8ac2a987002d644
+Requires: Rcpp
+
+Package: S4Vectors
+Source: Bioconductor
+Version: 0.18.3
+Hash: 8e0cda9fedd25e9682cf5277ffb8f8a6
+Requires: BiocGenerics
+
+Package: SDMTools
+Source: CRAN
+Version: 1.1-221
+Hash: 1787a6e0a4bf480100e00dada9f72193
+Requires: R.utils
+
+Package: SQUAREM
+Source: CRAN
+Version: 2017.10-1
+Hash: 468c9c5e9c9852863fd94313b880964d
+
+Package: Seurat
+Source: CRAN
+Version: 2.3.1
+Hash: ed95d5fa264d6eee65ba46738c1ebfc4
+Requires: FNN, Hmisc, RANN, RColorBrewer, ROCR, Rcpp, RcppEigen,
+    RcppProgress, Rtsne, SDMTools, VGAM, ape, caret, cowplot,
+    diffusionMap, doSNOW, dplyr, dtw, fitdistrplus, foreach, fpc,
+    gdata, ggplot2, ggridges, gplots, ica, igraph, irlba, lars, lmtest,
+    metap, mixtools, pbapply, plotly, png, ranger, reshape2,
+    reticulate, stringr, tclust, tidyr, tsne
+
+Package: SingleCellExperiment
+Source: Bioconductor
+Version: 1.2.0
+Hash: 28c3579c3f24a04ee8cdb68278ed0012
+Requires: BiocGenerics, S4Vectors, SummarizedExperiment
+
+Package: SummarizedExperiment
+Source: Bioconductor
+Version: 1.10.1
+Hash: 47cc67089e715f1c78222d64cc3ce6f3
+Requires: Biobase, BiocGenerics, DelayedArray, GenomeInfoDb,
+    GenomicRanges, IRanges, S4Vectors
+
+Package: VGAM
+Source: CRAN
+Version: 1.0-5
+Hash: 7ffa8d7156d09fb790ac975d0e7c4f4e
+
+Package: XML
+Source: CRAN
+Version: 3.98-1.12
+Hash: 492cbdb2bce62ac726ede3b75f3fefbc
+
+Package: XVector
+Source: Bioconductor
+Version: 0.20.0
+Hash: ad49ac57cf801fe083753407b1a3e6ee
+Requires: BiocGenerics, IRanges, S4Vectors, zlibbioc
+
+Package: abind
+Source: CRAN
+Version: 1.4-5
+Hash: 1ceb86ef5ebe776ed4753ab6165eb6d7
+
+Package: acepack
+Source: CRAN
+Version: 1.4.1
+Hash: 5ed3b04bc1fa1a934188fc6022d3ba7c
+
+Package: ape
+Source: CRAN
+Version: 5.1
+Hash: 9ff5a7ccb998c59f99ba836a81773852
+Requires: Rcpp
 
 Package: assertthat
 Source: CRAN
@@ -45,11 +345,104 @@ Source: CRAN
 Version: 0.1-3
 Hash: c590d29e555926af053055e23ee79efb
 
+Package: beachmat
+Source: Bioconductor
+Version: 1.2.1
+Hash: 94de60a8243a1a1d22e8a631fa6398ad
+Requires: DelayedArray, HDF5Array, Rcpp, Rhdf5lib, rhdf5
+
+Package: beeswarm
+Source: CRAN
+Version: 0.2.3
+Hash: 90a5d0b7b42693a31b3322462f87ac4c
+
+Package: bibtex
+Source: CRAN
+Version: 0.4.2
+Hash: 58c21a98bdd9c67ec0b01d589988681a
+Requires: stringr
+
+Package: bindr
+Source: CRAN
+Version: 0.1.1
+Hash: 76578c5f543a6ecbc1365d6445f9ebf7
+
+Package: bindrcpp
+Source: CRAN
+Version: 0.2.2
+Hash: 8ce499301f0dc5c7ff69f0b42e33f5c1
+Requires: Rcpp, bindr, plogr
+
+Package: biocViews
+Source: Bioconductor
+Version: 1.48.2
+Hash: c5197d9b3e4d7721a452ad9f03a726f0
+Requires: Biobase, RBGL, RCurl, RUnit, XML, graph
+
+Package: biomaRt
+Source: Bioconductor
+Version: 2.36.1
+Hash: c8e48fa91ae9b319032e05a2a8fa7426
+Requires: AnnotationDbi, RCurl, XML, httr, progress, stringr
+
+Package: bit
+Source: CRAN
+Version: 1.1-14
+Hash: 704eb98fa9be263c95d00df4b2a448dd
+
+Package: bit64
+Source: CRAN
+Version: 0.9-7
+Hash: 4b195615d19ba49c114eb04e09e30a96
+Requires: bit
+
+Package: bitops
+Source: CRAN
+Version: 1.0-6
+Hash: 67d0775189fd0041d95abca618c5c07e
+
+Package: blob
+Source: CRAN
+Version: 1.1.1
+Hash: 532700d8073e660dce40a984900bc647
+Requires: prettyunits
+
+Package: broom
+Source: CRAN
+Version: 0.5.0
+Hash: 9f383b5f4632f82878222399b5fa7bbd
+Requires: backports, dplyr, purrr, reshape2, stringr, tibble, tidyr
+
+Package: caTools
+Source: CRAN
+Version: 1.17.1.1
+Hash: 1764f9cb70825aa7a1c461e7514ffb73
+Requires: bitops
+
 Package: callr
 Source: CRAN
 Version: 2.0.4
 Hash: ae3d74ab94396fc7f6b879f17fb71a12
 Requires: R6, processx
+
+Package: caret
+Source: CRAN
+Version: 6.0-80
+Hash: 88490fd9d54172040103d1b9a8a517f2
+Requires: ModelMetrics, foreach, ggplot2, plyr, recipes, reshape2,
+    withr
+
+Package: cellranger
+Source: CRAN
+Version: 1.1.0
+Hash: 4e1ef4d099b0c5fd531a3938cf4624bd
+Requires: rematch, tibble
+
+Package: checkmate
+Source: CRAN
+Version: 1.8.5
+Hash: e1bbc5228ab3da931a099208bc95ad23
+Requires: backports
 
 Package: cli
 Source: CRAN
@@ -57,15 +450,150 @@ Version: 1.0.0
 Hash: f4239f89feb7ddc65821e4514e9734ae
 Requires: assertthat, crayon
 
+Package: clipr
+Source: CRAN
+Version: 0.4.1
+Hash: caf20ae357bfa2ed50e0e7db267f69ce
+
+Package: clustree
+Source: github
+Version: 0.2.2.9000
+Hash: 80eb5f2b3ed58ec02b9e2d51ef788a01
+Requires: checkmate, dplyr, ggplot2, ggraph, ggrepel, igraph, rlang,
+    tidygraph, viridis
+GithubRepo: clustree
+GithubUsername: lazappi
+GithubRef: develop
+GithubSha1: 66a865bcca2fb80d7fef7cd38e1d8e514567bada
+RemoteHost: https://api.github.com
+RemoteRepo: clustree
+RemoteUsername: lazappi
+RemoteSha: 66a865bcca2fb80d7fef7cd38e1d8e514567bada
+
+Package: colorspace
+Source: CRAN
+Version: 1.3-2
+Hash: 0bf8618b585fa98eb23414cd3ab95118
+
+Package: combinat
+Source: CRAN
+Version: 0.0-8
+Hash: 1ddebf0315ec8a5c255adc4da9143b81
+
+Package: cowplot
+Source: CRAN
+Version: 0.9.3
+Hash: c9b93ad25628bdaf66e7a53b4ebe5510
+Requires: ggplot2, gtable, plyr, scales
+
 Package: crayon
 Source: CRAN
 Version: 1.3.4
 Hash: ff2840dd9b0d563fc80377a5a45510cd
 
+Package: crosstalk
+Source: CRAN
+Version: 1.0.0
+Hash: c13adea5906fbe2becfcb5f843b26749
+Requires: R6, ggplot2, htmltools, jsonlite, lazyeval, shiny
+
+Package: curl
+Source: CRAN
+Version: 3.2
+Hash: e3318ec2d42d15a38485bab047d114ba
+
+Package: data.table
+Source: CRAN
+Version: 1.11.4
+Hash: d8736a5fe41e5ebef191c43f5e22652f
+
+Package: dbplyr
+Source: CRAN
+Version: 1.2.2
+Hash: f09ea2f1a5c31d86b061d7121fab5db8
+Requires: DBI, R6, assertthat, dplyr, glue, purrr, rlang, tibble,
+    tidyselect
+
+Package: ddalpha
+Source: CRAN
+Version: 1.3.4
+Hash: 8ddb8fbaafcc1af36f4ebd9046a57bdc
+Requires: BH, Rcpp, geometry, robustbase, sfsmisc
+
+Package: densityClust
+Source: CRAN
+Version: 0.3
+Hash: 24cf834e1a8c542530f75e350a314872
+Requires: FNN, RColorBrewer, Rcpp, Rtsne, ggplot2, ggrepel, gridExtra
+
+Package: devtools
+Source: CRAN
+Version: 1.13.6
+Hash: 9a137acbaeb61f440b1c1dedc1fbcaec
+Requires: digest, git2r, httr, jsonlite, memoise, rstudioapi, whisker,
+    withr
+
+Package: dichromat
+Source: CRAN
+Version: 2.0-0
+Hash: 08eed0c80510af29bb15f840ccfe37ce
+
+Package: diffusionMap
+Source: CRAN
+Version: 1.1-0.1
+Hash: 73d54bdabba410e007cbe95eddbafca3
+Requires: igraph, scatterplot3d
+
 Package: digest
 Source: CRAN
 Version: 0.6.15
 Hash: 1f202ebd812ac7192be3739245746a13
+
+Package: dimRed
+Source: CRAN
+Version: 0.1.0
+Hash: 648bd80f3187f8e807f996e3e0866c7c
+Requires: DRR
+
+Package: diptest
+Source: CRAN
+Version: 0.75-7
+Hash: de93e5330ff45c5795d0bae12c8a9695
+
+Package: doSNOW
+Source: CRAN
+Version: 1.0.16
+Hash: fa059310e2902a619e06ad62ffc0a578
+Requires: foreach, iterators, snow
+
+Package: docopt
+Source: CRAN
+Version: 0.6
+Hash: 8afcffbcb9430c198f7ccd80b3d0873b
+
+Package: dplyr
+Source: CRAN
+Version: 0.7.6
+Hash: a74310ed1f73c309d0a892eddfd0009f
+Requires: BH, R6, Rcpp, assertthat, bindrcpp, glue, magrittr,
+    pkgconfig, plogr, rlang, tibble, tidyselect
+
+Package: dtw
+Source: CRAN
+Version: 1.20-1
+Hash: c18cd11d94fb899c4f751f82bc106a13
+Requires: proxy
+
+Package: dynamicTreeCut
+Source: CRAN
+Version: 1.63-1
+Hash: f1c0d0344bcf8d1249a00eace1a84b98
+
+Package: edgeR
+Source: Bioconductor
+Version: 3.22.3
+Hash: 3f6b0b7083a94887567cdd9dc9961e66
+Requires: Rcpp, limma, locfit
 
 Package: evaluate
 Source: CRAN
@@ -73,11 +601,128 @@ Version: 0.10.1
 Hash: 54d95f4ec6d0300100413ed0127d89ae
 Requires: stringr
 
+Package: fansi
+Source: CRAN
+Version: 0.2.3
+Hash: ea2d591618224c56c8d5befde9af822b
+
+Package: fastICA
+Source: CRAN
+Version: 1.2-1
+Hash: 1e5995914ced9df73390b897a42248b1
+
+Package: fitdistrplus
+Source: CRAN
+Version: 1.0-9
+Hash: d1e1fb479d41b9a934b8991b1f5e7ad6
+
+Package: flexmix
+Source: CRAN
+Version: 2.3-14
+Hash: 7664d705ce1d61d0c1b58df0ed4aa490
+Requires: modeltools
+
+Package: forcats
+Source: CRAN
+Version: 0.3.0
+Hash: 770f3834b97a2c429bdecb7a5f27eb25
+Requires: magrittr, rlang, tibble
+
+Package: foreach
+Source: CRAN
+Version: 1.4.4
+Hash: 4df5ab2c8c35382dacab75d414da6748
+Requires: iterators
+
+Package: formatR
+Source: CRAN
+Version: 1.5
+Hash: 258cf79a8dbeedf1c981cdb53837d2af
+
+Package: fpc
+Source: CRAN
+Version: 2.1-11.1
+Hash: 7ed9c2b54945aaf149d8a8f1aaf5e07f
+Requires: diptest, flexmix, kernlab, mclust, mvtnorm, prabclus,
+    robustbase, trimcluster
+
+Package: futile.logger
+Source: CRAN
+Version: 1.4.3
+Hash: d1cc6584b39f2c4cfbe377fd94cbdbaa
+Requires: futile.options, lambda.r
+
+Package: futile.options
+Source: CRAN
+Version: 1.0.1
+Hash: c5a7e0ce07509a8561881c8860270d71
+
+Package: gbRd
+Source: CRAN
+Version: 0.4-11
+Hash: 076595e100cc96156ef0a15a2d6fa00d
+
+Package: gdata
+Source: CRAN
+Version: 2.18.0
+Hash: 62797fafa287d1845a014c615d46e50c
+Requires: gtools
+
+Package: geometry
+Source: CRAN
+Version: 0.3-6
+Hash: 0e3f4ee96f4e579f438fea6cb2588879
+Requires: magic
+
 Package: getPass
 Source: CRAN
 Version: 0.2-2
 Hash: 0000fb79893c1b2c226fa79f6b2e60f2
 Requires: rstudioapi
+
+Package: ggbeeswarm
+Source: CRAN
+Version: 0.6.0
+Hash: 9c9a2fe45ce22333ea92290669c10a32
+Requires: beeswarm, ggplot2, vipor
+
+Package: ggforce
+Source: CRAN
+Version: 0.1.3
+Hash: 251753c8ea4e78290a28737f8e755df6
+Requires: Rcpp, dplyr, ggplot2, gtable, lazyeval, scales, tweenr, units
+
+Package: ggplot2
+Source: CRAN
+Version: 3.0.0
+Hash: 8332448b76ff31472a1bf6dd31fcddb1
+Requires: digest, gtable, lazyeval, plyr, reshape2, rlang, scales,
+    tibble, viridisLite, withr
+
+Package: ggraph
+Source: CRAN
+Version: 1.0.2
+Hash: 949ce83d4170fc876c0eea6b7a8fc40c
+Requires: Rcpp, digest, dplyr, ggforce, ggplot2, ggrepel, gtable,
+    igraph, plyr, scales, viridis
+
+Package: ggrepel
+Source: CRAN
+Version: 0.8.0
+Hash: 20096a5e9c34eaf14728206fb326f8d9
+Requires: Rcpp, ggplot2, scales
+
+Package: ggridges
+Source: CRAN
+Version: 0.5.0
+Hash: b94d7c28e665d16d28c1d26fe48358a1
+Requires: ggplot2, plyr, scales, withr
+
+Package: ggthemes
+Source: CRAN
+Version: 4.0.1
+Hash: 87caff98c8ae2cb09bfed0ad4c56889d
+Requires: ggplot2, purrr, scales, stringr, tibble
 
 Package: git2r
 Source: CRAN
@@ -86,24 +731,143 @@ Hash: 64747922e287be74e8e8b46c107fd3ef
 
 Package: glue
 Source: CRAN
-Version: 1.2.0
-Hash: 381e42baedecc633c0e547a0c7ca9de7
+Version: 1.3.0
+Hash: 1fbde6dec830370be696eee8ef31c9e4
+
+Package: gower
+Source: CRAN
+Version: 0.1.2
+Hash: 77a20b3ef7f9a1a7ed19457b36978605
+
+Package: gplots
+Source: CRAN
+Version: 3.0.1
+Hash: b7abe122479c203aa236499b7fc4b816
+Requires: caTools, gdata, gtools
+
+Package: graph
+Source: Bioconductor
+Version: 1.58.0
+Hash: 456415caca682d5c16cf5be5b76dee46
+Requires: BiocGenerics
+
+Package: gridExtra
+Source: CRAN
+Version: 2.3
+Hash: fa977bc1aab5588a08123b10ceb1ad3d
+Requires: gtable
+
+Package: gtable
+Source: CRAN
+Version: 0.2.0
+Hash: cd78381a9d3fea966ac39bd0daaf5554
+
+Package: gtools
+Source: CRAN
+Version: 3.8.1
+Hash: 6cb09dd6faf3aeac5c5acae55bfa6495
+
+Package: haven
+Source: CRAN
+Version: 1.1.2
+Hash: ab7cb4b5d0fc91b739880affe0d4e52b
+Requires: Rcpp, forcats, hms, readr, tibble
+
+Package: here
+Source: CRAN
+Version: 0.1
+Hash: 90e1a97508a0d7383b0eeb11e397e763
+Requires: rprojroot
+
+Package: hexbin
+Source: CRAN
+Version: 1.27.2
+Hash: db6c71309772ea1f664081576e5b943d
 
 Package: highr
 Source: CRAN
 Version: 0.7
 Hash: 20757f5c393ed0ecf96c9e8e6d8d514c
 
+Package: hms
+Source: CRAN
+Version: 0.4.2
+Hash: b4096a4f6a6736138e9a825c2baaacf0
+Requires: pkgconfig, rlang
+
+Package: htmlTable
+Source: CRAN
+Version: 1.12
+Hash: 53573f51af4debc4c1ce7ae361d69777
+Requires: checkmate, htmltools, htmlwidgets, knitr, magrittr,
+    rstudioapi, stringr
+
 Package: htmltools
 Source: CRAN
 Version: 0.3.6
-Hash: b24df7ea0856eab6618f6a56016d940d
+Hash: 9707abea0a9b7406e98fb1242e97e1f6
 Requires: Rcpp, digest
+
+Package: htmlwidgets
+Source: CRAN
+Version: 1.2
+Hash: de18b75f31630089b22e30d4b188cfbe
+Requires: htmltools, jsonlite, yaml
+
+Package: httpuv
+Source: CRAN
+Version: 1.4.5
+Hash: 9bf84e14c16b7a51a65ad906b69aac61
+Requires: BH, Rcpp, later, promises
+
+Package: httr
+Source: CRAN
+Version: 1.3.1
+Hash: 2d32e01e53d532c812052e27a1021441
+Requires: R6, curl, jsonlite, mime, openssl
+
+Package: ica
+Source: CRAN
+Version: 1.0-2
+Hash: 6d289cba264437c2d54dc85e24746bba
+
+Package: igraph
+Source: CRAN
+Version: 1.2.2
+Hash: 1e95612a0034372c6a387fbeff90992f
+Requires: magrittr, pkgconfig
+
+Package: ipred
+Source: CRAN
+Version: 0.9-6
+Hash: 2fd946bce1622291262c12515d27e780
+Requires: prodlim
+
+Package: irlba
+Source: CRAN
+Version: 2.3.2
+Hash: 899990b19f7b8c7e66f97298b4d79394
+
+Package: iterators
+Source: CRAN
+Version: 1.0.10
+Hash: 9f8af91e4a3487a282d7dea67513e519
+
+Package: jcolors
+Source: CRAN
+Version: 0.0.3
+Hash: 31968a1a6c693cdeed62e7959ee3d960
+Requires: ggplot2, scales
 
 Package: jsonlite
 Source: CRAN
 Version: 1.5
 Hash: 9c51936d8dd00b2f1d4fe9d10499694c
+
+Package: kernlab
+Source: CRAN
+Version: 0.9-26
+Hash: 8ed9abcbf6a5ea22d0e775667519afa7
 
 Package: knitr
 Source: CRAN
@@ -111,10 +875,95 @@ Version: 1.20
 Hash: 9c6b215d1d02b97586c8232e94533e6a
 Requires: evaluate, highr, markdown, stringr, yaml
 
+Package: labeling
+Source: CRAN
+Version: 0.3
+Hash: ecf589b42cd284b03a4beb9665482d3e
+
+Package: lambda.r
+Source: CRAN
+Version: 1.2.3
+Hash: 591b7c11ad3de8d21712119d8efd7607
+Requires: formatR
+
+Package: lars
+Source: CRAN
+Version: 1.2
+Hash: 265117078b066c352d6216b5434ec122
+
+Package: later
+Source: CRAN
+Version: 0.7.3
+Hash: 4a60e9f9244fbd0bbfa15b65852385ef
+Requires: BH, Rcpp, rlang
+
+Package: latticeExtra
+Source: CRAN
+Version: 0.6-28
+Hash: efdf3a10a129129f7b8f4ae5a0d7ec3d
+Requires: RColorBrewer
+
+Package: lava
+Source: CRAN
+Version: 1.6.2
+Hash: 3c75cf9d516cb07949882ab46e74e91f
+Requires: SQUAREM, numDeriv
+
+Package: lazyeval
+Source: CRAN
+Version: 0.2.1
+Hash: 88926ad9c43581fd0822a37c8ed09f05
+
+Package: limma
+Source: Bioconductor
+Version: 3.36.2
+Hash: 58661d85dc0ed28ff475d6557f74eef4
+
+Package: lmtest
+Source: CRAN
+Version: 0.9-36
+Hash: dd8ecab47b81002d2fd5016e3d249966
+Requires: zoo
+
+Package: locfit
+Source: CRAN
+Version: 1.5-9.1
+Hash: f8adf87b055dff233b7c3f5b4a174554
+
+Package: lubridate
+Source: CRAN
+Version: 1.7.4
+Hash: c89e55131b9769f1aa0751195210cd8f
+Requires: Rcpp, stringr
+
+Package: magic
+Source: CRAN
+Version: 1.5-8
+Hash: d5670ea63a6d08495e1ac6f99dc92805
+Requires: abind
+
 Package: magrittr
 Source: CRAN
 Version: 1.5
 Hash: bdc4d48c3135e8f3b399536ddf160df4
+
+Package: manipulateWidget
+Source: CRAN
+Version: 0.10.0
+Hash: 3b809717d5d6355fccd0670f249b7bf3
+Requires: base64enc, htmltools, htmlwidgets, knitr, miniUI, shiny,
+    webshot
+
+Package: mapproj
+Source: CRAN
+Version: 1.2.6
+Hash: 011f720efaa747ef7acfe36d74983e44
+Requires: maps
+
+Package: maps
+Source: CRAN
+Version: 3.3.0
+Hash: 0815ed94aca05c7aeb177ebddd4ee23b
 
 Package: markdown
 Source: CRAN
@@ -122,26 +971,296 @@ Version: 0.8
 Hash: 045d7c594d503b41f1c28946d076c8aa
 Requires: mime
 
+Package: matrixStats
+Source: CRAN
+Version: 0.54.0
+Hash: c96ee9d709385c9a1f8075c3a756b679
+
+Package: mclust
+Source: CRAN
+Version: 5.4.1
+Hash: 40d2472d3a8a24294ca3e6603eb82c2c
+
+Package: memoise
+Source: CRAN
+Version: 1.1.0
+Hash: 410fcd334bc626db100237cc1370f2e9
+Requires: digest
+
+Package: metap
+Source: CRAN
+Version: 1.0
+Hash: ba2f849f551acc68316129d546e96bc4
+Requires: Rdpack
+
 Package: mime
 Source: CRAN
 Version: 0.5
 Hash: 463550cf44fb6f0a2359368f42eebe62
+
+Package: miniUI
+Source: CRAN
+Version: 0.1.1.1
+Hash: c7e3ea486421c2fa5b03bb7fcd0415f6
+Requires: htmltools, shiny
+
+Package: mixtools
+Source: CRAN
+Version: 1.1.0
+Hash: 40374803b512369291e88e4634c4c3c6
+Requires: segmented
+
+Package: modelr
+Source: CRAN
+Version: 0.1.2
+Hash: f691854a99ac7814f3853d499408d9a3
+Requires: broom, dplyr, magrittr, purrr, rlang, tibble, tidyr
+
+Package: modeltools
+Source: CRAN
+Version: 0.2-22
+Hash: d819844577b29fad9a92761fd30fe45a
+
+Package: monocle
+Source: Bioconductor
+Version: 2.8.0
+Hash: 59dc59d856624a53876afa03662b641b
+Requires: Biobase, BiocGenerics, DDRTree, HSMMSingleCell, RANN, Rcpp,
+    Rtsne, VGAM, biocViews, combinat, densityClust, dplyr, fastICA,
+    ggplot2, igraph, irlba, limma, matrixStats, pheatmap, plyr, proxy,
+    qlcMatrix, reshape2, slam, stringr, tibble, viridis
+
+Package: munsell
+Source: CRAN
+Version: 0.5.0
+Hash: 247d1c1d72f3072563912ef860758624
+Requires: colorspace
+
+Package: mvtnorm
+Source: CRAN
+Version: 1.0-8
+Hash: 09985635b09071a1d81d6811b92846ea
+
+Package: numDeriv
+Source: CRAN
+Version: 2016.8-1
+Hash: 3a9d0fc99ba2f6aaa500b3d584962be2
+
+Package: oompaBase
+Source: Bioconductor
+Version: 3.2.6
+Hash: cf786af5bd64d508ab11abd376d50644
+
+Package: openssl
+Source: CRAN
+Version: 1.0.1
+Hash: e04b8ed7b05c1f75aa81c65a086b1d0c
+
+Package: org.Hs.eg.db
+Source: Bioconductor
+Version: 3.6.0
+Hash: 78c5b137f85fc318c57313f1b7ad7b26
+Requires: AnnotationDbi
 
 Package: packrat
 Source: CRAN
 Version: 0.4.9-3
 Hash: 03fb817297975f1da0d1b774b47620b3
 
+Package: paletteer
+Source: CRAN
+Version: 0.1.0
+Hash: c37ed01c95cae0a864295c9b5bd087e5
+Requires: ggthemes, jcolors, oompaBase, palr, pals, rlang, scico,
+    viridisLite
+
+Package: palr
+Source: CRAN
+Version: 0.0.6
+Hash: 377efa6f2eadf6b640353501e285d6ef
+
+Package: pals
+Source: CRAN
+Version: 1.5
+Hash: 0b2b7fffc4f37e744cd9b8cd17bae4a2
+Requires: colorspace, dichromat, mapproj, maps, rgl
+
+Package: pbapply
+Source: CRAN
+Version: 1.3-4
+Hash: f0c9c1a25f03013694779ceb663d2ee0
+
+Package: pheatmap
+Source: CRAN
+Version: 1.0.10
+Hash: a20bd9b7eead1073441b150d06799ad9
+Requires: RColorBrewer, gtable, scales
+
+Package: pillar
+Source: CRAN
+Version: 1.3.0
+Hash: 3e43f774fa6dfba877caca1aebbeaa6a
+Requires: cli, crayon, fansi, rlang, utf8
+
+Package: pkgconfig
+Source: CRAN
+Version: 2.0.1
+Hash: 0dda4a2654a22b36a715c2b0b6fbacac
+
+Package: plogr
+Source: CRAN
+Version: 0.2.0
+Hash: 81a8008a5e7858552503935f1abe48aa
+
+Package: plotly
+Source: CRAN
+Version: 4.8.0
+Hash: 539126bf8ab38483d27005b4533f3ebe
+Requires: RColorBrewer, base64enc, crosstalk, data.table, digest,
+    dplyr, ggplot2, hexbin, htmltools, htmlwidgets, httr, jsonlite,
+    lazyeval, magrittr, promises, purrr, rlang, scales, tibble, tidyr,
+    viridisLite
+
+Package: pls
+Source: CRAN
+Version: 2.6-0
+Hash: 7272baa2f6453b72fa148dc970fd8957
+
+Package: plyr
+Source: CRAN
+Version: 1.8.4
+Hash: 1ca393a9f51341b8fa034f743adf1f53
+Requires: Rcpp
+
+Package: png
+Source: CRAN
+Version: 0.1-7
+Hash: 421d7d6e0fb4bd885ecbd909b6456b8b
+
+Package: prabclus
+Source: CRAN
+Version: 2.2-6
+Hash: e646245afbb6b8ed25e22e8a76b781cd
+Requires: mclust
+
 Package: praise
 Source: CRAN
 Version: 1.0.0
 Hash: 77da8f1df873a4b91e5c4a68fe2fb1b6
+
+Package: prettyunits
+Source: CRAN
+Version: 1.0.2
+Hash: 49286102a855640daaa38eafe8b1ec30
+Requires: assertthat, magrittr
 
 Package: processx
 Source: CRAN
 Version: 3.1.0
 Hash: 3f3cd7b280ca226a53513cb41f5aab3d
 Requires: R6, assertthat, crayon, testthat
+
+Package: prodlim
+Source: CRAN
+Version: 2018.04.18
+Hash: aa9cdb9fb0879edb23aacb1e46f7f8d0
+Requires: Rcpp, lava
+
+Package: progress
+Source: CRAN
+Version: 1.2.0
+Hash: 0ff5f631b66daf57857f28062f3e6f30
+Requires: R6, crayon, hms, prettyunits
+
+Package: promises
+Source: CRAN
+Version: 1.0.1
+Hash: 3fac83cdc578cf6e9fec6ae5331242f4
+Requires: R6, Rcpp, later, magrittr, rlang
+
+Package: proxy
+Source: CRAN
+Version: 0.4-22
+Hash: 9675dd2fc8203db9107058e01c9f0669
+
+Package: purrr
+Source: CRAN
+Version: 0.2.5
+Hash: 8b0c16db10c7e20b70cd37779a673a8b
+Requires: magrittr, rlang, tibble
+
+Package: qlcMatrix
+Source: CRAN
+Version: 0.9.7
+Hash: c886c2c3ca4b8273ef874d6649fcc801
+Requires: docopt, slam, sparsesvd
+
+Package: ranger
+Source: CRAN
+Version: 0.10.1
+Hash: 2b50f01a3a3ff672f15300d853907c44
+Requires: Rcpp, RcppEigen
+
+Package: readr
+Source: CRAN
+Version: 1.1.1
+Hash: 03f5447194b533566446f2e545852155
+Requires: BH, R6, Rcpp, hms, tibble
+
+Package: readxl
+Source: CRAN
+Version: 1.1.0
+Hash: 7d5587412bb9b5a34f5723f3a837924d
+Requires: Rcpp, cellranger, tibble
+
+Package: recipes
+Source: CRAN
+Version: 0.1.3
+Hash: b3c28e165347da81815a6d774b14d8fe
+Requires: RcppRoll, broom, ddalpha, dimRed, dplyr, gower, ipred,
+    lubridate, magrittr, pls, purrr, rlang, tibble, tidyr, tidyselect,
+    timeDate
+
+Package: rematch
+Source: CRAN
+Version: 1.0.1
+Hash: ad4faf59e7611117ff165817074c50c7
+
+Package: reprex
+Source: CRAN
+Version: 0.2.0
+Hash: d2b97b85312b861e71650fbc6a2aea2c
+Requires: callr, clipr, rlang, rmarkdown, whisker, withr
+
+Package: reshape2
+Source: CRAN
+Version: 1.4.3
+Hash: c950c8ac85b81209635acb3ce21b4cce
+Requires: Rcpp, plyr, stringr
+
+Package: reticulate
+Source: CRAN
+Version: 1.9
+Hash: b9a02da7c1c909d74a7dda507e99f079
+Requires: Rcpp, jsonlite
+
+Package: rgl
+Source: CRAN
+Version: 0.99.16
+Hash: 96c3d0064cb0fa845db2010b91e2b00d
+Requires: crosstalk, htmltools, htmlwidgets, jsonlite, knitr, magrittr,
+    manipulateWidget, shiny
+
+Package: rhdf5
+Source: Bioconductor
+Version: 2.24.0
+Hash: 18a542e28aa25d39a986c2a91db0edd1
+Requires: Rhdf5lib
+
+Package: rjson
+Source: CRAN
+Version: 0.2.20
+Hash: 44ee331003bf03b92e97b3089461dd2f
 
 Package: rlang
 Source: CRAN
@@ -158,10 +1277,12 @@ GithubRepo: rmarkdown
 GithubUsername: rstudio
 GithubRef: master
 GithubSha1: 18207b9ad244c5ed9cc832a71dc3ea677bdd2a79
-RemoteHost: https://api.github.com
-RemoteRepo: rmarkdown
-RemoteUsername: rstudio
-RemoteSha: 18207b9ad244c5ed9cc832a71dc3ea677bdd2a79
+
+Package: robustbase
+Source: CRAN
+Version: 0.93-2
+Hash: 816c28b49f8811bbbbbc67674e8099ce
+Requires: DEoptimR
 
 Package: rprojroot
 Source: CRAN
@@ -174,10 +1295,107 @@ Source: CRAN
 Version: 0.7
 Hash: e2ebaff8160aff3e6b32e6e78a693c2d
 
+Package: rvest
+Source: CRAN
+Version: 0.3.2
+Hash: c69f7526520bad66fd2111ebe8b1364b
+Requires: httr, magrittr, selectr, xml2
+
+Package: scales
+Source: CRAN
+Version: 0.5.0
+Hash: d52e9e785e0a67c49b3e1a7444f2f9df
+Requires: R6, RColorBrewer, Rcpp, dichromat, labeling, munsell, plyr,
+    viridisLite
+
+Package: scater
+Source: Bioconductor
+Version: 1.8.2
+Hash: d89fef6921ec0e053b0789bc2ce890bc
+Requires: Biobase, BiocGenerics, DelayedArray, DelayedMatrixStats,
+    Rcpp, Rhdf5lib, S4Vectors, SingleCellExperiment,
+    SummarizedExperiment, beachmat, data.table, dplyr, edgeR,
+    ggbeeswarm, ggplot2, limma, plyr, reshape2, rhdf5, rjson, shiny,
+    shinydashboard, tximport, viridis
+
+Package: scatterplot3d
+Source: CRAN
+Version: 0.3-41
+Hash: b888e3767f9823ef3a1cbdcacca00836
+
+Package: scico
+Source: CRAN
+Version: 1.0.0
+Hash: ac3af99f868f394b234a83e6d92c8ec2
+
+Package: scran
+Source: Bioconductor
+Version: 1.8.2
+Hash: cc047d178b149984755a26c9423791da
+Requires: BiocGenerics, BiocParallel, DT, DelayedArray,
+    DelayedMatrixStats, FNN, Rcpp, Rhdf5lib, S4Vectors,
+    SingleCellExperiment, SummarizedExperiment, beachmat,
+    dynamicTreeCut, edgeR, ggplot2, igraph, limma, scater, shiny,
+    statmod, viridis
+
+Package: segmented
+Source: CRAN
+Version: 0.5-3.0
+Hash: c8086ff14d941e4f763471f86224497b
+
+Package: selectr
+Source: CRAN
+Version: 0.4-1
+Hash: b12802c11e35dec9d16a74d30ed0f3ed
+Requires: R6, stringr
+
+Package: sfsmisc
+Source: CRAN
+Version: 1.1-2
+Hash: 248383bdc31842432b918218d959bab9
+
+Package: shiny
+Source: CRAN
+Version: 1.1.0
+Hash: ab653b45dba6dc82eef68fb1e18a3b1a
+Requires: R6, crayon, digest, htmltools, httpuv, jsonlite, later, mime,
+    promises, rlang, sourcetools, xtable
+
+Package: shinydashboard
+Source: CRAN
+Version: 0.7.0
+Hash: 5b865adc8fe7461ccc7a257f600112f8
+Requires: htmltools, shiny
+
+Package: slam
+Source: CRAN
+Version: 0.1-43
+Hash: 2ddf8221c57013af684eca323f761826
+
+Package: snow
+Source: CRAN
+Version: 0.4-2
+Hash: bf705214a3d32b037dd24940931c289e
+
+Package: sourcetools
+Source: CRAN
+Version: 0.1.7
+Hash: d093478ac90064e670cd4bf1a99b47b6
+
+Package: sparsesvd
+Source: CRAN
+Version: 0.1-4
+Hash: 89056de72c01ba7dfb84290955ef8536
+
+Package: statmod
+Source: CRAN
+Version: 1.4.30
+Hash: 8056353aa1923b5e708d08d83f02fe16
+
 Package: stringi
 Source: CRAN
-Version: 1.2.3
-Hash: bccbb90bf5e1c53f659359c06c0dde79
+Version: 1.2.4
+Hash: 03ab60ef7fa4627b38ad67c95ce6b04c
 
 Package: stringr
 Source: CRAN
@@ -185,16 +1403,114 @@ Version: 1.3.1
 Hash: 9f417a1d899ed1f080942ab36998e8b5
 Requires: glue, magrittr, stringi
 
+Package: tclust
+Source: CRAN
+Version: 1.4-1
+Hash: f0311bedbdbfcb75bb90c0ae1bc73006
+
 Package: testthat
 Source: CRAN
 Version: 2.0.0
 Hash: 537114b476376c5773bf3c557f5bbd19
 Requires: R6, cli, crayon, digest, magrittr, praise, rlang, withr
 
+Package: tibble
+Source: CRAN
+Version: 1.4.2
+Hash: 83895360ce4f8d2ce92eee00526b5b0b
+Requires: cli, crayon, pillar, rlang
+
+Package: tidygraph
+Source: CRAN
+Version: 1.1.0
+Hash: d18b2bc6f15d217e4e46e9f80d908828
+Requires: R6, Rcpp, dplyr, igraph, magrittr, rlang, tibble, tidyr
+
+Package: tidyr
+Source: CRAN
+Version: 0.8.1
+Hash: 4fadb1741b42c5290b11b0c3af7fe0be
+Requires: Rcpp, dplyr, glue, magrittr, purrr, rlang, stringi, tibble,
+    tidyselect
+
+Package: tidyselect
+Source: CRAN
+Version: 0.2.4
+Hash: c667bdf66fdebcaf32e755a747ed7135
+Requires: Rcpp, glue, purrr, rlang
+
+Package: tidyverse
+Source: CRAN
+Version: 1.2.1
+Hash: 1b090209cb20b6fc6eba75de8b7f0b53
+Requires: broom, cli, crayon, dbplyr, dplyr, forcats, ggplot2, haven,
+    hms, httr, jsonlite, lubridate, magrittr, modelr, purrr, readr,
+    readxl, reprex, rlang, rstudioapi, rvest, stringr, tibble, tidyr,
+    xml2
+
+Package: timeDate
+Source: CRAN
+Version: 3043.102
+Hash: bf9c128558c5730c3fbaf9ea5196e4bc
+
 Package: tinytex
 Source: CRAN
 Version: 0.5
 Hash: ab9db0efa5f7f5a39f18fc7577192c4b
+
+Package: trimcluster
+Source: CRAN
+Version: 0.1-2.1
+Hash: 7a249a07032726a8b1dd48792fdc351f
+
+Package: tsne
+Source: CRAN
+Version: 0.1-3
+Hash: 7f621c1562d9f186946f74488ae9884f
+
+Package: tweenr
+Source: CRAN
+Version: 0.1.5
+Hash: a456f1417f49b31772d72b84d65cb75e
+Requires: Rcpp
+
+Package: tximport
+Source: Bioconductor
+Version: 1.8.0
+Hash: 1fd6811649ad380d34c9655e4a2b2749
+
+Package: units
+Source: CRAN
+Version: 0.6-0
+Hash: f528d769c2f0e0536eadcf0a63a3ec7b
+Requires: Rcpp
+
+Package: utf8
+Source: CRAN
+Version: 1.1.4
+Hash: f3f97ce59092abc8ed3fd098a59e236c
+
+Package: vipor
+Source: CRAN
+Version: 0.4.5
+Hash: 70876a39abff4ef560c2e1c95293de90
+
+Package: viridis
+Source: CRAN
+Version: 0.5.1
+Hash: 39edaec2078b4fc928afb73cc1ce6625
+Requires: ggplot2, gridExtra, viridisLite
+
+Package: viridisLite
+Source: CRAN
+Version: 0.3.0
+Hash: 78bb072c4f9e729a283d4c40ec93f9c6
+
+Package: webshot
+Source: CRAN
+Version: 0.5.0
+Hash: 5f3174d4a88c04e8f1a1fb1a7805fd4b
+Requires: jsonlite, magrittr, processx, withr
 
 Package: whisker
 Source: CRAN
@@ -213,7 +1529,33 @@ Hash: afffb40cf436dd767ee0aaebef24fcfe
 Requires: R.utils, callr, getPass, git2r, glue, knitr, rmarkdown,
     rprojroot, rstudioapi, stringr, whisker, yaml
 
+Package: writexl
+Source: CRAN
+Version: 1.0
+Hash: e3056a2896bb3077bcdc7c4a053802a9
+
+Package: xml2
+Source: CRAN
+Version: 1.2.0
+Hash: c6b404c18c699513de6753858d8617a6
+Requires: Rcpp
+
+Package: xtable
+Source: CRAN
+Version: 1.8-2
+Hash: 7293235cfcc14cdff1ce7fd1a0212031
+
 Package: yaml
 Source: CRAN
-Version: 2.1.19
-Hash: 6e3d988c25e34c31f668e0ae41dc3259
+Version: 2.2.0
+Hash: a5ad5616d83d89f8d84cbf3cf4034e13
+
+Package: zlibbioc
+Source: Bioconductor
+Version: 1.26.0
+Hash: eb8d0d562f971917114c982110f943a3
+
+Package: zoo
+Source: CRAN
+Version: 1.8-3
+Hash: f3ca876b3f71a9ea81dc0548814e7570
